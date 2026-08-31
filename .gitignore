@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+.env.local
+
+# Node / Vite
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+# Model weights — never in git. Several GB.
+models/
+*.safetensors
+*.gguf
+*.bin
+
+# Local data. PDFs are large binaries and are re-downloadable from the arXiv
+# id, so they stay out. Chunk JSON is small and IS the eval-label surface --
+# tracking it makes ID drift show up in a diff instead of silently.
+data/pdfs/
+data/cache/
+*.db
+
+# Evals
+wandb/
+evals/results/
+
+# Docker volumes
+.docker-data/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

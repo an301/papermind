@@ -1,0 +1,50 @@
+# Tooling config only. Dependencies live in requirements*.txt — the local-model
+# stack needs an accelerator-specific torch index, which a single dependency
+# table can't express cleanly.
+
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests", "evals"]
+# The codebase is async throughout; opting in per-test is pure noise.
+asyncio_mode = "auto"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    # Integration tests need docker-compose services. Run them explicitly:
+    #   pytest -m integration
+    "-m", "not integration",
+]
+filterwarnings = [
+    # PyMuPDF's SWIG bindings emit these on import; nothing actionable here.
+    "ignore:builtin type Swig.*has no __module__ attribute:DeprecationWarning",
+    "ignore:builtin type swigvarlink has no __module__ attribute:DeprecationWarning",
+]
+markers = [
+    "integration: requires Redis and Neo4j from docker-compose",
+    "gpu: requires the local Mistral weights and an accelerator",
+    "eval: part of the 150-question benchmark, not the unit suite",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["papermind", "mcp_servers", "evals", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+# Third-party stubs are patchy; don't let that block strict checks on our code.
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*", "evals.*"]
+strict = false
+
+[[tool.mypy.overrides]]
+# PyMuPDF ships no type stubs, so every call into it reads as untyped. Scoped
+# to the one module that touches it, rather than relaxed project-wide.
+module = ["papermind.ingest.extract"]
+disallow_untyped_calls = false

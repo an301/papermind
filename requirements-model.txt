@@ -1,0 +1,15 @@
+# What the local fine-tuned Mistral 7B *adds* on top of requirements.txt.
+# torch itself now arrives with the base install, because retrieval needs
+# sentence-transformers. Install this only on a machine that will run 7B
+# inference (GPU box, or a Mac with enough unified memory).
+#
+#     pip install -r requirements.txt -r requirements-model.txt
+#
+#
+# Install torch from the index that matches your accelerator (CUDA/ROCm/CPU):
+#   https://pytorch.org/get-started/locally/
+
+torch~=2.9
+transformers~=4.57
+accelerate~=1.10
+sentencepiece~=0.2

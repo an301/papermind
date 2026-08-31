@@ -1,0 +1,9 @@
+# Papers to ingest:  python -m papermind.ingest --from-file papers.txt
+#
+# Pin versions (1706.03762v7) once a paper is part of the benchmark. A bare id
+# tracks whatever arXiv serves today, and a new version can retitle a section
+# and move every chunk ID under it.
+
+1706.03762v7    # Attention Is All You Need
+
+# TODO: the other 7 ML papers — add ids here.

@@ -1,0 +1,46 @@
+# PaperMind — runtime dependencies (API + agent + stores).
+#
+# The heavy local-model stack is deliberately NOT here. See requirements-model.txt:
+# torch pulls multiple GB, and CI, unit tests, and frontend work don't need it.
+#
+# Pinned with ~= (compatible release) so patch fixes land without surprise majors.
+# Python 3.11.
+
+# --- web layer ---
+fastapi~=0.141.1
+uvicorn[standard]~=0.52.4
+sse-starlette~=3.0            # typed SSE events for the chat stream
+pydantic~=2.13.5
+pydantic-settings~=2.15.0
+
+# --- hosted model (agent reasoning) ---
+# The [aiohttp] extra swaps in DefaultAioHttpClient; the default httpx2 backend
+# is slower under concurrent sessions. anthropic 1.x is built on httpx2 — if you
+# ever import the HTTP lib directly, it is `httpx2`, not `httpx`.
+anthropic[aiohttp]~=1.2.0
+
+# --- stores ---
+redis~=8.1.0                  # use redis.asyncio; aioredis is archived
+neo4j~=6.3.0                  # official driver, AsyncGraphDatabase
+
+# --- MCP ---
+mcp~=2.1.1                    # servers + client sessions
+
+# --- retrieval ---
+# NOTE: sentence-transformers depends on torch, so the base install is no longer
+# light. That reverses the earlier split, and it is not avoidable: retrieval is
+# core to the service, and embedding needs torch. requirements-model.txt now
+# holds only what the 7B *generation* stack adds on top.
+rank-bm25~=0.2.2
+sentence-transformers~=6.0.1
+faiss-cpu~=1.15.0
+
+# --- ingestion ---
+# PDF text extraction. Ships as `import pymupdf` (the `fitz` name is legacy).
+# Wheels are prebuilt; no MuPDF toolchain needed.
+pymupdf~=1.28.2
+
+# --- misc ---
+httpx~=0.28                   # Semantic Scholar calls (independent of the SDK's httpx2)
+tenacity~=9.1                 # retry policy for third-party lookups
+structlog~=25.4               # structured logs that line up with agent traces
