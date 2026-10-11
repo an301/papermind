@@ -1,0 +1,28 @@
+# The API image also carries the three MCP servers: in stdio mode the API
+# spawns them as subprocesses, in http mode the same image runs each one as its
+# own service (see docker-compose.yml). One image, two shapes.
+FROM python:3.11-slim AS base
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY papermind ./papermind
+COPY mcp_servers ./mcp_servers
+COPY scripts ./scripts
+COPY data/concepts ./data/concepts
+
+# Bake the embedding model into the image: the first download is ~200 MB and
+# takes most of a minute, which a cold container should never pay on a request.
+RUN python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-base-en-v1.5', cache_dir='/app/data/models')"
+
+RUN useradd --create-home papermind && chown -R papermind /app
+USER papermind
+
+EXPOSE 8000
+CMD ["uvicorn", "papermind.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--proxy-headers"]

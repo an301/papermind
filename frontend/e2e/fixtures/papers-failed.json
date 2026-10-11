@@ -1,0 +1,108 @@
+[
+ {
+  "paper_id": "up_3fa9c1d27e40",
+  "source": "upload",
+  "title": "reading-group-week-6.pdf",
+  "authors": [],
+  "published": null,
+  "num_pages": 0,
+  "status": "failed",
+  "stage": "extracting",
+  "progress": 0.22,
+  "stage_detail": null,
+  "error": "Couldn’t finish preparing this paper: the PDF couldn’t be opened.",
+  "error_code": "ingest_failed",
+  "added_at": "2026-10-09T15:41:00Z"
+ },
+ {
+  "paper_id": "2401.99999",
+  "source": "arxiv",
+  "title": "arXiv:2401.99999",
+  "authors": [],
+  "published": null,
+  "num_pages": 0,
+  "status": "failed",
+  "stage": "downloading",
+  "progress": 0.02,
+  "stage_detail": null,
+  "error": "arXiv has no paper 2401.99999. Check the ID, or upload the PDF instead.",
+  "error_code": "not_found",
+  "added_at": "2026-10-09T15:52:00Z"
+ },
+ {
+  "paper_id": "2112.10752",
+  "source": "arxiv",
+  "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+  "authors": [
+   "Robin Rombach",
+   "Andreas Blattmann",
+   "Dominik Lorenz"
+  ],
+  "published": "2021-12-20",
+  "num_pages": 45,
+  "status": "failed",
+  "stage": "indexing",
+  "progress": 0.71,
+  "stage_detail": null,
+  "error": "Couldn’t finish preparing this paper: processing failed. Try adding it again.",
+  "error_code": "ingest_failed",
+  "added_at": "2026-10-09T15:30:00Z"
+ },
+ {
+  "paper_id": "up_c0ffee12ab34",
+  "source": "upload",
+  "title": "scanned-handout.pdf",
+  "authors": [],
+  "published": null,
+  "num_pages": 0,
+  "status": "failed",
+  "stage": "extracting",
+  "progress": 0.3,
+  "stage_detail": null,
+  "error": "This PDF has no text layer (it looks like a scan), so PaperMind can’t search it.",
+  "error_code": "no_text",
+  "added_at": "2026-10-09T15:20:00Z"
+ },
+ {
+  "paper_id": "2305.18290",
+  "source": "arxiv",
+  "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+  "authors": [
+   "Rafael Rafailov",
+   "Archit Sharma",
+   "Eric Mitchell",
+   "Stefano Ermon",
+   "Christopher D. Manning",
+   "Chelsea Finn"
+  ],
+  "published": "2023-05-29",
+  "num_pages": 27,
+  "status": "ready",
+  "stage": "done",
+  "progress": 1.0,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-07T08:15:00Z"
+ },
+ {
+  "paper_id": "1810.04805",
+  "source": "arxiv",
+  "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+  "authors": [
+   "Jacob Devlin",
+   "Ming-Wei Chang",
+   "Kenton Lee",
+   "Kristina Toutanova"
+  ],
+  "published": "2018-10-11",
+  "num_pages": 16,
+  "status": "ready",
+  "stage": "done",
+  "progress": 1.0,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-06T18:40:00Z"
+ }
+]

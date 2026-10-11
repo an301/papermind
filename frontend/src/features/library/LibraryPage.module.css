@@ -1,0 +1,33 @@
+.add { margin-top: var(--space-5); }
+.sample {
+  margin-top: var(--space-5);
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink-2);
+}
+.sample a[aria-busy] { cursor: progress; }
+.listArea { margin-top: var(--space-6); }
+.list { list-style: none; }
+.filter { margin-bottom: var(--space-4); }
+.filterControl { width: var(--field-filter-w); max-width: 100%; }
+.noMatch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink);
+}
+.skeletonRow { display: flex; flex-direction: column; padding-block: var(--space-4); }
+.skeletonRow + .skeletonRow { margin-top: var(--space-2); }
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 47.99rem) {
+  .filterControl { width: 100%; height: var(--h-44); }
+}

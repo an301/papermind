@@ -1,101 +1,84 @@
-"""Stable, human-readable chunk identifiers.
+"""Stable, human-readable section and chunk identifiers.
 
-These IDs are eval labels. They must be identical across runs, machines, and
-re-downloads, so every rule here is deliberate:
+Chunk ids are eval labels. They must come out identical across runs and
+machines for a fixed PDF, so every rule here is deliberate:
 
-- Derived from the paper id, the section's own number, and its title -- never
-  from a chunk's position in a list. Insert a section at the front of a paper
-  and every other ID stays put.
-- Slugs are ASCII-folded and truncated at a fixed word/char budget, so a
-  unicode dash or a trailing footnote marker in the PDF cannot shift them.
-- Collisions are resolved by document order (`_2`, `_3`), which is stable for a
-  fixed input PDF.
-- Part suffixes (`_p1`, `_p2`) appear only when a section actually splits.
+* Derived from the section's own number and title -- never from a chunk's
+  position in a list. Adding a section near the front of a paper moves no other id.
+* Slugs are ASCII-folded and cut at a fixed word/character budget, so a unicode
+  dash or a trailing footnote marker in the PDF cannot shift them.
+* Repeated titles are disambiguated by document order (``_2``, ``_3``), which
+  is stable for a fixed input.
+* ``_p{n}`` appears only when a section actually splits; the common case reads
+  like a table of contents.
 
-The things that CAN legitimately change an ID are the arXiv version (a v2 may
-retitle a section) and CHUNKER_VERSION. Both are recorded in the output so a
-break is visible in a diff rather than silent. Pin the arXiv version and treat
-a CHUNKER_VERSION bump as a re-labelling event.
+What may legitimately move an id: a new arXiv version (pin it) and a change to
+extraction, sectioning or chunking (bump ``CHUNKER_VERSION``, which is written
+into every ingested paper so a relabel is visible in a diff, never silent).
 """
 
 from __future__ import annotations
 
 import re
 import unicodedata
+from collections.abc import Sequence
 
-# Bump ONLY when a change alters chunk boundaries or ID construction. It is
-# written into every output file; a changed value means previously emitted
-# labels may no longer refer to the same text.
-CHUNKER_VERSION = 1
+# Bump ONLY when a code change can alter chunk boundaries or ids.
+#   2: footnotes move to the section that cites them.
+#   3: text tables captioned "Figure N" are kept instead of dropped as figure labels.
+CHUNKER_VERSION = "3"
 
 _MAX_SLUG_WORDS = 6
 _MAX_SLUG_CHARS = 48
-
-# Trailing junk PDFs attach to headings: footnote daggers, asterisks, dots.
-_TRAILING_JUNK = re.compile(r"[\s.·*†‡§¶]+$")
 _NON_SLUG = re.compile(r"[^a-z0-9]+")
 
 
 def slugify(title: str) -> str:
-    """Fold a section title to a short, stable, lowercase ASCII slug.
-
-    'Scaled Dot-Product Attention' -> 'scaled_dot_product_attention'
-    """
-    cleaned = _TRAILING_JUNK.sub("", title)
-    # NFKD + ASCII drop folds ligatures and accents that PDF extraction emits
-    # inconsistently ('ﬁ' vs 'fi' would otherwise be two different IDs).
-    folded = unicodedata.normalize("NFKD", cleaned)
-    ascii_only = folded.encode("ascii", "ignore").decode("ascii").lower()
-
-    words = [w for w in _NON_SLUG.split(ascii_only) if w]
+    """'Scaled Dot-Product Attention' -> 'scaled_dot_product_attention'."""
+    # NFKD + ASCII drop folds accents and ligatures the PDF may or may not have
+    # emitted ('ﬁ' vs 'fi' must not produce two different ids).
+    folded = unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode("ascii").lower()
+    words = [w for w in _NON_SLUG.split(folded) if w][:_MAX_SLUG_WORDS]
     if not words:
         return "untitled"
+    kept: list[str] = []
+    length = 0
+    for word in words:
+        # Cut on a word boundary: a mid-word cut is ugly and collides more easily.
+        extra = len(word) + (1 if kept else 0)
+        if kept and length + extra > _MAX_SLUG_CHARS:
+            break
+        kept.append(word[:_MAX_SLUG_CHARS])
+        length += extra
+    return "_".join(kept)
 
-    slug = "_".join(words[:_MAX_SLUG_WORDS])
-    if len(slug) > _MAX_SLUG_CHARS:
-        # Truncate on a word boundary so the slug stays readable, and never
-        # mid-word -- a char-truncated slug is both ugly and easier to collide.
-        truncated: list[str] = []
-        length = 0
-        for word in words[:_MAX_SLUG_WORDS]:
-            if length + len(word) > _MAX_SLUG_CHARS:
-                break
-            truncated.append(word)
-            length += len(word) + 1
-        slug = "_".join(truncated) or words[0][:_MAX_SLUG_CHARS]
-    return slug
+
+def section_id(number: str | None, title: str) -> str:
+    """Outline id: 'sec_3.2' for numbered sections, 'sec_abstract' otherwise."""
+    return f"sec_{number}" if number else f"sec_{slugify(title)}"
 
 
 def section_key(number: str | None, title: str) -> str:
-    """The section-identifying part of an ID: `sec_3.2_attention`, `sec_abstract`.
+    """The section part of a chunk id: 'sec_3.2.1_scaled_dot_product_attention', 'sec_references'.
 
-    The section number is kept verbatim (dots and all) because it is how a
-    reader refers to the section out loud, and how the frontend links to it.
+    The number is kept verbatim (dots included): it is how a reader names the
+    section out loud and what ``section_filter`` matches against.
     """
     slug = slugify(title)
     return f"sec_{number}_{slug}" if number else f"sec_{slug}"
 
 
-def chunk_id(paper_id: str, key: str, part: int = 1, n_parts: int = 1) -> str:
-    """Compose the final ID. Part suffix is omitted for unsplit sections.
-
-    A section that fits in one chunk is `...:sec_3.2_attention`; one that splits
-    is `...:sec_3.2_attention_p1`, `_p2`, ... Emitting `_p1` on a single-part
-    section would make the common case noisier for no gain.
-    """
-    base = f"{paper_id}:{key}"
-    return base if n_parts <= 1 else f"{base}_p{part}"
-
-
-def disambiguate(keys: list[str]) -> list[str]:
-    """Append `_2`, `_3` to repeated section keys, in document order.
-
-    Unnumbered subsections collide often ('Setup' under two different sections).
-    Document order is the only tiebreak that is stable for a fixed PDF.
-    """
+def disambiguate(keys: Sequence[str]) -> list[str]:
+    """Suffix repeated keys with _2, _3 ... in document order."""
     seen: dict[str, int] = {}
     out: list[str] = []
     for key in keys:
         seen[key] = seen.get(key, 0) + 1
         out.append(key if seen[key] == 1 else f"{key}_{seen[key]}")
     return out
+
+
+def chunk_id(paper_id: str, key: str, part: int | None = None) -> str:
+    """'{paper_id}:{key}' plus '_p{part}' only when the section was split."""
+    base = f"{paper_id}:{key}"
+    return base if part is None else f"{base}_p{part}"

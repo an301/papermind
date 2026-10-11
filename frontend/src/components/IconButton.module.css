@@ -1,0 +1,32 @@
+/* §5.1 Icon button: 28×28 (32 in the Reader top bar, 24 for inline dismissals; 44 on coarse),
+   radius 8, 16px icon in --ink-2; hover --hover + --ink; pressed state = --selected + fill weight. */
+.iconButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--h-28);
+  height: var(--h-28);
+  flex: none;
+  border-radius: var(--r-sm);
+  color: var(--ink-2);
+  background: transparent;
+  transition: background-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+}
+.iconButton:active { background: var(--pressed); transform: scale(0.97); }
+.iconButton[aria-pressed='true'],
+.iconButton[aria-expanded='true'],
+.iconButton[data-state='open'],
+.iconButton[data-current] { background: var(--selected); color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .iconButton:hover { background: var(--hover); color: var(--ink); transition-duration: 0ms, var(--dur-press); }
+  .iconButton[aria-pressed='true']:hover { background: var(--selected); }
+}
+.md { width: var(--h-32); height: var(--h-32); }
+/* Small visual, 24px hit area (fine pointers); grows to 44 on coarse via ::before. */
+.xs { width: 24px; height: 24px; }
+@media (pointer: coarse) {
+  .iconButton { width: var(--h-44); height: var(--h-44); }
+  .xs { width: 24px; height: 24px; }
+  .xs::before { content: ''; position: absolute; inset: -10px; }
+}

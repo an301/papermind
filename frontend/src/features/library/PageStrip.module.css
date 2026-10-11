@@ -1,0 +1,8 @@
+.strip { display: block; flex: none; overflow: visible; }
+.read { fill: var(--ink-2); }
+.unread { fill: var(--ink-3); }
+.pinned { fill: var(--pencil); }
+@media (forced-colors: active) {
+  .read, .pinned { fill: CanvasText; }
+  .unread { fill: GrayText; }
+}

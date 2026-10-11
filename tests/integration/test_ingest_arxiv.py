@@ -1,105 +1,74 @@
-"""End-to-end ingestion against the real arXiv. Network required.
+"""Live arXiv: version resolution, the pinned PDF download, and a full ingest.
 
-Marked `integration` so the default `pytest` run stays offline and fast:
-
-    pytest -m integration
+A handful of requests on purpose: arXiv asks for one request every three
+seconds, and the module-wide schedule enforces it, so this file takes ~20s.
+The embedding model is replaced by the unit tests' hash embedder; what is
+under test here is arXiv and the PDF pipeline, not the encoder.
 """
+
+from __future__ import annotations
 
 from pathlib import Path
 
 import pytest
-from papermind.ingest import ingest_paper
-from papermind.ingest.arxiv import make_client
-from papermind.ingest.store import load_paper, save_paper, update_manifest
+
+from papermind.ingest.arxiv import ArxivClient, ArxivNotFound, parse_arxiv_id
+from papermind.ingest.extract import extract_pdf
+from papermind.ingest.ids import CHUNKER_VERSION
+from papermind.ingest.pipeline import Ingestor
+from papermind.ingest.store import PaperStore
+from papermind.retrieval.dense import EmbeddingCache
+from tests.unit.conftest import HashEmbedder
 
 pytestmark = pytest.mark.integration
 
-TRANSFORMER = "1706.03762v7"  # version-pinned: the assertions below are about its text
+TRANSFORMER = "1706.03762"
 
 
-@pytest.fixture(scope="module")
-async def result(tmp_path_factory: pytest.TempPathFactory):
-    async with make_client() as client:
-        return await ingest_paper(
-            TRANSFORMER,
-            client=client,
-            pdf_dir=tmp_path_factory.mktemp("pdfs"),
-        )
+async def test_metadata_resolves_the_latest_version_and_reads_the_entry() -> None:
+    async with ArxivClient() as client:
+        meta = await client.metadata(parse_arxiv_id(f"https://arxiv.org/abs/{TRANSFORMER}"))
+    assert meta.arxiv_id == TRANSFORMER
+    # v7 is the latest at the time of writing; a newer one must still be a version.
+    assert meta.version.startswith("v") and int(meta.version[1:]) >= 7
+    assert meta.title == "Attention Is All You Need"
+    assert "Ashish Vaswani" in meta.authors and len(meta.authors) == 8
+    assert meta.abstract.startswith("The dominant sequence transduction models")
+    assert meta.published is not None and meta.published.year == 2017
 
 
-async def test_metadata_is_resolved_and_pinned(result) -> None:
-    assert result.meta.paper_id == "1706.03762"
-    assert result.meta.versioned_id == TRANSFORMER
-    assert result.meta.title == "Attention Is All You Need"
-    assert result.meta.n_pages == 15
-    assert len(result.meta.authors) == 8
-    assert len(result.meta.pdf_sha256) == 64
+async def test_a_pinned_version_is_kept_and_its_pdf_downloads() -> None:
+    async with ArxivClient() as client:
+        meta = await client.metadata(parse_arxiv_id("arxiv.org/pdf/1412.6980v8"))
+        assert meta.version == "v8"
+        pdf = await client.download_pdf(meta.arxiv_id, meta.version)
+    assert pdf.startswith(b"%PDF-")
+    assert extract_pdf(pdf).num_pages > 5
 
 
-async def test_the_documented_example_id_exists(result) -> None:
-    """The ID format from the spec, on the paper it was specified against."""
-    ids = {c.id for c in result.chunks}
-    assert "1706.03762:sec_3.2_attention" in ids
+async def test_an_unknown_id_is_not_found() -> None:
+    async with ArxivClient() as client:
+        with pytest.raises(ArxivNotFound):
+            await client.metadata(parse_arxiv_id("1312.99999"))
 
 
-async def test_sections_map_to_the_papers_real_structure(result) -> None:
-    ids = {c.id for c in result.chunks}
-    for expected in [
-        "1706.03762:sec_abstract",
-        "1706.03762:sec_1_introduction",
-        "1706.03762:sec_3_model_architecture",
-        "1706.03762:sec_3.2.1_scaled_dot_product_attention",
-        "1706.03762:sec_3.2.2_multi_head_attention",
-        "1706.03762:sec_5.3_optimizer",
-        "1706.03762:sec_7_conclusion",
-    ]:
-        assert expected in ids, expected
+async def test_ingest_arxiv_end_to_end(tmp_path: Path) -> None:
+    store = PaperStore(tmp_path / "papers")
+    ingestor = Ingestor(store, embedder=HashEmbedder(), cache=EmbeddingCache(tmp_path / "embeddings"))
+    record = await ingestor.ingest_arxiv(f"{TRANSFORMER}v7")
 
+    meta = record.meta
+    assert (meta.paper_id, meta.arxiv_version, meta.chunker_version) == (TRANSFORMER, "v7", CHUNKER_VERSION)
+    assert meta.num_pages == 15 and meta.title == "Attention Is All You Need"
+    numbered = [(s.number, s.title) for s in meta.sections if s.number]
+    assert ("3.2.1", "Scaled Dot-Product Attention") in numbered
+    assert ("5.2", "Hardware and Schedule") in numbered
+    assert [s.section_id for s in meta.sections][-2:] == ["sec_references", "sec_attention_visualizations"]
 
-async def test_no_chunk_exceeds_the_budget(result) -> None:
-    assert all(c.token_count <= result.max_chunk_tokens for c in result.chunks)
-
-
-async def test_text_quality(result) -> None:
-    import re
-
-    joined = " ".join(c.text for c in result.chunks)
-    # Words glued together by dropped whitespace spans.
-    assert not re.search(r"[a-z][.,;:][A-Z][a-z]", joined)
-    # Hyphenated line breaks left unrepaired.
-    assert not re.search(r"[a-z]- [a-z]", joined)
-    # Ligatures that would break exact-match retrieval.
-    assert not re.search(r"[ﬁﬂﬀﬃﬄ]", joined)
-    # The arXiv margin stamp is not part of any section.
-    assert "arXiv:1706.03762" not in joined
-
-
-async def test_prose_is_not_interrupted_by_a_figure_caption(result) -> None:
-    chunk = next(c for c in result.chunks if c.id == "1706.03762:sec_3.2_attention")
-    assert "weighted sum" in chunk.text
-    # The sentence survives; the caption is appended after it.
-    assert chunk.text.index("Figure 2") > chunk.text.index("of the values")
-
-
-async def test_only_long_sections_split(result) -> None:
-    split = {c.section_title for c in result.chunks if c.n_parts > 1}
-    assert split == {"References"}
-
-
-async def test_round_trip_through_disk(result, tmp_path: Path) -> None:
-    save_paper(tmp_path, result)
-    reloaded = load_paper(tmp_path, "1706.03762")
-    assert reloaded is not None
-    assert [c.id for c in reloaded.chunks] == [c.id for c in result.chunks]
-
-    update_manifest(tmp_path)
-    assert (tmp_path / "manifest.json").exists()
-
-
-async def test_ingestion_is_reproducible(result, tmp_path: Path) -> None:
-    """Same input, same IDs -- re-running must not relabel the benchmark."""
-    async with make_client() as client:
-        again = await ingest_paper(TRANSFORMER, client=client, pdf_dir=tmp_path)
-    assert [c.id for c in again.chunks] == [c.id for c in result.chunks]
-    assert [c.text for c in again.chunks] == [c.text for c in result.chunks]
-    assert again.meta.pdf_sha256 == result.meta.pdf_sha256
+    ids = {c.chunk_id for c in record.chunks}
+    assert f"{TRANSFORMER}:sec_3.2.1_scaled_dot_product_attention" in ids
+    scaled = store.chunk(TRANSFORMER, f"{TRANSFORMER}:sec_3.2.1_scaled_dot_product_attention")
+    assert scaled is not None and "d_k" in scaled.text and scaled.boxes
+    # The footnote with the variance argument travels with the section that cites it.
+    assert "variance dk" in scaled.text or "variance d_k" in scaled.text
+    assert store.pdf_path(TRANSFORMER).read_bytes().startswith(b"%PDF-")

@@ -1,0 +1,24 @@
+/* §5.4: --surface at 92%, a solid 2px --ink outline inset 16px with radius 12, centred Sofia 16/600. */
+.overlay {
+  position: fixed;
+  z-index: var(--z-dropzone);
+  inset: 0;
+  top: calc(var(--appbar-h) + env(safe-area-inset-top));
+  padding: var(--space-4);
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  pointer-events: none;
+}
+.frame {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--r-md);
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+.icon { color: var(--ink); }
+.text { font: 600 var(--text-16) / var(--lead-16) var(--font-ui); color: var(--ink); }
+.muted { color: var(--ink-2); }

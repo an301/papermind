@@ -1,0 +1,191 @@
+: recorded-style stream for one chat turn on 1706.03762 (see papermind/schemas/events.py for the order)
+
+event: turn.started
+data: {"type": "turn.started", "turn_id": "turn_3", "session_id": "sess_6a1f0c2d9e", "level": "intermediate", "user_message_id": "msg_u3"}
+
+event: tool.started
+data: {"type": "tool.started", "call_id": "call_1", "tool": "search_paper", "label": "Searching the paper for ‘self-attention recurrent layers comparison’…", "args": {"query": "self-attention recurrent layers comparison", "k": 5}}
+
+event: tool.started
+data: {"type": "tool.started", "call_id": "call_2", "tool": "check_prerequisites", "label": "Checking what ‘self-attention’ builds on…", "args": {"concept": "self-attention"}}
+
+event: tool.finished
+data: {"type": "tool.finished", "call_id": "call_2", "tool": "check_prerequisites", "ok": true, "duration_ms": 171, "summary": "‘Self-attention’ builds on 2 ideas that haven’t come up in your reading yet: recurrent neural network, sequence-to-sequence model", "detail": {"matched": {"concept_id": "self-attention", "name": "Self-attention"}, "gaps": 2, "altitude": "technical"}}
+
+event: gaps
+data: {"type": "gaps", "concept": {"concept_id": "self-attention", "name": "Self-attention"}, "gaps": [{"concept_id": "self-attention", "name": "Self-attention", "depth": 0, "description": "Attention where queries, keys, and values all come from the same sequence, so every token can draw information from every other token."}, {"concept_id": "recurrent-neural-network", "name": "Recurrent neural network", "depth": 1, "description": "A neural network that reads a sequence one step at a time, updating a hidden state that carries information forward from earlier steps."}, {"concept_id": "sequence-to-sequence-model", "name": "Sequence-to-sequence model", "depth": 1, "description": "A model that reads an input sequence, such as a sentence, and generates an output sequence of possibly different length, such as its translation."}], "teaching_order": [{"concept_id": "recurrent-neural-network", "name": "Recurrent neural network"}, {"concept_id": "sequence-to-sequence-model", "name": "Sequence-to-sequence model"}, {"concept_id": "self-attention", "name": "Self-attention"}], "altitude": "technical"}
+
+event: tool.finished
+data: {"type": "tool.finished", "call_id": "call_1", "tool": "search_paper", "ok": true, "duration_ms": 438, "summary": "Found 5 passages in §4, §1 and §3.2.2", "detail": {"passages": 5, "chunk_ids": ["1706.03762:sec_4_why_self_attention_p1", "1706.03762:sec_4_why_self_attention_p2", "1706.03762:sec_1_introduction", "1706.03762:sec_3.2.2_multi_head_attention", "1706.03762:sec_2_background"], "sections": ["§4", "§1", "§3.2.2", "§2"]}}
+
+event: tool.started
+data: {"type": "tool.started", "call_id": "call_3", "tool": "compose_answer", "label": "Writing the answer…", "args": {}}
+
+event: sources
+data: {"type": "sources", "sources": [{"label": "S1", "chunk_id": "1706.03762:sec_4_why_self_attention_p1", "section_number": "4", "section_title": "Why Self-Attention", "page_start": 5, "page_end": 6, "snippet": "In this section we compare various aspects of self-attention layers to the recurrent and convolutional layers commonly used for mapping one variable-length sequence of symbol representations (x_1, ..., x_n) to another sequence of equal leng", "cited_sentence": null}, {"label": "S2", "chunk_id": "1706.03762:sec_1_introduction", "section_number": "1", "section_title": "Introduction", "page_start": 1, "page_end": 1, "snippet": "Recurrent neural networks, long short-term memory [13] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeli", "cited_sentence": null}, {"label": "S3", "chunk_id": "1706.03762:sec_3.2.2_multi_head_attention", "section_number": "3.2.2", "section_title": "Multi-Head Attention", "page_start": 3, "page_end": 4, "snippet": "Instead of performing a single attention function with d_model-dimensional keys, values and queries, we found it beneficial to linearly project the queries, keys and values h times with different, learned linear projections to d_k, d_k and ", "cited_sentence": null}]}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "Three things change "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "when self-attention "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "replaces a recurrent "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "layer, and the paper "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "measures each one "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "[S1].\n\n1. **Sequential "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "steps.** A recurrent "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "layer has to process "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "positions one after "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "another, $O(n)$ steps "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "for a sentence of "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "length $n$. Self-attention "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "connects every pair "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "of positions in a "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "constant number of "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "steps, so a whole "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "sequence can be computed "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "in parallel [S1]. "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "The introduction names "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "this as the bottleneck: "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "the sequential dependence "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "“precludes parallelization "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "within training examples” "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "[S2].\n2. **Path length.** "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "To relate the first "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "and last word, a signal "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "in an RNN travels "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "through $n$ steps; "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "in self-attention "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "it takes one. Shorter "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "paths make long-range "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "dependencies easier "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "to learn [S1].\n3. "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "**Cost per layer.** "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "Self-attention costs "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "$O(n^2 \\cdot d)$ against "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "$O(n \\cdot d^2)$ for "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "a recurrent layer, "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "so it is cheaper whenever "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "the sentence is shorter "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "than the model width, "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "which is the usual "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "case for translation "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "[S1].\n\nOne trade-off: "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "averaging over all "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "positions blurs detail, "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "which is part of why "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "the model uses several "}
+
+event: answer.delta
+data: {"type": "answer.delta", "text": "heads [S3]."}
+
+event: tool.finished
+data: {"type": "tool.finished", "call_id": "call_3", "tool": "compose_answer", "ok": true, "duration_ms": 2612, "summary": "Wrote the answer", "detail": null}
+
+event: answer.done
+data: {"type": "answer.done", "message_id": "msg_a3", "text": "Three things change when self-attention replaces a recurrent layer, and the paper measures each one [S1].\n\n1. **Sequential steps.** A recurrent layer has to process positions one after another, $O(n)$ steps for a sentence of length $n$. Self-attention connects every pair of positions in a constant number of steps, so a whole sequence can be computed in parallel [S1]. The introduction names this as the bottleneck: the sequential dependence “precludes parallelization within training examples” [S2].\n2. **Path length.** To relate the first and last word, a signal in an RNN travels through $n$ steps; in self-attention it takes one. Shorter paths make long-range dependencies easier to learn [S1].\n3. **Cost per layer.** Self-attention costs $O(n^2 \\cdot d)$ against $O(n \\cdot d^2)$ for a recurrent layer, so it is cheaper whenever the sentence is shorter than the model width, which is the usual case for translation [S1].\n\nOne trade-off: averaging over all positions blurs detail, which is part of why the model uses several heads [S3].", "cited": ["S1", "S2", "S3"], "external": [], "sources": [{"label": "S1", "chunk_id": "1706.03762:sec_4_why_self_attention_p1", "section_number": "4", "section_title": "Why Self-Attention", "page_start": 5, "page_end": 6, "snippet": "In this section we compare various aspects of self-attention layers to the recurrent and convolutional layers commonly used for mapping one variable-length sequence of symbol representations (x_1, ..., x_n) to another sequence of equal leng", "cited_sentence": "As noted in Table 1, a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O(n) sequential operations."}, {"label": "S2", "chunk_id": "1706.03762:sec_1_introduction", "section_number": "1", "section_title": "Introduction", "page_start": 1, "page_end": 1, "snippet": "Recurrent neural networks, long short-term memory [13] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeli", "cited_sentence": "This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples."}, {"label": "S3", "chunk_id": "1706.03762:sec_3.2.2_multi_head_attention", "section_number": "3.2.2", "section_title": "Multi-Head Attention", "page_start": 3, "page_end": 4, "snippet": "Instead of performing a single attention function with d_model-dimensional keys, values and queries, we found it beneficial to linearly project the queries, keys and values h times with different, learned linear projections to d_k, d_k and ", "cited_sentence": null}], "writer": "claude:claude-opus-5-5"}
+
+event: knowledge.updated
+data: {"type": "knowledge.updated", "added": [{"concept_id": "self-attention", "name": "Self-attention"}], "removed": [], "ask": []}
+
+event: followups
+data: {"type": "followups", "message_id": "msg_a3", "questions": ["Where does the $O(n^2 \\cdot d)$ cost start to hurt?", "Why does the decoder still run one position at a time?"]}
+
+event: usage
+data: {"type": "usage", "model_calls": 3, "input_tokens": 18432, "output_tokens": 1187, "cache_read_input_tokens": 15360, "cache_creation_input_tokens": 0, "cost_usd": 0.0612, "latency_ms": 3410, "ttft_ms": 1490, "tool_calls": 3, "tool_retries": 0}
+
+event: done
+data: {"type": "done"}
+

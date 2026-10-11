@@ -1,0 +1,22 @@
+/* A 2px determinate line for byte-level progress (an upload). Fill grows by transform only. */
+.track {
+  position: relative;
+  display: block;
+  width: var(--strip-w);
+  max-width: 100%;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 1px;
+  background: var(--line-subtle);
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink-2);
+  transform-origin: left center;
+  transform: scaleX(var(--value));
+  transition: transform var(--dur-base) linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fill { transition: none; }
+}

@@ -1,0 +1,30 @@
+/* §5.24: --tooltip-bg, Sofia 13/450, padding 4 8, radius 8, max 240, offset 8.
+   No shadow in light, --shadow-sm in dark (via --tooltip-shadow). */
+.content {
+  z-index: var(--z-tooltip);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: var(--tooltip-max-w);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--r-sm);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-ink);
+  box-shadow: var(--tooltip-shadow);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+  user-select: none;
+}
+/* Delayed opens fade and scale in; skip-delay peers ("instant-open") appear at once; exit is instant. */
+.content[data-state='delayed-open'] {
+  animation: tooltip-in var(--dur-fast) var(--ease-out);
+}
+@keyframes tooltip-in {
+  from { opacity: 0; transform: scale(0.97); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state='delayed-open'] { animation-name: tooltip-fade; }
+  @keyframes tooltip-fade { from { opacity: 0; } }
+}
+.text { text-wrap: pretty; }

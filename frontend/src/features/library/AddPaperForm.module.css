@@ -1,0 +1,31 @@
+/* §4.3 / §5.4: field (40 tall) + "Add paper" (Primary, 40); hint line 8px below, Sofia 13. */
+.form { display: flex; flex-direction: column; gap: var(--space-2); }
+.row { display: flex; gap: var(--space-2); align-items: center; }
+.control { flex: 1; min-width: 0; }
+.submit { flex: none; min-width: 7.5rem; }
+.choose { margin-right: 2px; }
+
+.hint {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: var(--lead-13);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.hintInk { color: var(--ink); }
+.hintIcon { flex: none; margin-top: 1px; color: var(--ink-2); }
+.danger { color: var(--danger); }
+.warn { color: var(--warn); }
+/* The paper's title in the confirmation: Literata 15 roman (§5.4). */
+/* line-height 1 keeps the larger face inside the 18px hint line, so the list never shifts. */
+.cite { font: 400 var(--text-15) / 1 var(--font-read); font-style: normal; color: var(--ink); }
+
+@media (max-width: 47.99rem) {
+  .row { flex-direction: column; align-items: stretch; }
+  .control { height: var(--h-44); }
+  .control input { font-size: var(--text-16); }
+  .submit { height: var(--h-44); width: 100%; }
+}

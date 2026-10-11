@@ -1,1 +1,1 @@
-"""HTTP surface: routers, request/response wiring, SSE streaming."""
+"""HTTP API: routes, SSE framing, errors, and access to app resources."""

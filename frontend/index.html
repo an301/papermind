@@ -2,8 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>PaperMind</title>
+    <meta name="description" content="Read research papers with a margin that explains them at your level and points to the exact lines it used." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F7F6F9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1F1F21" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      // Apply the saved theme before first paint so a dark-mode reader never sees a light flash.
+      // Mirrors src/app/theme.ts; keep the storage key and values in sync.
+      try {
+        var t = localStorage.getItem('pm:theme')
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.dataset.theme = t
+          var c = t === 'dark' ? '#1F1F21' : '#F7F6F9'
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+            m.dataset.original = m.content
+            m.content = c
+          })
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

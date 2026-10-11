@@ -1,0 +1,139 @@
+[
+ {
+  "paper_id": "up_8b1e44f0a913",
+  "source": "upload",
+  "title": "lecture-notes-variational-inference.pdf",
+  "authors": [],
+  "published": null,
+  "num_pages": 0,
+  "status": "queued",
+  "stage": null,
+  "progress": 0.0,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-09T16:03:00Z"
+ },
+ {
+  "paper_id": "1409.0473",
+  "source": "arxiv",
+  "title": "arXiv:1409.0473",
+  "authors": [],
+  "published": null,
+  "num_pages": 0,
+  "status": "processing",
+  "stage": "downloading",
+  "progress": 0.06,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-09T16:02:30Z"
+ },
+ {
+  "paper_id": "2203.02155",
+  "source": "arxiv",
+  "title": "Training language models to follow instructions with human feedback",
+  "authors": [
+   "Long Ouyang",
+   "Jeff Wu",
+   "Xu Jiang"
+  ],
+  "published": "2022-03-04",
+  "num_pages": 68,
+  "status": "processing",
+  "stage": "sectioning",
+  "progress": 0.44,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-09T16:01:00Z"
+ },
+ {
+  "paper_id": "2006.11239",
+  "source": "arxiv",
+  "title": "Denoising Diffusion Probabilistic Models",
+  "authors": [
+   "Jonathan Ho",
+   "Ajay Jain",
+   "Pieter Abbeel"
+  ],
+  "published": "2020-06-19",
+  "num_pages": 25,
+  "status": "processing",
+  "stage": "indexing",
+  "progress": 0.86,
+  "stage_detail": {
+   "done": 140,
+   "total": 212
+  },
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-09T15:58:00Z"
+ },
+ {
+  "paper_id": "2305.18290",
+  "source": "arxiv",
+  "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+  "authors": [
+   "Rafael Rafailov",
+   "Archit Sharma",
+   "Eric Mitchell",
+   "Stefano Ermon",
+   "Christopher D. Manning",
+   "Chelsea Finn"
+  ],
+  "published": "2023-05-29",
+  "num_pages": 27,
+  "status": "ready",
+  "stage": "done",
+  "progress": 1.0,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-07T08:15:00Z"
+ },
+ {
+  "paper_id": "1810.04805",
+  "source": "arxiv",
+  "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+  "authors": [
+   "Jacob Devlin",
+   "Ming-Wei Chang",
+   "Kenton Lee",
+   "Kristina Toutanova"
+  ],
+  "published": "2018-10-11",
+  "num_pages": 16,
+  "status": "ready",
+  "stage": "done",
+  "progress": 1.0,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-06T18:40:00Z"
+ },
+ {
+  "paper_id": "2106.09685",
+  "source": "arxiv",
+  "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+  "authors": [
+   "Edward J. Hu",
+   "Yelong Shen",
+   "Phillip Wallis",
+   "Zeyuan Allen-Zhu",
+   "Yuanzhi Li",
+   "Shean Wang",
+   "Lu Wang",
+   "Weizhu Chen"
+  ],
+  "published": "2021-06-17",
+  "num_pages": 26,
+  "status": "ready",
+  "stage": "done",
+  "progress": 1.0,
+  "stage_detail": null,
+  "error": null,
+  "error_code": null,
+  "added_at": "2026-10-05T14:02:00Z"
+ }
+]

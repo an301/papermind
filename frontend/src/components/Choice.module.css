@@ -1,0 +1,66 @@
+/* §5.1 Checkbox and radio: 16px boxes, the label shares the hit area.
+   Checkbox: radius 4, inset --line ring; checked = --ink fill with a 12px check in --on-ink.
+   Radio: 16px circle with an inset ring; selected = 6px --ink dot. */
+.row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: var(--h-32);
+  padding-block: var(--space-2);
+  cursor: pointer;
+  color: var(--ink);
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+}
+@media (pointer: coarse) {
+  .row { min-height: var(--h-44); padding-block: var(--space-3); }
+}
+.row[data-disabled] { cursor: default; color: var(--ink-3); }
+
+.box {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px; /* centre the 16px box on the 20px first line */
+}
+.input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-radius: var(--r-xs);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: inherit;
+}
+.input:checked { background: var(--ink); box-shadow: none; }
+.input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.check {
+  position: absolute;
+  inset: 2px;
+  color: var(--on-ink);
+  pointer-events: none;
+  visibility: hidden;
+}
+.input:checked + .check { visibility: visible; }
+
+.radio { border-radius: 50%; }
+.radio:checked {
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line), inset 0 0 0 5px var(--raised), inset 0 0 0 8px var(--ink);
+}
+
+.text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.labelStrong { font-weight: 550; }
+.description {
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+
+@media (forced-colors: active) {
+  .input { border: 1px solid ButtonText; }
+  .input:checked { background: Highlight; }
+}

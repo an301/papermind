@@ -1,0 +1,73 @@
+/* DESIGN.md §4.7: one column (640 max) at --inset. Sections 48 apart with Sofia 16/600 heads;
+   a 200px label column (Sofia 14/550) beside the control; controls 16 apart. Stacks below 640px. */
+.section { margin-top: var(--space-7); }
+.sectionTitle { font: 600 var(--text-16) / var(--lead-16) var(--font-ui); color: var(--ink); }
+.rows { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-4); }
+
+.row { display: grid; grid-template-columns: var(--label-col-w) minmax(0, 1fr); column-gap: var(--space-4); align-items: start; }
+.label {
+  /* Centred on the first line of a 32px control. */
+  padding-top: 6px;
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink);
+}
+.control { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); min-width: 0; }
+
+.note {
+  max-width: 32em;
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.noteInk { color: var(--ink); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); }
+.switchLine { display: flex; align-items: center; gap: var(--space-3); min-height: var(--h-32); }
+.inlineNote { max-width: none; }
+
+/* The answer-size preview: Literata at the chosen size, measured like an answer. */
+.preview {
+  max-width: var(--answer-measure);
+  font: var(--answer-weight) var(--answer-size) / var(--answer-leading) var(--font-read);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.actionLine { display: flex; }
+.actionStack { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+.plainLink { font: 550 var(--text-14) / var(--lead-14) var(--font-ui); display: inline-flex; align-items: center; min-height: var(--h-28); }
+.start { justify-content: flex-start; }
+.calibration {
+  align-self: stretch;
+  margin-block: var(--space-2);
+  padding: var(--space-4) 0;
+  box-shadow: inset 0 1px 0 var(--line-subtle), inset 0 -1px 0 var(--line-subtle);
+}
+
+.value {
+  min-height: var(--h-32);
+  display: flex;
+  align-items: center;
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink);
+}
+.withIcon { display: flex; align-items: flex-start; gap: var(--space-2); font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); }
+.withIcon > svg { flex: none; margin-top: 2px; }
+.value.withIcon { align-items: center; }
+.value.withIcon > svg { margin-top: 0; }
+.muted { color: var(--ink-2); }
+.warn { color: var(--warn); }
+.strong { font-weight: 600; }
+.keyMissing { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); padding-top: 6px; }
+.keyMissing > button { margin-left: calc(var(--space-2) * -1); }
+
+.services { list-style: none; display: flex; flex-direction: column; gap: var(--space-1); }
+.service { display: flex; flex-direction: column; font: 450 var(--text-13) / var(--lead-13) var(--font-ui); }
+.serviceName { color: var(--ink); font-weight: 550; }
+
+.dialogError { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); }
+
+@media (max-width: 39.99rem) {
+  .row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); }
+  .label { padding-top: 0; }
+  .keyMissing { padding-top: 0; }
+}

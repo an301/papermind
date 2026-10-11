@@ -1,0 +1,1136 @@
+{
+ "meta": {
+  "paper_id": "1412.6980",
+  "source": "arxiv",
+  "arxiv_id": "1412.6980",
+  "arxiv_version": "v9",
+  "title": "Adam: A Method for Stochastic Optimization",
+  "authors": [
+   "Diederik P. Kingma",
+   "Jimmy Ba"
+  ],
+  "abstract": "We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. The method is straightforward to implement, is computationally efficient, has little memory requirements, is invariant to diagonal rescaling of the gradients, and is well suited for problems that are large in terms of data and/or parameters. The method is also appropriate for non-stationary objectives and problems with very noisy and/or sparse gradients. The hyper-parameters have intuitive interpretations and typically require little tuning. Some connections to related algorithms, on which Adam was inspired, are discussed. We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework. Empirical results demonstrate that Adam works well in practice and compares favorably to other stochastic optimization methods. Finally, we discuss AdaMax, a variant of Adam based on the infinity norm.",
+  "published": "2014-12-22",
+  "filename": null,
+  "num_pages": 15,
+  "page_sizes": [
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ],
+   [
+    595.28,
+    841.89
+   ]
+  ],
+  "sections": [
+   {
+    "section_id": "sec_front_matter",
+    "number": null,
+    "title": "Front matter",
+    "level": 1,
+    "page": 0,
+    "y": 111.1
+   },
+   {
+    "section_id": "sec_abstract",
+    "number": null,
+    "title": "Abstract",
+    "level": 1,
+    "page": 0,
+    "y": 207.6
+   },
+   {
+    "section_id": "sec_1",
+    "number": "1",
+    "title": "Introduction",
+    "level": 1,
+    "page": 0,
+    "y": 405.4
+   },
+   {
+    "section_id": "sec_2",
+    "number": "2",
+    "title": "Algorithm",
+    "level": 1,
+    "page": 1,
+    "y": 451.3
+   },
+   {
+    "section_id": "sec_2.1",
+    "number": "2.1",
+    "title": "Adam’s update rule",
+    "level": 2,
+    "page": 1,
+    "y": 695.4
+   },
+   {
+    "section_id": "sec_3",
+    "number": "3",
+    "title": "Initialization bias correction",
+    "level": 1,
+    "page": 2,
+    "y": 350.5
+   },
+   {
+    "section_id": "sec_4",
+    "number": "4",
+    "title": "Convergence analysis",
+    "level": 1,
+    "page": 3,
+    "y": 114.2
+   },
+   {
+    "section_id": "sec_5",
+    "number": "5",
+    "title": "Related work",
+    "level": 1,
+    "page": 3,
+    "y": 680.2
+   },
+   {
+    "section_id": "sec_6",
+    "number": "6",
+    "title": "Experiments",
+    "level": 1,
+    "page": 4,
+    "y": 438.2
+   },
+   {
+    "section_id": "sec_6.1",
+    "number": "6.1",
+    "title": "Experiment: Logistic Regression",
+    "level": 2,
+    "page": 4,
+    "y": 557.4
+   },
+   {
+    "section_id": "sec_6.2",
+    "number": "6.2",
+    "title": "Experiment: Multi-layer Neural Networks",
+    "level": 2,
+    "page": 5,
+    "y": 399.9
+   },
+   {
+    "section_id": "sec_6.3",
+    "number": "6.3",
+    "title": "Experiment: Convolutional Neural Networks",
+    "level": 2,
+    "page": 5,
+    "y": 651.8
+   },
+   {
+    "section_id": "sec_6.4",
+    "number": "6.4",
+    "title": "Experiment: bias-correction term",
+    "level": 2,
+    "page": 7,
+    "y": 342.2
+   },
+   {
+    "section_id": "sec_7",
+    "number": "7",
+    "title": "Extensions",
+    "level": 1,
+    "page": 7,
+    "y": 553.8
+   },
+   {
+    "section_id": "sec_7.1",
+    "number": "7.1",
+    "title": "AdaMax",
+    "level": 2,
+    "page": 7,
+    "y": 587.6
+   },
+   {
+    "section_id": "sec_7.2",
+    "number": "7.2",
+    "title": "Temporal averaging",
+    "level": 2,
+    "page": 8,
+    "y": 588.2
+   },
+   {
+    "section_id": "sec_8",
+    "number": "8",
+    "title": "Conclusion",
+    "level": 1,
+    "page": 8,
+    "y": 701.2
+   },
+   {
+    "section_id": "sec_9",
+    "number": "9",
+    "title": "Acknowledgments",
+    "level": 1,
+    "page": 9,
+    "y": 196.0
+   },
+   {
+    "section_id": "sec_references",
+    "number": null,
+    "title": "References",
+    "level": 1,
+    "page": 9,
+    "y": 300.1
+   },
+   {
+    "section_id": "sec_10",
+    "number": "10",
+    "title": "Appendix",
+    "level": 1,
+    "page": 11,
+    "y": 114.2
+   },
+   {
+    "section_id": "sec_10.1",
+    "number": "10.1",
+    "title": "Convergence Proof",
+    "level": 2,
+    "page": 11,
+    "y": 138.7
+   }
+  ],
+  "chunk_count": 29,
+  "chunker_version": "3",
+  "ingested_at": "2026-10-09T23:37:40.894950Z"
+ },
+ "chunks": [
+  {
+   "chunk_id": "1412.6980:sec_front_matter",
+   "paper_id": "1412.6980",
+   "section_id": "sec_front_matter",
+   "section_number": null,
+   "section_title": "Front matter",
+   "part": null,
+   "text": "Adam: A Method for Stochastic Optimization\n\nDiederik P. Kingma^{*} Jimmy Lei Ba^{∗} University of Amsterdam, OpenAI University of Toronto dpkingma@openai.com jimmy@psi.utoronto.ca\n\n∗ Equal contribution. Author ordering determined by coin flip over a Google Hangout.",
+   "token_count": 67,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 105.4,
+     "y0": 112.4,
+     "x1": 484.3,
+     "y1": 180.3
+    },
+    {
+     "page": 0,
+     "x0": 116.5,
+     "y0": 737.6,
+     "x1": 416.2,
+     "y1": 748.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_abstract",
+   "paper_id": "1412.6980",
+   "section_id": "sec_abstract",
+   "section_number": null,
+   "section_title": "Abstract",
+   "part": null,
+   "text": "We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. The method is straightforward to implement, is computationally efficient, has little memory requirements, is invariant to diagonal rescaling of the gradients, and is well suited for problems that are large in terms of data and/or parameters. The method is also appropriate for non-stationary objectives and problems with very noisy and/or sparse gradients. The hyper-parameters have intuitive interpretations and typically require little tuning. Some connections to related algorithms, on which Adam was inspired, are discussed. We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework. Empirical results demonstrate that Adam works well in practice and compares favorably to other stochastic optimization methods. Finally, we discuss AdaMax, a variant of Adam based on the infinity norm.",
+   "token_count": 278,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 139.9,
+     "y0": 234.4,
+     "x1": 455.4,
+     "y1": 384.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_1_introduction_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 1,
+   "text": "Stochastic gradient-based optimization is of core practical importance in many fields of science and engineering. Many problems in these fields can be cast as the optimization of some scalar parameterized objective function requiring maximization or minimization with respect to its parameters. If the function is differentiable w.r.t. its parameters, gradient descent is a relatively efficient optimization method, since the computation of first-order partial derivatives w.r.t. all the parameters is of the same computational complexity as just evaluating the function. Often, objective functions are stochastic. For example, many objective functions are composed of a sum of subfunctions evaluated at different subsamples of data; in this case optimization can be made more efficient by taking gradient steps w.r.t. individual subfunctions, i.e. stochastic gradient descent (SGD) or ascent. SGD proved itself as an efficient and effective optimization method that was central in many machine learning success stories, such as recent advances in deep learning (Deng et al., 2013; Krizhevsky et al., 2012; Hinton & Salakhutdinov, 2006; Hinton et al., 2012a; Graves et al., 2013). Objectives may also have other sources of noise than data subsampling, such as dropout (Hinton et al., 2012b) regularization. For all such noisy objectives, efficient stochastic optimization techniques are required. The focus of this paper is on the optimization of stochastic objectives with high-dimensional parameters spaces. In these cases, higher-order optimization methods are ill-suited, and discussion in this paper will be restricted to first-order methods.",
+   "token_count": 412,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 105.0,
+     "y0": 424.6,
+     "x1": 490.3,
+     "y1": 606.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_1_introduction_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 2,
+   "text": "We propose Adam, a method for efficient stochastic optimization that only requires first-order gradients with little memory requirement. The method computes individual adaptive learning rates for different parameters from estimates of first and second moments of the gradients; the name Adam is derived from adaptive moment estimation. Our method is designed to combine the advantages of two recently popular methods: AdaGrad (Duchi et al., 2011), which works well with sparse gradients, and RMSProp (Tieleman & Hinton, 2012), which works well in on-line and non-stationary settings; important connections to these and other stochastic optimization methods are clarified in section 5. Some of Adam’s advantages are that the magnitudes of parameter updates are invariant to rescaling of the gradient, its stepsizes are approximately bounded by the stepsize hyperparameter, it does not require a stationary objective, it works with sparse gradients, and it naturally performs a form of step size annealing.\n\nIn section 2 we describe the algorithm and the properties of its update rule. Section 3 explains our initialization bias correction technique, and section 4 provides a theoretical analysis of Adam’s convergence in online convex programming. Empirically, our method consistently outperforms other methods for a variety of models and datasets, as shown in section 6. Overall, we show that Adam is a versatile algorithm that scales to large-scale high-dimensional machine learning problems.",
+   "token_count": 374,
+   "page_start": 0,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 105.0,
+     "y0": 611.7,
+     "x1": 490.3,
+     "y1": 729.3
+    },
+    {
+     "page": 1,
+     "x0": 105.0,
+     "y0": 382.7,
+     "x1": 490.3,
+     "y1": 436.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_1_introduction_p3",
+   "paper_id": "1412.6980",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 3,
+   "text": "Algorithm 1: Adam, our proposed algorithm for stochastic optimization. See section 2 for details, and for a slightly more efficient (but less clear) order of computation. g^2_t indicates the elementwise square g_t ⊙g_t. Good default settings for the tested machine learning problems are α = 0.001, β_1 = 0.9, β_2 = 0.999 and ε = 10^{−8}. All operations on vectors are element-wise. With β^t_1 and β^t 2 we denote β_1 and β_2 to the power t.\n\nRequire: α: Stepsize Require: β_1, β_2 ∈[0, 1): Exponential decay rates for the moment estimates Require: f(θ): Stochastic objective function with parameters θ Require: θ_0: Initial parameter vector m_0 ←0 (Initialize 1^st moment vector) v_0 ←0 (Initialize 2^nd moment vector) t ←0 (Initialize timestep) while θ_t not converged do t ←t + 1 g_t ←∇_{θ}f_t(θ_{t−1}) (Get gradients w.r.t. stochastic objective at timestep t) m_t ←β_1 · m_{t−1} + (1 −β_1) · g_t (Update biased first moment estimate) v_t ←β_2 · v_{t−1} + (1 −β_2) · g^2_t (Update biased second raw moment estimate) m̂_t ←m_t/(1 −β^t_1) (Compute bias-corrected first moment estimate) v̂_t ←v_t/(1 −β^t_2) (Compute bias-corrected second raw moment estimate) θ_t ←θ_{t−1} −α · m̂_t/(√v̂_t + ε) (Update parameters) end while return θ_t (Resulting parameters)",
+   "token_count": 315,
+   "page_start": 1,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 105.0,
+     "y0": 119.3,
+     "x1": 490.3,
+     "y1": 174.4
+    },
+    {
+     "page": 1,
+     "x0": 105.0,
+     "y0": 175.4,
+     "x1": 423.8,
+     "y1": 359.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_2_algorithm",
+   "paper_id": "1412.6980",
+   "section_id": "sec_2",
+   "section_number": "2",
+   "section_title": "Algorithm",
+   "part": null,
+   "text": "See algorithm 1 for pseudo-code of our proposed algorithm Adam. Let f(θ) be a noisy objective function: a stochastic scalar function that is differentiable w.r.t. parameters θ. We are interested in minimizing the expected value of this function, E[f(θ)] w.r.t. its parameters θ. With f_1(θ), ..., , f_T (θ) we denote the realisations of the stochastic function at subsequent timesteps 1, ..., T. The stochasticity might come from the evaluation at random subsamples (minibatches) of datapoints, or arise from inherent function noise. With g_t = ∇_{θ}f_t(θ) we denote the gradient, i.e. the vector of partial derivatives of f_t, w.r.t θ evaluated at timestep t.\n\nThe algorithm updates exponential moving averages of the gradient (m_t) and the squared gradient (v_t) where the hyper-parameters β_1, β_2 ∈[0, 1) control the exponential decay rates of these moving averages. The moving averages themselves are estimates of the 1^st moment (the mean) and the 2^nd raw moment (the uncentered variance) of the gradient. However, these moving averages are initialized as (vectors of) 0’s, leading to moment estimates that are biased towards zero, especially during the initial timesteps, and especially when the decay rates are small (i.e. the βs are close to 1). The good news is that this initialization bias can be easily counteracted, resulting in bias-corrected estimates m̂_t and v̂_t. See section 3 for more details.\n\nNote that the efficiency of algorithm 1 can, at the expense of clarity, be improved upon by changing the order of computation, e.g. by replacing the last three lines in the loop with the following lines:\n\n√ α_t = α · 1 −β^t_2/(1 −β^t_1) and θ_t ←θ_{t−1} −α_t · m_t/(√v_t + ε̂).",
+   "token_count": 424,
+   "page_start": 1,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 105.0,
+     "y0": 477.1,
+     "x1": 490.3,
+     "y1": 684.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_2.1_adams_update_rule",
+   "paper_id": "1412.6980",
+   "section_id": "sec_2.1",
+   "section_number": "2.1",
+   "section_title": "Adam’s update rule",
+   "part": null,
+   "text": "An important property of Adam’s update rule is its careful choice of stepsizes. Assuming ε = 0, the effective step taken in parameter space at timestep t is ∆_t = α · m̂_t/√v̂_t. The effective stepsize has two upper bounds: |∆_t| ≤α · (1 −β_1)/√1 −β_2 in the case (1 −β_1) > √1 −β_2, and |∆_t| ≤α otherwise. The first case only happens in the most severe case of sparsity: when a gradient has been zero at all timesteps except at the current timestep. For less sparse cases, the effective stepsize will be smaller. When (1 −β_1) = √1 −β_2 we have that | m̂_t/√v̂_t| < 1 therefore |∆_t| < α. In √ more common scenarios, we will have that m̂_t/√v̂_t ≈±1 since |E[g]/ E[g^2]| ≤1. The effective magnitude of the steps taken in parameter space at each timestep are approximately bounded by the stepsize setting α, i.e., |∆_t| ⪅α. This can be understood as establishing a trust region around the current parameter value, beyond which the current gradient estimate does not provide sufficient information. This typically makes it relatively easy to know the right scale of α in advance. For many machine learning models, for instance, we often know in advance that good optima are with high probability within some set region in parameter space; it is not uncommon, for example, to have a prior distribution over the parameters. Since α sets (an upper bound of) the magnitude of steps in parameter space, we can often deduce the right order of magnitude of α such that optima can be reached from θ_0 within some number of iterations. With a slight abuse of terminology, we will call the ratio m̂_t/√v̂_t the signal-to-noise ratio (SNR). With a smaller SNR the effective stepsize ∆_t will be closer to zero. This is a desirable property, since a smaller SNR means that there is greater uncertainty about whether the direction of m̂_t corresponds to the direction of the true gradient. For example, the SNR value typically becomes closer to 0 towards an optimum, leading to smaller effective steps in parameter space: a form of automatic annealing. The effective stepsize ∆_t is also invariant to the scale of the gradients; rescaling the gradients g with factor c will scale m̂_t with a factor c and v̂_t with a factor c^2, which cancel out: (c · m̂_t)/(√c^2 · v̂_t) = m̂_t/√v̂_t.",
+   "token_count": 568,
+   "page_start": 1,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 105.0,
+     "y0": 716.3,
+     "x1": 490.3,
+     "y1": 749.3
+    },
+    {
+     "page": 2,
+     "x0": 105.0,
+     "y0": 116.7,
+     "x1": 490.3,
+     "y1": 333.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_3_initialization_bias_correction",
+   "paper_id": "1412.6980",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Initialization bias correction",
+   "part": null,
+   "text": "As explained in section 2, Adam utilizes initialization bias correction terms. We will here derive the term for the second moment estimate; the derivation for the first moment estimate is completely analogous. Let g be the gradient of the stochastic objective f, and we wish to estimate its second raw moment (uncentered variance) using an exponential moving average of the squared gradient, with decay rate β_2. Let g_1, ..., g_T be the gradients at subsequent timesteps, each a draw from an underlying gradient distribution g_t ∼p(g_t). Let us initialize the exponential moving average as v_0 = 0 (a vector of zeros). First note that the update at timestep t of the exponential moving average v_t = β_2 · v_{t−1} + (1 −β_2) · g^2_t (where g^2_t indicates the elementwise square g_t ⊙g_t) can be written as a function of the gradients at all previous timesteps:\n\nt ∑ v_t = (1 −β_2) β^{t−i} · g^2 (1) 2 i i=1\n\nWe wish to know how E[v_t], the expected value of the exponential moving average at timestep t, relates to the true second moment E[g^2_t ], so we can correct for the discrepancy between the two. Taking expectations of the left-hand and right-hand sides of eq. (1):\n\n[ t] ∑ E[v_t] = E (1 −β_2) β^{t−i} · g^2 (2) 2 i i=1\n\nt ∑ = E[g^2_t ] · (1 −β_2) β^{t−i} + ζ (3) 2 i=1 = E[g^2_t ] · (1 −β^t_2) + ζ (4) where ζ = 0 if the true second moment E[g^2_i ] is stationary; otherwise ζ can be kept small since the exponential decay rate β_1 can (and should) be chosen such that the exponential moving average assigns small weights to gradients too far in the past. What is left is the term (1 −β^t_2) which is caused by initializing the running average with zeros. In algorithm 1 we therefore divide by this term to correct the initialization bias.\n\nIn case of sparse gradients, for a reliable estimate of the second moment one needs to average over many gradients by chosing a small value of β_2; however it is exactly this case of small β_2 where a lack of initialisation bias correction would lead to initial steps that are much larger.",
+   "token_count": 511,
+   "page_start": 2,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 2,
+     "x0": 105.0,
+     "y0": 378.3,
+     "x1": 490.3,
+     "y1": 474.6
+    },
+    {
+     "page": 2,
+     "x0": 105.0,
+     "y0": 485.1,
+     "x1": 490.3,
+     "y1": 748.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_4_convergence_analysis_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_4",
+   "section_number": "4",
+   "section_title": "Convergence analysis",
+   "part": 1,
+   "text": "We analyze the convergence of Adam using the online learning framework proposed in (Zinkevich, 2003). Given an arbitrary, unknown sequence of convex cost functions f_1(θ), f_2(θ),..., f_T (θ). At each time t, our goal is to predict the parameter θ_t and evaluate it on a previously unknown cost function f_t. Since the nature of the sequence is unknown in advance, we evaluate our algorithm using the regret, that is the sum of all the previous difference between the online prediction f_t(θ_t) and the best fixed point parameter f_t(θ^{∗}) from a feasible set X for all the previous steps. Concretely, the regret is defined as:\n\nT ∑ R(T) = [f_t(θ_t) −f_t(θ^{∗})] (5) t=1 ∑_T √ where θ^{∗}= arg min_{θ∈X} t=1 f_t(θ). We show Adam has O( T) regret bound and a proof is given in the appendix. Our result is comparable to the best known bound for this general convex online learning problem. We also use some definitions simplify our notation, where g_t ≜∇f_t(θ_t) and g_{t,i} as the i^th element. We define g_{1:t,i} ∈R^t as a vector that contains the i^th dimension of the gradients β^2 over all iterations till t, g_{1:t,i} = [g_{1,i}, g_{2,i}, · · · , g_{t,i}]. Also, we define γ ≜ 1 ^{√} β2 . Our following theorem holds when the learning rate α_t is decaying at a rate of t^{−12} and first moment running average coefficient β_{1,t} decay exponentially with λ, that is typically close to 1, e.g. 1 −10^{−8}. Theorem 4.1. Assume that the function f_t has bounded gradients, ∥∇f_t(θ)∥_2 ≤G, ∥∇f_t(θ)∥_{∞}≤ G_{∞}for all θ ∈R^d and distance between any θ_t generated by Adam is bounded, ∥θ_n −θ_m∥_2 ≤D, β^2 α ∥θ_m −θ_n∥_{∞}≤D_{∞}for any m, n ∈{1, ..., T}, and β_1, β_2 ∈[0, 1) satisfy 1√ ^{√} β2 < 1. Let α_t = t and β_{1,t} = β_1λ^{t−1}, λ ∈(0, 1). Adam achieves the following guarantee, for all T ≥1.",
+   "token_count": 451,
+   "page_start": 3,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 105.0,
+     "y0": 139.6,
+     "x1": 490.3,
+     "y1": 399.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_4_convergence_analysis_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_4",
+   "section_number": "4",
+   "section_title": "Convergence analysis",
+   "part": 2,
+   "text": "d d d D^2 ∑ √ α(1 + β_1)G_{∞} ∑ ∑ D^2 _{∞} G_{∞}√1 −β_2 R(T) ≤ Tv̂_{T,i}+ ∥g_{1:T,i}∥_2+ 2α(1 −β_1) i=1(1 −β_1)√1 −β_2(1 −γ)^2 i=1i=12α(1 −β_1)(1 −λ)^2\n\nOur Theorem 4.1 implies when the data features are sparse and bounded gradients, the sum- √ mation term can be much smaller than its upper bound ∑^d_{i=1} ∥g_{1:T,i}∥_2 << dG_{∞} T and ∑_d √ √ _{i=1} Tv̂_{T,i} << dG_{∞} T, in particular if the class of function and data features are in the form of section 1.2 in (Duchi et al., 2011). Their results for the expected value E[∑^d_{i=1} ∥g_{1:T,i}∥_2] also apply √ to Adam. In particular, the adaptive method, such as Adam and Adagrad, can achieve O(log d T), √ an improvement over O( dT) for the non-adaptive method. Decaying β_{1,t} towards zero is important in our theoretical analysis and also matches previous empirical findings, e.g. (Sutskever et al., 2013) suggests reducing the momentum coefficient in the end of training can improve convergence.\n\nFinally, we can show the average regret of Adam converges, Corollary 4.2. Assume that the function f_t has bounded gradients, ∥∇f_t(θ)∥_2 ≤G, ∥∇f_t(θ)∥_{∞}≤ G_{∞}for all θ ∈R^d and distance between any θ_t generated by Adam is bounded, ∥θ_n −θ_m∥_2 ≤D, ∥θ_m −θ_n∥_{∞}≤D_{∞}for any m, n ∈{1, ..., T}. Adam achieves the following guarantee, for all T ≥1.\n\nR(T) √ = O( 1 ) T T √ This result can be obtained by using Theorem 4.1 and ∑^d_{i=1} ∥g_{1:T,i}∥_2 ≤dG_{∞} T. Thus, lim_{T →∞} R(T )= 0.\n\nT",
+   "token_count": 363,
+   "page_start": 3,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 157.3,
+     "y0": 406.3,
+     "x1": 445.0,
+     "y1": 420.4
+    },
+    {
+     "page": 3,
+     "x0": 105.0,
+     "y0": 402.1,
+     "x1": 505.4,
+     "y1": 437.0
+    },
+    {
+     "page": 3,
+     "x0": 105.0,
+     "y0": 447.0,
+     "x1": 490.3,
+     "y1": 668.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_5_related_work_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_5",
+   "section_number": "5",
+   "section_title": "Related work",
+   "part": 1,
+   "text": "Optimization methods bearing a direct relation to Adam are RMSProp (Tieleman & Hinton, 2012; Graves, 2013) and AdaGrad (Duchi et al., 2011); these relationships are discussed below. Other stochastic optimization methods include vSGD (Schaul et al., 2012), AdaDelta (Zeiler, 2012) and the natural Newton method from Roux & Fitzgibbon (2010), all setting stepsizes by estimating curvature from first-order information. The Sum-of-Functions Optimizer (SFO) (Sohl-Dickstein et al., 2014) is a quasi-Newton method based on minibatches, but (unlike Adam) has memory requirements linear in the number of minibatch partitions of a dataset, which is often infeasible on memory-constrained systems such as a GPU. Like natural gradient descent (NGD) (Amari, 1998), Adam employs a preconditioner that adapts to the geometry of the data, since v̂_t is an approximation to the diagonal of the Fisher information matrix (Pascanu & Bengio, 2013); however, Adam’s preconditioner (like AdaGrad’s) is more conservative in its adaption than vanilla NGD by preconditioning with the square root of the inverse of the diagonal Fisher information matrix approximation.\n\nRMSProp: An optimization method closely related to Adam is RMSProp (Tieleman & Hinton, 2012). A version with momentum has sometimes been used (Graves, 2013). There are a few important differences between RMSProp with momentum and Adam: RMSProp with momentum generates its parameter updates using a momentum on the rescaled gradient, whereas Adam updates are directly estimated using a running average of first and second moment of the gradient. RMSProp also lacks a bias-correction term; this matters most in case of a value of β_2 close to 1 (required in case of sparse gradients), since in that case not correcting the bias leads to very large stepsizes and often divergence, as we also empirically demonstrate in section 6.4.",
+   "token_count": 469,
+   "page_start": 3,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 105.0,
+     "y0": 705.6,
+     "x1": 490.3,
+     "y1": 748.6
+    },
+    {
+     "page": 4,
+     "x0": 105.0,
+     "y0": 116.7,
+     "x1": 490.3,
+     "y1": 202.3
+    },
+    {
+     "page": 4,
+     "x0": 105.0,
+     "y0": 214.6,
+     "x1": 490.3,
+     "y1": 300.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_5_related_work_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_5",
+   "section_number": "5",
+   "section_title": "Related work",
+   "part": 2,
+   "text": "AdaGrad: An algorithm that works well for sparse gradients is AdaGrad (Duchi et al., 2011). Its √∑_t basic version updates parameters as θ_{t+1} = θ_t −α · g_t/ i=1 g^2_t . Note that if we choose β_2 to be infinitesimally close to 1 from below, then lim_{β2→1} v̂_t = t^{−1} · ∑^t_{i=1} g^2_t . AdaGrad corresponds to a version of Adam with β_1 = 0, infinitesimal (1 −β_2) and a replacement of α by an annealed version √ √ α_t = α · t^{−1/2}, namely θ_t −α · t^{−1/2} · m̂_t/ lim_{β2→1} v̂_t = θ_t −α · t^{−1/2} · g_t/ t^{−1} · ∑^t t = i=1 g2 √∑_t θ_t −α · g_t/ i=1 g^2_t . Note that this direct correspondence between Adam and Adagrad does not hold when removing the bias-correction terms; without bias correction, like in RMSProp, a β_2 infinitesimally close to 1 would lead to infinitely large bias, and infinitely large parameter updates.",
+   "token_count": 211,
+   "page_start": 4,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 105.0,
+     "y0": 312.4,
+     "x1": 490.3,
+     "y1": 423.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_6_experiments",
+   "paper_id": "1412.6980",
+   "section_id": "sec_6",
+   "section_number": "6",
+   "section_title": "Experiments",
+   "part": null,
+   "text": "To empirically evaluate the proposed method, we investigated different popular machine learning models, including logistic regression, multilayer fully connected neural networks and deep convolutional neural networks. Using large models and datasets, we demonstrate Adam can efficiently solve practical deep learning problems.\n\nWe use the same parameter initialization when comparing different optimization algorithms. The hyper-parameters, such as learning rate and momentum, are searched over a dense grid and the results are reported using the best hyper-parameter setting.",
+   "token_count": 144,
+   "page_start": 4,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 105.0,
+     "y0": 463.8,
+     "x1": 490.3,
+     "y1": 544.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_6.1_experiment_logistic_regression",
+   "paper_id": "1412.6980",
+   "section_id": "sec_6.1",
+   "section_number": "6.1",
+   "section_title": "Experiment: Logistic Regression",
+   "part": null,
+   "text": "We evaluate our proposed method on L2-regularized multi-class logistic regression using the MNIST dataset. Logistic regression has a well-studied convex objective, making it suitable for comparison of different optimizers without worrying about local minimum issues. The stepsize α in our logistic √ α regression experiments is adjusted by 1/ t decay, namely α_t = √_t that matches with our theoratical prediction from section 4. The logistic regression classifies the class label directly on the 784 dimension image vectors. We compare Adam to accelerated SGD with Nesterov momentum and Adagrad using minibatch size of 128. According to Figure 1, we found that the Adam yields similar convergence as SGD with momentum and both converge faster than Adagrad.\n\nAs discussed in (Duchi et al., 2011), Adagrad can efficiently deal with sparse features and gradients as one of its main theoretical results whereas SGD is low at learning rare features. Adam with √ 1/ t decay on its stepsize should theoratically match the performance of Adagrad. We examine the sparse feature problem using IMDB movie review dataset from (Maas et al., 2011). We pre-process the IMDB movie reviews into bag-of-words (BoW) feature vectors including the first 10,000 most frequent words. The 10,000 dimension BoW feature vector for each review is highly sparse. As suggested in (Wang & Manning, 2013), 50% dropout noise can be applied to the BoW features during training to prevent over-fitting. In figure 1, Adagrad outperforms SGD with Nesterov momentum by a large margin both with and without dropout noise. Adam converges as fast as Adagrad. The empirical performance of Adam is consistent with our theoretical findings in sections 2 and 4. Similar to Adagrad, Adam can take advantage of sparse features and obtain faster convergence rate than normal SGD with momentum.\n\nFigure 1: Logistic regression training negative log likelihood on MNIST images and IMDB movie reviews with 10,000 bag-of-words (BoW) feature vectors.",
+   "token_count": 500,
+   "page_start": 4,
+   "page_end": 5,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 105.0,
+     "y0": 578.2,
+     "x1": 490.3,
+     "y1": 748.6
+    },
+    {
+     "page": 5,
+     "x0": 105.0,
+     "y0": 330.8,
+     "x1": 490.3,
+     "y1": 384.4
+    },
+    {
+     "page": 5,
+     "x0": 105.0,
+     "y0": 285.3,
+     "x1": 490.3,
+     "y1": 306.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_6.2_experiment_multi_layer_neural_networks",
+   "paper_id": "1412.6980",
+   "section_id": "sec_6.2",
+   "section_number": "6.2",
+   "section_title": "Experiment: Multi-layer Neural Networks",
+   "part": null,
+   "text": "Multi-layer neural network are powerful models with non-convex objective functions. Although our convergence analysis does not apply to non-convex problems, we empirically found that Adam often outperforms other methods in such cases. In our experiments, we made model choices that are consistent with previous publications in the area; a neural network model with two fully connected hidden layers with 1000 hidden units each and ReLU activation are used for this experiment with minibatch size of 128.\n\nFirst, we study different optimizers using the standard deterministic cross-entropy objective function with L_2 weight decay on the parameters to prevent over-fitting. The sum-of-functions (SFO) method (Sohl-Dickstein et al., 2014) is a recently proposed quasi-Newton method that works with minibatches of data and has shown good performance on optimization of multi-layer neural networks. We used their implementation and compared with Adam to train such models. Figure 2 shows that Adam makes faster progress in terms of both the number of iterations and wall-clock time. Due to the cost of updating curvature information, SFO is 5-10x slower per iteration compared to Adam, and has a memory requirement that is linear in the number minibatches.\n\nStochastic regularization methods, such as dropout, are an effective way to prevent over-fitting and often used in practice due to their simplicity. SFO assumes deterministic subfunctions, and indeed failed to converge on cost functions with stochastic regularization. We compare the effectiveness of Adam to other stochastic first order methods on multi-layer neural networks trained with dropout noise. Figure 2 shows our results; Adam shows better convergence than other methods.",
+   "token_count": 434,
+   "page_start": 5,
+   "page_end": 5,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 105.0,
+     "y0": 421.7,
+     "x1": 490.3,
+     "y1": 636.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_6.3_experiment_convolutional_neural_networks_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_6.3",
+   "section_number": "6.3",
+   "section_title": "Experiment: Convolutional Neural Networks",
+   "part": 1,
+   "text": "Convolutional neural networks (CNNs) with several layers of convolution, pooling and non-linear units have shown considerable success in computer vision tasks. Unlike most fully connected neural nets, weight sharing in CNNs results in vastly different gradients in different layers. A smaller learning rate for the convolution layers is often used in practice when applying SGD. We show the effectiveness of Adam in deep CNNs. Our CNN architecture has three alternating stages of 5x5 convolution filters and 3x3 max pooling with stride of 2 that are followed by a fully connected layer of 1000 rectified linear hidden units (ReLU’s). The input image are pre-processed by whitening, and dropout noise is applied to the input layer and fully connected layer. The minibatch size is also set to 128 similar to previous experiments.\n\nInterestingly, although both Adam and Adagrad make rapid progress lowering the cost in the initial stage of the training, shown in Figure 3 (left), Adam and SGD eventually converge considerably faster than Adagrad for CNNs shown in Figure 3 (right). We notice the second moment estimate v̂_t vanishes to zeros after a few epochs and is dominated by the ε in algorithm 1. The second moment estimate is therefore a poor approximation to the geometry of the cost function in CNNs comparing to fully connected network from Section 6.2. Whereas, reducing the minibatch variance through the first moment is more important in CNNs and contributes to the speed-up. As a result, Adagrad converges much slower than others in this particular experiment. Though Adam shows marginal improvement over SGD with momentum, it adapts learning rate scale for different layers instead of hand picking manually as in SGD.",
+   "token_count": 433,
+   "page_start": 5,
+   "page_end": 6,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 105.0,
+     "y0": 673.6,
+     "x1": 490.3,
+     "y1": 748.6
+    },
+    {
+     "page": 6,
+     "x0": 105.0,
+     "y0": 614.5,
+     "x1": 490.3,
+     "y1": 748.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_6.3_experiment_convolutional_neural_networks_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_6.3",
+   "section_number": "6.3",
+   "section_title": "Experiment: Convolutional Neural Networks",
+   "part": 2,
+   "text": "Figure 2: Training of multilayer neural networks on MNIST images. (a) Neural networks using dropout stochastic regularization. (b) Neural networks with deterministic cost function. We compare with the sum-of-functions (SFO) optimizer (Sohl-Dickstein et al., 2014)\n\nFigure 3: Convolutional neural networks training cost. (left) Training cost for the first three epochs. (right) Training cost over 45 epochs. CIFAR-10 with c64-c64-c128-1000 architecture.\n\nFigure 4: Effect of bias-correction terms (red line) versus no bias correction terms (green line) after 10 epochs (left) and 100 epochs (right) on the loss (y-axes) when learning a Variational Auto-Encoder (VAE) (Kingma & Welling, 2013), for different settings of stepsize α (x-axes) and hyper-parameters β_1 and β_2.",
+   "token_count": 193,
+   "page_start": 6,
+   "page_end": 7,
+   "boxes": [
+    {
+     "page": 6,
+     "x0": 105.0,
+     "y0": 291.9,
+     "x1": 490.3,
+     "y1": 324.2
+    },
+    {
+     "page": 6,
+     "x0": 105.0,
+     "y0": 549.4,
+     "x1": 490.3,
+     "y1": 571.1
+    },
+    {
+     "page": 7,
+     "x0": 105.0,
+     "y0": 265.3,
+     "x1": 490.3,
+     "y1": 309.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_6.4_experiment_bias_correction_term",
+   "paper_id": "1412.6980",
+   "section_id": "sec_6.4",
+   "section_number": "6.4",
+   "section_title": "Experiment: bias-correction term",
+   "part": null,
+   "text": "We also empirically evaluate the effect of the bias correction terms explained in sections 2 and 3. Discussed in section 5, removal of the bias correction terms results in a version of RMSProp (Tieleman & Hinton, 2012) with momentum. We vary the β_1 and β_2 when training a variational auto-encoder (VAE) with the same architecture as in (Kingma & Welling, 2013) with a single hidden layer with 500 hidden units with softplus nonlinearities and a 50-dimensional spherical Gaussian latent variable. We iterated over a broad range of hyper-parameter choices, i.e. β_1 ∈[0, 0.9] and β_2 ∈[0.99, 0.999, 0.9999], and log_10(α) ∈[−5, ..., −1]. Values of β_2 close to 1, required for robustness to sparse gradients, results in larger initialization bias; therefore we expect the bias correction term is important in such cases of slow decay, preventing an adverse effect on optimization.\n\nIn Figure 4, values β_2 close to 1 indeed lead to instabilities in training when no bias correction term was present, especially at first few epochs of the training. The best results were achieved with small values of (1−β_2) and bias correction; this was more apparent towards the end of optimization when gradients tends to become sparser as hidden units specialize to specific patterns. In summary, Adam performed equal or better than RMSProp, regardless of hyper-parameter setting.",
+   "token_count": 342,
+   "page_start": 7,
+   "page_end": 7,
+   "boxes": [
+    {
+     "page": 7,
+     "x0": 105.0,
+     "y0": 368.8,
+     "x1": 490.3,
+     "y1": 524.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_7.1_adamax_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_7.1",
+   "section_number": "7.1",
+   "section_title": "AdaMax",
+   "part": 1,
+   "text": "In Adam, the update rule for individual weights is to scale their gradients inversely proportional to a (scaled) L^2 norm of their individual current and past gradients. We can generalize the L^2 norm based update rule to a L^p norm based update rule. Such variants become numerically unstable for large p. However, in the special case where we let p →∞, a surprisingly simple and stable algorithm emerges; see algorithm 2. We’ll now derive the algorithm. Let, in case of the L^p norm, the stepsize at time t be inversely proportional to v^{1/p}, where:\n\nt\n\nv_t = β^p_2v_{t−1} + (1 −β^p_2)|g_t|^p (6) t ∑ βp(t−i) = (1 −β^p _2 ) 2· |g_i|^p (7) i=1 Note that the decay term is here equivalently parameterised as β^p_2 instead of β_2. Now let p →∞, and define u_t = lim_{p→∞}(v_t)^{1/p}, then:\n\nt )1/p ∑ βp(t−i) u_t = lim 2) _{p→∞} (v_t)^{1/p} = lim (1 −β^p 2· |g_i|^p (8) p→∞ i=1 t )1/p ∑ βp(t−i) = lim 2)^{1/p} (9) _{p→∞} (1 −β^p 2· |g_i|^p i=1 ^t ( )_p)^{1/p} ∑ β(t−i) = lim 2· |g_i| (10) p→∞ i=1 (β_{t−1} ) = max 2|g_1|, β^{t−2}|g_2|, . . . , β_2|g_{t−1}|, |g_t| (11) 2\n\nWhich corresponds to the remarkably simple recursive formula:\n\nu_t = max(β_2 · u_{t−1}, |g_t|) (12) with initial value u_0 = 0. Note that, conveniently enough, we don’t need to correct for initialization bias in this case. Also note that the magnitude of parameter updates has a simpler bound with AdaMax than Adam, namely: |∆_t| ≤α.",
+   "token_count": 352,
+   "page_start": 7,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 7,
+     "x0": 105.0,
+     "y0": 614.3,
+     "x1": 490.3,
+     "y1": 682.4
+    },
+    {
+     "page": 7,
+     "x0": 234.6,
+     "y0": 699.3,
+     "x1": 490.3,
+     "y1": 746.6
+    },
+    {
+     "page": 8,
+     "x0": 105.0,
+     "y0": 348.0,
+     "x1": 490.3,
+     "y1": 576.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_7.1_adamax_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_7.1",
+   "section_number": "7.1",
+   "section_title": "AdaMax",
+   "part": 2,
+   "text": "Algorithm 2: AdaMax, a variant of Adam based on the infinity norm. See section 7.1 for details. Good default settings for the tested machine learning problems are α = 0.002, β_1 = 0.9 and β_2 = 0.999. With β^t_1 we denote β_1 to the power t. Here, (α/(1 −β^t_1)) is the learning rate with the bias-correction term for the first moment. All operations on vectors are element-wise.\n\nRequire: α: Stepsize Require: β_1, β_2 ∈[0, 1): Exponential decay rates Require: f(θ): Stochastic objective function with parameters θ Require: θ_0: Initial parameter vector m_0 ←0 (Initialize 1^st moment vector) u_0 ←0 (Initialize the exponentially weighted infinity norm) t ←0 (Initialize timestep) while θ_t not converged do t ←t + 1 g_t ←∇_{θ}f_t(θ_{t−1}) (Get gradients w.r.t. stochastic objective at timestep t) m_t ←β_1 · m_{t−1} + (1 −β_1) · g_t (Update biased first moment estimate) u_t ←max(β_2 · u_{t−1}, |g_t|) (Update the exponentially weighted infinity norm) θ_t ←θ_{t−1} −(α/(1 −β^t_1)) · m_t/u_t (Update parameters) end while return θ_t (Resulting parameters)",
+   "token_count": 264,
+   "page_start": 8,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 105.0,
+     "y0": 119.3,
+     "x1": 490.3,
+     "y1": 162.3
+    },
+    {
+     "page": 8,
+     "x0": 105.0,
+     "y0": 164.7,
+     "x1": 424.9,
+     "y1": 326.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_7.2_temporal_averaging",
+   "paper_id": "1412.6980",
+   "section_id": "sec_7.2",
+   "section_number": "7.2",
+   "section_title": "Temporal averaging",
+   "part": null,
+   "text": "Since the last iterate is noisy due to stochastic approximation, better generalization performance is often achieved by averaging. Previously in Moulines & Bach (2011), Polyak-Ruppert averaging (Polyak & Juditsky, 1992; Ruppert, 1988) has been shown to improve the convergence of standard ∑_n SGD, where θ̄_t = 1_{k=1} θ_k. Alternatively, an exponential moving average over the parameters can t be used, giving higher weight to more recent parameter values. This can be trivially implemented by adding one line to the inner loop of algorithms 1 and 2: θ̄_t ←β_2 · θ̄_{t−1} +(1−β_2)θ_t, with θ̄_0 = 0. Initalization bias can again be corrected by the estimator θ̂_t = θ̄_t/(1 −β^t _2 ).",
+   "token_count": 172,
+   "page_start": 8,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 105.0,
+     "y0": 609.0,
+     "x1": 490.3,
+     "y1": 687.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_8_conclusion",
+   "paper_id": "1412.6980",
+   "section_id": "sec_8",
+   "section_number": "8",
+   "section_title": "Conclusion",
+   "part": null,
+   "text": "We have introduced a simple and computationally efficient algorithm for gradient-based optimization of stochastic objective functions. Our method is aimed towards machine learning problems with large datasets and/or high-dimensional parameter spaces. The method combines the advantages of two recently popular optimization methods: the ability of AdaGrad to deal with sparse gradients, and the ability of RMSProp to deal with non-stationary objectives. The method is straightforward to implement and requires little memory. The experiments confirm the analysis on the rate of convergence in convex problems. Overall, we found Adam to be robust and well-suited to a wide range of non-convex optimization problems in the field machine learning.",
+   "token_count": 186,
+   "page_start": 8,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 105.0,
+     "y0": 726.9,
+     "x1": 490.3,
+     "y1": 748.6
+    },
+    {
+     "page": 9,
+     "x0": 105.0,
+     "y0": 116.7,
+     "x1": 490.3,
+     "y1": 181.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_9_acknowledgments",
+   "paper_id": "1412.6980",
+   "section_id": "sec_9",
+   "section_number": "9",
+   "section_title": "Acknowledgments",
+   "part": null,
+   "text": "This paper would probably not have existed without the support of Google Deepmind. We would like to give special thanks to Ivo Danihelka, and Tom Schaul for coining the name Adam. Thanks to Kai Fan from Duke University for spotting an error in the original AdaMax derivation. Experiments in this work were partly carried out on the Dutch national e-infrastructure with the support of SURF Foundation. Diederik Kingma is supported by the Google European Doctorate Fellowship in Deep Learning.",
+   "token_count": 123,
+   "page_start": 9,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 105.0,
+     "y0": 221.7,
+     "x1": 490.3,
+     "y1": 286.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_references_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 1,
+   "text": "Amari, Shun-Ichi. Natural gradient works efficiently in learning. Neural computation, 10(2):251–276, 1998.\n\nDeng, Li, Li, Jinyu, Huang, Jui-Ting, Yao, Kaisheng, Yu, Dong, Seide, Frank, Seltzer, Michael, Zweig, Geoff, He, Xiaodong, Williams, Jason, et al. Recent advances in deep learning for speech research at microsoft. ICASSP 2013, 2013.\n\nDuchi, John, Hazan, Elad, and Singer, Yoram. Adaptive subgradient methods for online learning and stochastic optimization. The Journal of Machine Learning Research, 12:2121–2159, 2011.\n\nGraves, Alex. Generating sequences with recurrent neural networks. arXiv preprint arXiv:1308.0850, 2013.\n\nGraves, Alex, Mohamed, Abdel-rahman, and Hinton, Geoffrey. Speech recognition with deep recurrent neural networks. In Acoustics, Speech and Signal Processing (ICASSP), 2013 IEEE International Conference on, pp. 6645–6649. IEEE, 2013.\n\nHinton, G.E. and Salakhutdinov, R.R. Reducing the dimensionality of data with neural networks. Science, 313 (5786):504–507, 2006.\n\nHinton, Geoffrey, Deng, Li, Yu, Dong, Dahl, George E, Mohamed, Abdel-rahman, Jaitly, Navdeep, Senior, Andrew, Vanhoucke, Vincent, Nguyen, Patrick, Sainath, Tara N, et al. Deep neural networks for acoustic modeling in speech recognition: The shared views of four research groups. Signal Processing Magazine, IEEE, 29(6):82–97, 2012a.\n\nHinton, Geoffrey E, Srivastava, Nitish, Krizhevsky, Alex, Sutskever, Ilya, and Salakhutdinov, Ruslan R. Improving neural networks by preventing co-adaptation of feature detectors. arXiv preprint arXiv:1207.0580, 2012b.\n\nKingma, Diederik P and Welling, Max. Auto-Encoding Variational Bayes. In The 2nd International Conference on Learning Representations (ICLR), 2013.\n\nKrizhevsky, Alex, Sutskever, Ilya, and Hinton, Geoffrey E. Imagenet classification with deep convolutional neural networks. In Advances in neural information processing systems, pp. 1097–1105, 2012.\n\nMaas, Andrew L, Daly, Raymond E, Pham, Peter T, Huang, Dan, Ng, Andrew Y, and Potts, Christopher.\n\nLearning word vectors for sentiment analysis. In Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies-Volume 1, pp. 142–150. Association for Computational Linguistics, 2011.",
+   "token_count": 560,
+   "page_start": 9,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 105.0,
+     "y0": 319.2,
+     "x1": 490.3,
+     "y1": 665.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_references_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 2,
+   "text": "Moulines, Eric and Bach, Francis R. Non-asymptotic analysis of stochastic approximation algorithms for machine learning. In Advances in Neural Information Processing Systems, pp. 451–459, 2011.\n\nPascanu, Razvan and Bengio, Yoshua. Revisiting natural gradient for deep networks. arXiv preprint arXiv:1301.3584, 2013.\n\nPolyak, Boris T and Juditsky, Anatoli B. Acceleration of stochastic approximation by averaging. SIAM Journal on Control and Optimization, 30(4):838–855, 1992.\n\nRoux, Nicolas L and Fitzgibbon, Andrew W. A fast natural newton method. In Proceedings of the 27th International Conference on Machine Learning (ICML-10), pp. 623–630, 2010.\n\nRuppert, David. Efficient estimations from a slowly convergent robbins-monro process. Technical report, Cornell University Operations Research and Industrial Engineering, 1988.\n\nSchaul, Tom, Zhang, Sixin, and LeCun, Yann. No more pesky learning rates. arXiv preprint arXiv:1206.1106, 2012.\n\nSohl-Dickstein, Jascha, Poole, Ben, and Ganguli, Surya. Fast large-scale optimization by unifying stochastic gradient and quasi-newton methods. In Proceedings of the 31st International Conference on Machine Learning (ICML-14), pp. 604–612, 2014.\n\nSutskever, Ilya, Martens, James, Dahl, George, and Hinton, Geoffrey. On the importance of initialization and momentum in deep learning. In Proceedings of the 30th International Conference on Machine Learning (ICML-13), pp. 1139–1147, 2013.\n\nTieleman, T. and Hinton, G. Lecture 6.5 - RMSProp, COURSERA: Neural Networks for Machine Learning.\n\nTechnical report, 2012.\n\nWang, Sida and Manning, Christopher. Fast dropout training. In Proceedings of the 30th International Conference on Machine Learning (ICML-13), pp. 118–126, 2013.\n\nZeiler, Matthew D. Adadelta: An adaptive learning rate method. arXiv preprint arXiv:1212.5701, 2012.\n\nZinkevich, Martin. Online convex programming and generalized infinitesimal gradient ascent. 2003.",
+   "token_count": 480,
+   "page_start": 9,
+   "page_end": 10,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 105.0,
+     "y0": 673.2,
+     "x1": 490.3,
+     "y1": 748.3
+    },
+    {
+     "page": 10,
+     "x0": 105.0,
+     "y0": 117.5,
+     "x1": 490.3,
+     "y1": 354.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_10.1_convergence_proof_p1",
+   "paper_id": "1412.6980",
+   "section_id": "sec_10.1",
+   "section_number": "10.1",
+   "section_title": "Convergence Proof",
+   "part": 1,
+   "text": "Definition 10.1. A function f : R^d →R is convex if for all x, y ∈R^d, for all λ ∈[0, 1], λf(x) + (1 −λ)f(y) ≥f(λx + (1 −λ)y) Also, notice that a convex function can be lower bounded by a hyperplane at its tangent.\n\nLemma 10.2. If a function f : R^d →R is convex, then for all x, y ∈R^d, f(y) ≥f(x) + ∇f(x)^T (y −x) The above lemma can be used to upper bound the regret and our proof for the main theorem is constructed by substituting the hyperplane with the Adam update rules.\n\nThe following two lemmas are used to support our main theorem. We also use some definitions simplify our notation, where g_t ≜∇f_t(θ_t) and g_{t,i} as the i^th element. We define g_{1:t,i} ∈R^t as a vector that contains the i^th dimension of the gradients over all iterations till t, g_{1:t,i} = [g_{1,i}, g_{2,i}, · · · , g_{t,i}] Lemma 10.3. Let g_t = ∇f_t(θ_t) and g_{1:t} be defined as above and bounded, ∥g_t∥_2 ≤G, ∥g_t∥_{∞}≤ G_{∞}. Then, √ T ∑ g^2 t,i ≤2G_{∞}∥g_{1:T,i}∥_2 t=1 t\n\nProof. We will prove the inequality using induction over T.\n\n√ The base case for T = 1, we have g^2 _{1,i} ≤2G_{∞}∥g_{1,i}∥_2.\n\nFor the inductive step, √ √ √ T T −1 ∑ g^2 ∑ g^2 g^2 t,i t,i T,i = + _{t=1} t t=1t T √ g^2 T,i ≤2G_{∞}∥g_{1:T −1,i}∥_2 + T √ √ g^2 T,i = 2G_{∞} ∥g_{1:T,i}∥^2_2 −g^2 _T + T\n\ng^4 From, ∥g_{1:T,i}∥^2_2 −g^2 T,i_2 ≥∥g_{1:T,i}∥^2_2 −g^2_{T,i}, we can take square root of both side and T,i + 4∥g_{1:T,i}∥^2 have, √ g^2 T,i ∥g_{1:T,i}∥^2_2 −g^2_{T,i} ≤∥g_{1:T,i}∥_2 − 2∥g_{1:T,i}∥_2 g^2 √ T,i ≤∥g_{1:T,i}∥_2 − 2 TG^2_{∞}",
+   "token_count": 377,
+   "page_start": 11,
+   "page_end": 11,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 105.0,
+     "y0": 158.4,
+     "x1": 447.3,
+     "y1": 186.5
+    },
+    {
+     "page": 11,
+     "x0": 105.0,
+     "y0": 197.0,
+     "x1": 446.2,
+     "y1": 238.0
+    },
+    {
+     "page": 11,
+     "x0": 105.0,
+     "y0": 248.6,
+     "x1": 490.3,
+     "y1": 368.1
+    },
+    {
+     "page": 11,
+     "x0": 105.0,
+     "y0": 379.2,
+     "x1": 386.6,
+     "y1": 535.1
+    },
+    {
+     "page": 11,
+     "x0": 105.0,
+     "y0": 555.4,
+     "x1": 490.3,
+     "y1": 645.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_10.1_convergence_proof_p2",
+   "paper_id": "1412.6980",
+   "section_id": "sec_10.1",
+   "section_number": "10.1",
+   "section_title": "Convergence Proof",
+   "part": 2,
+   "text": "√ Rearrange the inequality and substitute the ∥g_{1:T,i}∥^2_2 −g^2_{T,i} term, √ √ g^2 T,i G_{∞} ∥g_{1:T,i}∥^2_2 −g^2 _T + ≤2G_{∞}∥g_{1:T,i}∥_2 T β^2 β^2 1 1 Lemma 10.4. Let γ ≜ √_{β2} . For β_1, β_2 ∈[0, 1) that satisfy √_{β2} < 1 and bounded g_t, ∥g_t∥_2 ≤G, ∥g_t∥_{∞}≤G_{∞}, the following inequality holds T ∑ m̂^2 2 1 √ t,i ≤ ∥g_{1:T,i}∥_2 _{t=1} tv̂_{t,i} 1 −γ √1 −β_2 √ 1−β^t 1 Proof. Under the assumption,^2 _{(1−β} t_{1)2} ≤ (1−β1)2 . We can expand the last term in the summation using the update rules in Algorithm 1, _{TT −1} √ (∑_T ∑ m̂^2 ∑ m̂^2 1 −β^T k=1(1 −β_1)β^{T −k}g_{k,i})^2 √ t,i √ t,i 2 √ 1 = + (1 −β^T _{t=1} tv̂_{t,i} t=1tv̂_{t,i} 1 )^2 T ∑^T_{j=1}(1 −β_2)β^{T −j}g2 2 j,i T −1 √ T ∑ m̂^2 1 −β^T ∑ T((1 −β_1)β^{T −k}g_{k,i})^2 √ t,i 2 √ 1 ≤ + (1 −β^T t=1 tv̂^{t,i} 1 )^2 k=1 T ∑^T_{j=1}(1 −β_2)β^{T −j}g^2 2 j,i T −1 √ T ∑ m̂^2 1 −β^T ∑ T((1 −β_1)β^{T −k}g_{k,i})^2 √ t,i 2 √ 1 ≤ + (1 −β^T t=1 tv̂^{t,i} 1 )^2 k=1 T(1 −β_2)β^{T −k}g^2 2 k,i T −1 √ T )T −k ∑ m̂^2 1 −β^T (1 −β_1)^2 ∑ ( β^2 √ t,i 2 √ 1 ≤ + T √β_2 ∥g_{k,i}∥_2 (1 −β^T _{t=1} tv̂t,i 1 )^2 T(1 −β_2) k=1 T −1 T ∑ m̂^2 T ∑ √ t,i√ ≤ + γ^{T −k}∥g_{k,i}∥_2 _{t=1} tv̂t,i T(1 −β_2) k=1 Similarly, we can upper bound the rest of the terms in the summation.\n\nT T T −t ∑ m̂^2 ∑ ∥g_{t,i}∥_2 ∑ √ t,i√ ≤ tγ^j _{t=1} tv̂t,i t=1t(1 −β_2) j=0 T T ∑ ∥g_{t,i}∥_2 ∑ ≤ √ tγ^j _{t=1} t(1 −β_2) j=0\n\nFor γ < 1, using the upper bound on the arithmetic-geometric series, ∑_t tγ^t < 1 (1−γ)^2 :\n\nT T T ∑ ∥g_{t,i}∥_2 ∑ 1 ∑ ∥g_{t,i}∥_2 √ tγ^j ≤ √ _{t=1} t(1 −β_2) j=0(1 −γ)^2√1 −β_2 t=1t Apply Lemma 10.3,\n\nT ∑ m̂^2 2G_{∞} √ t,i ≤ ∥g_{1:T,i}∥_2 _{t=1} tv̂_{t,i} (1 −γ)^2√1 −β_2\n\nβ^2 To simplify the notation, we define γ ≜ 1 ^{√} β2 . Intuitively, our following theorem holds when the learning rate α_t is decaying at a rate of t^{−12} and first moment running average coefficient β_{1,t} decay exponentially with λ, that is typically close to 1, e.g. 1 −10^{−8}. Theorem 10.5. Assume that the function f_t has bounded gradients, ∥∇f_t(θ)∥_2 ≤G, ∥∇f_t(θ)∥_{∞}≤ G_{∞}for all θ ∈R^d and distance between any θ_t generated by Adam is bounded, ∥θ_n −θ_m∥_2 ≤D,\n\nβ^2 α ^1 √ ∥θ_m −θ_n∥_{∞}≤D_{∞}for any m, n ∈{1, ..., T}, and β_1, β_2 ∈[0, 1) satisfy √_{β2} < 1. Let α_t = t and β_{1,t} = β_1λ^{t−1}, λ ∈(0, 1). Adam achieves the following guarantee, for all T ≥1.",
+   "token_count": 580,
+   "page_start": 11,
+   "page_end": 13,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 105.0,
+     "y0": 658.4,
+     "x1": 393.1,
+     "y1": 718.5
+    },
+    {
+     "page": 12,
+     "x0": 105.0,
+     "y0": 114.7,
+     "x1": 490.3,
+     "y1": 414.0
+    },
+    {
+     "page": 12,
+     "x0": 105.0,
+     "y0": 434.1,
+     "x1": 375.2,
+     "y1": 519.5
+    },
+    {
+     "page": 12,
+     "x0": 105.0,
+     "y0": 536.1,
+     "x1": 444.7,
+     "y1": 556.3
+    },
+    {
+     "page": 12,
+     "x0": 105.0,
+     "y0": 564.9,
+     "x1": 409.1,
+     "y1": 652.5
+    },
+    {
+     "page": 12,
+     "x0": 105.0,
+     "y0": 681.7,
+     "x1": 490.3,
+     "y1": 750.2
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 114.7,
+     "x1": 489.2,
+     "y1": 143.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_10.1_convergence_proof_p3",
+   "paper_id": "1412.6980",
+   "section_id": "sec_10.1",
+   "section_number": "10.1",
+   "section_title": "Convergence Proof",
+   "part": 3,
+   "text": "d d d D^2 ∑ √ α(β_1 + 1)G_{∞} ∑ ∑ ∞G_{∞} D^2 √1 −β_2 R(T) ≤ Tv̂_{T,i}+ ∥g_{1:T,i}∥_2+ 2α(1 −β_1) i=1(1 −β_1)√1 −β_2(1 −γ)^2 i=1i=12α(1 −β_1)(1 −λ)^2\n\nProof. Using Lemma 10.2, we have,\n\nd ∑ f_t(θ_t) −f_t(θ^{∗}) ≤g^T_t (θ_t −θ^{∗}) = g_{t,i}(θ_{t,i} −θ^{∗} _{,i} ) i=1\n\nFrom the update rules presented in algorithm 1,\n\n√ θ_{t+1} = θ_t −α_t m̂_t/ v̂_t ( β_{1,t} ) α_t m_{t−1} + (1 −β_{1,t}) = θ_t − g_t 1 −β^t √v̂_t √v̂_t 1\n\nWe focus on the i^th dimension of the parameter vector θ_t ∈R^d. Subtract the scalar θ^{∗}_{,i} and square both sides of the above update rule, we have,\n\n_{,i} )_2 − 2α_t ( β_{1,t} t( m̂_{t,i} (θ_{t+1,i} −θ^{∗}_{,i})^2 =(θ_{t,i} −θ^{∗} √ √ ,i) + α^2 √ m_{t−1,i} + (1 −β^{1,t}) g_{t,i})(θ_{t,i} −θ^{∗} )^2 1 −β^t v̂_{t,i} v̂_{t,i} v̂_{t,i} 1\n\nWe can rearrange the above equation and use Young’s inequality, ab ≤a^2/2 + b^2/2. Also, it can be √ √∑_t √ shown that v̂_{t,i} = j=1(1 −β_2)β^{t−j}g^2 1 −β^t_2 ≤∥g_{1:t,i}∥_2 and β_{1,t} ≤β_1. Then 2 j,i/\n\n√ ( ) _{,i} ) =(1 −β^t _1 ) v̂_{t,i} ,i)2 g_{t,i}(θ_{t,i} −θ^{∗} (θ_{t,i} −θ^{∗}_{,t})^2 −(θ_{t+1,i} −θ^{∗} 2α_t(1 −β_{1,t}) 1 √ v̂^4 + α_t(1 −β^t v̂_{t,i} β1,t t−1,i mt−1,i 1) ( m̂t,i + ,i −θ_{t,i})√α_{t−1} √ √α_{t−1} (θ^{∗} 1)^2 (1 −β_{1,t}) v̂4 2(1 −β_{1,t}) v̂_{t,i} t−1,i ( )√ 1 β_{1,t} _{,t} )^2 −(θ_{t+1,i} −θ^{∗} ≤ (θ_{t,i} −θ^{∗} ,i)^2 v̂_{t,i} + ,i −θ_{t,i})^2√v̂_{t−1,i} 2α_t(1 −β_1) 2α_{t−1}(1 −β_{1,t})(θ^{∗} β_1α_{t−1} m^2 α_t m̂^2 √ t−1,i √ t,i + + 2(1 −β_1) v̂_{t−1,i} 2(1 −β_1) v̂_{t,i} We apply Lemma 10.4 to the above inequality and derive the regret bound by summing across all the dimensions for i ∈1, ..., d in the upper bound of f_t(θ_t) −f_t(θ^{∗}) and the sequence of convex functions for t ∈1, ..., T:\n\n_ddT √ √ ∑ 1 ∑ ∑ 1 v̂_{t,i} v̂_{t−1,i} R(T) ≤ ,i)^2√v̂_{1,i} + ,i)^2( − ) 2α_1(1 −β_1)(θ^{1,i} −θ^{∗} 2(1 −β_1)(θ^{t,i} −θ^{∗} α_t α_{t−1} i=1 i=1 t=2\n\nd d β_1αG_{∞} ∑ αG_{∞} ∑ + ∥g_{1:T,i}∥_2 + ∥g_{1:T,i}∥_2 (1 −β_1)√1 −β_2(1 −γ)^2 i=1(1 −β_1)√1 −β_2(1 −γ)^2 i=1 d T ∑ ∑ β_{1,t} + ,i −θ_{t,i})^2√v̂_{t,i} _{i=1t=1} 2α_t(1 −β_{1,t})(θ^{∗} From the assumption, ∥θ_t −θ^{∗}∥_2 ≤D, ∥θ_m −θ_n∥_{∞}≤D_{∞}, we have:",
+   "token_count": 528,
+   "page_start": 13,
+   "page_end": 14,
+   "boxes": [
+    {
+     "page": 13,
+     "x0": 157.3,
+     "y0": 156.3,
+     "x1": 464.4,
+     "y1": 171.4
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 152.2,
+     "x1": 505.4,
+     "y1": 187.0
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 213.6,
+     "x1": 247.4,
+     "y1": 224.6
+    },
+    {
+     "page": 13,
+     "x0": 195.0,
+     "y0": 237.2,
+     "x1": 400.3,
+     "y1": 267.5
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 283.6,
+     "x1": 395.4,
+     "y1": 348.5
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 358.3,
+     "x1": 490.3,
+     "y1": 381.0
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 392.7,
+     "x1": 491.1,
+     "y1": 418.0
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 429.3,
+     "x1": 531.2,
+     "y1": 592.7
+    },
+    {
+     "page": 13,
+     "x0": 105.0,
+     "y0": 603.4,
+     "x1": 490.3,
+     "y1": 746.9
+    },
+    {
+     "page": 14,
+     "x0": 105.0,
+     "y0": 116.0,
+     "x1": 380.8,
+     "y1": 129.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "1412.6980:sec_10.1_convergence_proof_p4",
+   "paper_id": "1412.6980",
+   "section_id": "sec_10.1",
+   "section_number": "10.1",
+   "section_title": "Convergence Proof",
+   "part": 4,
+   "text": "d d d t D^2 ∑ √ α(1 + β_1)G_{∞} ∑ ∑ ∑ β_{1,t} √ R(T) ≤ Tv̂_{T,i} + ∞ ∥g_{1:T,i}∥_2 + D^2 tv̂_{t,i} 2α(1 −β_1) i=1(1 −β_1)√1 −β_2(1 −γ)^2 i=12α i=1t=1(1 −β_{1,t}) d d D^2 ∑ √ α(1 + β_1)G_{∞} ∑ ≤ Tv̂_{T,i} + ∥g_{1:T,i}∥_2 2α(1 −β1) i=1(1 −β_1)√1 −β_2(1 −γ)^2 i=1 d t _{∞} G_{∞}√1 −β_2 ∑ ∑ β_{1,t} √ + D^2 t 2α i=1t=1(1 −β_{1,t})\n\nWe can use arithmetic geometric series upper bound for the last term:\n\nt t ∑ β_{1,t} √ ∑ 1 t ≤ t _{t=1} (1 −β_{1,t}) t=1(1 −β_1)λ^{t−1}√ t ∑ 1 ≤ _{t=1} (1 −β_1)λ^{t−1}t 1 ≤ (1 −β_1)(1 −λ)^2 Therefore, we have the following regret bound:\n\nd d d D^2 ∑ √ α(1 + β_1)G_{∞} ∑ ∑ D^2 √1 −β_2 _{∞} G_{∞} R(T) ≤ Tv̂_{T,i} + ∥g_{1:T,i}∥_2 + 2α(1 −β_1) i=1(1 −β_1)√1 −β_2(1 −γ)^2 i=1i=12αβ_1(1 −λ)^2",
+   "token_count": 179,
+   "page_start": 14,
+   "page_end": 14,
+   "boxes": [
+    {
+     "page": 14,
+     "x0": 105.0,
+     "y0": 135.7,
+     "x1": 534.5,
+     "y1": 234.6
+    },
+    {
+     "page": 14,
+     "x0": 105.0,
+     "y0": 245.4,
+     "x1": 498.6,
+     "y1": 407.8
+    }
+   ]
+  }
+ ]
+}

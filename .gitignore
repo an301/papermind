@@ -1,46 +1,40 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
 # Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
-*.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+*.egg-info/
 .coverage
 htmlcov/
 
-# Secrets
-.env
-.env.local
-
-# Node / Vite
-node_modules/
-frontend/dist/
-frontend/.vite/
-*.tsbuildinfo
-
-# Model weights — never in git. Several GB.
-models/
-*.safetensors
-*.gguf
-*.bin
-
-# Local data. PDFs are large binaries and are re-downloadable from the arXiv
-# id, so they stay out. Chunk JSON is small and IS the eval-label surface --
-# tracking it makes ID drift show up in a diff instead of silently.
+# Data that is rebuilt or cached locally
 data/pdfs/
+data/papers/*/source.pdf
+data/uploads/
 data/cache/
-*.db
-
-# Evals
+data/feedback/
+data/models/
 wandb/
 evals/results/
 
-# Docker volumes
-.docker-data/
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vercel/
+*.tsbuildinfo
 
 # OS / editors
 .DS_Store
 .idea/
 .vscode/
+
+# Training papers are re-downloadable; the generated jsonl is kept
+data/training/papers/

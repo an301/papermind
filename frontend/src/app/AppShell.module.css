@@ -1,0 +1,81 @@
+/* DESIGN.md §4.2 and §5.2: 56px header on --surface with a 1px --line-subtle rule; the wordmark
+   starts at --inset so it shares an edge with the page column. Phones move the nav to a 40px row. */
+.shell { min-height: 100dvh; display: flex; flex-direction: column; }
+
+.skip {
+  position: fixed;
+  z-index: var(--z-skiplink);
+  top: var(--space-2);
+  left: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  height: var(--h-32);
+  padding: 0 var(--space-3);
+  border-radius: var(--r-sm);
+  background: var(--ink);
+  color: var(--on-ink);
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+  transform: translateY(calc(-100% - var(--space-4)));
+}
+.skip:focus-visible { transform: none; }
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-topbar);
+  background: var(--surface);
+  box-shadow: inset 0 -1px 0 var(--line-subtle);
+  padding-top: env(safe-area-inset-top);
+  outline: none;
+}
+.header:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+
+.bar {
+  display: flex;
+  align-items: center;
+  height: var(--appbar-h);
+  padding-left: var(--inset);
+  padding-right: var(--space-4);
+}
+
+.wordmark {
+  font: 650 var(--text-16) / var(--lead-16) var(--font-ui);
+  color: var(--ink);
+  border-radius: var(--r-xs);
+  margin-right: var(--space-7);
+  white-space: nowrap;
+}
+
+.navList { display: flex; align-items: center; gap: var(--space-5); list-style: none; }
+.navDot { display: none; }
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  height: var(--h-40);
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink-2);
+  white-space: nowrap;
+  border-radius: var(--r-xs);
+  text-decoration: underline 2px transparent;
+  text-underline-offset: 6px;
+  transition: color var(--dur-fast) ease;
+}
+.navLink[aria-current='page'] { color: var(--ink); text-decoration-color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .navLink:hover { color: var(--ink); transition-duration: 0ms; }
+}
+
+.gear { margin-left: auto; }
+
+.navNarrow { display: none; }
+
+@media (max-width: 47.99rem) {
+  .navWide { display: none; }
+  .navNarrow { display: block; padding-left: var(--inset); padding-right: var(--space-4); }
+  .navNarrow .navList { height: var(--h-40); gap: var(--space-2); }
+  .navNarrow .navLink { height: var(--h-40); }
+  .navDot { display: block; color: var(--ink-3); }
+  .wordmark { margin-right: 0; }
+}
+
+.main { flex: 1; outline: none; }

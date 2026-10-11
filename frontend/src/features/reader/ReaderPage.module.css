@@ -1,0 +1,89 @@
+/* §4.4: three columns, no boxes, separated by tone steps. */
+.reader { display: flex; flex-direction: column; height: 100dvh; background: var(--surface); }
+.body { position: relative; flex: 1; min-height: 0; display: grid; }
+.outlineColumn { min-height: 0; border-right: 0; }
+.desk { position: relative; min-width: 0; min-height: 0; background: var(--canvas); }
+.panel {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  container: panel / inline-size;
+  background: var(--surface);
+}
+.overlay {
+  position: fixed;
+  top: var(--topbar-h);
+  right: 0;
+  bottom: 0;
+  width: min(var(--panel-sheet-w), 100vw);
+  z-index: var(--z-sheet);
+  box-shadow: var(--shadow-lg);
+  border-top-left-radius: var(--r-md);
+}
+.rail { display: flex; flex-direction: column; align-items: center; padding-top: var(--space-2); background: var(--surface); }
+.railButton {
+  width: var(--h-28);
+  height: var(--h-28);
+  border-radius: var(--r-sm);
+  font: 600 var(--text-13) / 1 var(--font-ui);
+  color: var(--ink-2);
+}
+.railButton:hover { background: var(--hover); color: var(--ink); }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* The resize separator: a 9px hit area on the panel's left edge, invisible until hovered. */
+.separator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 9px;
+  z-index: var(--z-rail);
+  cursor: col-resize;
+  touch-action: none;
+}
+.separator::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 1px;
+  background: transparent;
+  transition: background var(--dur-fast) var(--ease-out) 150ms;
+}
+.separator:hover::after, .separator:focus-visible::after { background: var(--line); }
+.separator[data-dragging]::after { left: 3.5px; width: 2px; background: var(--ink-2); transition: none; }
+
+.drawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  z-index: var(--z-drawer);
+  box-shadow: var(--shadow-lg);
+  background: var(--surface);
+}
+
+.message { padding: var(--space-7) var(--space-5); max-width: 32rem; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-3); }
+.preparing { font: 450 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink-2); }
+
+.backPill {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-4);
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--h-32);
+  padding: 0 var(--space-3);
+  border-radius: var(--r-sm);
+  background: var(--raised);
+  box-shadow: var(--shadow-sm);
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink);
+  z-index: var(--z-backpill);
+  white-space: nowrap;
+}

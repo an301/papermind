@@ -1,0 +1,158 @@
+/* DESIGN.md §5.3 / §5.4. A row is a 12px-padded box whose hover background extends 12px beyond the
+   text on each side (negative margin), radius 8. Rows are 8px apart with no rules. The right column
+   (200px, right-aligned) holds the status; the row menu sits at its far right, outside the link. */
+.row {
+  position: relative;
+  /* content-visibility implies paint containment, so the item itself carries the 12px hover bleed
+     plus 4px for the focus ring (2px offset + 2px ring). 4px top and bottom = rows 8px apart. */
+  margin-inline: calc((var(--space-3) + var(--space-1)) * -1);
+  padding: var(--space-1);
+  contain-intrinsic-size: auto 104px;
+  content-visibility: auto;
+}
+.entering { animation: row-in var(--dur-meta) var(--ease-out); }
+@keyframes row-in { from { opacity: 0; } }
+
+.link, .box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--status-col-w);
+  column-gap: var(--space-5);
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  transition: background-color var(--dur-fast) ease;
+}
+.link:active { background: var(--pressed); }
+@media (hover: hover) and (pointer: fine) {
+  .link:hover { background: var(--hover); transition-duration: 0ms; }
+}
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+
+.title {
+  font: 560 var(--text-19) / var(--lead-19) var(--font-read);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.titleStack { display: grid; }
+.clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.placeholder { color: var(--ink-2); }
+.titleLink { color: inherit; border-radius: var(--r-xs); }
+@media (hover: hover) and (pointer: fine) {
+  .titleLink:hover { text-decoration: underline 1px; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+}
+
+.meta {
+  margin-top: var(--space-1);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+
+.stripLine { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
+.stripLine .meta { margin-top: 0; }
+
+.status {
+  margin-top: var(--space-1);
+  padding-right: calc(var(--h-28) + var(--space-2));
+  text-align: right;
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+.status > span { justify-items: end; }
+.ready { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--ink); }
+.success { color: var(--success); }
+.statusLink { color: var(--ink); text-decoration: underline 1px; text-decoration-color: var(--ink-3); text-underline-offset: 3px; border-radius: var(--r-xs); }
+
+/* Row menu: visible on hover, focus-within, while open, and always on touch. */
+.menu {
+  position: absolute;
+  /* Centred on the title's first line, at the column's right edge. */
+  top: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  align-items: center;
+  height: var(--lead-19);
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+}
+.row:hover .menu,
+.row:focus-within .menu,
+.menu:has([data-state='open']) { opacity: 1; transition-duration: 0ms; }
+@media (hover: none) {
+  .menu { opacity: 1; }
+}
+
+/* Ingestion steps, left to right; done steps in --ink-2 with a 12px check, the running one in --ink. */
+.steps {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-3);
+  row-gap: var(--space-1);
+  margin-top: var(--space-2);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+}
+.stepList { display: contents; list-style: none; }
+.step { display: inline-flex; align-items: center; gap: var(--space-1); }
+.stepDone { color: var(--ink-2); animation: row-in var(--dur-meta) var(--ease-out); }
+.stepCurrent { color: var(--ink); animation: row-in var(--dur-meta) var(--ease-out); }
+.stepCheck { color: var(--ink-2); }
+.stepsNarrow { display: none; color: var(--ink); }
+.stepCount { color: var(--ink-2); }
+.inlineAction {
+  /* A 24px hit target that doesn't make the 18px step line taller. */
+  height: 24px;
+  margin-block: -3px;
+  margin-left: calc(var(--space-2) * -1 + var(--space-1));
+}
+.upload { width: var(--strip-w); }
+
+.failure {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink);
+  max-width: 44em;
+}
+.failureText { text-wrap: pretty; }
+.dangerIcon { flex: none; margin-top: 1px; color: var(--danger); }
+.warnIcon { flex: none; margin-top: 1px; color: var(--warn); }
+.actions { grid-column: 1 / -1; display: flex; gap: var(--space-1); margin-top: var(--space-1); margin-left: calc(var(--space-2) * -1); }
+.actions > :first-child { margin-left: 0; }
+
+/* Below 900px the right column moves under the meta line. */
+@media (max-width: 56.24rem) {
+  .link, .box { grid-template-columns: minmax(0, 1fr); }
+  .main { display: contents; }
+  .title { order: 1; }
+  .link .title { padding-right: calc(var(--h-28) + var(--space-2)); }
+  .meta { order: 2; }
+  .status { order: 3; padding-right: 0; text-align: left; }
+  .status > span { justify-items: start; }
+  .stripLine, .steps, .failure, .actions { order: 4; }
+  .actions { order: 5; }
+}
+
+/* Phones: only the running step, plus "3 of 6 steps done". */
+@media (max-width: 37.49rem) {
+  .stepList { display: none; }
+  .stepsNarrow { display: inline; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entering, .stepDone, .stepCurrent { animation: none; }
+}

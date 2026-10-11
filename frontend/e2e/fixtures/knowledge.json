@@ -1,0 +1,227 @@
+[
+ {
+  "concept_id": "activation-function",
+  "name": "Activation function",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "adam-optimizer",
+  "name": "Adam optimizer",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "self_reported",
+  "evidence": "The reader said they know this.",
+  "updated_at": "2026-10-06T19:02:00Z"
+ },
+ {
+  "concept_id": "backpropagation",
+  "name": "Backpropagation",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "dot-product",
+  "name": "Dot product",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "dropout",
+  "name": "Dropout",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "element-wise-product",
+  "name": "Element-wise product",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "fully-connected-layer",
+  "name": "Fully connected layer",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "hidden-layer",
+  "name": "Hidden layer",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "layer-normalization",
+  "name": "Layer normalization",
+  "area": "neural-networks",
+  "confidence": 0.35,
+  "source": "inferred",
+  "evidence": "what does layer norm normalize over, the batch or the features?",
+  "updated_at": "2026-10-08T21:10:00Z"
+ },
+ {
+  "concept_id": "masked-language-modeling",
+  "name": "Masked language modeling",
+  "area": "attention-transformers",
+  "confidence": 0.71,
+  "source": "inferred",
+  "evidence": "got it, so BERT hides 15% of the tokens and has to predict them from both sides",
+  "updated_at": "2026-10-08T20:52:00Z"
+ },
+ {
+  "concept_id": "matrix",
+  "name": "Matrix",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "matrix-multiplication",
+  "name": "Matrix multiplication",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "matrix-transpose",
+  "name": "Matrix transpose",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "multi-head-attention",
+  "name": "Multi-head attention",
+  "area": "attention-transformers",
+  "confidence": 0.74,
+  "source": "inferred",
+  "evidence": "so each head gets its own projection, looks at a different subspace, and then they get concatenated back together",
+  "updated_at": "2026-10-09T14:31:00Z"
+ },
+ {
+  "concept_id": "neural-network",
+  "name": "Neural network",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "positional-encoding",
+  "name": "Positional encoding",
+  "area": "attention-transformers",
+  "confidence": 0.42,
+  "source": "inferred",
+  "evidence": "why sines and cosines instead of learned position embeddings?",
+  "updated_at": "2026-10-09T14:44:00Z"
+ },
+ {
+  "concept_id": "relu",
+  "name": "ReLU",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "residual-connection",
+  "name": "Residual connection",
+  "area": "neural-networks",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Neural networks & training.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "scalar",
+  "name": "Scalar",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "scaled-dot-product-attention",
+  "name": "Scaled dot-product attention",
+  "area": "attention-transformers",
+  "confidence": 0.48,
+  "source": "inferred",
+  "evidence": "wait, so the scaling is only there to keep softmax from saturating?",
+  "updated_at": "2026-10-09T14:12:00Z"
+ },
+ {
+  "concept_id": "softmax",
+  "name": "Softmax",
+  "area": "machine-learning-basics",
+  "confidence": 0.9,
+  "source": "self_reported",
+  "evidence": "The reader said they know this.",
+  "updated_at": "2026-10-03T10:21:00Z"
+ },
+ {
+  "concept_id": "tensor",
+  "name": "Tensor",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "variance",
+  "name": "Variance",
+  "area": "probability-statistics",
+  "confidence": 0.66,
+  "source": "inferred",
+  "evidence": "right, the sum of d_k unit-variance terms has variance d_k",
+  "updated_at": "2026-10-09T14:14:00Z"
+ },
+ {
+  "concept_id": "vector",
+  "name": "Vector",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ },
+ {
+  "concept_id": "vector-norm",
+  "name": "Vector norm",
+  "area": "linear-algebra",
+  "confidence": 0.9,
+  "source": "onboarding",
+  "evidence": "Onboarding: comfortable with Linear algebra.",
+  "updated_at": "2026-10-02T09:03:00Z"
+ }
+]

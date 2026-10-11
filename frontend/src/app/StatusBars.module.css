@@ -1,0 +1,3 @@
+/* The label never changes the button's width: the longer one is reserved underneath. */
+.reserve { display: inline-flex; flex-direction: column; align-items: center; }
+.reserve::after { content: attr(data-label); visibility: hidden; height: 0; overflow: hidden; }

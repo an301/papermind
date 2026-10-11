@@ -1,0 +1,9 @@
+{
+ "paper_id": "1706.03762",
+ "level": "intermediate",
+ "questions": [
+  "Why divide the dot products by $\\sqrt{d_k}$?",
+  "What does multi-head attention give you that one head doesn’t?",
+  "How does self-attention compare with the recurrent layers it replaces?"
+ ]
+}

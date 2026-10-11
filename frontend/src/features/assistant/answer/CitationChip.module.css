@@ -1,0 +1,92 @@
+/* §5.15 citation chip: never filled; identified by its pencil numeral. */
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: var(--h-20);
+  padding: 0 var(--space-1);
+  margin: 0 1px;
+  border-radius: var(--r-xs);
+  box-shadow: inset 0 0 0 1px var(--line-subtle);
+  vertical-align: 0.1em;
+  font: 600 var(--text-12) / var(--lead-12) var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: transform var(--dur-press) var(--ease-out);
+}
+.chip + .chip { margin-left: var(--space-1); }
+.chip::before { content: ''; position: absolute; inset: -2px 0; }
+@media (pointer: coarse) { .chip::before { inset: -12px -4px; } }
+.chip:hover { background: var(--hover); }
+.chip:active { transform: scale(0.98); }
+.chip[data-active] { box-shadow: inset 0 0 0 1px var(--pencil); }
+.numeral { color: var(--pencil); }
+.where { color: var(--ink-2); font-weight: 500; }
+
+/* "Bahdanau et al., 2014": inline text, no box, no numeral (no bracket exists). */
+.external {
+  display: inline;
+  font: 500 var(--text-13) / inherit var(--font-ui);
+  color: var(--ink-2);
+  text-decoration: underline 1px var(--ink-3);
+  text-underline-offset: 3px;
+}
+.external:hover { color: var(--ink); }
+
+.card {
+  z-index: var(--z-popover);
+  width: min(320px, calc(100vw - 32px));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-md);
+  transform-origin: var(--radix-hover-card-content-transform-origin, var(--radix-popover-content-transform-origin));
+  animation: card-in var(--dur-fast) var(--ease-out);
+}
+@keyframes card-in { from { opacity: 0; transform: scale(0.97); } }
+@media (prefers-reduced-motion: reduce) { .card { animation: none; } }
+
+.cardTitle {
+  font: 550 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardPage {
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.cardText {
+  margin-top: var(--space-2);
+  font: 400 var(--text-15) / 1.5 var(--font-read);
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cardText strong { font-weight: 600; }
+.paperTitle {
+  font: 560 var(--text-15) / 1.4 var(--font-read);
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tldrLabel { margin-top: var(--space-2); font: 550 var(--text-12) / var(--lead-12) var(--font-ui); color: var(--ink-2); }
+.tldr { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); }
+.cardActions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
+.show {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  font: 550 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink);
+}
+.cardActions .show { margin-top: 0; }
+.show:hover { text-decoration: underline; text-underline-offset: 3px; }

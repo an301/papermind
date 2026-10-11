@@ -1,0 +1,30 @@
+{
+ "status": "ok",
+ "version": "0.4.0",
+ "checks": {
+  "redis": {
+   "ok": true,
+   "detail": null
+  },
+  "neo4j": {
+   "ok": true,
+   "detail": null
+  },
+  "mcp:retriever": {
+   "ok": true,
+   "detail": null
+  },
+  "mcp:prereq_graph": {
+   "ok": true,
+   "detail": null
+  },
+  "mcp:semantic_scholar": {
+   "ok": true,
+   "detail": null
+  },
+  "anthropic_key": {
+   "ok": true,
+   "detail": null
+  }
+ }
+}

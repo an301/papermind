@@ -1,0 +1,36 @@
+.reader { display: flex; flex-direction: column; min-height: 100dvh; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-topbar);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--topbar-h);
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  box-shadow: inset 0 -1px 0 var(--line-subtle);
+}
+.title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 560 var(--text-16) / var(--lead-16) var(--font-read);
+  color: var(--ink);
+}
+.desk { flex: 1; background: var(--canvas); }
+.message { padding: var(--space-7) var(--space-5); background: var(--surface); }
+.body { flex: 1; display: flex; min-height: 0; }
+.panel {
+  flex: none;
+  width: var(--panel-w);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  /* Tone step only: the panel's edge is the resize separator, invisible at rest (§4.4). */
+  background: var(--surface);
+}
+@media (max-width: 47.99rem) {
+  .body { flex-direction: column; }
+  .desk { display: none; }
+  .panel { width: auto; flex: 1; }
+}

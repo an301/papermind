@@ -1,0 +1,16 @@
+# /etc/systemd/system/papermind.service -- the compose stack as a boot-time unit.
+[Unit]
+Description=PaperMind API (docker compose)
+Requires=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/papermind
+ExecStart=/usr/bin/docker compose -f infra/docker-compose.yml up -d --build
+ExecStop=/usr/bin/docker compose -f infra/docker-compose.yml down
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target

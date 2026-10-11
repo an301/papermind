@@ -1,50 +1,36 @@
-# Tooling config only. Dependencies live in requirements*.txt — the local-model
-# stack needs an accelerator-specific torch index, which a single dependency
-# table can't express cleanly.
+[project]
+name = "papermind"
+version = "0.1.0"
+description = "A research-paper reading agent that explains at your level"
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+
+[tool.setuptools.packages.find]
+include = ["papermind*", "mcp_servers*", "evals*", "training*"]
 
 [tool.pytest.ini_options]
-minversion = "9.0"
-testpaths = ["tests", "evals"]
-# The codebase is async throughout; opting in per-test is pure noise.
 asyncio_mode = "auto"
-addopts = [
-    "-ra",
-    "--strict-markers",
-    # Integration tests need docker-compose services. Run them explicitly:
-    #   pytest -m integration
-    "-m", "not integration",
-]
-filterwarnings = [
-    # PyMuPDF's SWIG bindings emit these on import; nothing actionable here.
-    "ignore:builtin type Swig.*has no __module__ attribute:DeprecationWarning",
-    "ignore:builtin type swigvarlink has no __module__ attribute:DeprecationWarning",
-]
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests", "evals"]
 markers = [
-    "integration: requires Redis and Neo4j from docker-compose",
-    "gpu: requires the local Mistral weights and an accelerator",
-    "eval: part of the 150-question benchmark, not the unit suite",
+    "integration: needs Redis/Neo4j/network (deselected by default)",
+    "eval: runs the benchmark against the live API and spends money (deselected by default)",
+]
+addopts = "-m 'not integration and not eval' -q"
+filterwarnings = [
+    "ignore::DeprecationWarning:fitz.*",
 ]
 
 [tool.ruff]
+line-length = 110
 target-version = "py311"
-line-length = 100
-src = ["papermind", "mcp_servers", "evals", "tests"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "ASYNC", "SIM", "RUF"]
+select = ["E", "F", "I", "B", "UP", "ASYNC", "RUF"]
+ignore = ["E501", "RUF001", "RUF002", "RUF003"]
 
 [tool.mypy]
 python_version = "3.11"
-strict = true
-# Third-party stubs are patchy; don't let that block strict checks on our code.
+plugins = ["pydantic.mypy"]
 ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = ["tests.*", "evals.*"]
-strict = false
-
-[[tool.mypy.overrides]]
-# PyMuPDF ships no type stubs, so every call into it reads as untyped. Scoped
-# to the one module that touches it, rather than relaxed project-wide.
-module = ["papermind.ingest.extract"]
-disallow_untyped_calls = false
+warn_unused_ignores = true

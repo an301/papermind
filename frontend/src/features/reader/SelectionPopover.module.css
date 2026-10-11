@@ -1,0 +1,31 @@
+/* §5.12: --raised, radius 12, padding 4, --shadow-md, 40 tall. No motion. */
+.popover {
+  z-index: var(--z-popover);
+  padding: var(--space-1);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  box-shadow: var(--shadow-md);
+}
+.toolbar { display: flex; align-items: center; height: var(--h-32); }
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--h-32);
+  padding: 0 var(--space-2);
+  border-radius: calc(var(--r-md) - var(--space-1));
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink);
+}
+.action:hover { background: var(--hover); }
+.divider { width: 1px; height: 20px; margin: 0 var(--space-1); background: var(--line-subtle); }
+.more {
+  display: grid;
+  place-items: center;
+  width: var(--h-28);
+  height: var(--h-28);
+  border-radius: calc(var(--r-md) - var(--space-1));
+  color: var(--ink-2);
+}
+.more:hover { background: var(--hover); color: var(--ink); }
+.tip { padding: var(--space-1) var(--space-2); font: 400 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }

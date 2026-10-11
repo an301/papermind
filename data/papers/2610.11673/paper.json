@@ -1,0 +1,901 @@
+{
+ "meta": {
+  "paper_id": "2610.11673",
+  "source": "arxiv",
+  "arxiv_id": "2610.11673",
+  "arxiv_version": "v1",
+  "title": "AB-PIELMs: Adaptive-Basis Physics-Informed Extreme Learning Machines for Residual-Driven Domain Decomposition",
+  "authors": [
+   "Aldis Daniel",
+   "Vikas Dwivedi",
+   "Balaji Srinivasan"
+  ],
+  "abstract": "Physics-informed neural solvers often struggle with multiscale behavior and sharp gradients due to the use of global approximation spaces and nonconvex training. We introduce AB-PIELM, an adaptive-basis physics-informed extreme learning machine that combines domain decomposition with joint optimisation of spatial and spectral hyperparameters while retaining deterministic normal-equation training. The method adapts both the number and placement of subdomains and the locality of radial basis functions, enabling problem-dependent allocation of representational capacity without modifying the underlying solver. Experiments on oscillatory function approximation and singularly perturbed advection-diffusion equations demonstrate accurate solutions across a wide range of stiffness regimes while using substantially fewer neurons than existing neural and PIELM-based approaches. The learned hyperparameters are interpretable, concentrating resolution near sharp gradients. The framework also supports inverse problems, successfully recovering diffusion coefficients from sparse noisy observations using Bayesian optimisation. These results indicate that adaptive-basis PIELM formulations provide an efficient and stable alternative to gradient-trained neural PDE solvers and naturally extend to broader classes of differential equations.",
+  "published": "2026-10-08",
+  "filename": null,
+  "num_pages": 11,
+  "page_sizes": [
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ]
+  ],
+  "sections": [
+   {
+    "section_id": "sec_front_matter",
+    "number": null,
+    "title": "Front matter",
+    "level": 1,
+    "page": 0,
+    "y": 80.5
+   },
+   {
+    "section_id": "sec_abstract",
+    "number": null,
+    "title": "Abstract",
+    "level": 1,
+    "page": 0,
+    "y": 384.6
+   },
+   {
+    "section_id": "sec_1",
+    "number": "1",
+    "title": "Introduction",
+    "level": 1,
+    "page": 0,
+    "y": 619.9
+   },
+   {
+    "section_id": "sec_2",
+    "number": "2",
+    "title": "Methodology",
+    "level": 1,
+    "page": 1,
+    "y": 551.8
+   },
+   {
+    "section_id": "sec_2.0.1",
+    "number": "2.0.1",
+    "title": "AB-PIELM Solution Scheme",
+    "level": 3,
+    "page": 1,
+    "y": 643.5
+   },
+   {
+    "section_id": "sec_2.1",
+    "number": "2.1",
+    "title": "Joint spatial–spectral optimization",
+    "level": 2,
+    "page": 3,
+    "y": 84.3
+   },
+   {
+    "section_id": "sec_3",
+    "number": "3",
+    "title": "Numerical Experiments",
+    "level": 1,
+    "page": 4,
+    "y": 82.8
+   },
+   {
+    "section_id": "sec_3.1",
+    "number": "3.1",
+    "title": "Problem 1: Sinc Function Approximation",
+    "level": 2,
+    "page": 4,
+    "y": 243.3
+   },
+   {
+    "section_id": "sec_3.2",
+    "number": "3.2",
+    "title": "Problem 2: Advection–Diffusion",
+    "level": 2,
+    "page": 4,
+    "y": 414.2
+   },
+   {
+    "section_id": "sec_3.3",
+    "number": "3.3",
+    "title": "Inverse Problem Setup",
+    "level": 2,
+    "page": 4,
+    "y": 544.5
+   },
+   {
+    "section_id": "sec_4",
+    "number": "4",
+    "title": "Results and Discussion",
+    "level": 1,
+    "page": 5,
+    "y": 182.2
+   },
+   {
+    "section_id": "sec_4.1",
+    "number": "4.1",
+    "title": "Problem 1: sinc Function Approximation",
+    "level": 2,
+    "page": 5,
+    "y": 206.5
+   },
+   {
+    "section_id": "sec_4.2",
+    "number": "4.2",
+    "title": "Problem 2: Advection–Diffusion",
+    "level": 2,
+    "page": 5,
+    "y": 690.8
+   },
+   {
+    "section_id": "sec_4.2.1",
+    "number": "4.2.1",
+    "title": "Interpretibility of optimised hyperparameters",
+    "level": 3,
+    "page": 6,
+    "y": 648.0
+   },
+   {
+    "section_id": "sec_4.3",
+    "number": "4.3",
+    "title": "Inverse Problem Results",
+    "level": 2,
+    "page": 7,
+    "y": 609.0
+   },
+   {
+    "section_id": "sec_limitations",
+    "number": null,
+    "title": "Limitations",
+    "level": 1,
+    "page": 7,
+    "y": 722.2
+   },
+   {
+    "section_id": "sec_5",
+    "number": "5",
+    "title": "Conclusion",
+    "level": 1,
+    "page": 8,
+    "y": 509.8
+   },
+   {
+    "section_id": "sec_references",
+    "number": null,
+    "title": "References",
+    "level": 1,
+    "page": 8,
+    "y": 678.7
+   }
+  ],
+  "chunk_count": 21,
+  "chunker_version": "3",
+  "ingested_at": "2026-10-10T02:43:34.051084Z"
+ },
+ "chunks": [
+  {
+   "chunk_id": "2610.11673:sec_front_matter",
+   "paper_id": "2610.11673",
+   "section_id": "sec_front_matter",
+   "section_number": null,
+   "section_title": "Front matter",
+   "part": null,
+   "text": "AB-PIELMs: Adaptive-Basis Physics-Informed Extreme Learning Machines for Residual-Driven Domain Decomposition\n\nAldis Daniel Department of Mechanical Engineering Indian Institute of Technology Madras Chennai 600036, India me22b070@smail.iitm.ac.in\n\nVikas Dwivedi CREATIS, INSA-Lyon; Inserm, U1044; CNRS UMR 5220 Université Lyon 1; Université de Lyon Lyon, 69621, France vikas.dwivedi@creatis.insa-lyon.fr\n\nBalaji Srinivasan Wadhwani School of Data Science and Artificial Intelligence Indian Institute of Technology Madras Chennai 600036, India sbalaji@dsai.iitm.ac.in",
+   "token_count": 142,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 108.4,
+     "y0": 80.5,
+     "x1": 503.6,
+     "y1": 137.6
+    },
+    {
+     "page": 0,
+     "x0": 114.0,
+     "y0": 156.9,
+     "x1": 272.0,
+     "y1": 210.2
+    },
+    {
+     "page": 0,
+     "x0": 114.0,
+     "y0": 228.9,
+     "x1": 350.3,
+     "y1": 282.3
+    },
+    {
+     "page": 0,
+     "x0": 114.0,
+     "y0": 300.9,
+     "x1": 356.8,
+     "y1": 354.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_abstract",
+   "paper_id": "2610.11673",
+   "section_id": "sec_abstract",
+   "section_number": null,
+   "section_title": "Abstract",
+   "part": null,
+   "text": "Physics-informed neural solvers often struggle with multiscale behavior and sharp gradients due to the use of global approximation spaces and nonconvex training. We introduce AB-PIELM, an adaptive-basis physics-informed extreme learning machine that combines domain decomposition with joint optimisation of spatial and spectral hyperparameters while retaining deterministic normal-equation training. The method adapts both the number and placement of subdomains and the locality of radial basis functions, enabling problem-dependent allocation of representational capacity without modifying the underlying solver. Experiments on oscillatory function approximation and singularly perturbed advection–diffusion equations demonstrate accurate solutions across a wide range of stiffness regimes while using substantially fewer neurons than existing neural and PIELM-based approaches. The learned hyperparameters are interpretable, concentrating resolution near sharp gradients. The framework also supports inverse problems, successfully recovering diffusion coefficients from sparse noisy observations using Bayesian optimisation. These results indicate that adaptive-basis PIELM formulations provide an efficient and stable alternative to gradient-trained neural PDE solvers and naturally extend to broader classes of differential equations.",
+   "token_count": 335,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 143.9,
+     "y0": 410.8,
+     "x1": 468.1,
+     "y1": 596.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_1_introduction_p1",
+   "paper_id": "2610.11673",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 1,
+   "text": "Recent years have seen rapid growth in machine-learning approaches for solving partial differential equations (PDEs) and surrogate modeling of physical systems. Among these, physics-informed neural networks (PINNs) embed governing equations and boundary conditions directly into the loss function, enabling data-efficient learning without labeled solutions (Raissi et al., 2019). Subsequent developments have applied physics-informed learning to forward and inverse problems, parametric studies, and uncertainty quantification (Karniadakis et al., 2021). However, most neural PDE solvers rely on global function approximators defined over the entire spatial domain. Such representations implicitly assume uniform smoothness and are therefore sensitive to stiffness, multiscale structure, and sharp gradients. As a result, PINNs may exhibit slow convergence or failure to train, caused by gradient pathologies and ill-conditioned optimization landscapes (Wang et al., 2021; Krishnapriyan et al., 2021; Wang et al., 2022). From a spectral perspective, this behavior reflects the low-frequency bias of neural networks, which limits the efficient representation of localized high-frequency features (Rahaman et al., 2019).\n\nTo overcome these limitations, several works introduce localized neural approximations. Domain-decomposition methods such as cPINNs, XPINNs, and related parallel formulations train multiple networks on subdomains coupled through interface conditions (Jagtap et al., 2020; D. Jagtap & Em Karniadakis, 2020; Shukla et al., 2021; Klawonn et al., 2024). Other approaches incorporate spectral enrichment, for example via Fourier feature mappings (Tancik et al., 2020), or adaptive decomposition strategies (Botvinick-Greenhouse et al., 2025). In parallel, deterministic alternatives replace gradient training with linear-in-parameter models. Extreme Learning Machines (ELMs) fix nonlinear feature maps and solve for coefficients directly (Huang et al., 2006), and physics-informed extensions such as the normal-equation PIELM (NEPIELM) provide stable solvers that admit domain-decomposed formulations (Dwivedi & Srinivasan, 2022; Anderson et al., 2024; Dwivedi et al., 2025). While these methods improve robustness relative to global networks, domain partitions and basis parameters are typically prescribed, limiting adaptation to localized solution features.",
+   "token_count": 594,
+   "page_start": 0,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 108.0,
+     "y0": 645.6,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 1,
+     "x0": 108.0,
+     "y0": 84.3,
+     "x1": 504.0,
+     "y1": 275.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_1_introduction_p2",
+   "paper_id": "2610.11673",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 2,
+   "text": "Despite these advances, existing approaches either rely on nonconvex optimization or require manually designed decompositions and hyperparameters, leading to complicated training procedures, increased computational cost, and reduced interpretability compared to traditional numerical discretizations. In this work we propose AB-PIELM, a parameterisable domain-decomposed physics-informed extreme learning machine that explicitly identifies spatial and spectral hyperparameters and optimizes them within a single physics-informed objective, while retaining deterministic normal-equation training for fixed hyperparameters. The computational efficiency of the underlying PIELM allows for optimisation of the network architecture whereas existing methods rely on residual-based refinement of collocation distributions.\n\nThe main contributions of this work are:\n\n• We identify key spatial and spectral hyperparameters in the formulation and propose their joint optimization within a single physics-informed objective.\n\n• We rigorously compare our method against state of the art approaches like XTFC and distributed NE-PIELM on a benchmark ODE.\n\n• We demonstrate the interpretability of the resulting domain partitions and basis parameters.\n\n• We formulate the inverse problem and solve it using Bayesian optimisation, demonstrating the method’s flexibility.\n\nThe results shown are in benchmark cases as a proof of concept and the approach naturally extends to PDEs. The code is made available at https://github.com/catdisk04/AB-PIELM to facilitate future research.",
+   "token_count": 391,
+   "page_start": 1,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 108.0,
+     "y0": 282.5,
+     "x1": 504.0,
+     "y1": 534.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_2_methodology",
+   "paper_id": "2610.11673",
+   "section_id": "sec_2",
+   "section_number": "2",
+   "section_title": "Methodology",
+   "part": null,
+   "text": "The proposed method combines the ideas of Adaptive Mesh Refinement (AMR) and modern hyperparamter optimisation techniques in the context of PIELMs. This allows for a more flexible and adaptive architecture that can better capture sharp gradients and complex solution features while retaining the computational efficiency of PIELMs that are trained using the normal equation formulation (Dwivedi & Srinivasan, 2022).",
+   "token_count": 104,
+   "page_start": 1,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 108.0,
+     "y0": 576.5,
+     "x1": 504.0,
+     "y1": 630.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_2.0.1_ab_pielm_solution_scheme",
+   "paper_id": "2610.11673",
+   "section_id": "sec_2.0.1",
+   "section_number": "2.0.1",
+   "section_title": "AB-PIELM Solution Scheme",
+   "part": null,
+   "text": "In this section, we provide a brief overview of the distributed formulation used in this work.\n\nWe consider linear partial differential equations of the form Lu(x) = f(x), x ∈Ω⊂R^d, (1)\n\nsubject to boundary conditions Bu(x) = g(x) over x ∈∂Ω, where L is a linear differential operator and B is a boundary operator. The domain Ωis partitioned into M non-overlapping subdomains {Ω_m}^M_{m=1} with interfaces Γ_mn = ∂Ω_m ∩∂Ω_n. Each network has output layer weights β and hidden layer basis functions Φ that are local to the subdomain. The solution in each subdomain is given by\n\nû_m(x) = Φ_m(x)β_m, x ∈Ω_m. (2)\n\nLet {x^{(m)}} denote collocation points in Ω_m. We define the discrete PDE operator P_m and the i discrete boundary operator B_m by\n\n( ) P_mβ_m = LΦ_m(x^{(m)})β_m i, (3) i\n\n( ) B_mβ_m = BΦ_m(x^{(m)})β_m i. (4) i\n\nFor each interior interface Γ_mn, we define trace and flux operators\n\n|| C_{m|n}β_m = Φ_m(x)β_m x∈Γmn, (5) || D_{m|n}β_m = ∂_nΦ_m(x)β_m x∈Γmn, (6)\n\nwhere ∂_n denotes the outward normal derivative on ∂Ω_m.\n\nThe global objective function is defined as\n\nJ(β) = J_{P DE}(β) + J_BC(β) + J_INT (β), (7)\n\nwhere\n\nM ∑ J_{P DE}(β) = 2, (8) ∥P_mβ_m −f_m∥^2 m=1\n\nM ∑ J_BC(β) = γ_b 2, (9) ∥B_mβ_m −g_m∥^2 m=1 ∑ ( ) J_INT (β) = γ_c∥C_{m|n}β_m −C_{n|m}β_n∥^2_2 + γ_d∥D_{m|n}β_m −D_{n|m}β_n∥^2 , (10) 2 (m,n)∈I\n\nand I denotes the set of neighboring subdomain pairs and γ_b, γ_c, γ_d > 0 are penalty parameters.\n\nThe first-order optimality condition ∇_{β}J = 0 yields the block linear system\n\nAβ = b, (11)\n\nwith diagonal blocks\n\n∑ ( ) A_mm = P ⊤_mP_m + γ_bB^{⊤}_mB_m + γ_cC^{⊤} _{m|n} C_{m|n} + γ_dD^{⊤}_{m|n}D_{m|n} , (12) n∈N (m)\n\nand off-diagonal coupling blocks\n\n( ) A_mn = − γ_cC^{⊤} _{m|n} C_{n|m} + γ_dD^{⊤}_{m|n}D_{n|m} , m̸ = n. (13)\n\nThe right-hand side is given by b_m = P ⊤_mf_m + γ_bB^{⊤} _m g_m. (14)\n\nThe resulting system is symmetric and positive semi-definite, with block sparsity induced by the domain decomposition. The system is solved directly as\n\nβ = A^{†}b, (15) where A^{†} denotes the Moore-Penrose pseudoinverse of A.",
+   "token_count": 513,
+   "page_start": 1,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 108.0,
+     "y0": 662.7,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 2,
+     "x0": 108.0,
+     "y0": 82.8,
+     "x1": 504.0,
+     "y1": 116.1
+    },
+    {
+     "page": 2,
+     "x0": 235.4,
+     "y0": 134.1,
+     "x1": 504.0,
+     "y1": 145.0
+    },
+    {
+     "page": 2,
+     "x0": 108.0,
+     "y0": 155.5,
+     "x1": 504.0,
+     "y1": 353.4
+    },
+    {
+     "page": 2,
+     "x0": 144.7,
+     "y0": 376.4,
+     "x1": 504.0,
+     "y1": 471.1
+    },
+    {
+     "page": 2,
+     "x0": 108.0,
+     "y0": 485.4,
+     "x1": 504.0,
+     "y1": 688.8
+    },
+    {
+     "page": 2,
+     "x0": 108.0,
+     "y0": 704.9,
+     "x1": 504.0,
+     "y1": 732.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_2.1_joint_spatialspectral_optimization_p1",
+   "paper_id": "2610.11673",
+   "section_id": "sec_2.1",
+   "section_number": "2.1",
+   "section_title": "Joint spatial–spectral optimization",
+   "part": 1,
+   "text": "The PDE loss (Eq 7) of the PIELM network depends on the set of structural hyperparameters θ = (θ_spatial, θ_spectral). The spatial hyperparameters specify the domain decomposition via the interface locations if }M−1 θ_spatial = {x^{(k)} k=1 , (16) where the number of domains M is also a hyperparameter, thereby defining the subdomains Ω_m(θ_spatial) . The spectral hyperparameters control the locality of the RBF basis in each subdomain through the width parameters θ_spectral = {σ_m}^M (17) m=1.\n\nσ_m = α_m ∆c_m, (18) where ∆c_m denotes RBF center spacing and σ_m the RBF widthin Ω_m.\n\nThe loss term J_{P DE}(β; θ) therefore depends on θ through both the discrete interface operators and the basis functions of the PIELM formulation. We jointly optimize\n\nmin _{θ∈Θ} min J(β; θ), (19) β\n\nwhere Θ is the hyperparameter search space. For fixed θ, the inner minimization is solved exactly as described for the underlying PIELM. This joint optimization adapts both the domain decomposition and the spectral sharpness of the basis in a problem-dependent manner, concentrating resolution near localized features while preserving global coherence across interfaces. The dimensionality of β, θ_spatial, and θ_spectral are dependant on M. Hence, optimisation of M is separated from the optimisation of θ and executed in an outer loop in an incremental fashion to result in the optimal number of domains M^{∗}being as small as possible in the interest of model simplicity.",
+   "token_count": 366,
+   "page_start": 3,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 108.0,
+     "y0": 104.6,
+     "x1": 504.0,
+     "y1": 352.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_2.1_joint_spatialspectral_optimization_p2",
+   "paper_id": "2610.11673",
+   "section_id": "sec_2.1",
+   "section_number": "2.1",
+   "section_title": "Joint spatial–spectral optimization",
+   "part": 2,
+   "text": "Since each local network has a fixed number of RBFs and collocation points, this framework results in adaptiveness in three levels: The number of domains, number of RBFs and the total number of collocation points. The methodology is summarised in Algorithm 1.\n\nAlgorithm 1 AB-PIELM Hyperparameter Optimisation Scheme\n\nRequire: Boundary Conditions Require: Hyperparameter search space Require: Initialise M, J_min, J^M_min and θ 1: while not converged do 2: while N_iter < N_max do 3: Generate collocation set 4: β^{∗}= arg min_{β} J_{P DE}(β; θ) (Solve for output layer weights using normal equation) 5: Obtain J from the trained optimal network 6: Evaluate performance on testing set 7: Update hyperparameters using TPE algorithm 8: if J < J_min then 9: Update J_min = J 10: Store optimal hyperparameters θ^{∗} 11: end if 12: end while 13: if J_min < J^M_min then 14: Update J^M_min and store optimal hyperparameters θ^{∗}for M 15: Increment M 16: Reset J_min 17: else 18: Update converged to True 19: Store optimal hyperparameters θ^{∗}for M^{∗} 20: break 21: end if 22: end while 23: Obtain final trained model with optimal hyperparameters θ^{∗}and M^{∗} 24: Evaluate performance on validation set 25: return Trained AB-PIELM model",
+   "token_count": 309,
+   "page_start": 3,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 108.0,
+     "y0": 359.7,
+     "x1": 504.0,
+     "y1": 391.6
+    },
+    {
+     "page": 3,
+     "x0": 108.0,
+     "y0": 405.4,
+     "x1": 365.1,
+     "y1": 415.4
+    },
+    {
+     "page": 3,
+     "x0": 108.0,
+     "y0": 420.8,
+     "x1": 487.8,
+     "y1": 727.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_3_numerical_experiments",
+   "paper_id": "2610.11673",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Numerical Experiments",
+   "part": null,
+   "text": "To evaluate the effectiveness and robustness of our approach, we consider two cases:\n\n1. Oscillatory function (Taylor et al., 2022)\n\n2. Singularly perturbed differential equation (De Florio et al., 2024)\n\nThe sinc function and the advection–diffusion equation serve as complementary benchmark problems. The oscillatory sinc function with decaying amplitude evaluates the expressive capacity and training behaviour of the approximation architecture, while the advection–diffusion equation — a canonical singularly perturbed model — assesses the ability of the domain-decomposed PIELM to approximate PDE solutions under stiffness and varying Péclet numbers while maintaining interface continuity and differentiability across subdomains.",
+   "token_count": 184,
+   "page_start": 4,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 107.8,
+     "x1": 445.2,
+     "y1": 117.7
+    },
+    {
+     "page": 4,
+     "x0": 131.4,
+     "y0": 128.3,
+     "x1": 403.7,
+     "y1": 153.0
+    },
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 163.5,
+     "x1": 504.0,
+     "y1": 228.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_3.1_problem_1_sinc_function_approximation",
+   "paper_id": "2610.11673",
+   "section_id": "sec_3.1",
+   "section_number": "3.1",
+   "section_title": "Problem 1: Sinc Function Approximation",
+   "part": null,
+   "text": "This test case considers the scalar sinc function for a function approximation benchmark. In this work, the normalized sinc function is defined as\n\n1, x = 0, sinc(x) = sin(nπx) (20) , x̸ = 0, nπx\n\nwhere n = 10, x ∈[−1.5, 1.5]\n\nThe loss is purely data-driven and constructed from sampling sinc(x) at a set of collocation points. This setup isolates the effect of the architecture and domain decomposition on approximating an oscillatory function and thereby provides an useful analsis of how the number of neurons and the interface location influence the representation of oscillatory data.",
+   "token_count": 148,
+   "page_start": 4,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 263.6,
+     "x1": 504.0,
+     "y1": 328.0
+    },
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 339.2,
+     "x1": 504.0,
+     "y1": 399.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_3.2_problem_2_advectiondiffusion",
+   "paper_id": "2610.11673",
+   "section_id": "sec_3.2",
+   "section_number": "3.2",
+   "section_title": "Problem 2: Advection–Diffusion",
+   "part": null,
+   "text": "The one-dimensional advection diffusion equation is defined as follows:\n\n−ν d^2u x ∈(0, 1), (21) dx_2 + du dx = 0, with the Dirichlet boundary conditions\n\nu(0) = 0, u(1) = 1, (22)\n\nwhere ν > 0 is the diffusion coefficient.",
+   "token_count": 56,
+   "page_start": 4,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 434.8,
+     "x1": 395.1,
+     "y1": 444.7
+    },
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 459.3,
+     "x1": 504.0,
+     "y1": 529.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_3.3_inverse_problem_setup",
+   "paper_id": "2610.11673",
+   "section_id": "sec_3.3",
+   "section_number": "3.3",
+   "section_title": "Inverse Problem Setup",
+   "part": null,
+   "text": "We aim to identify the diffusion coefficient ν in the advection-diffusion equation equation 21 by fitting the model to synthetic data that is sparse and noisy, generated from a known value of ν.\n\nFor a fixed ν and model hyperparamters determined as defined for the forward problem, the trained output layer weights β minimise the physics-informed loss and results in\n\nû(ν) = Φ_obs(ν)β(ν) (23)\n\nwhere Φ_obs(ν) is the matrix of basis functions evaluated at the observation points. The inverse problem is then formulated as the minimisation of a outer objective\n\nJ_inv(ν) = ∥û(ν) −u_data∥^2_2 + λ_{P DE}J_{P DE}(β(ν); ν), (24)\n\nwhere the J_{P DE} part of the objective contributed by the discrete PDE operator and λ_{P DE} is a penalty parameter that balances the data fit and physics-informed terms. The inverse problem is\n\nν^{∗}= arg min J_inv(ν) (25) ν∈(ν_min,ν_max)\n\nwhere ν_min and ν_max define the user-defined search space for the physical parameter ν. The outer optimization is performed using Bayesian optimization with a TPE algorithm. This nests the forward model in a outer inverse optimisation loop, allowing for parameter recovery that is simultaneously constrained by data and physics.",
+   "token_count": 300,
+   "page_start": 4,
+   "page_end": 5,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 564.8,
+     "x1": 504.0,
+     "y1": 613.8
+    },
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 631.2,
+     "x1": 504.0,
+     "y1": 673.0
+    },
+    {
+     "page": 4,
+     "x0": 108.0,
+     "y0": 689.0,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 5,
+     "x0": 108.0,
+     "y0": 93.1,
+     "x1": 504.0,
+     "y1": 165.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_4.1_problem_1_sinc_function_approximation",
+   "paper_id": "2610.11673",
+   "section_id": "sec_4.1",
+   "section_number": "4.1",
+   "section_title": "Problem 1: sinc Function Approximation",
+   "part": null,
+   "text": "Figure 1 shows the MSE residual as a function of the number of subdomains. An elbow is observed at 5 subdomains, which is selected as the optimal number. The AB-PIELM approximation of the sinc function using 5 subdomains is shown in Figure 2a, while the MSE residual plot is shown in Figure 2b. Overall, the results demonstrate that the proposed framework can effectively approximate highly oscillatory functions by optimising the domain decomposition.\n\nFigure 1: Plot showing the optimisation the number of subdomains on the MSE residual for the sinc function approximation using the Elbow method.\n\nFigure 2: AB-PIELM approximation of the sinc function using 5 subdomains (a) and the corresponding MSE residual plot (b).",
+   "token_count": 181,
+   "page_start": 5,
+   "page_end": 5,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 108.0,
+     "y0": 227.2,
+     "x1": 504.0,
+     "y1": 281.0
+    },
+    {
+     "page": 5,
+     "x0": 108.0,
+     "y0": 449.8,
+     "x1": 504.0,
+     "y1": 470.9
+    },
+    {
+     "page": 5,
+     "x0": 108.0,
+     "y0": 649.5,
+     "x1": 504.0,
+     "y1": 670.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_4.2_problem_2_advectiondiffusion",
+   "paper_id": "2610.11673",
+   "section_id": "sec_4.2",
+   "section_number": "4.2",
+   "section_title": "Problem 2: Advection–Diffusion",
+   "part": null,
+   "text": "Figure 3 shows that the AB-PIELM solutions closely match the analytical solution of the advection–diffusion equation. The Mean Absolute Error (MAE) residual plot is shown in Figure 4. The performance of the AB-PIELM is also compared with other methods, namely PIELM and XTFC. These methods were the best performers in a comparison of Neural Networks tested on the advection–diffusion problem in (De Florio et al., 2024). The performance of the vanilla distributed NEPIELM (DNEPIELM) is also reported for comparison.The results are summarized in Table 2.\n\nIn summary, the AB-PIELM is significantly more accurate than the PIELM in all the values of ν considered, while using two orders of magnitude fewer neurons (PIELM is reported to entirely fail for the ν = 0.0001 case). The AB-PIELM also outperforms the XTFC method in the two cases with the sharpest gradients (ν = 0.0001 and ν = 0.00001) while using two orders of magnitude fewer neurons, thereby demonstrating the better or comparable accuracy of the proposed method\n\nTable 1: Comparison of performance metrics with existing literature for sinc function approximation\n\nMetric PINN-LM (Taylor et al., 2022) AB-PIELM Number of neurons 9620 250 MSE 1.64 × 10^{−7} 9.91 × 10^{−9}\n\nFigure 3: Advection–diffusion equation solutions for different diffusion coefficients: (a) ν = 10^{−3}, (b) ν = 10^{−4}, and (c) ν = 10^{−5}. The AB-PIELM solutions are compared against the analytical solutions.",
+   "token_count": 361,
+   "page_start": 5,
+   "page_end": 6,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 108.0,
+     "y0": 711.3,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 6,
+     "x0": 108.0,
+     "y0": 160.0,
+     "x1": 504.0,
+     "y1": 263.6
+    },
+    {
+     "page": 6,
+     "x0": 108.0,
+     "y0": 81.8,
+     "x1": 504.0,
+     "y1": 91.9
+    },
+    {
+     "page": 6,
+     "x0": 168.1,
+     "y0": 102.9,
+     "x1": 443.4,
+     "y1": 135.6
+    },
+    {
+     "page": 6,
+     "x0": 108.0,
+     "y0": 592.0,
+     "x1": 504.0,
+     "y1": 625.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_4.2.1_interpretibility_of_optimised_hyperparameters",
+   "paper_id": "2610.11673",
+   "section_id": "sec_4.2.1",
+   "section_number": "4.2.1",
+   "section_title": "Interpretibility of optimised hyperparameters",
+   "part": null,
+   "text": "The optimisation of hyperparameters in AB-PIELM reveals important insights into the model’s behavior. The number of subdomains and the placement of interfaces are critical factors that influence the model’s representation capacity and accuracy. Table 3 shows that for all three values of the diffusion coefficient ν, the optimised interface is located close to the sharp gradient region thus maximising the representation capacity where it is most needed. It is also observed that the σ values in the left domain (smooth region) are significantly larger than those in the right domain (sharp gradient region). This indicates that the model requires a finer resolution (smaller σ) to accurately capture the steep gradient, while a coarser resolution (larger σ) suffices in the smooth region.\n\nFigure 4: MAE residual plots for the advection–diffusion equation for different diffusion coefficients: (a) ν = 10^{−3}, (b) ν = 10^{−4}, and (c) ν = 10^{−5}.\n\nTable 2: Comparison of performance metrics number of neurons L_tot and Mean Absolute Error for advection–diffusion equation at different diffusion coefficient ν values using different methods from literature(De Florio et al., 2024)XTFC (De Florio et al., 2024)\n\nν Metric PIELM XTFC DNEPIELM AB-PIELM L_tot 10000 10000 100 100 0.001 MAE 4.89 × 10^{−5} 7.09 × 10^{−13} 2.25 × 10^{−4} 1.85 × 10^{−7} L_tot 10000 10000 400 100 0.0001 MAE 5.0 × 10^{−1} 1.39 × 10^{−3} 1.99 × 10^{−4} 4.56 × 10^{−7} L_tot - - 400 100 0.00001 MAE - - 4.37 × 10^{−4} 6.41 × 10^{−6}",
+   "token_count": 377,
+   "page_start": 6,
+   "page_end": 7,
+   "boxes": [
+    {
+     "page": 6,
+     "x0": 108.0,
+     "y0": 667.5,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 7,
+     "x0": 108.0,
+     "y0": 570.5,
+     "x1": 504.0,
+     "y1": 591.6
+    },
+    {
+     "page": 7,
+     "x0": 108.0,
+     "y0": 387.9,
+     "x1": 504.0,
+     "y1": 408.8
+    },
+    {
+     "page": 7,
+     "x0": 108.0,
+     "y0": 423.7,
+     "x1": 504.0,
+     "y1": 455.8
+    },
+    {
+     "page": 7,
+     "x0": 136.6,
+     "y0": 466.5,
+     "x1": 477.7,
+     "y1": 545.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_4.3_inverse_problem_results",
+   "paper_id": "2610.11673",
+   "section_id": "sec_4.3",
+   "section_number": "4.3",
+   "section_title": "Inverse Problem Results",
+   "part": null,
+   "text": "Table 4 shows the recovered diffusion coefficient ν^{∗}for different noise levels in the synthetic data. AB-PIELM is able to accurately recover the true diffusion coefficient even in the presence of noise upto 5%, demonstrating the robustness of the method for inverse problems. The results also show that as the noise level increases, the recovered ν^{∗}deviates more from the true value, which is expected due to the increased uncertainty in the data. However, even at a noise level of σ^2_noise = 0.05, the recovered ν^{∗}remains reasonably close to ν_true, indicating that AB-PIELM can effectively handle noisy data in inverse problem settings.",
+   "token_count": 162,
+   "page_start": 7,
+   "page_end": 7,
+   "boxes": [
+    {
+     "page": 7,
+     "x0": 108.0,
+     "y0": 628.9,
+     "x1": 504.0,
+     "y1": 706.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_limitations",
+   "paper_id": "2610.11673",
+   "section_id": "sec_limitations",
+   "section_number": null,
+   "section_title": "Limitations",
+   "part": null,
+   "text": "• Linear operators: The normal–equation formulation relies on linearity of the PDE in the solution coefficients. Nonlinear PDEs would require outer iterative linearization, reducing the deterministic training advantage.\n\n• Scaling to high dimensions: Domain decomposition introduces interface constraints whose number grows rapidly with dimension, leading to larger coupled systems and increased memory cost.\n\n• Unsteady problems: The present formulation addresses steady equations. Extending to time-dependent PDEs would require time marching or space–time decompositions, significantly increasing system size and conditioning complexity.\n\n• Penalty parameters: The weights in the physics-informed objective must be specified a priori since they define the objective itself and cannot be optimized within the same loss.\n\nTable 3: Comparison of hyperparameters over domain 1 (left) containing the smooth region and domain 2 (right) containing the sharp gradient for advection–diffusion equation at different diffusion coefficients\n\nDiffusion coefficient Domain Domain length σ Domain 1 0.9869 0.0025 ν = 0.001 Domain 2 0.0131 9.311 × 10^{−4} Domain 1 0.9990 0.0026 ν = 0.0001 Domain 2 0.0010 4.310 × 10^{−5} Domain 1 0.99999 0.1715 ν = 0.00001 Domain 2 0.00001 5.509 × 10^{−8}\n\nTable 4: Recovered diffusion coefficient ν for different noise levels\n\nν_true σ^2 Recovered ν^{∗} noise 0 0.0049172 0.005 0.01 0.0049917 0.05 0.0054590 0 0.0005181 0.0005 0.01 0.0005236 0.05 0.0004491",
+   "token_count": 370,
+   "page_start": 8,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 135.4,
+     "y0": 345.3,
+     "x1": 504.0,
+     "y1": 488.1
+    },
+    {
+     "page": 8,
+     "x0": 108.0,
+     "y0": 82.0,
+     "x1": 504.0,
+     "y1": 113.9
+    },
+    {
+     "page": 8,
+     "x0": 167.8,
+     "y0": 124.6,
+     "x1": 441.2,
+     "y1": 203.0
+    },
+    {
+     "page": 8,
+     "x0": 172.2,
+     "y0": 219.9,
+     "x1": 439.8,
+     "y1": 230.1
+    },
+    {
+     "page": 8,
+     "x0": 238.4,
+     "y0": 239.9,
+     "x1": 370.6,
+     "y1": 318.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_5_conclusion",
+   "paper_id": "2610.11673",
+   "section_id": "sec_5",
+   "section_number": "5",
+   "section_title": "Conclusion",
+   "part": null,
+   "text": "This work introduced a distributed adaptive physics-informed extreme learning machine that augments the normal-equation PIELM formulation with optimisable spatial and spectral hyperparameters. By allowing both the domain partition and the locality of the basis functions to adapt to the solution structure, the method addresses a central limitation of global neural PDE solvers: the inability to efficiently represent localized behaviour using a uniform approximation space. The resulting formulation retains deterministic training while enabling problem-dependent allocation of representational capacity. Numerical experiments demonstrated accurate approximation of oscillatory targets and robust solutions of singularly perturbed advection–diffusion equations, as well as stable recovery of the diffusion coefficient from sparse and noisy observations. The learned hyperparameters were also interpretable, with interfaces concentrating near sharp gradients and basis widths varying according to local solution smoothness.",
+   "token_count": 256,
+   "page_start": 8,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 108.0,
+     "y0": 537.5,
+     "x1": 504.0,
+     "y1": 657.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_references_p1",
+   "paper_id": "2610.11673",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 1,
+   "text": "Samuel Anderson, Victorita Dolean, Ben Moseley, and Jennifer Pestana. ELM-FBPINN: efficient finite-basis physics-informed neural networks, 2024. URL https://arxiv.org/abs/2409.01949.\n\nJonah Botvinick-Greenhouse, Wael H. Ali, Mouhacine Benosman, and Saviz Mowlavi. AB-PINNs: Adaptive-basis physics-informed neural networks for residual-driven domain decomposition, 2025. URL https://arxiv.org/abs/2510.08924.\n\nAmeya D. Jagtap and George Em Karniadakis. Extended physics-informed neural networks (XPINNs): A generalized space-time domain decomposition based deep learning framework for nonlinear partial differential equations. Communications in Computational Physics, 28(5): 2002–2041, 2020. ISSN 1815-2406, 1991-7120. doi: 10.4208/cicp.OA-2020-0164. URL https://global-sci.org/cicp/article/view/6911.\n\nMario De Florio, Enrico Schiassi, Francesco Calabr`o, and Roberto Furfaro. Physics-informed neural networks for 2nd order ODEs with sharp gradients. Journal of Computational and Applied Mathematics, 436:115396, 2024. ISSN 03770427. doi: 10.1016/j.cam.2023.115396. URL https://linkinghub.elsevier.com/retrieve/pii/S0377042723003400.\n\nVikas Dwivedi and Balaji Srinivasan. A normal equation-based extreme learning machine for solving linear partial differential equations. Journal of Computing and Information Science in Engineering, 22(1):014502, 2022. ISSN 1530-9827, 1944-7078. doi: 10.1115/1.4051530. URL https://asmedigitalcollection.asme.org/computingengineering/article/22/1/014502/1111555/A-Normal-Equation-Based-Extreme-Learning-Machine.\n\nVikas Dwivedi, Enrico Schiassi, Monica Sigovan, and Bruno Sixou. Gated x-TFC: Soft domain decomposition for forward and inverse problems in sharp-gradient PDEs, 2025. URL https: //arxiv.org/abs/2510.01039.",
+   "token_count": 438,
+   "page_start": 8,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 108.0,
+     "y0": 700.4,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 9,
+     "x0": 108.0,
+     "y0": 84.3,
+     "x1": 504.0,
+     "y1": 343.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_references_p2",
+   "paper_id": "2610.11673",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 2,
+   "text": "Guang-Bin Huang, Qin-Yu Zhu, and Chee-Kheong Siew. Extreme learning machine: Theory and applications. Neurocomputing, 70(1):489–501, 2006. ISSN 09252312. doi: 10.1016/j. neucom.2005.12.126. URL https://linkinghub.elsevier.com/retrieve/pii/S0925231206000385.\n\nAmeya D. Jagtap, Ehsan Kharazmi, and George Em Karniadakis. Conservative physics-informed neural networks on discrete domains for conservation laws: Applications to forward and inverse problems. Computer Methods in Applied Mechanics and Engineering, 365:113028, 2020. ISSN 00457825. doi: 10.1016/j.cma.2020.113028. URL https://linkinghub.elsevier.com/retrieve/pii/S0045782520302127.\n\nGeorge Em Karniadakis, Ioannis G. Kevrekidis, Lu Lu, Paris Perdikaris, Sifan Wang, and Liu Yang. Physics-informed machine learning. Nature Reviews Physics, 3(6):422–440, 2021. ISSN 2522-5820. doi: 10.1038/s42254-021-00314-5. URL https://www.nature.com/articles/s42254-021-00314-5.\n\nAxel Klawonn, Martin Lanser, and Janine Weber. Machine learning and domain decomposition methods - a survey. Computational Science and Engineering, 1(1):2, 2024. ISSN 2948-1597. doi: 10.1007/s44207-024-00003-y. URL https://link.springer.com/10. 1007/s44207-024-00003-y.\n\nAditi S. Krishnapriyan, Amir Gholami, Shandian Zhe, Robert M. Kirby, and Michael W. Mahoney. Characterizing possible failure modes in physics-informed neural networks, 2021. URL http: //arxiv.org/abs/2109.01050.\n\nNasim Rahaman, Aristide Baratin, Devansh Arpit, Felix Draxler, Min Lin, Fred A. Hamprecht, Yoshua Bengio, and Aaron Courville. On the spectral bias of neural networks, 2019. URL http://arxiv.org/abs/1806.08734.\n\nM. Raissi, P. Perdikaris, and G.E. Karniadakis. Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations. Journal of Computational Physics, 378:686–707, 2019. ISSN 00219991. doi: 10.1016/j.jcp.2018.10.045. URL https://linkinghub.elsevier.com/retrieve/pii/S0021999118307125.",
+   "token_count": 498,
+   "page_start": 9,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 108.0,
+     "y0": 351.9,
+     "x1": 504.0,
+     "y1": 702.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2610.11673:sec_references_p3",
+   "paper_id": "2610.11673",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 3,
+   "text": "Khemraj Shukla, Ameya D. Jagtap, and George Em Karniadakis. Parallel physics-informed neural networks via domain decomposition, 2021. URL http://arxiv.org/abs/2104.10013. Matthew Tancik, Pratul P. Srinivasan, Ben Mildenhall, Sara Fridovich-Keil, Nithin Raghavan, Utkarsh Singhal, Ravi Ramamoorthi, Jonathan T. Barron, and Ren Ng. Fourier features let networks learn high frequency functions in low dimensional domains, 2020. URL http: //arxiv.org/abs/2006.10739.\n\nJohn Taylor, Wenyi Wang, Biswajit Bala, and Tomasz Bednarz. Optimizing the optimizer for data driven deep neural networks and physics informed neural networks, 2022. URL https:// arxiv.org/abs/2205.07430.\n\nSifan Wang, Yujun Teng, and Paris Perdikaris. Understanding and mitigating gradient flow pathologies in physics-informed neural networks. SIAM Journal on Scientific Computing, 43 (5):A3055–A3081, 2021. ISSN 1064-8275, 1095-7197. doi: 10.1137/20M1318043. URL https://epubs.siam.org/doi/10.1137/20M1318043.\n\nSifan Wang, Xinling Yu, and Paris Perdikaris. When and why PINNs fail to train: A neural tangent kernel perspective. Journal of Computational Physics, 449:110768, 2022. ISSN 00219991. doi: 10.1016/j.jcp.2021.110768. URL https://linkinghub.elsevier.com/retrieve/pii/S002199912100663X.",
+   "token_count": 315,
+   "page_start": 9,
+   "page_end": 10,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 108.0,
+     "y0": 711.3,
+     "x1": 504.0,
+     "y1": 732.3
+    },
+    {
+     "page": 10,
+     "x0": 108.0,
+     "y0": 84.3,
+     "x1": 504.0,
+     "y1": 271.6
+    }
+   ]
+  }
+ ]
+}

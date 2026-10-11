@@ -1,0 +1,74 @@
+/* DESIGN.md §5.1 buttons. Sizes come from the fixed height list; padding from the spacing scale. */
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: var(--h-32);
+  padding: 0 var(--space-3);
+  border-radius: var(--r-sm);
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+}
+.button:active:not([aria-disabled='true']) { transform: scale(0.97); }
+.button[aria-disabled='true'] { cursor: default; color: var(--ink-3); }
+
+/* Primary: --ink fill, --on-ink text. */
+.primary { background: var(--ink); color: var(--on-ink); }
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover:not([aria-disabled='true']) { background: var(--ink-hover); transition-duration: 0ms, var(--dur-press); }
+}
+
+/* Secondary: transparent with a --line ring. */
+.secondary { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.secondary:active:not([aria-disabled='true']) { background: var(--pressed); }
+@media (hover: hover) and (pointer: fine) {
+  .secondary:hover:not([aria-disabled='true']) { background: var(--hover); transition-duration: 0ms, var(--dur-press); }
+}
+
+/* Destructive (dialog): Secondary with --danger text and ring. */
+.danger { background: transparent; color: var(--danger); box-shadow: inset 0 0 0 1px var(--danger); }
+.danger:active:not([aria-disabled='true']) { background: var(--pressed); }
+@media (hover: hover) and (pointer: fine) {
+  .danger:hover:not([aria-disabled='true']) { background: var(--hover); transition-duration: 0ms, var(--dur-press); }
+}
+
+/* Text: 28 tall, padding 0 8, --ink-2, no border. */
+.text {
+  height: var(--h-28);
+  padding: 0 var(--space-2);
+  background: transparent;
+  color: var(--ink-2);
+}
+.text:active:not([aria-disabled='true']) { background: var(--pressed); transform: none; }
+@media (hover: hover) and (pointer: fine) {
+  .text:hover:not([aria-disabled='true']) { color: var(--ink); background: var(--hover); transition-duration: 0ms, var(--dur-press); }
+}
+/* A text button whose label is the main thing on its line ("Try again", "Undo"). */
+.textInk { color: var(--ink); }
+.textDanger { color: var(--danger); }
+@media (hover: hover) and (pointer: fine) {
+  .textDanger:hover:not([aria-disabled='true']) { color: var(--danger); }
+}
+
+/* Type sizes for text buttons: 13/500 (answer actions, inline) or 14/550 (default). */
+.small { font: 500 var(--text-13) / var(--lead-13) var(--font-ui); }
+
+/* Sizes */
+.lg { height: var(--h-40); }
+.sm { height: var(--h-28); }
+.block { width: 100%; }
+
+/* Pull a text button's padding into the margin so its label aligns with text above it. */
+.flush { margin-inline: calc(var(--space-2) * -1); }
+
+@media (pointer: coarse) {
+  .button { min-height: var(--h-44); }
+  .text { min-height: var(--h-44); }
+}
+
+.label { display: inline-flex; align-items: center; gap: var(--space-2); }

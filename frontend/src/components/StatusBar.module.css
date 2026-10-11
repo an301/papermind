@@ -1,0 +1,26 @@
+/* §5.25: 32px bar, --surface, 1px --line-subtle rule. Icon, sentence, then the action at the right;
+   on narrow screens the action drops under the sentence and the icon stays with the first line. */
+.bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-2);
+  min-height: var(--h-32);
+  padding: var(--space-1) var(--space-4) var(--space-1) var(--inset);
+  background: var(--surface);
+  box-shadow: inset 0 -1px 0 var(--line-subtle);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink);
+}
+.icon { flex: none; color: var(--ink-2); }
+.warn { color: var(--warn); }
+.success { color: var(--success); }
+.text { min-width: 0; text-wrap: pretty; }
+.action { display: flex; justify-content: flex-end; }
+
+@media (max-width: 37.49rem) {
+  .bar { grid-template-columns: auto minmax(0, 1fr); align-items: start; padding-block: var(--space-2); }
+  .icon { margin-top: 1px; }
+  .action { grid-column: 2; justify-content: flex-start; margin-left: calc(var(--space-2) * -1); }
+}

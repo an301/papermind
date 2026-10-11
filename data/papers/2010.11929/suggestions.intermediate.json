@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does ViT turn an image into a sequence of 16x16 patch embeddings that a standard Transformer can process?",
+    "Why does ViT underperform ResNets on ImageNet alone but surpass them when pre-trained on JFT-300M?",
+    "Why use a learnable class token and 1D positional embeddings instead of 2D-aware position encodings?",
+    "How does ViT handle higher-resolution images during fine-tuning when the patch sequence length changes?"
+  ]
+}

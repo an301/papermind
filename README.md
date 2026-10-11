@@ -1,83 +1,155 @@
 # PaperMind
 
-An AI research-paper reading agent. It reads ML papers with you and explains
-them at your level — tracking which concepts you already understand, spotting
-prerequisite gaps before it explains, and pulling the sections of the paper that
-actually answer your question.
+A research-paper reading agent that explains at your level. Open a paper (an
+arXiv link or your own PDF), read it, and ask questions in the margin. Answers
+are built on the passages of the paper that actually answer the question, cite
+them with numbered pencil brackets drawn beside the exact lines, and are pitched
+for the reader: a beginner and a researcher get different explanations, and the
+prerequisites this particular reader hasn't met yet are named and offered first.
 
-## How it works
+![The Reader: an answer cites §3.2, and the pencil bracket marks the lines on the page](docs/screenshots/reader-citation.png)
 
-A hand-written ReAct loop (no LangChain, no LlamaIndex) reasons on the Anthropic
-API and hands the final explanation to a locally-loaded fine-tuned Mistral 7B.
-Session state lives in Redis; what you know lives in a Neo4j concept graph with
-350 prerequisite-linked concepts. Retrieval, graph queries, and Semantic Scholar
-lookups are exposed to the agent as three MCP servers.
+| | |
+|---|---|
+| ![Selecting text: Explain / Ask about this](docs/screenshots/reader-selection.png) | ![Dark theme, dimmed page](docs/screenshots/reader-dark.png) |
+
+## How a question flows
 
 ```
-React + Vite  →  FastAPI  →  ReAct loop  →  Anthropic (reason)
-                                 │            Mistral 7B, local (explain)
-                                 ├── Redis   session state, 24h TTL
-                                 ├── Neo4j   concept graph + what you know
-                                 └── MCP     retriever · prereq graph · Semantic Scholar
+Browser · React (Vercel)                 reads the PDF, asks in the margin
+   │  POST /api/chat (question + session id)   ← SSE: typed events
+   ▼
+FastAPI (EC2, stateless workers) ──────── Redis: session, scroll position, transcript (24 h TTL)
+   │
+   ▼
+Agent loop · Claude (hand-written ReAct, papermind/agent/loop.py)
+   │  Pydantic-validated tool I/O; a malformed call goes back to the model as an error to fix
+   │  independent tool calls in one step run together (asyncio.gather)
+   ├── MCP retriever         BM25 + dense (bge-base, FAISS) → Reciprocal Rank Fusion → top 5 passages
+   ├── MCP prereq_graph      Neo4j, 359 ML concepts, BFS over REQUIRES minus what you KNOW
+   └── MCP semantic_scholar  look up cited papers, references, citations (cached, rate-limited)
+   │  compose_answer(plan, sources, concepts to scaffold)   ← the hand-off
+   ▼
+Writer · Claude with a level rubric       cites [S1] passages and [P1] papers
+   ▼
+Mastery pass                              what your question revealed → KNOWS edges (with Undo)
 ```
 
-## Quick start
+The agent model decides *what context is needed*; the writer decides *how to say
+it*. The writer sits behind a small `Writer` protocol: Claude today, or the
+fine-tuned Mistral 7B adapter from `training/` (`WRITER_BACKEND=mistral`),
+with no change to the loop.
 
-Requires Python 3.11, Node 20+, and Docker.
+Concept mastery is the one piece of state that must outlive a session, so it
+lives in Neo4j as `(:User)-[:KNOWS {confidence, source, evidence}]->(:Concept)`
+edges next to the `REQUIRES` graph; everything that can be lost after a day
+(transcript, scroll position) lives in Redis.
+
+Full contract: [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md).
+Design system and UI spec: [`docs/design/DESIGN.md`](docs/design/DESIGN.md).
+
+## Quick start (macOS)
 
 ```bash
-make venv install        # venv + Python dependencies
-cp .env.example .env     # add your ANTHROPIC_API_KEY
-make up                  # Redis + Neo4j
-make seed                # load the concept graph
-make dev                 # API on http://localhost:8000
-make frontend            # UI on http://localhost:5173
+brew install redis neo4j uv node        # once
+neo4j-admin dbms set-initial-password papermind-dev   # once, before Neo4j's first start
+
+make install                            # Python 3.11 venv + deps, frontend deps
+cp .env.example .env                    # then set ANTHROPIC_API_KEY
+make services                           # start Redis + Neo4j
+make seed                               # load the 359-concept prerequisite graph
+make ingest-benchmark                   # the 8 benchmark papers (or: make ingest ARXIV=1706.03762)
+
+make dev                                # API on :8000 (spawns the three MCP servers)
+make frontend                           # http://localhost:5173
 ```
 
-Ingest a paper:
+From the terminal, without the UI:
 
 ```bash
-python -m papermind.ingest --arxiv-id 1706.03762
-# 1706.03762v7  Attention Is All You Need
-#   15 pages -> 27 chunks (3 from split sections), ~9,360 tokens
+make ask PAPER=1706.03762 LEVEL=beginner Q="Why divide by the square root of d_k?"
 ```
 
-Chunks land in `data/papers/1706.03762.json`, keyed by stable, readable IDs like
-`1706.03762:sec_3.2_attention` that map onto the paper's own section numbering.
+`make help` lists everything.
 
-To run the local explanation model, add `make install-model` on a machine with
-a GPU (or enough unified memory) and set `LOCAL_MODEL_PATH` in `.env`. Without
-it, set `LOCAL_MODEL_FALLBACK_TO_HOSTED=true` and explanations come from the
-hosted model instead.
+## Evaluation
 
-Search it:
+Benchmark: `evals/benchmark/questions.jsonl`, 174 questions over 8 papers
+(Transformer, BERT, ResNet, Adam, LoRA, DPO, ViT, BatchNorm): 150 generated
+backwards from a gold passage, plus 24 written in natural phrasing that avoids
+the passage's vocabulary. Each row has a gold chunk id, target level and
+reference answer, and every label was checked by an independent pass.
 
-```python
-from papermind.retrieval import HybridRetriever, IndexRegistry
+**Retrieval ablation** (`make eval-retrieval`, no API key needed, ~10 s):
 
-registry  = IndexRegistry(Path("data/papers"))
-retriever = HybridRetriever(registry)
-await registry.warm()
+| | recall@5 | recall@10 | MRR@10 |
+|---|---|---|---|
+| BM25 alone | 85.6% | 90.2% | 0.733 |
+| Dense alone | 89.7% | 92.5% | 0.706 |
+| **Hybrid (RRF, k = 60)** | **89.7%** | **94.8%** | **0.798** |
 
-await retriever.search("why divide by the square root of d_k?", "1706.03762", k=5)
-```
+On generated questions the three tie at recall@5 (≈ 92.7%) and hybrid wins on
+recall@10 and MRR. On natural phrasing BM25 collapses to 37.5% while dense holds
+75%; the arms fail on different questions, which is the case for fusing them.
+Details and per-paper / per-query-type tables are in the run files under
+`evals/results/`.
 
-BM25 and dense embeddings merged with Reciprocal Rank Fusion, scoped to the
-paper being read. `bm25_only`, `dense_only`, and `hybrid` share one signature so
-they can be swapped in an ablation.
-
-## Development
+**Agent suites** (spend API money; W&B offline by default):
 
 ```bash
-make test        # unit tests — no services needed
-make test-int    # integration tests — needs `make up`
-make eval        # 150-question benchmark, logged to Weights & Biases
-make check       # lint + typecheck + test
+make eval                 # faithfulness, token F1, calibration (blind judge), citation precision,
+                          # uncited paper-derived paragraphs, latency p50/p95, cost per question
+make eval-latency LIMIT=24   # A/B: sequential tools + no prompt caching vs asyncio.gather + caching
+make eval-label-sheet     # 30 answers to hand-label, then `make eval-agreement` for judge agreement
 ```
 
-## Status
+Measured on one question (Transformer paper, Standard depth): 4 model calls,
+the agent's second step reading ~7 K tokens from the prompt cache, first answer
+word after ~8.7 s, about $0.07 per question.
 
-Ingestion and retrieval work end to end. The agent loop, model clients, stores,
-MCP servers, and frontend are still skeleton.
+## Tests
 
-Architecture and the reasoning behind it: [`CLAUDE.md`](./CLAUDE.md).
+```bash
+make test        # 1,163 Python unit tests: no Redis, Neo4j, network or API key
+make test-int    # integration: real Redis, Neo4j, arXiv, Semantic Scholar, MCP over stdio
+cd frontend && npm test && npm run build
+```
+
+## Deploy
+
+- **API on EC2:** `infra/docker-compose.yml` runs Redis, Neo4j, the three MCP
+  servers as separate HTTP services, and the API with 4 workers;
+  `infra/ec2/papermind.service` starts it at boot and `infra/ec2/nginx.conf`
+  terminates TLS with SSE buffering off.
+- **Frontend on Vercel:** `frontend/` is a static Vite build; set
+  `VITE_API_ORIGIN` to the API's origin and add that origin's frontend URL to
+  `CORS_ORIGINS` on the server.
+
+## Layout
+
+```
+papermind/        config, schemas, ingest, retrieval, graph, scholar, memory, llm, mcp_client, agent, api
+mcp_servers/      retriever, prereq_graph, semantic_scholar
+data/concepts/    the prerequisite graph seed (tracked)
+data/papers/      ingested papers: paper.json tracked for the benchmark, PDFs ignored
+evals/            harness, benchmark, pytest suites
+frontend/         React + Vite + TypeScript
+infra/            Dockerfile, compose, EC2 nginx + systemd
+docs/             architecture, design spec, screenshots
+```
+
+## Fine-tuning the writer
+
+`training/` distils Claude's level-calibrated answers into Mistral 7B with
+QLoRA SFT, then DPO. The fine-tuned model serves through vLLM behind
+`WRITER_BACKEND=mistral`, and `make eval-writer` measures calibration for the
+base vs tuned model with retrieval held fixed. The data steps run on your
+laptop; training needs a rented NVIDIA GPU (about 2 hours on an A100). Steps,
+costs and settings: [`training/README.md`](training/README.md).
+
+## Not built yet
+
+- From the design spec: find-in-paper, your own highlights and "Your marks",
+  pinning answers to the page, the phone bottom-sheet detents, and the
+  Appearance popover (theme and page mode are in Settings). "Background" labels
+  on uncited paragraphs stay off until the uncited-paragraph eval gate passes.

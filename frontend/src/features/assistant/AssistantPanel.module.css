@@ -1,0 +1,70 @@
+/* §4.4 / §5.9: the panel fills its aside; header sticky, thread scrolls, composer docked. */
+.panel { position: relative; display: flex; flex-direction: column; height: 100%; min-height: 0; background: var(--surface); }
+.header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--h-52);
+  padding: 0 var(--space-4);
+  background: var(--surface);
+  z-index: var(--z-panel-header);
+}
+.depthLabel { font: 550 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+.depthSelect {
+  display: none;
+  height: var(--h-36);
+  padding: 0 var(--space-2);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--raised);
+  font: 550 var(--text-14) / var(--lead-14) var(--font-ui);
+}
+@container panel (max-width: 359px) {
+  .header > [role='group'] { display: none; }
+  .depthSelect { display: block; }
+}
+.thread {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.intro { padding: var(--space-5) var(--space-4) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.introText { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink-2); max-width: 32em; }
+.status { font: 450 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+.status :global(svg) { display: inline; vertical-align: -2px; }
+.returning { padding: var(--space-4) var(--space-4) 0; }
+.suggestionsBlock { position: relative; padding-right: var(--space-6); }
+.hideSuggestions { position: absolute; top: 0; right: 0; }
+.skeletons { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-2) 0; }
+/* Room so the newest question can always sit under the header (§5.13 Scrolling). */
+.spacer { height: 60vh; }
+.jump {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: var(--h-28);
+  padding: 0 var(--space-3);
+  border-radius: var(--r-sm);
+  background: var(--raised);
+  box-shadow: var(--shadow-sm);
+  font: 550 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink);
+  z-index: var(--z-backpill);
+}
+.peek { display: flex; flex-direction: column; }
+.peekLine {
+  padding: var(--space-2) var(--space-4) 0;
+  font: 400 var(--text-15) / 1.4 var(--font-read);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

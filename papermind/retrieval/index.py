@@ -1,156 +1,162 @@
-"""Per-paper indexes and the in-memory registry that caches them.
+"""Per-paper retrieval indexes, built lazily and cached in the retriever process.
 
-Scoping is per paper because that is what the product does: the agent retrieves
-from the paper the user is reading, never across the library. Building one index
-per paper rather than one global index with a post-filter is not just tidier --
-a global BM25 would compute IDF across every paper, and a global FAISS top-k
-would spend most of its budget on chunks that are then thrown away.
+An index is keyed by ``(paper_id, CHUNKER_VERSION, paper.json mtime)``: a
+re-ingested paper (new mtime) or a different chunker gets a fresh index on the
+next request, with no invalidation protocol between the API process and this
+one. Building means loading paper.json, a BM25 pass (milliseconds) and the
+window vectors, which ingestion has normally already cached on disk.
+
+Concurrent first requests for one paper -- the agent fires several searches in
+parallel -- must not each embed the paper. A per-paper ``asyncio.Lock`` makes
+the first one build and the rest wait for it.
 """
 
 from __future__ import annotations
 
 import asyncio
 import logging
-from pathlib import Path
+from collections import OrderedDict
+from collections.abc import Sequence
+from dataclasses import dataclass, field
 
-from papermind.ingest.models import Chunk
-from papermind.ingest.store import load_paper
-from papermind.retrieval.bm25 import Bm25Index
-from papermind.retrieval.dense import DEFAULT_EMBEDDING_MODEL, DenseIndex, EmbeddingModel
+import numpy as np
 
-logger = logging.getLogger(__name__)
+from papermind.ingest.ids import CHUNKER_VERSION
+from papermind.ingest.store import InvalidPaperId, PaperStore
+from papermind.retrieval.bm25 import DEFAULT_VARIANT, BM25Index, BM25Variant
+from papermind.retrieval.dense import DenseIndex, Embedder, EmbeddingCache, load_or_embed
+from papermind.retrieval.text import indexable_text
+from papermind.schemas.paper import Chunk
+
+log = logging.getLogger(__name__)
+
+IndexKey = tuple[str, str, int]
 
 
+class PaperNotFound(LookupError):
+    """No ingested paper with this id (or it has no chunks to search)."""
+
+
+def normalise_section_filter(section_filter: str | None) -> str | None:
+    """'3.2', 'sec_3.2', '3.2.', ' a.1 ' -> '3.2' / 'A.1'; blank -> None."""
+    if section_filter is None:
+        return None
+    value = section_filter.strip()
+    if value.lower().startswith("sec_"):
+        value = value[4:]
+    value = value.strip(". ").upper()
+    return value or None
+
+
+def section_matches(number: str | None, prefix: str) -> bool:
+    """Is a section numbered ``number`` inside ``prefix``? '3' holds '3', '3.1', '3.2.1' -- not '30'."""
+    if number is None:
+        return False
+    number = number.upper()
+    return number == prefix or number.startswith(prefix + ".")
+
+
+@dataclass
 class PaperIndex:
-    """Both retrieval arms over one paper, plus its chunks by id."""
+    paper_id: str
+    key: IndexKey
+    chunks: list[Chunk]
+    bm25: BM25Index
+    dense: DenseIndex
+    chunker_version: str = CHUNKER_VERSION
+    _masks: dict[str | None, np.ndarray] = field(default_factory=dict, repr=False)
 
-    def __init__(self, paper_id: str, chunks: list[Chunk], model: EmbeddingModel) -> None:
-        self.paper_id = paper_id
-        self.chunks = chunks
-        self.by_id = {chunk.id: chunk for chunk in chunks}
-        self.bm25 = Bm25Index(chunks)
-        self.dense = DenseIndex(chunks, model)
-
-    def __len__(self) -> int:
-        return len(self.chunks)
-
-    def resolve(self, chunk_ids: list[str]) -> list[Chunk]:
-        """Ids back to chunks, preserving order and skipping anything unknown."""
-        return [self.by_id[cid] for cid in chunk_ids if cid in self.by_id]
+    def allowed(self, section_filter: str | None) -> np.ndarray:
+        """Boolean mask over chunks that a search with this filter may return."""
+        prefix = normalise_section_filter(section_filter)
+        mask = self._masks.get(prefix)
+        if mask is None:
+            if prefix is None:
+                mask = np.ones(len(self.chunks), dtype=bool)
+            else:
+                mask = np.array([section_matches(c.section_number, prefix) for c in self.chunks], dtype=bool)
+            self._masks[prefix] = mask
+        return mask
 
 
 class IndexRegistry:
-    """Caches one PaperIndex per paper for the process lifetime.
-
-    Indexes are held in memory only. For a few hundred chunks per paper a
-    rebuild is a fraction of a second once the embedding model is loaded, so
-    persisting them to disk would add a cache-invalidation problem (chunks
-    change when CHUNKER_VERSION moves) to save very little.
-    """
+    """Lazily built, LRU-cached ``PaperIndex`` per paper."""
 
     def __init__(
         self,
-        papers_dir: Path,
+        store: PaperStore,
+        embedder: Embedder,
         *,
-        model: EmbeddingModel | None = None,
-        embedding_model: str | None = None,
+        cache: EmbeddingCache | None = None,
+        max_papers: int = 16,
+        bm25_variant: BM25Variant = DEFAULT_VARIANT,
     ) -> None:
-        self._papers_dir = papers_dir
-        self._model = model
-        self._embedding_model_name = embedding_model or DEFAULT_EMBEDDING_MODEL
-        self._indexes: dict[str, PaperIndex] = {}
-        # One lock per paper, so a slow build of paper A does not block a
-        # request for paper B, and two concurrent first-requests for the same
-        # paper build it once.
+        self.store = store
+        self.embedder = embedder
+        self.cache = cache
+        self.max_papers = max_papers
+        self.bm25_variant = bm25_variant
+        self._indexes: OrderedDict[str, PaperIndex] = OrderedDict()
         self._locks: dict[str, asyncio.Lock] = {}
-        self._model_lock = asyncio.Lock()
+        self.builds = 0  # how many indexes were built; tests assert concurrent requests build once
 
-    @property
-    def papers_dir(self) -> Path:
-        return self._papers_dir
+    async def _key(self, paper_id: str) -> IndexKey:
+        try:
+            path = self.store.record_path(paper_id)
+            stat = await asyncio.to_thread(path.stat)
+        except (InvalidPaperId, FileNotFoundError) as exc:
+            # A deleted paper's index would otherwise sit in memory until evicted.
+            self._indexes.pop(paper_id, None)
+            raise PaperNotFound(f"no ingested paper with id {paper_id!r}") from exc
+        return (paper_id, CHUNKER_VERSION, stat.st_mtime_ns)
 
-    async def _get_model(self) -> EmbeddingModel:
-        """Load the embedding model once, on first use.
-
-        Shared across every paper's index -- the weights are ~90MB and there is
-        no reason to hold more than one copy.
-        """
-        model = self._model
-        if model is not None:
-            return model
-
-        async with self._model_lock:
-            # Re-check: another coroutine may have loaded it while we waited.
-            model = self._model
-            if model is not None:
-                return model
-
-            name = self._embedding_model_name
-            logger.info("loading embedding model %s", name)
-            # Loading pulls weights and is CPU-bound; keep it off the event loop.
-            model = await asyncio.to_thread(EmbeddingModel, name)
-            self._model = model
-            return model
-
-    def available_paper_ids(self) -> list[str]:
-        """Papers with ingested chunks on disk."""
-        if not self._papers_dir.exists():
-            return []
-        return sorted(
-            path.stem
-            for path in self._papers_dir.glob("*.json")
-            if path.name != "manifest.json"
-        )
-
-    def loaded_paper_ids(self) -> list[str]:
-        return sorted(self._indexes)
+    def _cached(self, paper_id: str, key: IndexKey) -> PaperIndex | None:
+        index = self._indexes.get(paper_id)
+        if index is not None and index.key == key:
+            self._indexes.move_to_end(paper_id)
+            return index
+        return None
 
     async def get(self, paper_id: str) -> PaperIndex:
-        """Return the paper's index, building and caching it on first use."""
-        cached = self._indexes.get(paper_id)
-        if cached is not None:
-            return cached
-
+        key = await self._key(paper_id)
+        index = self._cached(paper_id, key)
+        if index is not None:
+            return index
         lock = self._locks.setdefault(paper_id, asyncio.Lock())
         async with lock:
-            # Re-check: another coroutine may have built it while we waited.
-            cached = self._indexes.get(paper_id)
-            if cached is not None:
-                return cached
-
-            result = await asyncio.to_thread(load_paper, self._papers_dir, paper_id)
-            if result is None:
-                raise KeyError(
-                    f"{paper_id} has not been ingested -- run "
-                    f"`python -m papermind.ingest --arxiv-id {paper_id}`"
-                )
-
-            model = await self._get_model()
-            # Index construction embeds the whole paper: blocking and the
-            # slowest step here.
-            index = await asyncio.to_thread(PaperIndex, paper_id, result.chunks, model)
-            self._indexes[paper_id] = index
-            logger.info(
-                "indexed %s: %d chunks, %d dense windows",
-                paper_id,
-                len(index),
-                index.dense.n_windows,
-            )
+            # Whoever held the lock may have built it while this request waited.
+            key = await self._key(paper_id)
+            index = self._cached(paper_id, key)
+            if index is None:
+                index = await self._build(paper_id, key)
+                self._indexes[paper_id] = index
+                self._indexes.move_to_end(paper_id)
+                while len(self._indexes) > self.max_papers:
+                    evicted, _ = self._indexes.popitem(last=False)
+                    log.info("evicted retrieval index for %s", evicted)
             return index
 
-    async def warm(self, paper_ids: list[str] | None = None) -> list[str]:
-        """Build indexes ahead of first use, at startup.
+    async def _build(self, paper_id: str, key: IndexKey) -> PaperIndex:
+        record = await asyncio.to_thread(self.store.load, paper_id)
+        if record is None:
+            raise PaperNotFound(f"no ingested paper with id {paper_id!r}")
+        if record.meta.chunker_version != CHUNKER_VERSION:
+            log.warning(
+                "%s was chunked by chunker v%s (this process is v%s); re-ingest it to refresh chunk ids",
+                paper_id,
+                record.meta.chunker_version,
+                CHUNKER_VERSION,
+            )
+        texts = [indexable_text(chunk) for chunk in record.chunks]
+        bm25 = await asyncio.to_thread(BM25Index, texts, variant=self.bm25_variant)
+        windows = await load_or_embed(self.embedder, self.cache, paper_id, texts)
+        dense = await asyncio.to_thread(DenseIndex, windows, len(texts))
+        self.builds += 1
+        log.info(
+            "built retrieval index for %s: %d chunks, %d windows", paper_id, len(texts), len(windows.owners)
+        )
+        return PaperIndex(paper_id=paper_id, key=key, chunks=list(record.chunks), bm25=bm25, dense=dense)
 
-        A failure to index one paper must not stop the service from starting --
-        the others are still usable, and the broken one raises a clear error
-        when it is actually requested.
-        """
-        targets = paper_ids if paper_ids is not None else self.available_paper_ids()
-        built: list[str] = []
-        for paper_id in targets:
-            try:
-                await self.get(paper_id)
-                built.append(paper_id)
-            except Exception:
-                logger.exception("could not index %s; continuing", paper_id)
-        return built
+    async def warm(self, paper_ids: Sequence[str]) -> None:
+        for paper_id in paper_ids:
+            await self.get(paper_id)

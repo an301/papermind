@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does reformulating layers to learn a residual function F(x) = H(x) - x make very deep networks easier to optimize?",
+    "Why does the paper use parameter-free identity shortcuts instead of projection shortcuts in most of its experiments?",
+    "What is the bottleneck building block, and why was it introduced for the 50-, 101-, and 152-layer ResNets?",
+    "How do residual networks compare with plain networks of equal depth on the degradation problem in the ImageNet experiments?"
+  ]
+}

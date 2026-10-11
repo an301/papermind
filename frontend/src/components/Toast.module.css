@@ -1,0 +1,54 @@
+/* §5.21: bottom-left, offset 24 (16 on phones), 356 wide (phones: viewport − 32), --raised, radius 12,
+   --shadow-md, padding 12 16, Sofia 14/20 --ink. At most 3, stacked upward 8px apart.
+   Enter: opacity + translateY(8px → 0) over 200ms; exit: opacity over 150ms; swipe left to dismiss. */
+.viewport {
+  position: fixed;
+  z-index: var(--z-toast);
+  left: var(--space-5);
+  /* The Reader raises this above the phone bottom sheet's peek. */
+  bottom: var(--toast-offset-bottom, var(--space-5));
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2);
+  width: var(--toast-w);
+  max-width: calc(100vw - var(--space-6));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+@media (max-width: 47.99rem) {
+  .viewport { left: var(--space-4); bottom: var(--toast-offset-bottom, var(--space-4)); width: calc(100vw - var(--space-6)); }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--h-44);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+}
+.toast[data-state='open'] { animation: toast-in var(--dur-base) var(--ease-out); }
+.toast[data-state='closed'] { animation: toast-out var(--dur-fast) ease forwards; }
+.toast[data-swipe='move'] { transform: translateX(var(--radix-toast-swipe-move-x)); }
+.toast[data-swipe='cancel'] { transform: translateX(0); transition: transform var(--dur-base) var(--ease-out); }
+.toast[data-swipe='end'] { animation: toast-out var(--dur-fast) ease forwards; }
+
+.message { flex: 1; min-width: 0; text-wrap: pretty; }
+.actions { display: flex; align-items: center; gap: var(--space-1); margin-right: calc(var(--space-2) * -1); flex: none; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+@keyframes toast-out {
+  to { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast[data-state='open'] { animation-name: toast-fade; }
+  @keyframes toast-fade { from { opacity: 0; } }
+}

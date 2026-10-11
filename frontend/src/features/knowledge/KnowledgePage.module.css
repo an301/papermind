@@ -1,0 +1,153 @@
+/* DESIGN.md §4.5 / §5.22. Same column as the Library. Rows aren't boxed: the hover background
+   (radius 8, 12px beyond the text on each side) is the only container. */
+.section { margin-top: var(--space-5); }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+.filter { width: var(--field-filter-w); }
+.count {
+  margin-left: auto;
+  /* Counts and state words share one right rail, inside the space the row menu takes. */
+  padding-right: calc(var(--h-28) + var(--space-1));
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+.noMatch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-5);
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+}
+
+.groups { margin-top: var(--space-7); display: flex; flex-direction: column; gap: var(--space-7); }
+.areaHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+  padding-right: calc(var(--h-28) + var(--space-1));
+  font: 600 var(--text-16) / var(--lead-16) var(--font-ui);
+  color: var(--ink);
+}
+.areaCount { font: 450 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+
+.rows { display: flex; flex-direction: column; gap: var(--space-1); list-style: none; }
+.row {
+  position: relative;
+  margin-inline: calc(var(--space-3) * -1);
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
+  outline: none;
+  transition: background-color var(--dur-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .row:hover { background: var(--hover); transition-duration: 0ms; }
+}
+.row:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* A row the reader just jumped to: a --selected wash that fades (opacity only). */
+.rowFlash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--selected);
+  pointer-events: none;
+  animation: wash var(--dur-settle) var(--ease-out) forwards;
+}
+@keyframes wash { to { opacity: 0; } }
+
+.line1 { display: flex; align-items: center; gap: var(--space-3); min-height: var(--lead-15); }
+.name {
+  flex: 1;
+  min-width: 0;
+  font: 550 var(--text-15) / var(--lead-15) var(--font-ui);
+  color: var(--ink);
+}
+.state {
+  flex: none;
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+.rowMenu {
+  flex: none;
+  /* The menu hangs into the row's 12px right padding so the state word ends on the shared rail. */
+  margin-right: calc(var(--space-3) * -1 + var(--space-1));
+  display: flex;
+  height: var(--lead-15);
+  align-items: center;
+  margin-block: -3px;
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+}
+.row:hover .rowMenu,
+.row:focus-within .rowMenu,
+.rowMenu:has([data-state='open']) { opacity: 1; transition-duration: 0ms; }
+@media (hover: none) {
+  .rowMenu { opacity: 1; }
+}
+
+/* Line 2: the evidence in Literata 15/1.5 --ink-2, roman; the reader's own words in italic. */
+.evidence {
+  margin-top: var(--space-1);
+  max-width: 36em;
+  font: 400 var(--text-15) / 1.5 var(--font-read);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.quote { font-style: italic; }
+.locator {
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+.locator cite { font-style: normal; }
+.more { margin-top: var(--space-1); }
+
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+  min-height: 1.5em;
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink-2);
+}
+.inlineButton { height: auto; min-height: 0; padding: 2px var(--space-1); }
+
+/* Empty state */
+.areasForm { display: flex; flex-direction: column; gap: var(--space-4); }
+.emptyLead { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink-2); padding: 0; }
+.areaGrid { display: grid; grid-template-columns: 1fr; column-gap: var(--space-6); margin-top: var(--space-3); }
+.areaSkeleton { display: flex; align-items: center; gap: var(--space-2); height: var(--h-44); }
+.formNote { font: 450 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink); }
+@media (min-width: 40rem) {
+  .areaGrid { grid-template-columns: 1fr 1fr; }
+}
+
+.skeletonRow { padding-block: var(--space-3); }
+.skeletonRow + .skeletonRow { margin-top: var(--space-1); }
+
+/* Phones: the state word moves under the name; filter and Add stack full width, 44 tall. */
+@media (max-width: 47.99rem) {
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .filter { width: 100%; height: var(--h-44); }
+  .toolbar > button { height: var(--h-44); }
+  .count { margin-left: 0; }
+  .line1 { flex-wrap: wrap; row-gap: 0; }
+  .name { flex-basis: calc(100% - var(--h-44) - var(--space-3)); }
+  .state { order: 3; flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rowFlash::before { animation-duration: 1ms; }
+}

@@ -1,0 +1,21 @@
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-5); }
+.details { margin-top: var(--space-6); max-width: 32em; }
+.summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-28);
+  border-radius: var(--r-xs);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.pre {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-sm);
+  background: var(--hover);
+  font: 400 var(--text-13) / var(--lead-14) var(--font-mono);
+  color: var(--ink-2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

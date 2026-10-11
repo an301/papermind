@@ -1,0 +1,71 @@
+/* §5.9: track 32 tall, padding 2, radius 8, inset --line ring, transparent.
+   Equal segments; Sofia 13/550 --ink-2; the selected label is --ink at 650 and
+   reserves its bold width with a hidden duplicate so nothing shifts.
+   Thumb: 28 tall, radius 6, --raised + --shadow-sm, slides on pointer only. */
+.track {
+  position: relative;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  height: var(--h-32);
+  padding: 2px;
+  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 1px var(--line);
+  isolation: isolate;
+}
+.fixed { grid-auto-columns: var(--segment-w); }
+
+.thumb {
+  position: absolute;
+  z-index: -1;
+  top: 2px;
+  left: 2px;
+  height: var(--h-28);
+  width: calc((100% - 4px) / var(--count));
+  border-radius: calc(var(--r-sm) - 2px);
+  background: var(--raised);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(calc(var(--index) * 100%));
+}
+.thumb[data-animate] { transition: transform var(--dur-base) var(--ease-in-out); }
+.thumb[data-hidden] { visibility: hidden; }
+
+.item {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: var(--h-28);
+  padding: 0 var(--space-3);
+  border-radius: calc(var(--r-sm) - 2px);
+  color: var(--ink-2);
+  font: 550 var(--text-13) / var(--lead-13) var(--font-ui);
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) ease;
+}
+.item::after {
+  content: attr(data-label);
+  font-weight: 650;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  display: block;
+}
+/* Selected state from aria-checked, not data-state: a Tooltip trigger on the item (Depth) writes its
+   own data-state ("closed" / "delayed-open") over ToggleGroup's "on". */
+.item[aria-checked='true'] { color: var(--ink); font-weight: 650; }
+@media (hover: hover) and (pointer: fine) {
+  .item:not([aria-checked='true']):hover { color: var(--ink); background: var(--hover); transition-duration: 0ms; }
+}
+.item:focus-visible { outline-offset: 0; }
+@media (pointer: coarse) {
+  .track { height: var(--h-44); }
+  .thumb, .item { height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thumb[data-animate] { transition: none; }
+}
+@media (forced-colors: active) {
+  .item[aria-checked='true'] { outline: 2px solid Highlight; }
+}

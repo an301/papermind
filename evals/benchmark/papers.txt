@@ -1,0 +1,14 @@
+# The eight benchmark papers, each pinned to an arXiv version.
+#
+# Chunk ids are eval labels and are derived from the PDF, so a new arXiv
+# version (a retitled section, a moved paragraph) can silently move the gold
+# labels. Ingest exactly these versions: python scripts/ingest_benchmark.py
+# Versions resolved against the arXiv API on 2026-10-09.
+1706.03762v7   # Attention Is All You Need
+1810.04805v2   # BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+1512.03385v1   # Deep Residual Learning for Image Recognition
+1412.6980v9    # Adam: A Method for Stochastic Optimization
+2106.09685v2   # LoRA: Low-Rank Adaptation of Large Language Models
+2305.18290v3   # Direct Preference Optimization: Your Language Model is Secretly a Reward Model
+2010.11929v2   # An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale
+1502.03167v3   # Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift

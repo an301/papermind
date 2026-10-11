@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does scaled dot-product attention work, and why divide the dot products by the square root of the key dimension?",
+    "Why use multi-head attention instead of a single attention function, and what did the model variations show about head count?",
+    "How do sinusoidal positional encodings let the Transformer capture word order without recurrence or convolution?",
+    "Why is self-attention more parallelizable than recurrent layers, and how do their path lengths and per-layer costs compare?"
+  ]
+}

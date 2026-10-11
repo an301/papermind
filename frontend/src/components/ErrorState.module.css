@@ -1,0 +1,13 @@
+/* §5.25: errors sit where the content would have been: icon, sentence, next step. */
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  max-width: var(--col-max);
+}
+.icon { flex: none; margin-top: 2px; color: var(--ink-2); }
+.danger { color: var(--danger); }
+.warn { color: var(--warn); }
+.body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); min-width: 0; }
+.text { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); max-width: 40em; text-wrap: pretty; }
+.action { display: flex; flex-wrap: wrap; gap: var(--space-2); }

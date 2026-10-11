@@ -1,0 +1,6 @@
+/* §5.27: static --hover fills, radius 4, no shimmer, no pulse. */
+.bar {
+  display: block;
+  border-radius: var(--r-xs);
+  background: var(--hover);
+}

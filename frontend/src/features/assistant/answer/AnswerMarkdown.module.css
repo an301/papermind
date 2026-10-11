@@ -1,0 +1,46 @@
+/* §5.13–5.14: typeset prose, no container. */
+.answer {
+  font-family: var(--font-read);
+  font-size: var(--answer-size);
+  line-height: var(--answer-leading);
+  font-weight: var(--answer-weight);
+  color: var(--ink);
+  max-width: var(--answer-measure);
+  overflow-wrap: break-word;
+}
+.answer:global(.prose-done) { text-wrap: pretty; }
+.answer p { margin: 0 0 0.7em; }
+.answer > :last-child, .answer > :last-child > :last-child { margin-bottom: 0; }
+.answer h2 { font: 650 var(--text-16) / var(--lead-16) var(--font-ui); margin: 1.2em 0 0.35em; }
+.answer h3 { font: 650 var(--text-15) / var(--lead-15-head) var(--font-ui); margin: 1em 0 0.3em; }
+.answer strong { font-weight: 600; }
+.answer ul, .answer ol { margin: 0 0 0.7em; padding-left: 1.25em; }
+.answer ol { padding-left: 1.5em; }
+.answer li + li { margin-top: var(--space-1); }
+.answer li::marker { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.answer a { color: var(--ink); text-decoration: underline 1px var(--ink-3); text-underline-offset: 3px; }
+.answer code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--hover);
+  border-radius: var(--r-xs);
+  padding: 0.1em 0.3em;
+}
+.answer pre {
+  font: 400 var(--text-13) / 20px var(--font-mono);
+  background: var(--canvas);
+  border-radius: var(--r-sm);
+  padding: var(--space-3) var(--space-4);
+  margin: 0.7em 0;
+  overflow-x: auto;
+}
+.answer pre code { background: none; padding: 0; font-size: inherit; }
+.answer blockquote { margin: 0 0 0.7em; padding-left: var(--space-4); color: var(--ink-2); }
+.answer :global(.katex) { font-size: var(--katex-in-read); }
+.answer :global(.katex-display) { margin: 0.7em 0; padding: var(--space-1) 0; overflow-x: auto; overflow-y: hidden; }
+.answer :global(.katex-error) { font: 400 var(--text-13) var(--font-mono); color: var(--ink-2) !important; }
+.tableWrap { overflow-x: auto; margin: 0 0 0.7em; }
+.tableWrap table { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); font-variant-numeric: tabular-nums; }
+.tableWrap th { font-weight: 550; text-align: left; }
+.tableWrap th, .tableWrap td { padding: var(--space-2) var(--space-3) var(--space-2) 0; border-bottom: 1px solid var(--line-subtle); }
+.alt { display: block; color: var(--ink-2); }

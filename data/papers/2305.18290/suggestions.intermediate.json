@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does DPO turn the RLHF reward-maximization objective into a simple classification loss on preference pairs?",
+    "Why does reparameterizing the reward as a log-ratio of policy and reference probabilities let DPO skip training a separate reward model?",
+    "What role does the beta parameter play in the DPO loss, and how does it relate to the KL constraint in RLHF?",
+    "How does DPO compare to PPO-based RLHF on the reward versus KL frontier in the IMDb sentiment experiment?"
+  ]
+}

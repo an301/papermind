@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How do LoRA's low-rank matrices A and B modify a frozen weight matrix, and why is B initialized to zero?",
+    "Why does LoRA add no inference latency while adapter layers do?",
+    "Which Transformer weight matrices did the authors find most effective to adapt with LoRA, and why?",
+    "How small can the rank r be before LoRA's performance on GPT-3 drops compared to full fine-tuning?"
+  ]
+}

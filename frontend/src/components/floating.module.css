@@ -1,0 +1,69 @@
+/* Floating layers share one box (§5.26, §5.23, §5.21): --raised, radius 12, ring + two-layer shadow.
+   Pointer-opened layers fade and scale from .97 over 150ms; keyboard-opened ones appear at once
+   (data-instant); close is opacity over 100ms. */
+.surface {
+  background: var(--raised);
+  color: var(--ink);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md);
+}
+
+.popover {
+  z-index: var(--z-popover);
+  padding: var(--space-1);
+  min-width: var(--menu-min-w);
+  max-width: calc(100vw - var(--space-6));
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+.popover[data-state='open']:not([data-instant]) { animation: layer-in var(--dur-fast) var(--ease-out); }
+.popover[data-state='closed'] { animation: layer-out var(--dur-exit) ease forwards; }
+
+.menu {
+  z-index: var(--z-popover);
+  padding: var(--space-1);
+  min-width: var(--menu-min-w);
+  max-width: calc(100vw - var(--space-6));
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+}
+.menu[data-state='open']:not([data-instant]) { animation: layer-in var(--dur-fast) var(--ease-out); }
+.menu[data-state='closed'] { animation: layer-out var(--dur-exit) ease forwards; }
+
+@keyframes layer-in {
+  from { opacity: 0; transform: scale(0.97); }
+}
+@keyframes layer-out {
+  to { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .popover[data-state='open']:not([data-instant]),
+  .menu[data-state='open']:not([data-instant]) { animation-name: layer-fade; }
+  @keyframes layer-fade { from { opacity: 0; } }
+}
+
+/* Menu items: 32 tall (44 on coarse), radius calc(12 − 4), padding 0 8, Sofia 14 --ink. */
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--h-32);
+  padding: 0 var(--space-2);
+  border-radius: calc(var(--r-md) - var(--space-1));
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+.item[data-highlighted] { background: var(--selected); }
+.item[data-disabled] { color: var(--ink-3); cursor: default; }
+.itemDanger { color: var(--danger); }
+.itemIcon { color: var(--ink-2); flex: none; }
+.itemDanger .itemIcon { color: var(--danger); }
+.itemLabel { flex: 1; min-width: 0; }
+.itemShortcut { margin-left: auto; padding-left: var(--space-4); }
+.itemCheck { width: 16px; flex: none; display: inline-flex; }
+.separator { height: 1px; margin: var(--space-1) 0; background: var(--line-subtle); }
+@media (pointer: coarse) {
+  .item { min-height: var(--h-44); }
+}

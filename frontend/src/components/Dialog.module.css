@@ -1,0 +1,43 @@
+/* §5.23: width min(440, 100vw − 32) (wide: 560), --raised, radius 12, --shadow-lg, padding 24,
+   centred, scrim --scrim. Enter: opacity + scale(.97 → 1) over 200ms; exit: opacity over 150ms. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-scrim);
+  background: var(--scrim);
+}
+.overlay[data-state='open']:not([data-instant]) { animation: fade-in var(--dur-base) var(--ease-out); }
+.overlay[data-state='closed'] { animation: fade-out var(--dur-fast) ease forwards; }
+
+.content {
+  position: fixed;
+  z-index: var(--z-dialog);
+  top: 50%;
+  left: 50%;
+  width: min(var(--dialog-w), calc(100vw - var(--space-6)));
+  max-height: calc(100dvh - var(--space-7));
+  overflow: auto;
+  padding: var(--space-5);
+  border-radius: var(--r-md);
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  transform: translate(-50%, -50%);
+  outline: none;
+}
+.wide { width: min(var(--dialog-wide-w), calc(100vw - var(--space-6))); }
+.content[data-state='open']:not([data-instant]) { animation: dialog-in var(--dur-base) var(--ease-out); }
+.content[data-state='closed'] { animation: fade-out var(--dur-fast) ease forwards; }
+
+.title { font: 600 var(--text-16) / var(--lead-16) var(--font-ui); color: var(--ink); }
+.description, .body { margin-top: var(--space-2); font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); }
+.actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-5); }
+
+@keyframes dialog-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.97); }
+}
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state='open']:not([data-instant]) { animation-name: fade-in; }
+}

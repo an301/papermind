@@ -1,160 +1,107 @@
-"""CLI: `python -m papermind.ingest --arxiv-id 1706.03762`.
+"""Ingest papers from the command line.
 
-Ingests one or more papers. Failures are per-paper: a batch of eight does not
-lose seven because one PDF is malformed, and the exit code still reports that
-something went wrong.
+    python -m papermind.ingest --arxiv 1706.03762v7 --arxiv https://arxiv.org/abs/1810.04805
+    python -m papermind.ingest --file paper.pdf
+    python -m papermind.ingest --from-file evals/benchmark/papers.txt
+
+``--from-file`` reads one arXiv id or URL per line; text after '#' is a
+comment. Progress goes to stderr, one summary line per paper to stdout.
+Papers are ingested one after another: arXiv's courtesy limit is global, and
+embedding already uses every core.
 """
 
 from __future__ import annotations
 
 import argparse
 import asyncio
+import logging
 import sys
+import time
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 
-import httpx
-
-from papermind.ingest.arxiv import ArxivError, make_client
-from papermind.ingest.ids import CHUNKER_VERSION
-from papermind.ingest.pipeline import (
-    DEFAULT_MAX_CHUNK_TOKENS,
-    apply_exact_token_counts,
-    ingest_paper,
-)
-from papermind.ingest.store import save_paper, update_manifest
-
-DEFAULT_OUT_DIR = Path("data/papers")
-DEFAULT_PDF_DIR = Path("data/pdfs")
-DEFAULT_TOKEN_MODEL = "claude-opus-5"
+from papermind.config import get_settings
+from papermind.ingest.arxiv import ArxivError
+from papermind.ingest.extract import PDFError
+from papermind.ingest.pipeline import Ingestor, default_ingestor
+from papermind.schemas.paper import IngestStage, PaperRecord
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="python -m papermind.ingest",
-        description="Download arXiv papers and chunk them by section into JSON.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=(
-            "examples:\n"
-            "  python -m papermind.ingest --arxiv-id 1706.03762\n"
-            "  python -m papermind.ingest --arxiv-id 1706.03762 --arxiv-id 1810.04805\n"
-            "  python -m papermind.ingest --from-file papers.txt\n"
-            "\n"
-            "Pin a version (--arxiv-id 1706.03762v7) to reproduce a run exactly.\n"
-        ),
+def read_id_list(path: Path) -> list[str]:
+    ids: list[str] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        entry = raw.split("#", 1)[0].strip()
+        if entry:
+            ids.append(entry.split()[0])
+    return ids
+
+
+def _progress(label: str) -> Callable[[IngestStage, float], Awaitable[None]]:
+    last: dict[str, object] = {"stage": None, "tenth": -1}
+
+    async def report(stage: IngestStage, fraction: float) -> None:
+        tenth = int(fraction * 10)
+        if stage != last["stage"] or tenth != last["tenth"]:
+            last["stage"], last["tenth"] = stage, tenth
+            print(f"  {label}: {stage.value:<11} {fraction:4.0%}", file=sys.stderr)
+
+    return report
+
+
+def summary(record: PaperRecord, seconds: float) -> str:
+    meta = record.meta
+    version = meta.arxiv_version or ""
+    return (
+        f"{meta.paper_id}{version}\t{meta.num_pages} pages\t{len(meta.sections)} sections\t"
+        f"{len(record.chunks)} chunks\t{seconds:.1f}s\t{meta.title}"
     )
-    parser.add_argument(
-        "--arxiv-id",
-        action="append",
-        default=[],
-        metavar="ID",
-        help="arXiv id, optionally versioned. Repeat for several papers.",
-    )
-    parser.add_argument(
-        "--from-file",
-        type=Path,
-        metavar="PATH",
-        help="File of arXiv ids, one per line; '#' comments allowed.",
-    )
-    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
-    parser.add_argument("--pdf-dir", type=Path, default=DEFAULT_PDF_DIR)
-    parser.add_argument(
-        "--max-chunk-tokens",
-        type=int,
-        default=DEFAULT_MAX_CHUNK_TOKENS,
-        metavar="N",
-        help=f"Split sections larger than this (default: {DEFAULT_MAX_CHUNK_TOKENS}). "
-        "Changing it changes chunk boundaries and therefore part-suffixed IDs.",
-    )
-    parser.add_argument(
-        "--exact-tokens",
-        action="store_true",
-        help="Replace estimated token counts with exact ones via the Anthropic "
-        "API (one call per chunk; needs ANTHROPIC_API_KEY).",
-    )
-    parser.add_argument(
-        "--token-model",
-        default=DEFAULT_TOKEN_MODEL,
-        help=f"Model whose tokenizer --exact-tokens uses (default: {DEFAULT_TOKEN_MODEL}).",
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Re-download the PDF even if it is cached.",
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Parse and report, but write nothing.",
-    )
-    parser.add_argument("--quiet", action="store_true")
-    return parser
 
 
-def collect_ids(args: argparse.Namespace) -> list[str]:
-    ids: list[str] = list(args.arxiv_id)
-    if args.from_file:
-        for line in args.from_file.read_text(encoding="utf-8").splitlines():
-            entry = line.split("#", 1)[0].strip()
-            if entry:
-                ids.append(entry)
-    # De-duplicate, preserving order, so a repeated id is not fetched twice.
-    return list(dict.fromkeys(ids))
-
-
-async def run(args: argparse.Namespace) -> int:
-    ids = collect_ids(args)
-    if not ids:
-        print("no arXiv ids given (use --arxiv-id or --from-file)", file=sys.stderr)
-        return 2
-
-    def log(message: str) -> None:
-        if not args.quiet:
-            print(message)
-
+async def run(arxiv: list[str], files: list[Path], ingestor: Ingestor | None = None) -> int:
+    ingestor = ingestor or default_ingestor()
     failures = 0
-    async with make_client() as client:
-        for raw_id in ids:
-            try:
-                result = await ingest_paper(
-                    raw_id,
-                    client=client,
-                    pdf_dir=args.pdf_dir,
-                    max_chunk_tokens=args.max_chunk_tokens,
-                    force=args.force,
-                )
-                if args.exact_tokens:
-                    log(f"  counting tokens via {args.token_model} ({result.n_chunks} calls)...")
-                    result = apply_exact_token_counts(result, args.token_model)
-
-                total_tokens = sum(c.token_count for c in result.chunks)
-                split = sum(1 for c in result.chunks if c.n_parts > 1)
-                log(
-                    f"{result.meta.versioned_id}  {result.meta.title[:58]}\n"
-                    f"  {result.meta.n_pages} pages -> {result.n_chunks} chunks "
-                    f"({split} from split sections), ~{total_tokens:,} tokens"
-                )
-
-                if args.dry_run:
-                    log("  dry run: nothing written")
-                else:
-                    path = save_paper(args.out_dir, result)
-                    log(f"  wrote {path}")
-
-            except (ArxivError, httpx.HTTPError, OSError) as exc:
-                failures += 1
-                print(f"{raw_id}: {exc}", file=sys.stderr)
-
-    if not args.dry_run and failures < len(ids):
-        manifest = update_manifest(args.out_dir)
-        log(f"manifest: {manifest}")
-
-    log(f"chunker_version={CHUNKER_VERSION}  ok={len(ids) - failures}/{len(ids)}")
+    jobs: list[tuple[str, Callable[[], Awaitable[PaperRecord]]]] = []
+    for raw in arxiv:
+        jobs.append((raw, lambda raw=raw: ingestor.ingest_arxiv(raw, on_progress=_progress(raw))))
+    for path in files:
+        jobs.append(
+            (
+                str(path),
+                lambda path=path: ingestor.ingest_upload(
+                    path.read_bytes(), path.name, on_progress=_progress(path.name)
+                ),
+            )
+        )
+    for label, job in jobs:
+        started = time.perf_counter()
+        try:
+            record = await job()
+        except (ArxivError, PDFError, OSError) as exc:
+            failures += 1
+            print(f"FAILED {label}: {exc}", file=sys.stderr)
+            continue
+        print(summary(record, time.perf_counter() - started), flush=True)
     return 1 if failures else 0
 
 
-def main() -> int:
-    return asyncio.run(run(build_parser().parse_args()))
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="python -m papermind.ingest",
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("--arxiv", action="append", default=[], metavar="ID", help="arXiv id or URL")
+    parser.add_argument("--file", action="append", default=[], type=Path, metavar="PDF", help="a local PDF")
+    parser.add_argument("--from-file", type=Path, metavar="LIST", help="file of arXiv ids, one per line")
+    args = parser.parse_args(argv)
+    arxiv = list(args.arxiv)
+    if args.from_file is not None:
+        arxiv.extend(read_id_list(args.from_file))
+    if not arxiv and not args.file:
+        parser.error("nothing to ingest: pass --arxiv, --file or --from-file")
+    logging.basicConfig(level=get_settings().log_level, format="%(levelname)s %(name)s: %(message)s")
+    return asyncio.run(run(arxiv, list(args.file)))
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())

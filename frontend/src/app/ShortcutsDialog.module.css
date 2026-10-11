@@ -1,0 +1,17 @@
+.note { font: 450 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+.group { margin-top: var(--space-5); }
+.heading { font: 600 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); margin-bottom: var(--space-1); }
+.table { width: 100%; }
+.table tr + tr td { box-shadow: inset 0 1px 0 var(--line-subtle); }
+.keys {
+  width: 13rem;
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.keys kbd + kbd { margin-left: var(--space-1); }
+.joiner { display: inline-block; width: var(--space-3); text-align: center; color: var(--ink-3); }
+.action { padding: var(--space-2) 0; vertical-align: top; font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); text-wrap: pretty; }
+@media (max-width: 30rem) {
+  .keys { width: auto; white-space: normal; }
+}

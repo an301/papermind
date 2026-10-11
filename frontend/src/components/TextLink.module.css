@@ -1,0 +1,20 @@
+/* Link-styled text (§5.14 `a`, §5.22 locators): --ink, 1px underline in --ink-3 at offset 3. */
+.link {
+  color: var(--ink);
+  text-decoration: underline 1px;
+  text-decoration-color: var(--ink-3);
+  text-underline-offset: 3px;
+  border-radius: var(--r-xs);
+  cursor: pointer;
+  transition: text-decoration-color var(--dur-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover { text-decoration-color: currentColor; transition-duration: 0ms; }
+}
+/* Quiet variant: --ink-2 text, underline only on hover (locators, "Open What you know"). */
+.quiet { color: var(--ink-2); text-decoration-color: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .quiet:hover { color: var(--ink); text-decoration-color: currentColor; }
+}
+/* Buttons styled as links keep their own font from the context. */
+button.link { display: inline; padding: 0; font: inherit; text-align: inherit; user-select: text; }

@@ -1,0 +1,79 @@
+# Production-shaped stack: Redis + Neo4j + the three MCP servers as separate
+# HTTP services + the API with 4 workers. Run from the repo root:
+#
+#   docker compose -f infra/docker-compose.yml up -d --build
+#   docker compose -f infra/docker-compose.yml run --rm api python scripts/seed_graph.py
+#
+# The MCP servers are separate services rather than stdio children of each API
+# worker so that four workers share one retriever (one embedding model and one
+# set of FAISS indexes in memory instead of four), and so restarting the
+# retriever does not restart the graph server or the API.
+
+x-app: &app
+  build:
+    context: ..
+    dockerfile: infra/Dockerfile.api
+  env_file: ../.env
+  environment:
+    REDIS_URL: redis://redis:6379/0
+    NEO4J_URI: bolt://neo4j:7687
+    NEO4J_USER: neo4j
+    NEO4J_PASSWORD: ${NEO4J_PASSWORD:-papermind-dev}
+    DATA_DIR: /app/data
+    ENVIRONMENT: prod
+  volumes:
+    - papers:/app/data/papers
+    - cache:/app/data/cache
+  restart: unless-stopped
+
+services:
+  redis:
+    image: redis:8-alpine
+    # Sessions are disposable by design (24h TTL): no persistence, bounded memory.
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "512mb", "--maxmemory-policy", "volatile-ttl"]
+    restart: unless-stopped
+
+  neo4j:
+    image: neo4j:2026-community
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-papermind-dev}
+      NEO4J_server_memory_heap_max__size: 1G
+    volumes:
+      - neo4j:/data
+    restart: unless-stopped
+
+  mcp-retriever:
+    <<: *app
+    command: ["python", "-m", "mcp_servers.retriever.server", "--http", "--host", "0.0.0.0", "--port", "8101"]
+
+  mcp-prereq:
+    <<: *app
+    command: ["python", "-m", "mcp_servers.prereq_graph.server", "--http", "--host", "0.0.0.0", "--port", "8102"]
+    depends_on: [neo4j]
+
+  mcp-scholar:
+    <<: *app
+    command: ["python", "-m", "mcp_servers.semantic_scholar.server", "--http", "--host", "0.0.0.0", "--port", "8103"]
+    depends_on: [redis]
+
+  api:
+    <<: *app
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-papermind-dev}
+      DATA_DIR: /app/data
+      ENVIRONMENT: prod
+      MCP_TRANSPORT: http
+      MCP_RETRIEVER_URL: http://mcp-retriever:8101/mcp
+      MCP_PREREQ_URL: http://mcp-prereq:8102/mcp
+      MCP_SCHOLAR_URL: http://mcp-scholar:8103/mcp
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on: [redis, neo4j, mcp-retriever, mcp-prereq, mcp-scholar]
+
+volumes:
+  papers:
+  cache:
+  neo4j:

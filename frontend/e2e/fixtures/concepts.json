@@ -1,0 +1,5971 @@
+[
+ {
+  "concept_id": "cosine-similarity",
+  "name": "Cosine similarity",
+  "area": "linear-algebra",
+  "description": "A score from -1 to 1 measuring how closely two vectors point the same way: the cosine of the angle between them.",
+  "aliases": [
+   "cosine distance",
+   "cos sim",
+   "cosine sim",
+   "cos similarity"
+  ],
+  "requires": [
+   "dot-product",
+   "vector-norm",
+   "trigonometric-functions"
+  ]
+ },
+ {
+  "concept_id": "dot-product",
+  "name": "Dot product",
+  "area": "linear-algebra",
+  "description": "Multiplying two equal-length vectors entry by entry and summing the products, giving one number that reflects both their lengths and how aligned they are.",
+  "aliases": [
+   "inner product",
+   "scalar product",
+   "dot prod"
+  ],
+  "requires": [
+   "vector",
+   "summation-notation"
+  ]
+ },
+ {
+  "concept_id": "eigenvalues-and-eigenvectors",
+  "name": "Eigenvalues and eigenvectors",
+  "area": "linear-algebra",
+  "description": "An eigenvector of a square matrix is a nonzero vector the matrix merely scales without turning; the scaling factor is its eigenvalue.",
+  "aliases": [
+   "eigenvalue",
+   "eigenvector",
+   "eigendecomposition",
+   "eigen-decomposition",
+   "eigenvalue decomposition",
+   "spectral decomposition",
+   "eigenpair"
+  ],
+  "requires": [
+   "linear-transformation"
+  ]
+ },
+ {
+  "concept_id": "element-wise-product",
+  "name": "Element-wise product",
+  "area": "linear-algebra",
+  "description": "Multiplying two same-shaped vectors or matrices entry by entry, producing a result of the same shape.",
+  "aliases": [
+   "Hadamard product",
+   "elementwise product",
+   "element-wise multiplication",
+   "elementwise multiplication",
+   "entrywise product",
+   "pointwise product",
+   "Schur product"
+  ],
+  "requires": [
+   "matrix"
+  ]
+ },
+ {
+  "concept_id": "identity-matrix",
+  "name": "Identity matrix",
+  "area": "linear-algebra",
+  "description": "A square matrix with ones on its main diagonal and zeros elsewhere, which leaves any vector unchanged when multiplied by it.",
+  "aliases": [
+   "unit matrix"
+  ],
+  "requires": [
+   "matrix-multiplication"
+  ]
+ },
+ {
+  "concept_id": "linear-independence",
+  "name": "Linear independence",
+  "area": "linear-algebra",
+  "description": "A set of vectors is linearly independent when none of them can be built by scaling and adding the others.",
+  "aliases": [
+   "linearly independent",
+   "linear dependence",
+   "linearly dependent"
+  ],
+  "requires": [
+   "vector-space"
+  ]
+ },
+ {
+  "concept_id": "linear-transformation",
+  "name": "Linear transformation",
+  "area": "linear-algebra",
+  "description": "A function from vectors to vectors that preserves addition and scaling; multiplying a vector by a fixed matrix is exactly such a function.",
+  "aliases": [
+   "linear map",
+   "linear mapping",
+   "linear transform",
+   "linear operator"
+  ],
+  "requires": [
+   "function",
+   "matrix-multiplication"
+  ]
+ },
+ {
+  "concept_id": "low-rank-decomposition",
+  "name": "Low-rank decomposition",
+  "area": "linear-algebra",
+  "description": "Writing (or approximating) a large matrix as the product of two thin matrices, which stores far fewer numbers when its rank is low.",
+  "aliases": [
+   "low-rank approximation",
+   "low-rank factorization",
+   "low-rank matrix factorization",
+   "matrix factorization",
+   "low-rank",
+   "truncated SVD"
+  ],
+  "requires": [
+   "rank-of-a-matrix",
+   "matrix-multiplication"
+  ]
+ },
+ {
+  "concept_id": "matrix",
+  "name": "Matrix",
+  "area": "linear-algebra",
+  "description": "A rectangular grid of numbers arranged in rows and columns, used to store data or to transform vectors.",
+  "aliases": [
+   "2-D array"
+  ],
+  "requires": [
+   "vector"
+  ]
+ },
+ {
+  "concept_id": "matrix-inverse",
+  "name": "Matrix inverse",
+  "area": "linear-algebra",
+  "description": "The matrix that undoes a square matrix's effect, so multiplying the two gives the identity matrix; not every matrix has one.",
+  "aliases": [
+   "inverse matrix",
+   "inverse of a matrix",
+   "matrix inversion",
+   "invertible matrix",
+   "nonsingular matrix"
+  ],
+  "requires": [
+   "identity-matrix"
+  ]
+ },
+ {
+  "concept_id": "matrix-multiplication",
+  "name": "Matrix multiplication",
+  "area": "linear-algebra",
+  "description": "Combining two matrices so each entry of the result is the dot product of a row of the first with a column of the second.",
+  "aliases": [
+   "matmul",
+   "matrix product",
+   "matrix-matrix multiplication",
+   "matrix-vector multiplication",
+   "matrix-vector product",
+   "GEMM"
+  ],
+  "requires": [
+   "matrix",
+   "dot-product"
+  ]
+ },
+ {
+  "concept_id": "matrix-norm",
+  "name": "Matrix norm",
+  "area": "linear-algebra",
+  "description": "A single number measuring the overall size of a matrix, for example the square root of the sum of all its squared entries.",
+  "aliases": [
+   "Frobenius norm",
+   "spectral norm",
+   "operator norm",
+   "induced norm",
+   "nuclear norm"
+  ],
+  "requires": [
+   "matrix",
+   "vector-norm"
+  ]
+ },
+ {
+  "concept_id": "matrix-transpose",
+  "name": "Matrix transpose",
+  "area": "linear-algebra",
+  "description": "Flipping a matrix over its main diagonal so that its rows become columns and its columns become rows.",
+  "aliases": [
+   "transpose",
+   "transposed matrix",
+   "matrix transposition",
+   "transposition"
+  ],
+  "requires": [
+   "matrix"
+  ]
+ },
+ {
+  "concept_id": "orthogonality",
+  "name": "Orthogonality",
+  "area": "linear-algebra",
+  "description": "Two vectors are orthogonal when their dot product is zero, which geometrically means they meet at a right angle.",
+  "aliases": [
+   "orthogonal",
+   "orthogonal vectors",
+   "perpendicular vectors",
+   "orthonormal",
+   "orthonormality"
+  ],
+  "requires": [
+   "dot-product"
+  ]
+ },
+ {
+  "concept_id": "outer-product",
+  "name": "Outer product",
+  "area": "linear-algebra",
+  "description": "Multiplying a column vector by a row vector to get a matrix holding every pairwise product of their entries.",
+  "aliases": [
+   "vector outer product"
+  ],
+  "requires": [
+   "matrix-multiplication",
+   "matrix-transpose"
+  ]
+ },
+ {
+  "concept_id": "rank-of-a-matrix",
+  "name": "Rank of a matrix",
+  "area": "linear-algebra",
+  "description": "The largest number of linearly independent columns in a matrix, which always equals the largest number of linearly independent rows.",
+  "aliases": [
+   "matrix rank",
+   "rank",
+   "column rank",
+   "row rank",
+   "full rank",
+   "rank-deficient"
+  ],
+  "requires": [
+   "matrix",
+   "linear-independence"
+  ]
+ },
+ {
+  "concept_id": "rotation-matrix",
+  "name": "Rotation matrix",
+  "area": "linear-algebra",
+  "description": "A square matrix that rotates vectors around the origin, preserving their lengths and the angles between them.",
+  "aliases": [
+   "rotation",
+   "2D rotation matrix",
+   "rotation transform"
+  ],
+  "requires": [
+   "linear-transformation",
+   "trigonometric-functions"
+  ]
+ },
+ {
+  "concept_id": "scalar",
+  "name": "Scalar",
+  "area": "linear-algebra",
+  "description": "A single number, like 3 or -0.5, used on its own rather than as part of a list or grid of numbers.",
+  "aliases": [
+   "scalar value"
+  ],
+  "requires": []
+ },
+ {
+  "concept_id": "singular-value-decomposition",
+  "name": "Singular value decomposition",
+  "area": "linear-algebra",
+  "description": "Factoring any matrix into three simple steps: a rotation, a stretch along perpendicular axes, and another rotation; the stretch amounts are its singular values.",
+  "aliases": [
+   "SVD",
+   "singular values",
+   "singular vectors"
+  ],
+  "requires": [
+   "eigenvalues-and-eigenvectors",
+   "rotation-matrix",
+   "orthogonality"
+  ]
+ },
+ {
+  "concept_id": "subspace",
+  "name": "Subspace",
+  "area": "linear-algebra",
+  "description": "A vector space sitting inside a larger one, such as a flat plane through the origin within ordinary 3-D space.",
+  "aliases": [
+   "linear subspace",
+   "vector subspace"
+  ],
+  "requires": [
+   "vector-space"
+  ]
+ },
+ {
+  "concept_id": "tensor",
+  "name": "Tensor",
+  "area": "linear-algebra",
+  "description": "In deep learning, a multidimensional grid of numbers that generalizes scalars (0-D), vectors (1-D), and matrices (2-D) to any number of dimensions.",
+  "aliases": [
+   "n-dimensional array",
+   "multidimensional array",
+   "ndarray",
+   "N-D array"
+  ],
+  "requires": [
+   "matrix"
+  ]
+ },
+ {
+  "concept_id": "vector",
+  "name": "Vector",
+  "area": "linear-algebra",
+  "description": "An ordered list of numbers, which can be pictured as an arrow or a point in space.",
+  "aliases": [
+   "column vector",
+   "row vector",
+   "1-D array"
+  ],
+  "requires": [
+   "scalar"
+  ]
+ },
+ {
+  "concept_id": "vector-norm",
+  "name": "Vector norm",
+  "area": "linear-algebra",
+  "description": "A single number measuring a vector's length or size, such as its ordinary straight-line (Euclidean) length.",
+  "aliases": [
+   "L2 norm",
+   "Euclidean norm",
+   "L1 norm",
+   "vector length",
+   "vector magnitude",
+   "Euclidean length",
+   "length of a vector",
+   "p-norm"
+  ],
+  "requires": [
+   "vector"
+  ]
+ },
+ {
+  "concept_id": "vector-space",
+  "name": "Vector space",
+  "area": "linear-algebra",
+  "description": "A set of vectors in which adding any two, or scaling one by a number, always gives another vector in the set.",
+  "aliases": [
+   "linear space"
+  ],
+  "requires": [
+   "vector"
+  ]
+ },
+ {
+  "concept_id": "argmax",
+  "name": "Argmax",
+  "area": "calculus-optimization",
+  "description": "The input at which a function takes its largest value: max gives that largest value, while argmax gives where it occurs.",
+  "aliases": [
+   "arg max",
+   "argmin",
+   "arg min",
+   "arguments of the maxima"
+  ],
+  "requires": [
+   "function"
+  ]
+ },
+ {
+  "concept_id": "big-o-notation",
+  "name": "Big-O notation",
+  "area": "calculus-optimization",
+  "description": "Notation for how fast a cost such as running time or memory grows with input size n, ignoring constant factors, as in O(n^2).",
+  "aliases": [
+   "big O",
+   "big oh",
+   "O-notation",
+   "asymptotic notation",
+   "Landau notation",
+   "asymptotic complexity",
+   "time complexity"
+  ],
+  "requires": [
+   "function"
+  ]
+ },
+ {
+  "concept_id": "chain-rule",
+  "name": "Chain rule",
+  "area": "calculus-optimization",
+  "description": "The rule for differentiating nested functions: the derivative of f(g(x)) is f's derivative at g(x) times g's derivative at x.",
+  "aliases": [
+   "chain rule of calculus",
+   "chain rule of differentiation",
+   "multivariable chain rule",
+   "multivariate chain rule"
+  ],
+  "requires": [
+   "derivative"
+  ]
+ },
+ {
+  "concept_id": "convex-function",
+  "name": "Convex function",
+  "area": "calculus-optimization",
+  "description": "A bowl-shaped function: the straight line between any two points on its graph never dips below the graph, so every local minimum is global.",
+  "aliases": [
+   "convex",
+   "convexity",
+   "non-convex",
+   "nonconvex",
+   "concave function",
+   "concave"
+  ],
+  "requires": [
+   "local-minimum"
+  ]
+ },
+ {
+  "concept_id": "derivative",
+  "name": "Derivative",
+  "area": "calculus-optimization",
+  "description": "How fast a function's output changes as its input changes at a given point; geometrically, the slope of its graph there.",
+  "aliases": [
+   "differentiation",
+   "slope",
+   "rate of change",
+   "first derivative",
+   "differentiate",
+   "differential calculus",
+   "d/dx"
+  ],
+  "requires": [
+   "function"
+  ]
+ },
+ {
+  "concept_id": "exponential-function",
+  "name": "Exponential function",
+  "area": "calculus-optimization",
+  "description": "The function e^x, where e is about 2.718; it is always positive and grows ever faster as x increases.",
+  "aliases": [
+   "exponential",
+   "exp",
+   "exp(x)",
+   "natural exponential function"
+  ],
+  "requires": [
+   "function"
+  ]
+ },
+ {
+  "concept_id": "function",
+  "name": "Function",
+  "area": "calculus-optimization",
+  "description": "A rule that assigns exactly one output to each input, such as f(x) = 2x + 1.",
+  "aliases": [
+   "mathematical function",
+   "mapping"
+  ],
+  "requires": []
+ },
+ {
+  "concept_id": "gradient",
+  "name": "Gradient",
+  "area": "calculus-optimization",
+  "description": "The vector of all partial derivatives of a function with many inputs; it points in the direction in which the function increases fastest.",
+  "aliases": [
+   "gradient vector",
+   "nabla",
+   "grad",
+   "del operator"
+  ],
+  "requires": [
+   "partial-derivative",
+   "vector"
+  ]
+ },
+ {
+  "concept_id": "gradient-descent",
+  "name": "Gradient descent",
+  "area": "calculus-optimization",
+  "description": "An algorithm that minimizes a function by repeatedly taking small steps in the direction opposite to its gradient, that is, downhill.",
+  "aliases": [
+   "GD",
+   "steepest descent",
+   "method of steepest descent",
+   "batch gradient descent",
+   "full-batch gradient descent",
+   "vanilla gradient descent"
+  ],
+  "requires": [
+   "gradient",
+   "local-minimum"
+  ]
+ },
+ {
+  "concept_id": "hessian-matrix",
+  "name": "Hessian matrix",
+  "area": "calculus-optimization",
+  "description": "The square matrix of all second partial derivatives of a many-input function, describing how its gradient changes, that is, its local curvature.",
+  "aliases": [
+   "Hessian",
+   "second derivative matrix",
+   "matrix of second derivatives"
+  ],
+  "requires": [
+   "gradient",
+   "matrix"
+  ]
+ },
+ {
+  "concept_id": "integral",
+  "name": "Integral",
+  "area": "calculus-optimization",
+  "description": "The accumulated total of a function's values over a range, pictured as the area under its graph; a continuous version of a sum.",
+  "aliases": [
+   "integration",
+   "definite integral",
+   "antiderivative",
+   "indefinite integral",
+   "integral calculus"
+  ],
+  "requires": [
+   "function",
+   "summation-notation"
+  ]
+ },
+ {
+  "concept_id": "jacobian-matrix",
+  "name": "Jacobian matrix",
+  "area": "calculus-optimization",
+  "description": "The matrix of all partial derivatives of a function with several inputs and outputs; row i is the gradient of the i-th output.",
+  "aliases": [
+   "Jacobian"
+  ],
+  "requires": [
+   "gradient",
+   "matrix"
+  ]
+ },
+ {
+  "concept_id": "learning-rate",
+  "name": "Learning rate",
+  "area": "calculus-optimization",
+  "description": "The step size in gradient descent: a positive number that scales how far the parameters move against the gradient on each update.",
+  "aliases": [
+   "step size",
+   "eta"
+  ],
+  "requires": [
+   "gradient-descent"
+  ]
+ },
+ {
+  "concept_id": "local-minimum",
+  "name": "Local minimum",
+  "area": "calculus-optimization",
+  "description": "A point where a function is no higher than at any nearby point, though not necessarily the lowest overall (the global minimum).",
+  "aliases": [
+   "local min",
+   "local optimum",
+   "minimum",
+   "global minimum"
+  ],
+  "requires": [
+   "derivative"
+  ]
+ },
+ {
+  "concept_id": "logarithm",
+  "name": "Logarithm",
+  "area": "calculus-optimization",
+  "description": "The inverse of exponentiation: the logarithm base b of x answers 'b to what power equals x?', so log_2(8) = 3.",
+  "aliases": [
+   "log",
+   "natural log",
+   "natural logarithm",
+   "ln",
+   "log base 2",
+   "log2"
+  ],
+  "requires": [
+   "exponential-function"
+  ]
+ },
+ {
+  "concept_id": "mini-batch",
+  "name": "Mini-batch",
+  "area": "calculus-optimization",
+  "description": "A small random subset of training examples, such as 32 or 256, used to estimate the gradient for one stochastic gradient descent step.",
+  "aliases": [
+   "minibatch",
+   "batch",
+   "batch size",
+   "mini-batch size",
+   "minibatch size"
+  ],
+  "requires": [
+   "stochastic-gradient-descent"
+  ]
+ },
+ {
+  "concept_id": "natural-gradient-descent",
+  "name": "Natural gradient descent",
+  "area": "calculus-optimization",
+  "description": "Gradient descent that measures step size by how much the model's predicted distribution changes, using Fisher information, rather than by raw parameter distance.",
+  "aliases": [
+   "natural gradient",
+   "NGD",
+   "natural gradient method"
+  ],
+  "requires": [
+   "gradient-descent",
+   "fisher-information",
+   "kl-divergence"
+  ]
+ },
+ {
+  "concept_id": "newtons-method",
+  "name": "Newton's method",
+  "area": "calculus-optimization",
+  "description": "An optimizer that uses the Hessian's curvature as well as the gradient to choose each step, needing fewer but costlier steps than gradient descent.",
+  "aliases": [
+   "Newton-Raphson",
+   "Newton-Raphson method",
+   "Newton step",
+   "Newton's method for optimization"
+  ],
+  "requires": [
+   "hessian-matrix",
+   "matrix-inverse",
+   "gradient-descent",
+   "taylor-series"
+  ]
+ },
+ {
+  "concept_id": "online-convex-optimization",
+  "name": "Online convex optimization",
+  "area": "calculus-optimization",
+  "description": "A framework where, each round, a learner commits to a choice and then pays a convex loss that is revealed only afterward.",
+  "aliases": [
+   "OCO",
+   "online convex programming"
+  ],
+  "requires": [
+   "convex-function",
+   "loss-function"
+  ]
+ },
+ {
+  "concept_id": "partial-derivative",
+  "name": "Partial derivative",
+  "area": "calculus-optimization",
+  "description": "The derivative of a function of several inputs with respect to one of them, holding all the other inputs fixed.",
+  "aliases": [
+   "partials",
+   "partial differentiation"
+  ],
+  "requires": [
+   "derivative"
+  ]
+ },
+ {
+  "concept_id": "polyak-averaging",
+  "name": "Polyak averaging",
+  "area": "calculus-optimization",
+  "description": "Averaging the parameter values visited over many training steps, instead of keeping only the last ones, to smooth out the noise of stochastic updates.",
+  "aliases": [
+   "Polyak-Ruppert averaging",
+   "Ruppert-Polyak averaging",
+   "iterate averaging",
+   "parameter averaging",
+   "averaged SGD",
+   "ASGD",
+   "temporal averaging"
+  ],
+  "requires": [
+   "stochastic-gradient-descent",
+   "mean"
+  ]
+ },
+ {
+  "concept_id": "regret-bound",
+  "name": "Regret bound",
+  "area": "calculus-optimization",
+  "description": "An upper limit on regret, the extra loss an online learner suffers compared with the best fixed choice in hindsight, e.g., O(sqrt(T)) over T rounds.",
+  "aliases": [
+   "regret",
+   "regret analysis",
+   "sublinear regret",
+   "cumulative regret",
+   "no-regret learning"
+  ],
+  "requires": [
+   "online-convex-optimization",
+   "big-o-notation"
+  ]
+ },
+ {
+  "concept_id": "saddle-point",
+  "name": "Saddle point",
+  "area": "calculus-optimization",
+  "description": "A point where the gradient is zero yet the function curves up in some directions and down in others, like the middle of a saddle.",
+  "aliases": [
+   "saddle"
+  ],
+  "requires": [
+   "gradient",
+   "local-minimum"
+  ]
+ },
+ {
+  "concept_id": "stochastic-gradient-descent",
+  "name": "Stochastic gradient descent",
+  "area": "calculus-optimization",
+  "description": "Gradient descent that estimates the gradient from a few randomly chosen training examples at each step, making updates cheap but noisy.",
+  "aliases": [
+   "SGD",
+   "mini-batch SGD",
+   "minibatch SGD",
+   "mini-batch gradient descent",
+   "minibatch gradient descent",
+   "stochastic gradient"
+  ],
+  "requires": [
+   "gradient-descent",
+   "loss-function"
+  ]
+ },
+ {
+  "concept_id": "summation-notation",
+  "name": "Summation notation",
+  "area": "calculus-optimization",
+  "description": "Using the Greek letter sigma (Σ) as shorthand for adding up a series of terms, like x_1 + x_2 + ... + x_n.",
+  "aliases": [
+   "sigma notation",
+   "summation",
+   "sum notation",
+   "summation symbol",
+   "capital sigma"
+  ],
+  "requires": []
+ },
+ {
+  "concept_id": "taylor-series",
+  "name": "Taylor series",
+  "area": "calculus-optimization",
+  "description": "Writing a function near a point as a sum of terms built from its derivatives there; keeping the first few terms gives a simple approximation.",
+  "aliases": [
+   "Taylor expansion",
+   "Taylor approximation",
+   "Taylor polynomial",
+   "Taylor's theorem",
+   "Maclaurin series",
+   "first-order approximation",
+   "second-order approximation",
+   "linearization"
+  ],
+  "requires": [
+   "derivative",
+   "summation-notation"
+  ]
+ },
+ {
+  "concept_id": "trigonometric-functions",
+  "name": "Trigonometric functions",
+  "area": "calculus-optimization",
+  "description": "Functions such as sine and cosine that relate an angle to coordinates on a circle; their values repeat as the angle keeps increasing.",
+  "aliases": [
+   "trig functions",
+   "trigonometry",
+   "trig",
+   "sine",
+   "cosine",
+   "sin",
+   "cos",
+   "sine and cosine",
+   "sinusoid",
+   "sinusoidal function"
+  ],
+  "requires": [
+   "function"
+  ]
+ },
+ {
+  "concept_id": "bayes-rule",
+  "name": "Bayes' rule",
+  "area": "probability-statistics",
+  "description": "A formula for reversing a conditional probability: P(A | B) equals P(B | A) times P(A), divided by P(B).",
+  "aliases": [
+   "Bayes' theorem",
+   "Bayes' law",
+   "Bayes formula"
+  ],
+  "requires": [
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "bernoulli-distribution",
+  "name": "Bernoulli distribution",
+  "area": "probability-statistics",
+  "description": "The distribution of a single yes/no trial that gives 1 with probability p and 0 otherwise, like one flip of a possibly biased coin.",
+  "aliases": [
+   "Bernoulli",
+   "Bernoulli random variable",
+   "Bernoulli trial"
+  ],
+  "requires": [
+   "probability-distribution"
+  ]
+ },
+ {
+  "concept_id": "bias-of-an-estimator",
+  "name": "Bias of an estimator",
+  "area": "probability-statistics",
+  "description": "The difference between the expected value of an estimate computed from random data and the true quantity it estimates; an unbiased estimate has zero.",
+  "aliases": [
+   "estimator bias",
+   "statistical bias",
+   "unbiased estimator",
+   "biased estimator",
+   "unbiasedness",
+   "unbiased estimate"
+  ],
+  "requires": [
+   "expectation"
+  ]
+ },
+ {
+  "concept_id": "categorical-distribution",
+  "name": "Categorical distribution",
+  "area": "probability-statistics",
+  "description": "The distribution of a single trial with K possible outcomes, each with its own probability, like one roll of a possibly loaded die.",
+  "aliases": [
+   "categorical",
+   "multinoulli",
+   "multinoulli distribution",
+   "generalized Bernoulli distribution"
+  ],
+  "requires": [
+   "bernoulli-distribution"
+  ]
+ },
+ {
+  "concept_id": "conditional-probability",
+  "name": "Conditional probability",
+  "area": "probability-statistics",
+  "description": "The probability that one event happens given that another event is known to have happened, written P(A | B).",
+  "aliases": [
+   "conditional distribution",
+   "probability of A given B"
+  ],
+  "requires": [
+   "probability"
+  ]
+ },
+ {
+  "concept_id": "covariance",
+  "name": "Covariance",
+  "area": "probability-statistics",
+  "description": "A measure of how two random variables vary together: positive when they tend to rise together, negative when one rises as the other falls.",
+  "aliases": [
+   "Cov"
+  ],
+  "requires": [
+   "variance",
+   "joint-distribution"
+  ]
+ },
+ {
+  "concept_id": "covariance-matrix",
+  "name": "Covariance matrix",
+  "area": "probability-statistics",
+  "description": "A square matrix holding the covariance between every pair of variables in a set, with each variable's own variance on the diagonal.",
+  "aliases": [
+   "variance-covariance matrix",
+   "dispersion matrix",
+   "sample covariance matrix",
+   "empirical covariance matrix"
+  ],
+  "requires": [
+   "covariance",
+   "matrix"
+  ]
+ },
+ {
+  "concept_id": "entropy",
+  "name": "Entropy",
+  "area": "probability-statistics",
+  "description": "The average uncertainty of a random outcome: the minimum expected number of bits needed to describe a draw from its distribution.",
+  "aliases": [
+   "Shannon entropy",
+   "information entropy",
+   "differential entropy"
+  ],
+  "requires": [
+   "expectation",
+   "logarithm"
+  ]
+ },
+ {
+  "concept_id": "expectation",
+  "name": "Expectation",
+  "area": "probability-statistics",
+  "description": "The probability-weighted average of a random variable's possible values, matching the long-run average over many repeated draws.",
+  "aliases": [
+   "expected value",
+   "population mean",
+   "mean of a random variable"
+  ],
+  "requires": [
+   "probability-distribution",
+   "mean"
+  ]
+ },
+ {
+  "concept_id": "exponential-moving-average",
+  "name": "Exponential moving average",
+  "area": "probability-statistics",
+  "description": "A running average updated with each new value, weighting recent values most while older values' influence shrinks by a constant factor each step.",
+  "aliases": [
+   "EMA",
+   "EWMA",
+   "exponentially weighted moving average",
+   "exponentially weighted average",
+   "exponential smoothing"
+  ],
+  "requires": [
+   "mean"
+  ]
+ },
+ {
+  "concept_id": "fisher-information",
+  "name": "Fisher information",
+  "area": "probability-statistics",
+  "description": "How much observed data reveal about a model's parameters, defined as the variance (covariance matrix, for many parameters) of the log-likelihood's gradient.",
+  "aliases": [
+   "Fisher information matrix",
+   "FIM",
+   "Fisher matrix",
+   "Fisher info",
+   "empirical Fisher"
+  ],
+  "requires": [
+   "likelihood",
+   "gradient",
+   "covariance-matrix"
+  ]
+ },
+ {
+  "concept_id": "importance-sampling",
+  "name": "Importance sampling",
+  "area": "probability-statistics",
+  "description": "Estimating an expectation under one distribution using samples drawn from another, weighting each sample by the ratio of the two distributions' probabilities.",
+  "aliases": [
+   "importance weighting",
+   "importance weights",
+   "importance ratio",
+   "importance sampling ratio",
+   "importance-weighted estimator"
+  ],
+  "requires": [
+   "monte-carlo-estimation"
+  ]
+ },
+ {
+  "concept_id": "independent-and-identically-distributed",
+  "name": "Independent and identically distributed",
+  "area": "probability-statistics",
+  "description": "Describes a collection of random samples that are all drawn from the same distribution, with no sample influencing any other.",
+  "aliases": [
+   "i.i.d.",
+   "iid",
+   "independent identically distributed",
+   "independently and identically distributed",
+   "iid data",
+   "iid assumption"
+  ],
+  "requires": [
+   "statistical-independence"
+  ]
+ },
+ {
+  "concept_id": "joint-distribution",
+  "name": "Joint distribution",
+  "area": "probability-statistics",
+  "description": "The probability distribution of two or more random variables together, giving how likely each combination of their values is.",
+  "aliases": [
+   "joint probability",
+   "joint probability distribution",
+   "joint density"
+  ],
+  "requires": [
+   "probability-distribution"
+  ]
+ },
+ {
+  "concept_id": "kl-divergence",
+  "name": "KL divergence",
+  "area": "probability-statistics",
+  "description": "A non-symmetric measure of how one probability distribution differs from another: the expected extra bits paid for encoding data with the wrong distribution.",
+  "aliases": [
+   "KL",
+   "Kullback-Leibler divergence",
+   "Kullback-Leibler",
+   "relative entropy",
+   "KL div",
+   "D_KL"
+  ],
+  "requires": [
+   "entropy"
+  ]
+ },
+ {
+  "concept_id": "likelihood",
+  "name": "Likelihood",
+  "area": "probability-statistics",
+  "description": "How probable the observed data are under a model, viewed as a function of the model's parameters with the data held fixed.",
+  "aliases": [
+   "likelihood function",
+   "log-likelihood",
+   "data likelihood"
+  ],
+  "requires": [
+   "probability-distribution",
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "marginal-distribution",
+  "name": "Marginal distribution",
+  "area": "probability-statistics",
+  "description": "The distribution of one variable on its own, obtained from a joint distribution by summing (or integrating) over the other variables.",
+  "aliases": [
+   "marginal probability",
+   "marginalization",
+   "marginals",
+   "marginalizing out"
+  ],
+  "requires": [
+   "joint-distribution"
+  ]
+ },
+ {
+  "concept_id": "markov-chain",
+  "name": "Markov chain",
+  "area": "probability-statistics",
+  "description": "A random process moving between states where the chance of each next state depends only on the current state, not on earlier history.",
+  "aliases": [
+   "Markov process",
+   "Markov property",
+   "Markov assumption",
+   "discrete-time Markov chain"
+  ],
+  "requires": [
+   "conditional-probability",
+   "random-variable"
+  ]
+ },
+ {
+  "concept_id": "maximum-likelihood-estimation",
+  "name": "Maximum likelihood estimation",
+  "area": "probability-statistics",
+  "description": "Choosing the parameter values that make the observed data most probable, that is, the values that maximize the likelihood.",
+  "aliases": [
+   "MLE",
+   "maximum likelihood",
+   "maximum likelihood estimate",
+   "maximum likelihood estimator",
+   "maximum-likelihood training"
+  ],
+  "requires": [
+   "likelihood",
+   "argmax",
+   "independent-and-identically-distributed"
+  ]
+ },
+ {
+  "concept_id": "mean",
+  "name": "Mean",
+  "area": "probability-statistics",
+  "description": "The average of a set of numbers: add them all up and divide by how many there are.",
+  "aliases": [
+   "average",
+   "arithmetic mean",
+   "sample mean",
+   "empirical mean",
+   "averaging"
+  ],
+  "requires": [
+   "summation-notation"
+  ]
+ },
+ {
+  "concept_id": "moments-of-a-distribution",
+  "name": "Moments of a distribution",
+  "area": "probability-statistics",
+  "description": "Expected values of powers of a random variable, E[X^k]; the first moment is the mean, and the second moment about the mean is the variance.",
+  "aliases": [
+   "moments",
+   "statistical moments",
+   "first moment",
+   "second moment",
+   "raw moment",
+   "central moment",
+   "uncentered second moment",
+   "moment estimates",
+   "higher-order moments"
+  ],
+  "requires": [
+   "variance"
+  ]
+ },
+ {
+  "concept_id": "monte-carlo-estimation",
+  "name": "Monte Carlo estimation",
+  "area": "probability-statistics",
+  "description": "Approximating an expected value by averaging a quantity over many random samples, with the error shrinking as the number of samples grows.",
+  "aliases": [
+   "Monte Carlo",
+   "Monte Carlo method",
+   "Monte Carlo sampling",
+   "Monte Carlo estimate",
+   "Monte Carlo approximation",
+   "Monte Carlo integration"
+  ],
+  "requires": [
+   "expectation",
+   "independent-and-identically-distributed"
+  ]
+ },
+ {
+  "concept_id": "normal-distribution",
+  "name": "Normal distribution",
+  "area": "probability-statistics",
+  "description": "The bell-shaped continuous distribution, set by its mean and standard deviation, that many natural quantities and sums of random effects approximately follow.",
+  "aliases": [
+   "Gaussian",
+   "Gaussian distribution",
+   "normal",
+   "bell curve",
+   "standard normal",
+   "standard normal distribution"
+  ],
+  "requires": [
+   "probability-density-function",
+   "standard-deviation"
+  ]
+ },
+ {
+  "concept_id": "partition-function",
+  "name": "Partition function",
+  "area": "probability-statistics",
+  "description": "The normalizing constant that divides unnormalized scores so they sum, or integrate, to one, turning them into a valid probability distribution.",
+  "aliases": [
+   "normalizing constant",
+   "normalization constant",
+   "normalising constant",
+   "log-partition function"
+  ],
+  "requires": [
+   "probability-distribution",
+   "integral",
+   "exponential-function"
+  ]
+ },
+ {
+  "concept_id": "posterior-distribution",
+  "name": "Posterior distribution",
+  "area": "probability-statistics",
+  "description": "The updated probability distribution over an unknown quantity after seeing data, found by combining the prior with the likelihood via Bayes' rule.",
+  "aliases": [
+   "posterior",
+   "posterior probability",
+   "posterior belief"
+  ],
+  "requires": [
+   "prior-distribution",
+   "likelihood"
+  ]
+ },
+ {
+  "concept_id": "prior-distribution",
+  "name": "Prior distribution",
+  "area": "probability-statistics",
+  "description": "A probability distribution expressing what you believe about an unknown quantity before seeing any data.",
+  "aliases": [
+   "prior",
+   "prior probability",
+   "prior belief"
+  ],
+  "requires": [
+   "bayes-rule",
+   "probability-distribution"
+  ]
+ },
+ {
+  "concept_id": "probability",
+  "name": "Probability",
+  "area": "probability-statistics",
+  "description": "A number from 0 to 1 expressing how likely an event is, where 0 means impossible and 1 means certain.",
+  "aliases": [
+   "chance",
+   "probability theory"
+  ],
+  "requires": []
+ },
+ {
+  "concept_id": "probability-density-function",
+  "name": "Probability density function",
+  "area": "probability-statistics",
+  "description": "For a continuous random variable, a curve whose area over any range of values gives the probability of landing in that range.",
+  "aliases": [
+   "PDF",
+   "probability density",
+   "density function",
+   "density"
+  ],
+  "requires": [
+   "probability-distribution",
+   "integral"
+  ]
+ },
+ {
+  "concept_id": "probability-distribution",
+  "name": "Probability distribution",
+  "area": "probability-statistics",
+  "description": "A description of how likely each possible value of a random variable is, such as a fair die giving each face probability 1/6.",
+  "aliases": [
+   "distribution",
+   "probability mass function",
+   "PMF"
+  ],
+  "requires": [
+   "random-variable"
+  ]
+ },
+ {
+  "concept_id": "random-variable",
+  "name": "Random variable",
+  "area": "probability-statistics",
+  "description": "A quantity whose value depends on the outcome of a random process, such as the number shown by a rolled die.",
+  "aliases": [
+   "RV",
+   "r.v.",
+   "stochastic variable",
+   "discrete random variable",
+   "continuous random variable"
+  ],
+  "requires": [
+   "probability"
+  ]
+ },
+ {
+  "concept_id": "standard-deviation",
+  "name": "Standard deviation",
+  "area": "probability-statistics",
+  "description": "The square root of the variance, measuring the typical spread of values around the mean in the same units as the data.",
+  "aliases": [
+   "std",
+   "std dev",
+   "stdev",
+   "sigma"
+  ],
+  "requires": [
+   "variance"
+  ]
+ },
+ {
+  "concept_id": "standardization",
+  "name": "Standardization",
+  "area": "probability-statistics",
+  "description": "Rescaling a variable by subtracting its mean and dividing by its standard deviation, giving it mean 0 and standard deviation 1.",
+  "aliases": [
+   "standardizing",
+   "z-score",
+   "z-score normalization",
+   "standard scaling",
+   "zero-mean unit-variance normalization"
+  ],
+  "requires": [
+   "standard-deviation"
+  ]
+ },
+ {
+  "concept_id": "statistical-independence",
+  "name": "Statistical independence",
+  "area": "probability-statistics",
+  "description": "Two random variables are independent when knowing one tells nothing about the other, so their joint probability is the product of their separate probabilities.",
+  "aliases": [
+   "independence",
+   "independent random variables",
+   "independent events",
+   "statistically independent",
+   "mutual independence"
+  ],
+  "requires": [
+   "marginal-distribution",
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "variance",
+  "name": "Variance",
+  "area": "probability-statistics",
+  "description": "The expected squared distance of a random variable from its mean, measuring how spread out its values are.",
+  "aliases": [
+   "sample variance",
+   "sigma squared",
+   "second central moment"
+  ],
+  "requires": [
+   "expectation"
+  ]
+ },
+ {
+  "concept_id": "whitening",
+  "name": "Whitening",
+  "area": "probability-statistics",
+  "description": "Transforming data so its features have variance 1 and zero covariance with each other, usually using the eigenvectors of its covariance matrix.",
+  "aliases": [
+   "whitening transform",
+   "whitening transformation",
+   "ZCA whitening",
+   "PCA whitening",
+   "sphering",
+   "data whitening",
+   "whitened"
+  ],
+  "requires": [
+   "standardization",
+   "covariance-matrix",
+   "eigenvalues-and-eigenvectors"
+  ]
+ },
+ {
+  "concept_id": "bias-variance-tradeoff",
+  "name": "Bias-variance tradeoff",
+  "area": "machine-learning-basics",
+  "description": "The balance between models too simple to capture the pattern (high bias) and models so flexible they fit noise (high variance).",
+  "aliases": [
+   "bias-variance trade-off",
+   "bias variance tradeoff",
+   "bias-variance decomposition",
+   "bias-variance dilemma"
+  ],
+  "requires": [
+   "overfitting",
+   "variance",
+   "bias-of-an-estimator"
+  ]
+ },
+ {
+  "concept_id": "classification",
+  "name": "Classification",
+  "area": "machine-learning-basics",
+  "description": "A prediction task where the model assigns each input to one of a fixed set of categories, like spam or not spam.",
+  "aliases": [
+   "classifier",
+   "classification task",
+   "classification problem",
+   "binary classification",
+   "multi-class classification",
+   "multiclass classification",
+   "categorization"
+  ],
+  "requires": [
+   "supervised-learning"
+  ]
+ },
+ {
+  "concept_id": "contrastive-learning",
+  "name": "Contrastive learning",
+  "area": "machine-learning-basics",
+  "description": "Learning embeddings by pulling together pairs that belong together, like two crops of one photo, and pushing apart pairs that don't.",
+  "aliases": [
+   "contrastive loss",
+   "contrastive objective",
+   "contrastive representation learning",
+   "contrastive pretraining",
+   "InfoNCE",
+   "InfoNCE loss"
+  ],
+  "requires": [
+   "self-supervised-learning",
+   "embedding",
+   "cosine-similarity"
+  ]
+ },
+ {
+  "concept_id": "covariate-shift",
+  "name": "Covariate shift",
+  "area": "machine-learning-basics",
+  "description": "When the inputs a model sees after deployment are distributed differently from its training inputs, while the input-to-label relationship stays the same.",
+  "aliases": [
+   "covariate drift",
+   "input shift",
+   "input distribution shift"
+  ],
+  "requires": [
+   "generalization",
+   "probability-distribution"
+  ]
+ },
+ {
+  "concept_id": "cross-entropy-loss",
+  "name": "Cross-entropy loss",
+  "area": "machine-learning-basics",
+  "description": "A classification loss equal to the negative log of the probability the model gave the correct class, so confident mistakes cost the most.",
+  "aliases": [
+   "cross-entropy",
+   "cross entropy",
+   "CE loss",
+   "log loss",
+   "logistic loss",
+   "negative log-likelihood",
+   "NLL",
+   "NLL loss",
+   "categorical cross-entropy",
+   "binary cross-entropy",
+   "BCE",
+   "softmax loss"
+  ],
+  "requires": [
+   "loss-function",
+   "classification",
+   "softmax",
+   "logarithm"
+  ]
+ },
+ {
+  "concept_id": "ensemble-learning",
+  "name": "Ensemble learning",
+  "area": "machine-learning-basics",
+  "description": "Combining predictions from several separately trained models, by voting or averaging, to get more accurate and reliable results than any single one.",
+  "aliases": [
+   "ensemble",
+   "ensembling",
+   "model ensemble",
+   "ensemble methods",
+   "ensemble of models"
+  ],
+  "requires": [
+   "bias-variance-tradeoff"
+  ]
+ },
+ {
+  "concept_id": "feature",
+  "name": "Feature",
+  "area": "machine-learning-basics",
+  "description": "One measurable property of an example, such as a pixel's brightness or a word count, that a model uses as input.",
+  "aliases": [
+   "input feature",
+   "feature vector",
+   "attribute",
+   "predictor",
+   "input variable",
+   "explanatory variable",
+   "independent variable",
+   "covariate"
+  ],
+  "requires": [
+   "machine-learning"
+  ]
+ },
+ {
+  "concept_id": "few-shot-learning",
+  "name": "Few-shot learning",
+  "area": "machine-learning-basics",
+  "description": "Learning a new class or task from only a handful of labeled examples, usually by building on knowledge from earlier training.",
+  "aliases": [
+   "few-shot",
+   "few shot",
+   "FSL",
+   "one-shot learning",
+   "one-shot",
+   "k-shot learning",
+   "low-shot learning",
+   "n-way k-shot classification"
+  ],
+  "requires": [
+   "transfer-learning",
+   "generalization"
+  ]
+ },
+ {
+  "concept_id": "generalization",
+  "name": "Generalization",
+  "area": "machine-learning-basics",
+  "description": "How well a model performs on new examples it never saw during training, which is the real goal of learning.",
+  "aliases": [
+   "generalisation",
+   "generalize",
+   "generalization error",
+   "generalization gap",
+   "out-of-sample performance",
+   "out-of-sample error"
+  ],
+  "requires": [
+   "supervised-learning"
+  ]
+ },
+ {
+  "concept_id": "hyperparameter",
+  "name": "Hyperparameter",
+  "area": "machine-learning-basics",
+  "description": "A setting chosen before training, such as how fast to learn or how big the model is, rather than learned from data.",
+  "aliases": [
+   "hyper-parameter",
+   "hyperparam"
+  ],
+  "requires": [
+   "model-parameters"
+  ]
+ },
+ {
+  "concept_id": "inductive-bias",
+  "name": "Inductive bias",
+  "area": "machine-learning-basics",
+  "description": "The built-in assumptions that make a learning method prefer some solutions over others, like a vision model assuming nearby pixels are related.",
+  "aliases": [
+   "learning bias",
+   "inductive prior",
+   "architectural prior"
+  ],
+  "requires": [
+   "generalization"
+  ]
+ },
+ {
+  "concept_id": "l2-regularization",
+  "name": "L2 regularization",
+  "area": "machine-learning-basics",
+  "description": "Adding the sum of squared weights to the loss, pushing training toward smaller weights and smoother models that overfit less.",
+  "aliases": [
+   "L2 regularisation",
+   "L2 penalty",
+   "L2 norm penalty",
+   "squared L2 penalty",
+   "weight penalty",
+   "ridge penalty",
+   "Tikhonov regularization"
+  ],
+  "requires": [
+   "regularization",
+   "vector-norm"
+  ]
+ },
+ {
+  "concept_id": "label",
+  "name": "Label",
+  "area": "machine-learning-basics",
+  "description": "The correct answer attached to a training example, such as 'cat' for a photo, which a model learns to predict.",
+  "aliases": [
+   "target",
+   "target variable",
+   "ground truth",
+   "ground-truth label",
+   "class label",
+   "gold label",
+   "annotation",
+   "response variable",
+   "dependent variable"
+  ],
+  "requires": [
+   "machine-learning"
+  ]
+ },
+ {
+  "concept_id": "linear-regression",
+  "name": "Linear regression",
+  "area": "machine-learning-basics",
+  "description": "Predicting a number as a weighted sum of the input features plus a constant, with weights chosen to minimize mean squared error.",
+  "aliases": [
+   "ordinary least squares",
+   "OLS",
+   "least squares regression",
+   "least-squares regression",
+   "linear least squares",
+   "linear regressor"
+  ],
+  "requires": [
+   "mean-squared-error",
+   "dot-product"
+  ]
+ },
+ {
+  "concept_id": "logistic-regression",
+  "name": "Logistic regression",
+  "area": "machine-learning-basics",
+  "description": "A classification model that feeds a weighted sum of features through the sigmoid function to output the probability of the positive class.",
+  "aliases": [
+   "logit model",
+   "logit regression",
+   "logistic classifier",
+   "binary logistic regression"
+  ],
+  "requires": [
+   "linear-regression",
+   "sigmoid-function",
+   "classification"
+  ]
+ },
+ {
+  "concept_id": "logits",
+  "name": "Logits",
+  "area": "machine-learning-basics",
+  "description": "The raw scores a classifier outputs for each class before softmax turns them into probabilities; a higher score means more likely.",
+  "aliases": [
+   "logit",
+   "raw scores",
+   "class scores",
+   "pre-softmax scores",
+   "unnormalized log-probabilities",
+   "unnormalized scores"
+  ],
+  "requires": [
+   "classification",
+   "softmax"
+  ]
+ },
+ {
+  "concept_id": "loss-function",
+  "name": "Loss function",
+  "area": "machine-learning-basics",
+  "description": "A formula that scores how wrong a model's predictions are; training adjusts the parameters to make this score as small as possible.",
+  "aliases": [
+   "loss",
+   "cost function",
+   "cost",
+   "objective function",
+   "training objective",
+   "objective",
+   "criterion",
+   "training loss"
+  ],
+  "requires": [
+   "supervised-learning",
+   "model-parameters"
+  ]
+ },
+ {
+  "concept_id": "machine-learning",
+  "name": "Machine learning",
+  "area": "machine-learning-basics",
+  "description": "Getting computers to learn patterns from example data so they improve at a task, rather than following hand-written rules.",
+  "aliases": [
+   "ML",
+   "statistical learning"
+  ],
+  "requires": []
+ },
+ {
+  "concept_id": "mean-squared-error",
+  "name": "Mean squared error",
+  "area": "machine-learning-basics",
+  "description": "A loss that averages the squared differences between predicted and true numbers, so large mistakes are punished much more than small ones.",
+  "aliases": [
+   "MSE",
+   "MSE loss",
+   "squared error",
+   "squared loss",
+   "L2 loss",
+   "quadratic loss",
+   "mean squared error loss"
+  ],
+  "requires": [
+   "loss-function",
+   "regression",
+   "mean"
+  ]
+ },
+ {
+  "concept_id": "model-parameters",
+  "name": "Model parameters",
+  "area": "machine-learning-basics",
+  "description": "The numbers inside a model, such as weights and biases, that training adjusts so the model's predictions fit the data.",
+  "aliases": [
+   "parameters",
+   "params",
+   "weights",
+   "model weights",
+   "network weights",
+   "learnable parameters",
+   "trainable parameters",
+   "weights and biases",
+   "bias term"
+  ],
+  "requires": [
+   "machine-learning",
+   "function"
+  ]
+ },
+ {
+  "concept_id": "one-hot-encoding",
+  "name": "One-hot encoding",
+  "area": "machine-learning-basics",
+  "description": "Representing one of K categories as a vector of K zeros with a single 1 at that category's position.",
+  "aliases": [
+   "one-hot",
+   "one hot",
+   "one-hot vector",
+   "one-hot representation",
+   "one-of-K encoding",
+   "1-of-K encoding"
+  ],
+  "requires": [
+   "vector",
+   "feature"
+  ]
+ },
+ {
+  "concept_id": "overfitting",
+  "name": "Overfitting",
+  "area": "machine-learning-basics",
+  "description": "When a model fits its training data so closely, noise included, that it performs much worse on new data.",
+  "aliases": [
+   "overfit",
+   "over-fitting",
+   "overfitted",
+   "overtraining"
+  ],
+  "requires": [
+   "train-validation-test-split"
+  ]
+ },
+ {
+  "concept_id": "principal-component-analysis",
+  "name": "Principal component analysis",
+  "area": "machine-learning-basics",
+  "description": "A method that finds the directions along which data varies most and keeps only the top few, compressing data while losing little information.",
+  "aliases": [
+   "PCA",
+   "principal components",
+   "Karhunen-Loeve transform",
+   "KLT"
+  ],
+  "requires": [
+   "unsupervised-learning",
+   "covariance-matrix",
+   "eigenvalues-and-eigenvectors"
+  ]
+ },
+ {
+  "concept_id": "regression",
+  "name": "Regression",
+  "area": "machine-learning-basics",
+  "description": "A prediction task where the model outputs a continuous number, such as a house price or tomorrow's temperature, rather than a category.",
+  "aliases": [
+   "regression task",
+   "regression problem",
+   "regressor"
+  ],
+  "requires": [
+   "supervised-learning"
+  ]
+ },
+ {
+  "concept_id": "regularization",
+  "name": "Regularization",
+  "area": "machine-learning-basics",
+  "description": "Any technique that discourages a model from becoming overly complex, so it fits training data less tightly and generalizes better.",
+  "aliases": [
+   "regularisation",
+   "regularizer",
+   "regulariser",
+   "regularization term",
+   "penalty term"
+  ],
+  "requires": [
+   "overfitting",
+   "loss-function"
+  ]
+ },
+ {
+  "concept_id": "self-supervised-learning",
+  "name": "Self-supervised learning",
+  "area": "machine-learning-basics",
+  "description": "Learning from unlabeled data by making the labels from the data itself, such as hiding part of an input and predicting it.",
+  "aliases": [
+   "self supervised learning",
+   "self-supervision",
+   "self-supervised pretraining",
+   "self-supervised"
+  ],
+  "requires": [
+   "unsupervised-learning"
+  ]
+ },
+ {
+  "concept_id": "sigmoid-function",
+  "name": "Sigmoid function",
+  "area": "machine-learning-basics",
+  "description": "An S-shaped function, 1/(1+e^-x), that squashes any number into the range 0 to 1 so it can be read as a probability.",
+  "aliases": [
+   "sigmoid",
+   "logistic function",
+   "logistic sigmoid",
+   "standard logistic function",
+   "sigmoid activation",
+   "logistic curve"
+  ],
+  "requires": [
+   "exponential-function"
+  ]
+ },
+ {
+  "concept_id": "softmax",
+  "name": "Softmax",
+  "area": "machine-learning-basics",
+  "description": "A function that turns a list of scores into probabilities that are positive and sum to one, giving the largest score the biggest share.",
+  "aliases": [
+   "softmax function",
+   "soft-max",
+   "softmax activation",
+   "softmax layer",
+   "normalized exponential",
+   "softargmax"
+  ],
+  "requires": [
+   "vector",
+   "exponential-function",
+   "probability-distribution"
+  ]
+ },
+ {
+  "concept_id": "softmax-temperature",
+  "name": "Softmax temperature",
+  "area": "machine-learning-basics",
+  "description": "A number that divides the scores before softmax: high values make the probabilities more equal, low values concentrate them on the top choice.",
+  "aliases": [
+   "temperature",
+   "temperature parameter",
+   "temperature scaling",
+   "sampling temperature",
+   "softmax temperature scaling"
+  ],
+  "requires": [
+   "softmax"
+  ]
+ },
+ {
+  "concept_id": "supervised-learning",
+  "name": "Supervised learning",
+  "area": "machine-learning-basics",
+  "description": "Learning from examples that each come with the correct answer, so the model learns to map new inputs to the right outputs.",
+  "aliases": [
+   "supervised",
+   "supervised ML",
+   "supervised training",
+   "learning from labeled data"
+  ],
+  "requires": [
+   "feature",
+   "label"
+  ]
+ },
+ {
+  "concept_id": "train-validation-test-split",
+  "name": "Train/validation/test split",
+  "area": "machine-learning-basics",
+  "description": "Dividing data into a training set to fit the model, a validation set to tune choices, and a test set for a final honest score.",
+  "aliases": [
+   "train/val/test split",
+   "train-test split",
+   "train/test split",
+   "data split",
+   "training set",
+   "validation set",
+   "test set",
+   "held-out set",
+   "holdout set",
+   "dev set",
+   "development set"
+  ],
+  "requires": [
+   "generalization",
+   "hyperparameter"
+  ]
+ },
+ {
+  "concept_id": "unsupervised-learning",
+  "name": "Unsupervised learning",
+  "area": "machine-learning-basics",
+  "description": "Finding structure, such as groups of similar items or a simpler summary, in data that comes without any correct-answer labels.",
+  "aliases": [
+   "unsupervised",
+   "unsupervised ML",
+   "unsupervised training",
+   "learning from unlabeled data"
+  ],
+  "requires": [
+   "supervised-learning"
+  ]
+ },
+ {
+  "concept_id": "zero-shot-learning",
+  "name": "Zero-shot learning",
+  "area": "machine-learning-basics",
+  "description": "Handling classes or tasks a model never saw labeled examples of during training, using descriptions or general knowledge instead.",
+  "aliases": [
+   "zero-shot",
+   "zero shot",
+   "ZSL",
+   "zero-shot classification",
+   "zero-shot transfer",
+   "zero-shot generalization"
+  ],
+  "requires": [
+   "transfer-learning",
+   "generalization"
+  ]
+ },
+ {
+  "concept_id": "activation-function",
+  "name": "Activation function",
+  "area": "neural-networks",
+  "description": "The nonlinear function a neuron applies to its weighted sum; without it, stacked layers could only represent straight-line relationships.",
+  "aliases": [
+   "activation",
+   "nonlinearity",
+   "non-linearity",
+   "nonlinear activation"
+  ],
+  "requires": [
+   "artificial-neuron"
+  ]
+ },
+ {
+  "concept_id": "adagrad",
+  "name": "AdaGrad",
+  "area": "neural-networks",
+  "description": "An adaptive optimizer that divides each parameter's step by the root of its summed squared past gradients, so frequently updated parameters slow down.",
+  "aliases": [
+   "Adagrad optimizer",
+   "adaptive gradient algorithm",
+   "Ada-Grad"
+  ],
+  "requires": [
+   "adaptive-learning-rate"
+  ]
+ },
+ {
+  "concept_id": "adam-optimizer",
+  "name": "Adam optimizer",
+  "area": "neural-networks",
+  "description": "A widely used optimizer that combines momentum with per-parameter step sizes scaled by recent squared gradients, working well with little tuning.",
+  "aliases": [
+   "Adam",
+   "adaptive moment estimation",
+   "Adam optimiser"
+  ],
+  "requires": [
+   "momentum",
+   "adaptive-learning-rate"
+  ]
+ },
+ {
+  "concept_id": "adamax",
+  "name": "AdaMax",
+  "area": "neural-networks",
+  "description": "A variant of Adam that scales steps by the largest recent gradient magnitude, the infinity norm, instead of an average of squared gradients.",
+  "aliases": [
+   "AdaMax optimizer",
+   "Adam infinity norm",
+   "Adam with infinity norm"
+  ],
+  "requires": [
+   "adam-optimizer",
+   "vector-norm"
+  ]
+ },
+ {
+  "concept_id": "adamw",
+  "name": "AdamW",
+  "area": "neural-networks",
+  "description": "A version of Adam that applies weight decay directly to the weights, separate from the gradient-based step, making regularization work as intended.",
+  "aliases": [
+   "AdamW optimizer",
+   "Adam-W",
+   "Adam with decoupled weight decay",
+   "decoupled weight decay"
+  ],
+  "requires": [
+   "adam-optimizer",
+   "weight-decay"
+  ]
+ },
+ {
+  "concept_id": "adaptive-learning-rate",
+  "name": "Adaptive learning rate",
+  "area": "neural-networks",
+  "description": "Optimizers that automatically give each parameter its own step size, based on the history of that parameter's gradients.",
+  "aliases": [
+   "adaptive optimizer",
+   "adaptive gradient methods",
+   "per-parameter learning rate",
+   "adaptive step size"
+  ],
+  "requires": [
+   "stochastic-gradient-descent",
+   "learning-rate"
+  ]
+ },
+ {
+  "concept_id": "artificial-neuron",
+  "name": "Artificial neuron",
+  "area": "neural-networks",
+  "description": "A simple computing unit that takes a weighted sum of its inputs, adds a bias, and passes the result through a nonlinear function.",
+  "aliases": [
+   "neuron",
+   "perceptron",
+   "computational neuron"
+  ],
+  "requires": [
+   "dot-product",
+   "model-parameters"
+  ]
+ },
+ {
+  "concept_id": "automatic-differentiation",
+  "name": "Automatic differentiation",
+  "area": "neural-networks",
+  "description": "Software that computes exact derivatives of a program by recording its basic operations and applying the chain rule to them automatically.",
+  "aliases": [
+   "autodiff",
+   "autograd",
+   "algorithmic differentiation",
+   "reverse-mode automatic differentiation",
+   "reverse-mode autodiff"
+  ],
+  "requires": [
+   "backpropagation"
+  ]
+ },
+ {
+  "concept_id": "backpropagation",
+  "name": "Backpropagation",
+  "area": "neural-networks",
+  "description": "The algorithm that computes how each weight affects the loss by applying the chain rule backward through the network, layer by layer.",
+  "aliases": [
+   "backprop",
+   "back-propagation",
+   "backward pass",
+   "backpropagation of errors",
+   "error backpropagation"
+  ],
+  "requires": [
+   "forward-pass",
+   "chain-rule",
+   "gradient",
+   "loss-function"
+  ]
+ },
+ {
+  "concept_id": "batch-normalization",
+  "name": "Batch normalization",
+  "area": "neural-networks",
+  "description": "Standardizing each layer's inputs using the mean and variance of the current mini-batch, then applying a learned scale and shift.",
+  "aliases": [
+   "batch norm",
+   "batchnorm",
+   "batch-norm",
+   "BN",
+   "batch normalisation"
+  ],
+  "requires": [
+   "standardization",
+   "mini-batch",
+   "hidden-layer"
+  ]
+ },
+ {
+  "concept_id": "bias-correction",
+  "name": "Bias correction",
+  "area": "neural-networks",
+  "description": "Adam's rescaling of its running averages early in training, since averages that start at zero would otherwise be biased toward zero.",
+  "aliases": [
+   "Adam bias correction",
+   "initialization bias correction",
+   "bias-corrected moment estimates",
+   "bias-corrected estimates"
+  ],
+  "requires": [
+   "adam-optimizer",
+   "bias-of-an-estimator"
+  ]
+ },
+ {
+  "concept_id": "classification-head",
+  "name": "Classification head",
+  "area": "neural-networks",
+  "description": "The final layer or layers that turn a network's learned features into one score per class, usually followed by softmax.",
+  "aliases": [
+   "classifier head",
+   "classification layer",
+   "classifier layer",
+   "prediction head",
+   "output head",
+   "task head",
+   "linear head"
+  ],
+  "requires": [
+   "fully-connected-layer",
+   "logits"
+  ]
+ },
+ {
+  "concept_id": "cosine-learning-rate-decay",
+  "name": "Cosine learning rate decay",
+  "area": "neural-networks",
+  "description": "A schedule that lowers the learning rate along a cosine curve, from its starting value smoothly down to near zero.",
+  "aliases": [
+   "cosine annealing",
+   "cosine decay",
+   "cosine schedule",
+   "cosine learning rate schedule",
+   "cosine LR schedule",
+   "cosine annealing schedule"
+  ],
+  "requires": [
+   "learning-rate-schedule",
+   "trigonometric-functions"
+  ]
+ },
+ {
+  "concept_id": "deep-learning",
+  "name": "Deep learning",
+  "area": "neural-networks",
+  "description": "Machine learning with neural networks that have many layers, which learn useful features directly from raw data like pixels or text.",
+  "aliases": [
+   "DL",
+   "deep neural network",
+   "DNN",
+   "deep network",
+   "deep nets"
+  ],
+  "requires": [
+   "hidden-layer"
+  ]
+ },
+ {
+  "concept_id": "distributed-training",
+  "name": "Distributed training",
+  "area": "neural-networks",
+  "description": "Splitting the work of training one model across many processors or machines, by dividing up the data, the model, or both.",
+  "aliases": [
+   "parallel training",
+   "multi-GPU training",
+   "data parallelism",
+   "model parallelism",
+   "distributed data parallel",
+   "DDP"
+  ],
+  "requires": [
+   "stochastic-gradient-descent",
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "downstream-task",
+  "name": "Downstream task",
+  "area": "neural-networks",
+  "description": "The specific task you actually care about, such as spam detection, that a pretrained model is adapted to.",
+  "aliases": [
+   "target task",
+   "end task",
+   "downstream application"
+  ],
+  "requires": [
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "dropout",
+  "name": "Dropout",
+  "area": "neural-networks",
+  "description": "Randomly switching off a fraction of neurons at each training step, so the network can't rely on any single one and overfits less.",
+  "aliases": [
+   "drop-out",
+   "dropout layer",
+   "dropout regularization",
+   "dropout rate",
+   "inverted dropout"
+  ],
+  "requires": [
+   "regularization",
+   "hidden-layer"
+  ]
+ },
+ {
+  "concept_id": "early-stopping",
+  "name": "Early stopping",
+  "area": "neural-networks",
+  "description": "Stopping training when performance on the validation set stops improving, before the model starts to overfit.",
+  "aliases": [
+   "early stop",
+   "early-stop",
+   "early termination"
+  ],
+  "requires": [
+   "regularization",
+   "epoch"
+  ]
+ },
+ {
+  "concept_id": "embedding",
+  "name": "Embedding",
+  "area": "neural-networks",
+  "description": "A learned vector of numbers that represents an item, like a word or an image, so similar items get nearby vectors.",
+  "aliases": [
+   "embedding vector",
+   "embedding layer",
+   "embedding table",
+   "embedding matrix",
+   "learned representation",
+   "dense representation"
+  ],
+  "requires": [
+   "one-hot-encoding",
+   "neural-network"
+  ]
+ },
+ {
+  "concept_id": "epoch",
+  "name": "Epoch",
+  "area": "neural-networks",
+  "description": "One complete pass through every example in the training set; training usually runs for many epochs.",
+  "aliases": [
+   "training epoch",
+   "pass over the data"
+  ],
+  "requires": [
+   "mini-batch"
+  ]
+ },
+ {
+  "concept_id": "exploding-gradient-problem",
+  "name": "Exploding gradient problem",
+  "area": "neural-networks",
+  "description": "When gradients grow at every layer during backpropagation, becoming so large that training updates turn wildly unstable.",
+  "aliases": [
+   "exploding gradients",
+   "gradient explosion",
+   "exploding-gradient problem"
+  ],
+  "requires": [
+   "backpropagation",
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "fine-tuning",
+  "name": "Fine-tuning",
+  "area": "neural-networks",
+  "description": "Continuing to train a pretrained model on a smaller, task-specific dataset so it adapts to that task.",
+  "aliases": [
+   "finetuning",
+   "fine tuning",
+   "fine-tune",
+   "finetune",
+   "full fine-tuning"
+  ],
+  "requires": [
+   "transfer-learning",
+   "downstream-task"
+  ]
+ },
+ {
+  "concept_id": "forward-pass",
+  "name": "Forward pass",
+  "area": "neural-networks",
+  "description": "Feeding an input through a network layer by layer to compute its output and, during training, the loss.",
+  "aliases": [
+   "forward propagation",
+   "forward-propagation",
+   "forward computation",
+   "forward step",
+   "feedforward pass"
+  ],
+  "requires": [
+   "neural-network"
+  ]
+ },
+ {
+  "concept_id": "fully-connected-layer",
+  "name": "Fully connected layer",
+  "area": "neural-networks",
+  "description": "A layer where every output neuron is connected to every input with its own weight, computed as a matrix multiplication plus a bias.",
+  "aliases": [
+   "fully-connected layer",
+   "FC layer",
+   "dense layer",
+   "linear layer",
+   "affine layer",
+   "inner product layer",
+   "nn.Linear"
+  ],
+  "requires": [
+   "neural-network",
+   "matrix-multiplication"
+  ]
+ },
+ {
+  "concept_id": "gelu",
+  "name": "GELU",
+  "area": "neural-networks",
+  "description": "A smooth, ReLU-like activation that multiplies each input by the chance that a standard normal value falls below it.",
+  "aliases": [
+   "Gaussian error linear unit",
+   "GELU activation"
+  ],
+  "requires": [
+   "relu",
+   "normal-distribution"
+  ]
+ },
+ {
+  "concept_id": "gradient-clipping",
+  "name": "Gradient clipping",
+  "area": "neural-networks",
+  "description": "Shrinking gradients whose size exceeds a set limit before each update, so one huge gradient can't derail training.",
+  "aliases": [
+   "grad clipping",
+   "clipping gradients",
+   "gradient norm clipping",
+   "clip grad norm",
+   "gradient value clipping"
+  ],
+  "requires": [
+   "exploding-gradient-problem",
+   "vector-norm"
+  ]
+ },
+ {
+  "concept_id": "group-normalization",
+  "name": "Group normalization",
+  "area": "neural-networks",
+  "description": "Standardizing each example's values within groups of feature maps, which works well even with the tiny batches where batch norm struggles.",
+  "aliases": [
+   "group norm",
+   "groupnorm",
+   "GN",
+   "group normalisation"
+  ],
+  "requires": [
+   "layer-normalization",
+   "mini-batch-statistics",
+   "feature-map"
+  ]
+ },
+ {
+  "concept_id": "he-initialization",
+  "name": "He initialization",
+  "area": "neural-networks",
+  "description": "Setting starting weights randomly with variance 2 divided by the number of inputs, so signal sizes stay steady through ReLU layers.",
+  "aliases": [
+   "Kaiming initialization",
+   "He init",
+   "Kaiming init",
+   "He normal",
+   "Kaiming normal",
+   "Kaiming uniform",
+   "MSRA initialization",
+   "He initialisation"
+  ],
+  "requires": [
+   "xavier-initialization",
+   "relu"
+  ]
+ },
+ {
+  "concept_id": "hidden-layer",
+  "name": "Hidden layer",
+  "area": "neural-networks",
+  "description": "A layer of neurons between a network's input and output, whose values are intermediate features the network learns on its own.",
+  "aliases": [
+   "hidden units",
+   "intermediate layer"
+  ],
+  "requires": [
+   "neural-network"
+  ]
+ },
+ {
+  "concept_id": "internal-covariate-shift",
+  "name": "Internal covariate shift",
+  "area": "neural-networks",
+  "description": "The way the inputs to a deep layer keep changing distribution during training, because the layers before it keep updating.",
+  "aliases": [
+   "ICS"
+  ],
+  "requires": [
+   "covariate-shift",
+   "hidden-layer"
+  ]
+ },
+ {
+  "concept_id": "knowledge-distillation",
+  "name": "Knowledge distillation",
+  "area": "neural-networks",
+  "description": "Training a small student model to match the output probabilities of a large teacher model, transferring much of its skill cheaply.",
+  "aliases": [
+   "distillation",
+   "model distillation",
+   "KD",
+   "teacher-student training",
+   "student-teacher training",
+   "teacher-student distillation"
+  ],
+  "requires": [
+   "softmax-temperature",
+   "cross-entropy-loss"
+  ]
+ },
+ {
+  "concept_id": "label-smoothing",
+  "name": "Label smoothing",
+  "area": "neural-networks",
+  "description": "Training against softened targets, like 0.9 for the correct class with the remaining 0.1 spread over others, so the model is less overconfident.",
+  "aliases": [
+   "label smoothing regularization",
+   "LSR",
+   "smoothed labels"
+  ],
+  "requires": [
+   "cross-entropy-loss",
+   "one-hot-encoding",
+   "regularization"
+  ]
+ },
+ {
+  "concept_id": "layer-normalization",
+  "name": "Layer normalization",
+  "area": "neural-networks",
+  "description": "Standardizing each example's activations across a layer's features, using that example's own mean and variance, then applying a learned scale and shift.",
+  "aliases": [
+   "layer norm",
+   "layernorm",
+   "layer-norm",
+   "layer normalisation"
+  ],
+  "requires": [
+   "standardization",
+   "hidden-layer"
+  ]
+ },
+ {
+  "concept_id": "learning-rate-schedule",
+  "name": "Learning rate schedule",
+  "area": "neural-networks",
+  "description": "A plan for changing the learning rate during training, typically lowering it over time so training settles into a good solution.",
+  "aliases": [
+   "LR schedule",
+   "learning rate scheduler",
+   "LR scheduler",
+   "learning rate decay",
+   "LR decay",
+   "learning rate annealing"
+  ],
+  "requires": [
+   "learning-rate",
+   "epoch"
+  ]
+ },
+ {
+  "concept_id": "learning-rate-warmup",
+  "name": "Learning rate warmup",
+  "area": "neural-networks",
+  "description": "Starting training with a tiny learning rate and gradually raising it over the first steps, which prevents unstable early updates.",
+  "aliases": [
+   "warmup",
+   "warm-up",
+   "LR warmup",
+   "linear warmup",
+   "learning rate warm-up",
+   "warmup steps"
+  ],
+  "requires": [
+   "learning-rate-schedule"
+  ]
+ },
+ {
+  "concept_id": "mini-batch-statistics",
+  "name": "Mini-batch statistics",
+  "area": "neural-networks",
+  "description": "The mean and variance of the current mini-batch, which batch norm uses during training, switching to running averages at test time.",
+  "aliases": [
+   "minibatch statistics",
+   "batch statistics",
+   "running statistics",
+   "running mean and variance",
+   "population statistics"
+  ],
+  "requires": [
+   "batch-normalization",
+   "exponential-moving-average"
+  ]
+ },
+ {
+  "concept_id": "momentum",
+  "name": "Momentum",
+  "area": "neural-networks",
+  "description": "An optimizer technique that keeps a running average of past gradients and steps along it, smoothing noisy updates and speeding progress.",
+  "aliases": [
+   "SGD with momentum",
+   "momentum SGD",
+   "classical momentum",
+   "Polyak momentum",
+   "heavy ball method",
+   "heavy-ball momentum"
+  ],
+  "requires": [
+   "stochastic-gradient-descent",
+   "exponential-moving-average"
+  ]
+ },
+ {
+  "concept_id": "multilayer-perceptron",
+  "name": "Multilayer perceptron",
+  "area": "neural-networks",
+  "description": "The basic neural network: fully connected layers stacked one after another with a nonlinear activation between them.",
+  "aliases": [
+   "MLP",
+   "multi-layer perceptron",
+   "feedforward neural network",
+   "feed-forward neural network",
+   "fully connected network",
+   "fully-connected neural network",
+   "vanilla neural network"
+  ],
+  "requires": [
+   "fully-connected-layer",
+   "hidden-layer",
+   "activation-function"
+  ]
+ },
+ {
+  "concept_id": "neural-network",
+  "name": "Neural network",
+  "area": "neural-networks",
+  "description": "A model made of many artificial neurons arranged in layers, where each layer's outputs become the next layer's inputs.",
+  "aliases": [
+   "NN",
+   "neural net",
+   "artificial neural network",
+   "ANN"
+  ],
+  "requires": [
+   "artificial-neuron"
+  ]
+ },
+ {
+  "concept_id": "overparameterization",
+  "name": "Overparameterization",
+  "area": "neural-networks",
+  "description": "Using a model with far more parameters than training examples, which in deep learning surprisingly often still generalizes well.",
+  "aliases": [
+   "over-parameterization",
+   "overparametrization",
+   "over-parametrization",
+   "overparameterisation",
+   "overparameterized model"
+  ],
+  "requires": [
+   "bias-variance-tradeoff",
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "pretraining",
+  "name": "Pretraining",
+  "area": "neural-networks",
+  "description": "Training a model first on a large, general dataset so it learns broadly useful features before being adapted to specific tasks.",
+  "aliases": [
+   "pre-training",
+   "pretrain",
+   "pretrained model",
+   "pre-trained model",
+   "pretrained weights"
+  ],
+  "requires": [
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "quantization",
+  "name": "Quantization",
+  "area": "neural-networks",
+  "description": "Storing a model's numbers with fewer bits, like 8-bit integers instead of 32-bit decimals, to make it smaller and faster.",
+  "aliases": [
+   "quantisation",
+   "model quantization",
+   "weight quantization",
+   "int8 quantization",
+   "low-bit quantization",
+   "low-precision weights"
+  ],
+  "requires": [
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "relu",
+  "name": "ReLU",
+  "area": "neural-networks",
+  "description": "An activation function that passes positive inputs through unchanged and turns negative inputs into zero; the default in most deep networks.",
+  "aliases": [
+   "rectified linear unit",
+   "rectified linear activation",
+   "rectifier",
+   "ReLU activation"
+  ],
+  "requires": [
+   "activation-function"
+  ]
+ },
+ {
+  "concept_id": "residual-connection",
+  "name": "Residual connection",
+  "area": "neural-networks",
+  "description": "A shortcut that adds a block's input to its output, so signals and gradients flow easily through very deep networks.",
+  "aliases": [
+   "skip connection",
+   "skip-connection",
+   "shortcut connection",
+   "residual link"
+  ],
+  "requires": [
+   "vanishing-gradient-problem"
+  ]
+ },
+ {
+  "concept_id": "rmsnorm",
+  "name": "RMSNorm",
+  "area": "neural-networks",
+  "description": "A simpler layer normalization that only divides values by their root mean square, skipping mean subtraction; common in modern language models.",
+  "aliases": [
+   "RMS norm",
+   "RMS normalization",
+   "root mean square normalization",
+   "root mean square layer normalization",
+   "rms-norm"
+  ],
+  "requires": [
+   "layer-normalization"
+  ]
+ },
+ {
+  "concept_id": "rmsprop",
+  "name": "RMSProp",
+  "area": "neural-networks",
+  "description": "An adaptive optimizer that divides each step by a running average of recent squared gradients, so step sizes don't shrink forever like AdaGrad's.",
+  "aliases": [
+   "RMSprop optimizer",
+   "RMS prop",
+   "root mean square propagation"
+  ],
+  "requires": [
+   "adagrad",
+   "exponential-moving-average"
+  ]
+ },
+ {
+  "concept_id": "saturating-nonlinearities",
+  "name": "Saturating nonlinearities",
+  "area": "neural-networks",
+  "description": "Activation functions like sigmoid and tanh that flatten out for large inputs, where their derivative is nearly zero and learning stalls.",
+  "aliases": [
+   "saturating nonlinearity",
+   "saturating non-linearities",
+   "saturating activation",
+   "saturating activation function",
+   "activation saturation",
+   "neuron saturation",
+   "saturated neurons"
+  ],
+  "requires": [
+   "tanh",
+   "derivative"
+  ]
+ },
+ {
+  "concept_id": "tanh",
+  "name": "Tanh",
+  "area": "neural-networks",
+  "description": "An S-shaped activation function that maps any number into the range -1 to 1, a zero-centered, stretched version of the sigmoid.",
+  "aliases": [
+   "hyperbolic tangent",
+   "tanh activation",
+   "tanh function"
+  ],
+  "requires": [
+   "activation-function",
+   "sigmoid-function"
+  ]
+ },
+ {
+  "concept_id": "transfer-learning",
+  "name": "Transfer learning",
+  "area": "neural-networks",
+  "description": "Reusing what a model learned on one task or dataset to get a head start on a different but related task.",
+  "aliases": [
+   "knowledge transfer",
+   "model transfer"
+  ],
+  "requires": [
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "vanishing-gradient-problem",
+  "name": "Vanishing gradient problem",
+  "area": "neural-networks",
+  "description": "When gradients shrink a little at every layer during backpropagation, so in deep networks the early layers get almost no learning signal.",
+  "aliases": [
+   "vanishing gradients",
+   "gradient vanishing",
+   "vanishing-gradient problem"
+  ],
+  "requires": [
+   "backpropagation",
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "weight-decay",
+  "name": "Weight decay",
+  "area": "neural-networks",
+  "description": "Shrinking every weight slightly toward zero at each training step, which keeps weights small and reduces overfitting.",
+  "aliases": [
+   "weight-decay regularization",
+   "parameter decay"
+  ],
+  "requires": [
+   "l2-regularization",
+   "gradient-descent"
+  ]
+ },
+ {
+  "concept_id": "weight-freezing",
+  "name": "Weight freezing",
+  "area": "neural-networks",
+  "description": "Keeping some of a model's weights fixed during training, usually the pretrained layers, so only the remaining parts are updated.",
+  "aliases": [
+   "freezing layers",
+   "layer freezing",
+   "frozen layers",
+   "frozen weights",
+   "frozen backbone",
+   "parameter freezing"
+  ],
+  "requires": [
+   "fine-tuning"
+  ]
+ },
+ {
+  "concept_id": "weight-initialization",
+  "name": "Weight initialization",
+  "area": "neural-networks",
+  "description": "How a network's weights are set before training starts; poor choices make signals and gradients vanish or explode.",
+  "aliases": [
+   "weight init",
+   "weight initialisation",
+   "initialization",
+   "parameter initialization",
+   "initialization scheme"
+  ],
+  "requires": [
+   "vanishing-gradient-problem",
+   "exploding-gradient-problem"
+  ]
+ },
+ {
+  "concept_id": "xavier-initialization",
+  "name": "Xavier initialization",
+  "area": "neural-networks",
+  "description": "Setting starting weights randomly with variance based on a layer's number of inputs and outputs, so signal sizes stay steady across layers.",
+  "aliases": [
+   "Glorot initialization",
+   "Xavier init",
+   "Glorot init",
+   "Xavier uniform",
+   "Xavier normal",
+   "Glorot uniform",
+   "Glorot normal",
+   "Xavier initialisation"
+  ],
+  "requires": [
+   "weight-initialization",
+   "variance"
+  ]
+ },
+ {
+  "concept_id": "1x1-convolution",
+  "name": "1x1 convolution",
+  "area": "vision-models",
+  "description": "A convolution whose kernel covers a single pixel, mixing information across feature maps at each position, often to cheaply change their number.",
+  "aliases": [
+   "1x1 conv",
+   "1×1 convolution",
+   "1-by-1 convolution",
+   "one-by-one convolution",
+   "pointwise convolution",
+   "point-wise convolution"
+  ],
+  "requires": [
+   "feature-map"
+  ]
+ },
+ {
+  "concept_id": "alexnet",
+  "name": "AlexNet",
+  "area": "vision-models",
+  "description": "The 2012 convolutional neural network whose large win in the ImageNet challenge, using ReLU and dropout, launched the deep learning boom.",
+  "aliases": [
+   "Alex Net",
+   "Alex-Net"
+  ],
+  "requires": [
+   "convolutional-neural-network",
+   "imagenet",
+   "relu",
+   "dropout"
+  ]
+ },
+ {
+  "concept_id": "bottleneck-block",
+  "name": "Bottleneck block",
+  "area": "vision-models",
+  "description": "A residual block that shrinks the number of feature maps with a 1x1 convolution, applies a 3x3 convolution, then expands them back, saving computation.",
+  "aliases": [
+   "bottleneck residual block",
+   "bottleneck building block",
+   "bottleneck unit",
+   "bottleneck design"
+  ],
+  "requires": [
+   "residual-network",
+   "1x1-convolution"
+  ]
+ },
+ {
+  "concept_id": "clip",
+  "name": "CLIP",
+  "area": "vision-models",
+  "description": "A model trained on image-caption pairs to place matching images and texts close together in a shared embedding space, enabling zero-shot image classification.",
+  "aliases": [
+   "Contrastive Language-Image Pre-training",
+   "contrastive language-image pretraining",
+   "OpenAI CLIP",
+   "CLIP model"
+  ],
+  "requires": [
+   "contrastive-learning",
+   "vision-transformer",
+   "zero-shot-learning"
+  ]
+ },
+ {
+  "concept_id": "convolution",
+  "name": "Convolution",
+  "area": "vision-models",
+  "description": "Sliding a small grid of weights, called a kernel, across an input and computing a dot product with each patch it covers.",
+  "aliases": [
+   "convolution operation",
+   "2D convolution",
+   "2d conv",
+   "convolutional operation",
+   "convolve",
+   "conv operation",
+   "convolution kernel",
+   "convolutional filter"
+  ],
+  "requires": [
+   "dot-product",
+   "digital-image"
+  ]
+ },
+ {
+  "concept_id": "convolutional-layer",
+  "name": "Convolutional layer",
+  "area": "vision-models",
+  "description": "A neural network layer that applies many learned kernels to its input by convolution, producing one feature map per kernel.",
+  "aliases": [
+   "conv layer",
+   "convolution layer",
+   "Conv2d",
+   "Conv2D layer"
+  ],
+  "requires": [
+   "convolution",
+   "fully-connected-layer"
+  ]
+ },
+ {
+  "concept_id": "convolutional-neural-network",
+  "name": "Convolutional neural network",
+  "area": "vision-models",
+  "description": "A neural network built mainly from convolutional and pooling layers, designed to learn patterns in grid-like data such as images.",
+  "aliases": [
+   "CNN",
+   "ConvNet",
+   "conv net",
+   "convolutional network",
+   "convolutional net",
+   "convolutional neural net"
+  ],
+  "requires": [
+   "pooling-layer"
+  ]
+ },
+ {
+  "concept_id": "data-augmentation",
+  "name": "Data augmentation",
+  "area": "vision-models",
+  "description": "Creating extra training examples by applying label-preserving changes, such as flips, crops, or color shifts, to existing data.",
+  "aliases": [
+   "augmentation",
+   "image augmentation",
+   "data augmentations",
+   "dataset augmentation"
+  ],
+  "requires": [
+   "regularization",
+   "digital-image"
+  ]
+ },
+ {
+  "concept_id": "degradation-problem",
+  "name": "Degradation problem",
+  "area": "vision-models",
+  "description": "The finding that stacking more layers onto a deep network without shortcuts can increase its training error, so overfitting cannot be the cause.",
+  "aliases": [
+   "degradation",
+   "accuracy degradation",
+   "depth degradation",
+   "deep network degradation"
+  ],
+  "requires": [
+   "vgg-network",
+   "overfitting"
+  ]
+ },
+ {
+  "concept_id": "digital-image",
+  "name": "Digital image",
+  "area": "vision-models",
+  "description": "A picture stored as a grid of pixels, each holding numbers for brightness or for color channels such as red, green, and blue.",
+  "aliases": [
+   "image",
+   "raster image",
+   "pixel image",
+   "bitmap image",
+   "pixel grid"
+  ],
+  "requires": [
+   "tensor"
+  ]
+ },
+ {
+  "concept_id": "feature-map",
+  "name": "Feature map",
+  "area": "vision-models",
+  "description": "The grid of outputs produced by applying one convolutional kernel across an input, showing where its pattern appears.",
+  "aliases": [
+   "activation map",
+   "featuremap",
+   "conv feature map",
+   "convolutional feature map"
+  ],
+  "requires": [
+   "convolutional-layer"
+  ]
+ },
+ {
+  "concept_id": "global-average-pooling",
+  "name": "Global average pooling",
+  "area": "vision-models",
+  "description": "Averaging each entire feature map down to a single number, turning a network's final feature maps into one vector.",
+  "aliases": [
+   "GAP",
+   "global avg pooling",
+   "global average pool",
+   "global mean pooling"
+  ],
+  "requires": [
+   "pooling-layer"
+  ]
+ },
+ {
+  "concept_id": "googlenet",
+  "name": "GoogLeNet",
+  "area": "vision-models",
+  "description": "A 22-layer convolutional network from 2014 built from Inception modules, which run several kernel sizes in parallel and concatenate the results.",
+  "aliases": [
+   "Google Net",
+   "Inception",
+   "Inception v1",
+   "Inception network",
+   "InceptionNet"
+  ],
+  "requires": [
+   "alexnet",
+   "1x1-convolution",
+   "global-average-pooling"
+  ]
+ },
+ {
+  "concept_id": "identity-shortcut",
+  "name": "Identity shortcut",
+  "area": "vision-models",
+  "description": "A shortcut in a residual block that copies the input unchanged to the block's output, adding no extra parameters.",
+  "aliases": [
+   "identity shortcut connection",
+   "identity skip connection",
+   "identity mapping shortcut"
+  ],
+  "requires": [
+   "residual-block"
+  ]
+ },
+ {
+  "concept_id": "image-classification",
+  "name": "Image classification",
+  "area": "vision-models",
+  "description": "The task of assigning a whole image one label from a fixed set of categories, such as cat, dog, or car.",
+  "aliases": [
+   "image recognition",
+   "image categorization",
+   "visual classification",
+   "image classifier"
+  ],
+  "requires": [
+   "classification",
+   "digital-image"
+  ]
+ },
+ {
+  "concept_id": "object-detection",
+  "name": "Object detection",
+  "area": "vision-models",
+  "description": "The task of finding every object of interest in an image, drawing a box around each, and labeling its category.",
+  "aliases": [
+   "detection",
+   "object detector",
+   "bounding box detection",
+   "bounding-box detection"
+  ],
+  "requires": [
+   "image-classification",
+   "convolutional-neural-network"
+  ]
+ },
+ {
+  "concept_id": "patch-embedding",
+  "name": "Patch embedding",
+  "area": "vision-models",
+  "description": "Cutting an image into small square patches and mapping each to a vector with a learned linear transformation, making the image a token sequence.",
+  "aliases": [
+   "patch embeddings",
+   "image patch embedding",
+   "patchify",
+   "patchification",
+   "patch tokens",
+   "patch projection"
+  ],
+  "requires": [
+   "digital-image",
+   "embedding",
+   "fully-connected-layer"
+  ]
+ },
+ {
+  "concept_id": "pooling-layer",
+  "name": "Pooling layer",
+  "area": "vision-models",
+  "description": "A layer that shrinks a feature map by summarizing each small window, typically with its maximum or average value.",
+  "aliases": [
+   "pooling",
+   "max pooling",
+   "max-pooling",
+   "maxpool",
+   "average pooling",
+   "avg pooling",
+   "pool layer",
+   "subsampling layer"
+  ],
+  "requires": [
+   "feature-map"
+  ]
+ },
+ {
+  "concept_id": "projection-shortcut",
+  "name": "Projection shortcut",
+  "area": "vision-models",
+  "description": "A residual shortcut that passes the input through a learned 1x1 convolution so its shape matches the block's output when sizes change.",
+  "aliases": [
+   "projection shortcut connection",
+   "1x1 projection shortcut",
+   "linear projection shortcut",
+   "downsampling shortcut"
+  ],
+  "requires": [
+   "identity-shortcut",
+   "1x1-convolution"
+  ]
+ },
+ {
+  "concept_id": "receptive-field",
+  "name": "Receptive field",
+  "area": "vision-models",
+  "description": "The region of the original input image that can influence a particular unit in a convolutional network's feature map.",
+  "aliases": [
+   "receptive field size",
+   "receptive-field size"
+  ],
+  "requires": [
+   "feature-map"
+  ]
+ },
+ {
+  "concept_id": "residual-block",
+  "name": "Residual block",
+  "area": "vision-models",
+  "description": "A few layers whose output is added back to their own input, so they only need to learn a change, or residual.",
+  "aliases": [
+   "residual unit",
+   "ResNet block",
+   "res block",
+   "resblock",
+   "residual building block",
+   "basic residual block"
+  ],
+  "requires": [
+   "residual-connection",
+   "convolutional-neural-network"
+  ]
+ },
+ {
+  "concept_id": "residual-network",
+  "name": "Residual network",
+  "area": "vision-models",
+  "description": "A very deep convolutional network built from residual blocks, whose shortcut connections let networks with over a hundred layers train well.",
+  "aliases": [
+   "ResNet",
+   "deep residual network",
+   "deep residual learning",
+   "ResNet-18",
+   "ResNet-34",
+   "ResNet-50",
+   "ResNet50",
+   "ResNet-101",
+   "ResNet-152"
+  ],
+  "requires": [
+   "residual-block"
+  ]
+ },
+ {
+  "concept_id": "semantic-segmentation",
+  "name": "Semantic segmentation",
+  "area": "vision-models",
+  "description": "The task of labeling every pixel in an image with the category it belongs to, such as road, person, or sky.",
+  "aliases": [
+   "image segmentation",
+   "segmentation",
+   "pixel-wise classification",
+   "pixel-level classification",
+   "per-pixel classification",
+   "scene parsing"
+  ],
+  "requires": [
+   "image-classification",
+   "convolutional-neural-network"
+  ]
+ },
+ {
+  "concept_id": "translation-equivariance",
+  "name": "Translation equivariance",
+  "area": "vision-models",
+  "description": "The property that shifting an input image shifts a convolution's output by the same amount, so a pattern is detected wherever it appears.",
+  "aliases": [
+   "shift equivariance",
+   "translational equivariance",
+   "equivariance to translation",
+   "translation-equivariant"
+  ],
+  "requires": [
+   "convolution"
+  ]
+ },
+ {
+  "concept_id": "u-net",
+  "name": "U-Net",
+  "area": "vision-models",
+  "description": "A U-shaped convolutional network that shrinks feature maps to capture context, then enlarges them back, copying fine detail across to produce per-pixel outputs.",
+  "aliases": [
+   "UNet",
+   "U Net",
+   "U-shaped network"
+  ],
+  "requires": [
+   "semantic-segmentation",
+   "encoder-decoder-architecture"
+  ]
+ },
+ {
+  "concept_id": "vgg-network",
+  "name": "VGG network",
+  "area": "vision-models",
+  "description": "A deep convolutional network from Oxford's Visual Geometry Group built by stacking many small 3x3 convolutional layers, showing that depth improves accuracy.",
+  "aliases": [
+   "VGG",
+   "VGGNet",
+   "VGG net",
+   "VGG-16",
+   "VGG16",
+   "VGG-19",
+   "VGG19"
+  ],
+  "requires": [
+   "alexnet",
+   "receptive-field"
+  ]
+ },
+ {
+  "concept_id": "vision-transformer",
+  "name": "Vision Transformer",
+  "area": "vision-models",
+  "description": "A transformer for images that splits a picture into fixed-size patches and processes them like a sequence of word tokens.",
+  "aliases": [
+   "ViT",
+   "vision transformers",
+   "ViT-B/16",
+   "ViT-L/16",
+   "ViT-H/14",
+   "ViT-Base",
+   "ViT-Large"
+  ],
+  "requires": [
+   "patch-embedding",
+   "encoder-only-transformer",
+   "class-token"
+  ]
+ },
+ {
+  "concept_id": "autoregressive-model",
+  "name": "Autoregressive model",
+  "area": "sequence-models-nlp",
+  "description": "A model that generates a sequence one element at a time, predicting each element from all the elements it has produced so far.",
+  "aliases": [
+   "autoregressive",
+   "auto-regressive model",
+   "AR model",
+   "autoregression",
+   "autoregressive generation",
+   "autoregressive decoding"
+  ],
+  "requires": [
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "beam-search",
+  "name": "Beam search",
+  "area": "sequence-models-nlp",
+  "description": "A decoding method that keeps the k most probable partial sequences at every step, rather than just one, to find a more probable overall output.",
+  "aliases": [
+   "beam search decoding",
+   "beam decoding",
+   "beam search algorithm"
+  ],
+  "requires": [
+   "greedy-decoding"
+  ]
+ },
+ {
+  "concept_id": "bidirectional-rnn",
+  "name": "Bidirectional RNN",
+  "area": "sequence-models-nlp",
+  "description": "Two recurrent networks reading a sequence in opposite directions, so each position's representation reflects the words both before and after it.",
+  "aliases": [
+   "bi-directional RNN",
+   "BiRNN",
+   "BRNN",
+   "bidirectional recurrent neural network",
+   "BiLSTM",
+   "bidirectional LSTM"
+  ],
+  "requires": [
+   "recurrent-neural-network"
+  ]
+ },
+ {
+  "concept_id": "bm25",
+  "name": "BM25",
+  "area": "sequence-models-nlp",
+  "description": "A classic search-ranking formula that scores documents by how often they contain the query's words, favoring rare words and adjusting for document length.",
+  "aliases": [
+   "BM-25",
+   "Okapi BM25",
+   "Best Matching 25",
+   "BM25 ranking"
+  ],
+  "requires": [
+   "tokenization",
+   "logarithm"
+  ]
+ },
+ {
+  "concept_id": "byte-pair-encoding",
+  "name": "Byte-pair encoding",
+  "area": "sequence-models-nlp",
+  "description": "A subword tokenization method that starts from single characters or bytes and repeatedly merges the most frequent adjacent pair into a new token.",
+  "aliases": [
+   "BPE",
+   "byte pair encoding",
+   "byte-level BPE",
+   "BPE tokenization",
+   "BPE tokenizer"
+  ],
+  "requires": [
+   "subword-tokenization"
+  ]
+ },
+ {
+  "concept_id": "constituency-parsing",
+  "name": "Constituency parsing",
+  "area": "sequence-models-nlp",
+  "description": "Breaking a sentence into a tree of nested phrases, such as noun phrases and verb phrases, that shows its grammatical structure.",
+  "aliases": [
+   "constituent parsing",
+   "phrase-structure parsing",
+   "constituency parser",
+   "constituency parse"
+  ],
+  "requires": [
+   "tokenization"
+  ]
+ },
+ {
+  "concept_id": "contextual-word-embeddings",
+  "name": "Contextual word embeddings",
+  "area": "sequence-models-nlp",
+  "description": "Word vectors that depend on the surrounding sentence, so 'bank' gets different vectors in 'river bank' and 'bank loan'.",
+  "aliases": [
+   "contextual embeddings",
+   "contextualized word embeddings",
+   "contextualised word embeddings",
+   "contextualized embeddings",
+   "contextual word representations",
+   "contextual representations"
+  ],
+  "requires": [
+   "word-embedding",
+   "language-model"
+  ]
+ },
+ {
+  "concept_id": "dense-retrieval",
+  "name": "Dense retrieval",
+  "area": "sequence-models-nlp",
+  "description": "Finding relevant documents by turning the query and each document into embedding vectors and returning the documents whose vectors are most similar to the query's.",
+  "aliases": [
+   "dense retriever",
+   "dense passage retrieval",
+   "vector search",
+   "embedding-based retrieval",
+   "embedding search",
+   "neural retrieval",
+   "semantic search",
+   "bi-encoder retrieval"
+  ],
+  "requires": [
+   "embedding",
+   "cosine-similarity"
+  ]
+ },
+ {
+  "concept_id": "encoder-decoder-architecture",
+  "name": "Encoder-decoder architecture",
+  "area": "sequence-models-nlp",
+  "description": "A network design in which an encoder turns the input into an internal representation and a decoder turns that representation into the output.",
+  "aliases": [
+   "encoder-decoder",
+   "encoder-decoder model",
+   "encoder-decoder network",
+   "encoder-decoder framework",
+   "enc-dec"
+  ],
+  "requires": [
+   "deep-learning",
+   "embedding"
+  ]
+ },
+ {
+  "concept_id": "gated-recurrent-unit",
+  "name": "Gated recurrent unit",
+  "area": "sequence-models-nlp",
+  "description": "A simpler relative of the LSTM that uses two gates and no separate memory cell, often working about as well with fewer parameters.",
+  "aliases": [
+   "GRU",
+   "gated recurrent units",
+   "GRU cell",
+   "GRU network"
+  ],
+  "requires": [
+   "long-short-term-memory"
+  ]
+ },
+ {
+  "concept_id": "greedy-decoding",
+  "name": "Greedy decoding",
+  "area": "sequence-models-nlp",
+  "description": "Generating text by always choosing the single most likely next token at each step; fast, but it can miss better overall sequences.",
+  "aliases": [
+   "greedy search",
+   "greedy decoder",
+   "argmax decoding",
+   "greedy generation",
+   "greedy sampling"
+  ],
+  "requires": [
+   "autoregressive-model",
+   "language-model",
+   "argmax"
+  ]
+ },
+ {
+  "concept_id": "language-model",
+  "name": "Language model",
+  "area": "sequence-models-nlp",
+  "description": "A model that assigns probabilities to sequences of tokens, usually by predicting how likely each possible next token is given the ones before it.",
+  "aliases": [
+   "LM",
+   "language modeling",
+   "language modelling",
+   "statistical language model",
+   "probabilistic language model",
+   "neural language model"
+  ],
+  "requires": [
+   "tokenization",
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "long-range-dependencies",
+  "name": "Long-range dependencies",
+  "area": "sequence-models-nlp",
+  "description": "Links between elements far apart in a sequence, like a pronoun and a noun many words earlier, which recurrent networks struggle to capture.",
+  "aliases": [
+   "long-range dependency",
+   "long range dependencies",
+   "long-term dependencies",
+   "long-distance dependencies"
+  ],
+  "requires": [
+   "recurrent-neural-network",
+   "vanishing-gradient-problem"
+  ]
+ },
+ {
+  "concept_id": "long-short-term-memory",
+  "name": "Long short-term memory",
+  "area": "sequence-models-nlp",
+  "description": "A recurrent neural network whose cells use learned gates to decide what to store, forget, and output, so it can remember information over long sequences.",
+  "aliases": [
+   "LSTM",
+   "long short term memory",
+   "LSTM network",
+   "LSTM cell",
+   "long short-term memory network"
+  ],
+  "requires": [
+   "long-range-dependencies",
+   "element-wise-product"
+  ]
+ },
+ {
+  "concept_id": "machine-translation",
+  "name": "Machine translation",
+  "area": "sequence-models-nlp",
+  "description": "Automatically translating text from one human language into another, such as English into German.",
+  "aliases": [
+   "MT",
+   "neural machine translation",
+   "NMT",
+   "automatic translation",
+   "automated translation"
+  ],
+  "requires": [
+   "natural-language-processing"
+  ]
+ },
+ {
+  "concept_id": "n-gram",
+  "name": "N-gram",
+  "area": "sequence-models-nlp",
+  "description": "A run of n consecutive tokens in a text, such as the 2-gram 'New York'; counting them underlies early language models and metrics like BLEU.",
+  "aliases": [
+   "ngram",
+   "n gram",
+   "unigram",
+   "bigram",
+   "trigram",
+   "word n-gram",
+   "character n-gram"
+  ],
+  "requires": [
+   "tokenization"
+  ]
+ },
+ {
+  "concept_id": "named-entity-recognition",
+  "name": "Named entity recognition",
+  "area": "sequence-models-nlp",
+  "description": "Finding the names of things in text, such as people, organizations, places, and dates, and labeling each with its category.",
+  "aliases": [
+   "NER",
+   "entity recognition",
+   "named-entity extraction",
+   "entity extraction",
+   "named entity tagging",
+   "entity tagging"
+  ],
+  "requires": [
+   "tokenization",
+   "classification"
+  ]
+ },
+ {
+  "concept_id": "natural-language-inference",
+  "name": "Natural language inference",
+  "area": "sequence-models-nlp",
+  "description": "Deciding whether a hypothesis sentence follows from, contradicts, or is neutral toward a premise sentence.",
+  "aliases": [
+   "NLI",
+   "textual entailment",
+   "recognizing textual entailment",
+   "recognising textual entailment",
+   "RTE",
+   "entailment"
+  ],
+  "requires": [
+   "natural-language-processing",
+   "classification"
+  ]
+ },
+ {
+  "concept_id": "natural-language-processing",
+  "name": "Natural language processing",
+  "area": "sequence-models-nlp",
+  "description": "The field of building computer systems, today mostly machine-learning models, that understand, analyze, or generate human language such as English text.",
+  "aliases": [
+   "NLP",
+   "natural-language processing",
+   "human language technology"
+  ],
+  "requires": [
+   "machine-learning"
+  ]
+ },
+ {
+  "concept_id": "next-token-prediction",
+  "name": "Next-token prediction",
+  "area": "sequence-models-nlp",
+  "description": "Training a model to guess the next token of a text from all the tokens before it, the self-supervised objective behind GPT-style language models.",
+  "aliases": [
+   "next token prediction",
+   "next-word prediction",
+   "next word prediction",
+   "causal language modeling",
+   "causal language modelling",
+   "CLM",
+   "autoregressive language modeling",
+   "left-to-right language modeling",
+   "next-token objective"
+  ],
+  "requires": [
+   "language-model",
+   "cross-entropy-loss"
+  ]
+ },
+ {
+  "concept_id": "nucleus-sampling",
+  "name": "Nucleus sampling",
+  "area": "sequence-models-nlp",
+  "description": "Sampling each next token from the smallest set of most likely candidates whose probabilities add up to at least a threshold p, such as 0.9.",
+  "aliases": [
+   "top-p sampling",
+   "top-p",
+   "topp sampling",
+   "nucleus decoding",
+   "top-p decoding"
+  ],
+  "requires": [
+   "top-k-sampling"
+  ]
+ },
+ {
+  "concept_id": "question-answering",
+  "name": "Question answering",
+  "area": "sequence-models-nlp",
+  "description": "The task of automatically answering questions asked in natural language, often by finding the answer within a given passage or document collection.",
+  "aliases": [
+   "QA",
+   "reading comprehension",
+   "machine reading comprehension",
+   "MRC",
+   "extractive question answering",
+   "open-domain question answering",
+   "open-domain QA"
+  ],
+  "requires": [
+   "natural-language-processing"
+  ]
+ },
+ {
+  "concept_id": "recurrent-neural-network",
+  "name": "Recurrent neural network",
+  "area": "sequence-models-nlp",
+  "description": "A neural network that reads a sequence one step at a time, updating a hidden state that carries information forward from earlier steps.",
+  "aliases": [
+   "RNN",
+   "recurrent network",
+   "recurrent neural net",
+   "recurrent net",
+   "vanilla RNN",
+   "simple RNN",
+   "Elman network"
+  ],
+  "requires": [
+   "multilayer-perceptron",
+   "backpropagation"
+  ]
+ },
+ {
+  "concept_id": "sentiment-analysis",
+  "name": "Sentiment analysis",
+  "area": "sequence-models-nlp",
+  "description": "Classifying the opinion or feeling expressed in text, such as whether a product review is positive or negative.",
+  "aliases": [
+   "sentiment classification",
+   "opinion mining",
+   "sentiment detection",
+   "polarity classification",
+   "sentiment"
+  ],
+  "requires": [
+   "natural-language-processing",
+   "classification"
+  ]
+ },
+ {
+  "concept_id": "sequence-to-sequence-model",
+  "name": "Sequence-to-sequence model",
+  "area": "sequence-models-nlp",
+  "description": "A model that reads an input sequence, such as a sentence, and generates an output sequence of possibly different length, such as its translation.",
+  "aliases": [
+   "seq2seq",
+   "seq2seq model",
+   "sequence to sequence",
+   "sequence-to-sequence learning",
+   "sequence transduction model",
+   "sequence transduction"
+  ],
+  "requires": [
+   "encoder-decoder-architecture",
+   "autoregressive-model"
+  ]
+ },
+ {
+  "concept_id": "state-space-model",
+  "name": "State space model",
+  "area": "sequence-models-nlp",
+  "description": "A sequence model that carries a hidden state forward through learned linear update rules, letting it process very long sequences efficiently.",
+  "aliases": [
+   "SSM",
+   "state space model",
+   "structured state space model",
+   "structured state-space model",
+   "state space layer"
+  ],
+  "requires": [
+   "long-range-dependencies",
+   "linear-transformation"
+  ]
+ },
+ {
+  "concept_id": "subword-tokenization",
+  "name": "Subword tokenization",
+  "area": "sequence-models-nlp",
+  "description": "Tokenization that splits rare words into frequent pieces, such as 'tokenization' into 'token' and 'ization', so a fixed vocabulary can represent any word.",
+  "aliases": [
+   "subword tokenisation",
+   "sub-word tokenization",
+   "subword units",
+   "subword segmentation",
+   "subwords",
+   "subword tokenizer"
+  ],
+  "requires": [
+   "tokenization"
+  ]
+ },
+ {
+  "concept_id": "teacher-forcing",
+  "name": "Teacher forcing",
+  "area": "sequence-models-nlp",
+  "description": "Training a sequence generator by feeding it the correct previous tokens, instead of its own earlier guesses, when it predicts each next token.",
+  "aliases": [
+   "teacher-forced training",
+   "teacher forcing training"
+  ],
+  "requires": [
+   "autoregressive-model",
+   "next-token-prediction"
+  ]
+ },
+ {
+  "concept_id": "text-summarization",
+  "name": "Text summarization",
+  "area": "sequence-models-nlp",
+  "description": "Automatically producing a shorter version of a text that keeps its most important information.",
+  "aliases": [
+   "summarization",
+   "summarisation",
+   "automatic summarization",
+   "document summarization",
+   "abstractive summarization",
+   "extractive summarization"
+  ],
+  "requires": [
+   "natural-language-processing"
+  ]
+ },
+ {
+  "concept_id": "tokenization",
+  "name": "Tokenization",
+  "area": "sequence-models-nlp",
+  "description": "Splitting raw text into a sequence of small units called tokens, such as words, word pieces, or characters, that a model can process.",
+  "aliases": [
+   "tokenisation",
+   "tokenizer",
+   "token",
+   "text tokenization",
+   "tokenizing"
+  ],
+  "requires": [
+   "natural-language-processing"
+  ]
+ },
+ {
+  "concept_id": "top-k-sampling",
+  "name": "Top-k sampling",
+  "area": "sequence-models-nlp",
+  "description": "Generating text by randomly sampling each next token from only the k most likely candidates, adding variety while avoiding very unlikely words.",
+  "aliases": [
+   "top k sampling",
+   "topk sampling",
+   "top-k decoding",
+   "top-k sampler"
+  ],
+  "requires": [
+   "greedy-decoding",
+   "categorical-distribution"
+  ]
+ },
+ {
+  "concept_id": "weight-tying",
+  "name": "Weight tying",
+  "area": "sequence-models-nlp",
+  "description": "Using the same matrix for a language model's input word embeddings and its output layer that scores next tokens, saving parameters and often improving quality.",
+  "aliases": [
+   "tied embeddings",
+   "embedding tying",
+   "tied input and output embeddings",
+   "shared input-output embeddings",
+   "embedding weight sharing"
+  ],
+  "requires": [
+   "word-embedding",
+   "next-token-prediction"
+  ]
+ },
+ {
+  "concept_id": "word-embedding",
+  "name": "Word embedding",
+  "area": "sequence-models-nlp",
+  "description": "A learned vector for each word in a vocabulary, placed so that words used in similar contexts, like 'cat' and 'dog', get nearby vectors.",
+  "aliases": [
+   "word embeddings",
+   "word vector",
+   "word representation",
+   "distributed word representation",
+   "static word embedding",
+   "token embedding"
+  ],
+  "requires": [
+   "embedding",
+   "tokenization"
+  ]
+ },
+ {
+  "concept_id": "wordpiece",
+  "name": "WordPiece",
+  "area": "sequence-models-nlp",
+  "description": "The subword tokenization method used by BERT, which builds its vocabulary by merging the symbol pairs that most increase the likelihood of the training text.",
+  "aliases": [
+   "word piece",
+   "WordPiece tokenizer",
+   "WordPiece tokenization",
+   "WordPiece model"
+  ],
+  "requires": [
+   "subword-tokenization"
+  ]
+ },
+ {
+  "concept_id": "additive-attention",
+  "name": "Additive attention",
+  "area": "attention-transformers",
+  "description": "An attention method that scores how well a query matches a key with a small feed-forward network, first used in neural machine translation.",
+  "aliases": [
+   "Bahdanau attention",
+   "additive attention mechanism",
+   "concat attention",
+   "MLP attention",
+   "Bahdanau-style attention"
+  ],
+  "requires": [
+   "attention-mechanism",
+   "multilayer-perceptron",
+   "sequence-to-sequence-model"
+  ]
+ },
+ {
+  "concept_id": "attention-mechanism",
+  "name": "Attention mechanism",
+  "area": "attention-transformers",
+  "description": "Letting a model focus on the most relevant parts of its input by averaging them with weights from a softmax over relevance scores.",
+  "aliases": [
+   "attention",
+   "neural attention",
+   "attention layer",
+   "attention module",
+   "soft attention",
+   "attention weights"
+  ],
+  "requires": [
+   "softmax",
+   "embedding"
+  ]
+ },
+ {
+  "concept_id": "bert",
+  "name": "BERT",
+  "area": "attention-transformers",
+  "description": "Google's encoder-only transformer, pretrained by predicting hidden words from context on both sides, then fine-tuned for tasks like classification and question answering.",
+  "aliases": [
+   "Bidirectional Encoder Representations from Transformers",
+   "BERT-base",
+   "BERT-large",
+   "BERT model"
+  ],
+  "requires": [
+   "encoder-only-transformer",
+   "masked-language-modeling",
+   "class-token",
+   "fine-tuning"
+  ]
+ },
+ {
+  "concept_id": "causal-masking",
+  "name": "Causal masking",
+  "area": "attention-transformers",
+  "description": "Blocking each position in attention from seeing later positions, so a model learning to predict the next token cannot peek at it.",
+  "aliases": [
+   "causal mask",
+   "causal attention",
+   "causal self-attention",
+   "masked self-attention",
+   "look-ahead mask",
+   "lookahead mask",
+   "future masking",
+   "triangular mask",
+   "subsequent mask",
+   "autoregressive mask"
+  ],
+  "requires": [
+   "self-attention",
+   "autoregressive-model"
+  ]
+ },
+ {
+  "concept_id": "class-token",
+  "name": "Class token",
+  "area": "attention-transformers",
+  "description": "A special learned token added at the start of the input whose final vector summarizes the whole sequence for classification, as in BERT.",
+  "aliases": [
+   "CLS token",
+   "[CLS] token",
+   "CLS",
+   "classification token",
+   "CLS embedding"
+  ],
+  "requires": [
+   "self-attention",
+   "classification-head"
+  ]
+ },
+ {
+  "concept_id": "context-window",
+  "name": "Context window",
+  "area": "attention-transformers",
+  "description": "The maximum number of tokens a model can take in and attend to at once; anything beyond it is invisible to the model.",
+  "aliases": [
+   "context length",
+   "context size",
+   "context window size",
+   "maximum context length",
+   "max context length",
+   "maximum sequence length",
+   "max sequence length",
+   "context limit"
+  ],
+  "requires": [
+   "transformer",
+   "tokenization"
+  ]
+ },
+ {
+  "concept_id": "cross-attention",
+  "name": "Cross-attention",
+  "area": "attention-transformers",
+  "description": "Attention where queries come from one sequence while keys and values come from another, letting, for example, a decoder look at the encoder's output.",
+  "aliases": [
+   "encoder-decoder attention",
+   "source attention",
+   "cross-attention layer",
+   "inter-attention"
+  ],
+  "requires": [
+   "self-attention",
+   "encoder-decoder-architecture"
+  ]
+ },
+ {
+  "concept_id": "decoder-only-transformer",
+  "name": "Decoder-only transformer",
+  "area": "attention-transformers",
+  "description": "A transformer in which each token attends only to earlier tokens, used to generate text one token at a time, as GPT does.",
+  "aliases": [
+   "decoder-only model",
+   "decoder-only architecture",
+   "transformer decoder",
+   "causal transformer",
+   "autoregressive transformer",
+   "decoder-only",
+   "causal language model",
+   "causal LM"
+  ],
+  "requires": [
+   "transformer",
+   "causal-masking"
+  ]
+ },
+ {
+  "concept_id": "encoder-only-transformer",
+  "name": "Encoder-only transformer",
+  "area": "attention-transformers",
+  "description": "A transformer that keeps only the encoder stack, letting every token see the whole input, to build representations for understanding tasks rather than generating text.",
+  "aliases": [
+   "encoder-only model",
+   "encoder-only architecture",
+   "transformer encoder",
+   "bidirectional transformer",
+   "bidirectional encoder",
+   "encoder-only"
+  ],
+  "requires": [
+   "transformer",
+   "encoder-decoder-architecture"
+  ]
+ },
+ {
+  "concept_id": "flash-attention",
+  "name": "Flash attention",
+  "area": "attention-transformers",
+  "description": "Computing exact attention block by block in fast on-chip memory, never storing the full score matrix, so it runs faster and uses far less memory.",
+  "aliases": [
+   "FlashAttention",
+   "FlashAttention-2",
+   "FlashAttention-3",
+   "flash-attn",
+   "IO-aware attention"
+  ],
+  "requires": [
+   "quadratic-complexity-of-attention"
+  ]
+ },
+ {
+  "concept_id": "gated-linear-unit",
+  "name": "Gated linear unit",
+  "area": "attention-transformers",
+  "description": "A layer multiplying two linear transformations of its input element by element, one first passed through a sigmoid-like function so it acts as a gate.",
+  "aliases": [
+   "GLU",
+   "SwiGLU",
+   "GeGLU",
+   "ReGLU",
+   "GLU variants",
+   "gated feed-forward network"
+  ],
+  "requires": [
+   "position-wise-feed-forward-network",
+   "element-wise-product",
+   "sigmoid-function"
+  ]
+ },
+ {
+  "concept_id": "gpt",
+  "name": "GPT",
+  "area": "attention-transformers",
+  "description": "OpenAI's family of decoder-only transformer language models, pretrained to predict the next token on vast amounts of text; GPT stands for Generative Pretrained Transformer.",
+  "aliases": [
+   "Generative Pre-trained Transformer",
+   "Generative Pretrained Transformer",
+   "OpenAI GPT",
+   "GPT-1",
+   "GPT-2",
+   "GPT-3",
+   "GPT-4",
+   "GPT model"
+  ],
+  "requires": [
+   "decoder-only-transformer",
+   "next-token-prediction",
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "grouped-query-attention",
+  "name": "Grouped-query attention",
+  "area": "attention-transformers",
+  "description": "Attention in which groups of query heads share one key and value head, shrinking the KV cache; with a single group it is multi-query attention.",
+  "aliases": [
+   "GQA",
+   "multi-query attention",
+   "MQA"
+  ],
+  "requires": [
+   "kv-cache"
+  ]
+ },
+ {
+  "concept_id": "kv-cache",
+  "name": "KV cache",
+  "area": "attention-transformers",
+  "description": "Storing the keys and values already computed for earlier tokens during generation, so each new token reuses them instead of recomputing the whole sequence.",
+  "aliases": [
+   "key-value cache",
+   "KV caching",
+   "attention cache",
+   "past key values"
+  ],
+  "requires": [
+   "decoder-only-transformer"
+  ]
+ },
+ {
+  "concept_id": "learned-positional-embedding",
+  "name": "Learned positional embedding",
+  "area": "attention-transformers",
+  "description": "Position information stored as a trainable vector for each position, learned along with the rest of the model, as in BERT and GPT.",
+  "aliases": [
+   "learned position embedding",
+   "learnable positional embedding",
+   "trainable positional embedding",
+   "learned positional encoding",
+   "learned absolute position embedding"
+  ],
+  "requires": [
+   "positional-encoding"
+  ]
+ },
+ {
+  "concept_id": "masked-language-modeling",
+  "name": "Masked language modeling",
+  "area": "attention-transformers",
+  "description": "A training task where random tokens in a text are hidden and the model learns to predict them from the words on both sides.",
+  "aliases": [
+   "masked language modelling",
+   "masked language model",
+   "MLM",
+   "masked LM",
+   "cloze task",
+   "masked token prediction",
+   "token masking"
+  ],
+  "requires": [
+   "language-model",
+   "self-supervised-learning"
+  ]
+ },
+ {
+  "concept_id": "multi-head-attention",
+  "name": "Multi-head attention",
+  "area": "attention-transformers",
+  "description": "Running several attention operations in parallel, each with its own learned weights, and combining their outputs so the model captures different relationships at once.",
+  "aliases": [
+   "multihead attention",
+   "multi-headed attention",
+   "MHA",
+   "attention head",
+   "multi-head self-attention",
+   "MHSA"
+  ],
+  "requires": [
+   "self-attention"
+  ]
+ },
+ {
+  "concept_id": "next-sentence-prediction",
+  "name": "Next sentence prediction",
+  "area": "attention-transformers",
+  "description": "A BERT pretraining task: given two sentences, predict whether the second actually followed the first in the original text or was picked at random.",
+  "aliases": [
+   "NSP",
+   "NSP objective",
+   "next sentence prediction task"
+  ],
+  "requires": [
+   "bert",
+   "segment-embedding"
+  ]
+ },
+ {
+  "concept_id": "position-wise-feed-forward-network",
+  "name": "Position-wise feed-forward network",
+  "area": "attention-transformers",
+  "description": "The small two-layer network inside each transformer block, applied separately and identically to every token's vector after attention.",
+  "aliases": [
+   "positionwise feed-forward network",
+   "position-wise FFN",
+   "FFN",
+   "feed-forward layer",
+   "feed-forward sublayer",
+   "FFN layer",
+   "MLP block",
+   "transformer feed-forward network",
+   "point-wise feed-forward network"
+  ],
+  "requires": [
+   "multilayer-perceptron",
+   "embedding"
+  ]
+ },
+ {
+  "concept_id": "positional-encoding",
+  "name": "Positional encoding",
+  "area": "attention-transformers",
+  "description": "Information about each token's position added to its embedding, because self-attention by itself ignores word order.",
+  "aliases": [
+   "position encoding",
+   "positional embedding",
+   "position embedding"
+  ],
+  "requires": [
+   "self-attention"
+  ]
+ },
+ {
+  "concept_id": "pre-layer-normalization",
+  "name": "Pre-layer normalization",
+  "area": "attention-transformers",
+  "description": "Placing layer normalization at the start of each transformer sublayer, inside the residual branch, which makes deep transformers train more stably than the original arrangement.",
+  "aliases": [
+   "pre-LN",
+   "pre-norm",
+   "pre-layer norm",
+   "pre-layernorm",
+   "pre-LN transformer",
+   "pre-normalization"
+  ],
+  "requires": [
+   "transformer"
+  ]
+ },
+ {
+  "concept_id": "quadratic-complexity-of-attention",
+  "name": "Quadratic complexity of attention",
+  "area": "attention-transformers",
+  "description": "Self-attention compares every token with every other token, so its compute and memory grow with the square of the sequence length.",
+  "aliases": [
+   "quadratic complexity of self-attention",
+   "quadratic attention cost",
+   "quadratic cost of attention",
+   "quadratic scaling of attention",
+   "O(n^2) attention",
+   "attention quadratic bottleneck",
+   "quadratic attention"
+  ],
+  "requires": [
+   "self-attention",
+   "big-o-notation"
+  ]
+ },
+ {
+  "concept_id": "queries-keys-and-values",
+  "name": "Queries, keys, and values",
+  "area": "attention-transformers",
+  "description": "Three vectors that attention computes from its inputs: each query is compared with every key to decide how much of that key's value to take.",
+  "aliases": [
+   "QKV",
+   "query key value",
+   "query-key-value",
+   "query vector",
+   "key vector",
+   "value vector",
+   "query and key",
+   "keys and values"
+  ],
+  "requires": [
+   "attention-mechanism",
+   "linear-transformation"
+  ]
+ },
+ {
+  "concept_id": "residual-dropout",
+  "name": "Residual dropout",
+  "area": "attention-transformers",
+  "description": "Applying dropout to each transformer sublayer's output just before it is added back through the residual connection, to reduce overfitting.",
+  "aliases": [
+   "sublayer dropout",
+   "dropout on residual connections"
+  ],
+  "requires": [
+   "dropout",
+   "transformer"
+  ]
+ },
+ {
+  "concept_id": "rotary-position-embedding",
+  "name": "Rotary position embedding",
+  "area": "attention-transformers",
+  "description": "Encoding position by rotating each query and key vector by angles proportional to its position, so attention scores depend on how far apart tokens are.",
+  "aliases": [
+   "RoPE",
+   "rotary positional embedding",
+   "rotary embedding",
+   "rotary positional encoding",
+   "rotary position encoding"
+  ],
+  "requires": [
+   "positional-encoding",
+   "rotation-matrix"
+  ]
+ },
+ {
+  "concept_id": "scaled-dot-product-attention",
+  "name": "Scaled dot-product attention",
+  "area": "attention-transformers",
+  "description": "Attention that weights values by the softmax of query-key dot products, each divided by the square root of the key dimension to keep scores moderate.",
+  "aliases": [
+   "scaled dot product attention",
+   "dot-product attention",
+   "SDPA",
+   "multiplicative attention",
+   "scaled attention"
+  ],
+  "requires": [
+   "queries-keys-and-values"
+  ]
+ },
+ {
+  "concept_id": "segment-embedding",
+  "name": "Segment embedding",
+  "area": "attention-transformers",
+  "description": "A learned vector added to each token's embedding to mark which of two input sentences it belongs to, so the model can tell them apart.",
+  "aliases": [
+   "token type embedding",
+   "token-type embedding",
+   "segment ID embedding",
+   "sentence segment embedding"
+  ],
+  "requires": [
+   "word-embedding",
+   "positional-encoding"
+  ]
+ },
+ {
+  "concept_id": "self-attention",
+  "name": "Self-attention",
+  "area": "attention-transformers",
+  "description": "Attention where queries, keys, and values all come from the same sequence, so every token can draw information from every other token.",
+  "aliases": [
+   "intra-attention",
+   "self-attention layer",
+   "self-attention mechanism"
+  ],
+  "requires": [
+   "scaled-dot-product-attention"
+  ]
+ },
+ {
+  "concept_id": "sinusoidal-positional-encoding",
+  "name": "Sinusoidal positional encoding",
+  "area": "attention-transformers",
+  "description": "Fixed position signals built from sine and cosine waves of different frequencies, added to token embeddings in the original transformer.",
+  "aliases": [
+   "sinusoidal position encoding",
+   "sinusoidal positional embedding",
+   "sinusoidal position embedding",
+   "sinusoidal embeddings",
+   "sine-cosine positional encoding",
+   "fixed positional encoding"
+  ],
+  "requires": [
+   "positional-encoding",
+   "trigonometric-functions"
+  ]
+ },
+ {
+  "concept_id": "t5",
+  "name": "T5",
+  "area": "attention-transformers",
+  "description": "Google's encoder-decoder transformer that frames every language task as turning input text into output text, pretrained by filling in masked spans.",
+  "aliases": [
+   "Text-to-Text Transfer Transformer",
+   "text-to-text transformer",
+   "T5 model"
+  ],
+  "requires": [
+   "transformer",
+   "cross-attention",
+   "sequence-to-sequence-model",
+   "masked-language-modeling",
+   "transfer-learning"
+  ]
+ },
+ {
+  "concept_id": "transformer",
+  "name": "Transformer",
+  "area": "attention-transformers",
+  "description": "A neural network architecture built from stacked self-attention and feed-forward layers that processes all tokens in parallel; the basis of BERT and GPT.",
+  "aliases": [
+   "transformer architecture",
+   "transformer model",
+   "transformer network",
+   "vanilla transformer",
+   "transformer block",
+   "transformer layer"
+  ],
+  "requires": [
+   "multi-head-attention",
+   "positional-encoding",
+   "position-wise-feed-forward-network",
+   "residual-connection",
+   "layer-normalization"
+  ]
+ },
+ {
+  "concept_id": "adapter-layers",
+  "name": "Adapter layers",
+  "area": "large-language-models",
+  "description": "Small bottleneck networks inserted between the frozen layers of a pretrained transformer and trained alone to adapt the model to a new task.",
+  "aliases": [
+   "adapters",
+   "adapter modules",
+   "adapter tuning",
+   "bottleneck adapters",
+   "Houlsby adapters"
+  ],
+  "requires": [
+   "parameter-efficient-fine-tuning",
+   "transformer"
+  ]
+ },
+ {
+  "concept_id": "best-of-n-sampling",
+  "name": "Best-of-n sampling",
+  "area": "large-language-models",
+  "description": "Generating n candidate responses, scoring each with a reward model, and keeping the highest-scoring one, improving outputs without any further training.",
+  "aliases": [
+   "best-of-n",
+   "best of n",
+   "BoN",
+   "BoN sampling",
+   "best-of-n reranking"
+  ],
+  "requires": [
+   "reward-model",
+   "top-k-sampling"
+  ]
+ },
+ {
+  "concept_id": "bradley-terry-model",
+  "name": "Bradley-Terry model",
+  "area": "large-language-models",
+  "description": "A model of pairwise comparisons in which the probability that one option beats another is the sigmoid of the difference between their scores.",
+  "aliases": [
+   "Bradley-Terry",
+   "BT model",
+   "Bradley-Terry-Luce model",
+   "BTL model",
+   "Bradley-Terry preference model"
+  ],
+  "requires": [
+   "human-preference-data",
+   "sigmoid-function"
+  ]
+ },
+ {
+  "concept_id": "chain-of-thought-prompting",
+  "name": "Chain-of-thought prompting",
+  "area": "large-language-models",
+  "description": "Prompting a language model to write out intermediate reasoning steps before its final answer, which often improves accuracy on multi-step problems.",
+  "aliases": [
+   "chain of thought",
+   "CoT",
+   "CoT prompting",
+   "chain-of-thought reasoning",
+   "step-by-step reasoning",
+   "zero-shot CoT",
+   "let's think step by step"
+  ],
+  "requires": [
+   "prompting"
+  ]
+ },
+ {
+  "concept_id": "direct-preference-optimization",
+  "name": "Direct preference optimization",
+  "area": "large-language-models",
+  "description": "Training a language model directly on preference pairs with a simple classification-style loss, matching RLHF's goal without a separate reward model or reinforcement learning.",
+  "aliases": [
+   "DPO",
+   "direct preference optimisation",
+   "DPO loss",
+   "DPO training"
+  ],
+  "requires": [
+   "bradley-terry-model",
+   "kl-penalty"
+  ]
+ },
+ {
+  "concept_id": "hallucination",
+  "name": "Hallucination",
+  "area": "large-language-models",
+  "description": "When a language model confidently produces content that sounds plausible but is false or unsupported by its sources, such as an invented citation.",
+  "aliases": [
+   "LLM hallucination",
+   "model hallucination",
+   "confabulation",
+   "hallucinated content"
+  ],
+  "requires": [
+   "large-language-model"
+  ]
+ },
+ {
+  "concept_id": "human-preference-data",
+  "name": "Human preference data",
+  "area": "large-language-models",
+  "description": "Records of people comparing two or more model responses to the same prompt and marking which they prefer, used to train models toward human tastes.",
+  "aliases": [
+   "preference data",
+   "human preferences",
+   "pairwise preference data",
+   "comparison data",
+   "preference pairs",
+   "human feedback",
+   "preference dataset",
+   "human preference labels"
+  ],
+  "requires": [
+   "language-model-alignment",
+   "human-evaluation"
+  ]
+ },
+ {
+  "concept_id": "implicit-reward-model",
+  "name": "Implicit reward model",
+  "area": "large-language-models",
+  "description": "The reward a DPO-trained model defines implicitly: how much more likely it makes a response than the reference model does, on a log scale.",
+  "aliases": [
+   "implicit reward",
+   "DPO implicit reward",
+   "implicit reward function"
+  ],
+  "requires": [
+   "direct-preference-optimization"
+  ]
+ },
+ {
+  "concept_id": "in-context-learning",
+  "name": "In-context learning",
+  "area": "large-language-models",
+  "description": "A language model's ability to pick up a new task from a few examples written in its prompt, with no change to its weights.",
+  "aliases": [
+   "ICL",
+   "few-shot prompting",
+   "few-shot in-context learning",
+   "in-context examples",
+   "in-context few-shot learning"
+  ],
+  "requires": [
+   "prompting"
+  ]
+ },
+ {
+  "concept_id": "instruction-tuning",
+  "name": "Instruction tuning",
+  "area": "large-language-models",
+  "description": "Fine-tuning a language model on many tasks written as plain-language instructions with answers, so it learns to follow new instructions it has never seen.",
+  "aliases": [
+   "instruction fine-tuning",
+   "instruction finetuning",
+   "instruction-tuned model",
+   "instruction-following fine-tuning"
+  ],
+  "requires": [
+   "supervised-fine-tuning",
+   "prompting"
+  ]
+ },
+ {
+  "concept_id": "intrinsic-dimension",
+  "name": "Intrinsic dimension",
+  "area": "large-language-models",
+  "description": "The dimension of the smallest random subspace of a model's weights in which training still nearly matches full training; often surprisingly small for fine-tuning.",
+  "aliases": [
+   "intrinsic dimensionality",
+   "intrinsic dimension of fine-tuning",
+   "intrinsic dimension of objective landscapes"
+  ],
+  "requires": [
+   "subspace",
+   "fine-tuning"
+  ]
+ },
+ {
+  "concept_id": "kl-penalty",
+  "name": "KL penalty",
+  "area": "large-language-models",
+  "description": "A term that lowers the reward in proportion to the KL divergence between the trained model and a reference model, discouraging large drifts.",
+  "aliases": [
+   "KL regularization",
+   "KL regularisation",
+   "KL-divergence penalty",
+   "KL constraint",
+   "KL control"
+  ],
+  "requires": [
+   "kl-divergence",
+   "reference-model"
+  ]
+ },
+ {
+  "concept_id": "language-model-alignment",
+  "name": "Language model alignment",
+  "area": "large-language-models",
+  "description": "Steering a language model so its behavior matches what people intend and value, such as being helpful, honest, and harmless, rather than merely predicting text.",
+  "aliases": [
+   "LLM alignment",
+   "AI alignment",
+   "model alignment",
+   "aligning language models",
+   "alignment of language models",
+   "value alignment"
+  ],
+  "requires": [
+   "large-language-model"
+  ]
+ },
+ {
+  "concept_id": "large-language-model",
+  "name": "Large language model",
+  "area": "large-language-models",
+  "description": "A language model, usually a transformer with billions of parameters, pretrained on vast amounts of text so it can handle many language tasks.",
+  "aliases": [
+   "LLM",
+   "large LM",
+   "large-scale language model"
+  ],
+  "requires": [
+   "language-model",
+   "transformer",
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "low-rank-adaptation",
+  "name": "Low-rank adaptation",
+  "area": "large-language-models",
+  "description": "Fine-tuning by freezing the original weights and learning a small low-rank update, the product of two thin matrices, added to selected weight matrices.",
+  "aliases": [
+   "LoRA",
+   "LoRA fine-tuning",
+   "LoRA adapters",
+   "low-rank adapters"
+  ],
+  "requires": [
+   "parameter-efficient-fine-tuning",
+   "low-rank-decomposition"
+  ]
+ },
+ {
+  "concept_id": "mixture-of-experts",
+  "name": "Mixture of experts",
+  "area": "large-language-models",
+  "description": "A layer of many expert subnetworks plus a router that sends each token to just a few, adding parameters without adding much computation.",
+  "aliases": [
+   "MoE",
+   "sparse mixture of experts",
+   "sparse MoE",
+   "MoE layer",
+   "sparsely-gated mixture of experts",
+   "SMoE",
+   "expert routing"
+  ],
+  "requires": [
+   "position-wise-feed-forward-network",
+   "softmax"
+  ]
+ },
+ {
+  "concept_id": "parameter-efficient-fine-tuning",
+  "name": "Parameter-efficient fine-tuning",
+  "area": "large-language-models",
+  "description": "Adapting a large pretrained model to a new task by training only a small number of added or selected parameters while keeping the rest frozen.",
+  "aliases": [
+   "PEFT",
+   "parameter-efficient finetuning",
+   "parameter-efficient tuning",
+   "parameter-efficient transfer learning",
+   "efficient fine-tuning",
+   "lightweight fine-tuning"
+  ],
+  "requires": [
+   "weight-freezing"
+  ]
+ },
+ {
+  "concept_id": "plackett-luce-model",
+  "name": "Plackett-Luce model",
+  "area": "large-language-models",
+  "description": "A probability model for full rankings: choose the top item by a softmax over scores, then the next among those remaining, and so on.",
+  "aliases": [
+   "Plackett-Luce",
+   "PL model",
+   "Plackett-Luce ranking model"
+  ],
+  "requires": [
+   "bradley-terry-model",
+   "softmax"
+  ]
+ },
+ {
+  "concept_id": "prefix-tuning",
+  "name": "Prefix tuning",
+  "area": "large-language-models",
+  "description": "Learning a short sequence of trainable vectors, placed before the input at every layer, that steers a frozen language model like a learned prompt.",
+  "aliases": [
+   "soft prompts",
+   "continuous prompts",
+   "soft prompting"
+  ],
+  "requires": [
+   "parameter-efficient-fine-tuning",
+   "prompting"
+  ]
+ },
+ {
+  "concept_id": "prompting",
+  "name": "Prompting",
+  "area": "large-language-models",
+  "description": "Getting a language model to do a task by writing instructions, questions, or examples as its input text, without changing its weights.",
+  "aliases": [
+   "prompt",
+   "prompt engineering",
+   "prompt design",
+   "zero-shot prompting",
+   "prompt-based learning"
+  ],
+  "requires": [
+   "large-language-model"
+  ]
+ },
+ {
+  "concept_id": "qlora",
+  "name": "QLoRA",
+  "area": "large-language-models",
+  "description": "LoRA fine-tuning on top of a base model whose frozen weights are stored in 4-bit precision, so very large models fit on modest hardware.",
+  "aliases": [
+   "quantized LoRA",
+   "quantised LoRA",
+   "4-bit LoRA",
+   "quantized low-rank adaptation"
+  ],
+  "requires": [
+   "low-rank-adaptation",
+   "quantization"
+  ]
+ },
+ {
+  "concept_id": "reference-model",
+  "name": "Reference model",
+  "area": "large-language-models",
+  "description": "A frozen copy of the model from before preference training, kept as an anchor so the trained model does not drift too far from it.",
+  "aliases": [
+   "reference policy",
+   "ref model",
+   "reference LM",
+   "frozen reference model",
+   "reference language model"
+  ],
+  "requires": [
+   "reinforcement-learning-from-human-feedback"
+  ]
+ },
+ {
+  "concept_id": "reinforcement-learning-from-human-feedback",
+  "name": "Reinforcement learning from human feedback",
+  "area": "large-language-models",
+  "description": "Fine-tuning a language model with reinforcement learning to maximize scores from a reward model trained to predict which responses people prefer.",
+  "aliases": [
+   "RLHF",
+   "reinforcement learning with human feedback",
+   "RL from human feedback",
+   "reinforcement learning from human preferences",
+   "RLHF fine-tuning"
+  ],
+  "requires": [
+   "reward-model",
+   "supervised-fine-tuning",
+   "policy-gradient"
+  ]
+ },
+ {
+  "concept_id": "retrieval-augmented-generation",
+  "name": "Retrieval-augmented generation",
+  "area": "large-language-models",
+  "description": "Having a language model answer using documents fetched by a search step and inserted into its prompt, so answers can draw on up-to-date, citable sources.",
+  "aliases": [
+   "RAG",
+   "retrieval-augmented language model",
+   "retrieval-augmented LLM",
+   "retrieval augmentation"
+  ],
+  "requires": [
+   "prompting",
+   "dense-retrieval"
+  ]
+ },
+ {
+  "concept_id": "reward-hacking",
+  "name": "Reward hacking",
+  "area": "large-language-models",
+  "description": "When a model trained to maximize a reward exploits flaws in it, such as quirks a reward model overrates, scoring highly without truly behaving better.",
+  "aliases": [
+   "reward gaming",
+   "specification gaming",
+   "reward model overoptimization",
+   "reward overoptimization",
+   "reward exploitation"
+  ],
+  "requires": [
+   "reinforcement-learning-from-human-feedback"
+  ]
+ },
+ {
+  "concept_id": "reward-model",
+  "name": "Reward model",
+  "area": "large-language-models",
+  "description": "A model trained on human preference data to score how good a response is, standing in for human judgment during reinforcement learning.",
+  "aliases": [
+   "RM",
+   "preference model",
+   "reward modeling",
+   "reward modelling",
+   "learned reward model"
+  ],
+  "requires": [
+   "human-preference-data",
+   "reward"
+  ]
+ },
+ {
+  "concept_id": "scaling-laws",
+  "name": "Scaling laws",
+  "area": "large-language-models",
+  "description": "Empirical rules showing that a model's loss falls along a predictable straight line on log-log axes as its size, data, and compute grow.",
+  "aliases": [
+   "neural scaling laws",
+   "LLM scaling laws",
+   "power-law scaling",
+   "Chinchilla scaling laws",
+   "Kaplan scaling laws",
+   "compute-optimal scaling"
+  ],
+  "requires": [
+   "large-language-model",
+   "flops",
+   "logarithm"
+  ]
+ },
+ {
+  "concept_id": "supervised-fine-tuning",
+  "name": "Supervised fine-tuning",
+  "area": "large-language-models",
+  "description": "Further training a pretrained language model on example prompts paired with ideal responses, so it learns to respond in the desired way.",
+  "aliases": [
+   "SFT",
+   "supervised finetuning",
+   "supervised fine tuning",
+   "demonstration fine-tuning"
+  ],
+  "requires": [
+   "fine-tuning",
+   "large-language-model"
+  ]
+ },
+ {
+  "concept_id": "autoencoder",
+  "name": "Autoencoder",
+  "area": "generative-models",
+  "description": "A neural network trained to reconstruct its own input after squeezing it through a narrow middle layer, learning a compact code.",
+  "aliases": [
+   "auto-encoder",
+   "auto encoder",
+   "AE",
+   "autoencoders"
+  ],
+  "requires": [
+   "latent-space",
+   "multilayer-perceptron",
+   "unsupervised-learning"
+  ]
+ },
+ {
+  "concept_id": "classifier-free-guidance",
+  "name": "Classifier-free guidance",
+  "area": "generative-models",
+  "description": "Steering a diffusion model toward a condition like a text prompt by amplifying the gap between its conditioned and unconditioned predictions.",
+  "aliases": [
+   "CFG",
+   "classifier free guidance",
+   "classifier-free diffusion guidance",
+   "guidance scale"
+  ],
+  "requires": [
+   "diffusion-model",
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "denoising-autoencoder",
+  "name": "Denoising autoencoder",
+  "area": "generative-models",
+  "description": "An autoencoder trained to recover the original clean input from a deliberately corrupted, noisy copy, which forces it to learn robust features.",
+  "aliases": [
+   "DAE",
+   "denoising auto-encoder",
+   "denoising autoencoders"
+  ],
+  "requires": [
+   "autoencoder"
+  ]
+ },
+ {
+  "concept_id": "diffusion-model",
+  "name": "Diffusion model",
+  "area": "generative-models",
+  "description": "A generative model that learns to reverse a gradual noising process, turning pure random noise into a realistic sample step by step.",
+  "aliases": [
+   "diffusion models",
+   "denoising diffusion probabilistic model",
+   "DDPM",
+   "denoising diffusion model",
+   "diffusion probabilistic model",
+   "score-based generative model"
+  ],
+  "requires": [
+   "generative-model",
+   "normal-distribution",
+   "neural-network"
+  ]
+ },
+ {
+  "concept_id": "evidence-lower-bound",
+  "name": "Evidence lower bound",
+  "area": "generative-models",
+  "description": "A computable lower bound on the log-likelihood of the data, maximized in place of the exact value, which is too hard to compute.",
+  "aliases": [
+   "ELBO",
+   "variational lower bound",
+   "variational bound",
+   "VLB",
+   "negative ELBO",
+   "evidence lower bound objective"
+  ],
+  "requires": [
+   "variational-inference",
+   "maximum-likelihood-estimation"
+  ]
+ },
+ {
+  "concept_id": "generative-adversarial-network",
+  "name": "Generative adversarial network",
+  "area": "generative-models",
+  "description": "A generative model in which a generator network makes fake samples and a discriminator network tries to spot them, each improving by competing.",
+  "aliases": [
+   "GAN",
+   "GANs",
+   "generative adversarial networks",
+   "generative adversarial nets",
+   "adversarial generative network"
+  ],
+  "requires": [
+   "generative-model",
+   "latent-space",
+   "cross-entropy-loss"
+  ]
+ },
+ {
+  "concept_id": "generative-model",
+  "name": "Generative model",
+  "area": "generative-models",
+  "description": "A model that learns the probability distribution of its training data so it can produce new, realistic samples resembling that data.",
+  "aliases": [
+   "generative modeling",
+   "generative modelling",
+   "deep generative model",
+   "generative AI",
+   "generative network"
+  ],
+  "requires": [
+   "probability-distribution",
+   "machine-learning"
+  ]
+ },
+ {
+  "concept_id": "latent-diffusion-model",
+  "name": "Latent diffusion model",
+  "area": "generative-models",
+  "description": "A diffusion model that runs its denoising process in the compact latent space of a pretrained autoencoder rather than on raw pixels, cutting computation.",
+  "aliases": [
+   "LDM",
+   "latent diffusion",
+   "latent diffusion models",
+   "Stable Diffusion"
+  ],
+  "requires": [
+   "diffusion-model",
+   "variational-autoencoder",
+   "cross-attention"
+  ]
+ },
+ {
+  "concept_id": "latent-space",
+  "name": "Latent space",
+  "area": "generative-models",
+  "description": "A space of compact learned vectors where each point stands for a possible data example, and nearby points stand for similar examples.",
+  "aliases": [
+   "latent representation",
+   "latent vector",
+   "latent code",
+   "latent variable",
+   "latent embedding"
+  ],
+  "requires": [
+   "embedding",
+   "vector-space"
+  ]
+ },
+ {
+  "concept_id": "normalizing-flow",
+  "name": "Normalizing flow",
+  "area": "generative-models",
+  "description": "A generative model that turns simple random noise into data through a chain of invertible transformations, so the exact likelihood can be computed.",
+  "aliases": [
+   "normalizing flows",
+   "normalising flow",
+   "flow-based model",
+   "flow-based generative model",
+   "flow model",
+   "invertible flow"
+  ],
+  "requires": [
+   "generative-model",
+   "jacobian-matrix",
+   "probability-density-function"
+  ]
+ },
+ {
+  "concept_id": "reparameterization-trick",
+  "name": "Reparameterization trick",
+  "area": "generative-models",
+  "description": "Rewriting a random sample as a fixed function of the model's parameters plus independent noise, so gradients can flow through the sampling step.",
+  "aliases": [
+   "reparametrization trick",
+   "reparameterisation trick",
+   "reparam trick",
+   "pathwise gradient estimator",
+   "pathwise derivative"
+  ],
+  "requires": [
+   "variational-autoencoder",
+   "backpropagation"
+  ]
+ },
+ {
+  "concept_id": "variational-autoencoder",
+  "name": "Variational autoencoder",
+  "area": "generative-models",
+  "description": "An autoencoder that encodes each input as a probability distribution in latent space, so sampling from that space generates new data.",
+  "aliases": [
+   "VAE",
+   "VAEs",
+   "variational auto-encoder",
+   "variational autoencoders"
+  ],
+  "requires": [
+   "autoencoder",
+   "generative-model",
+   "kl-divergence",
+   "normal-distribution"
+  ]
+ },
+ {
+  "concept_id": "variational-inference",
+  "name": "Variational inference",
+  "area": "generative-models",
+  "description": "Approximating a hard-to-compute probability distribution, usually a posterior, by optimizing a simpler distribution to be as close to it as possible.",
+  "aliases": [
+   "VI",
+   "variational Bayes",
+   "variational Bayesian inference",
+   "variational approximation",
+   "variational methods"
+  ],
+  "requires": [
+   "posterior-distribution",
+   "kl-divergence"
+  ]
+ },
+ {
+  "concept_id": "actor-critic",
+  "name": "Actor-critic",
+  "area": "reinforcement-learning",
+  "description": "A method pairing a policy network (the actor) that picks actions with a value network (the critic) that scores them to guide policy updates.",
+  "aliases": [
+   "actor critic",
+   "actor-critic methods",
+   "A2C",
+   "A3C",
+   "advantage actor-critic",
+   "asynchronous advantage actor-critic"
+  ],
+  "requires": [
+   "policy-gradient",
+   "temporal-difference-learning",
+   "advantage-function"
+  ]
+ },
+ {
+  "concept_id": "advantage-function",
+  "name": "Advantage function",
+  "area": "reinforcement-learning",
+  "description": "How much better taking a specific action in a state is than the policy's average behavior there: its Q-value minus the state's value.",
+  "aliases": [
+   "advantage",
+   "advantage estimate",
+   "advantage estimation",
+   "A(s,a)",
+   "advantage value"
+  ],
+  "requires": [
+   "q-function"
+  ]
+ },
+ {
+  "concept_id": "bellman-equation",
+  "name": "Bellman equation",
+  "area": "reinforcement-learning",
+  "description": "A recursive relationship saying a state's value equals the expected sum of the immediate reward and the discounted value of the next state.",
+  "aliases": [
+   "Bellman equations",
+   "Bellman's equation",
+   "Bellman expectation equation",
+   "Bellman optimality equation",
+   "Bellman backup",
+   "Bellman update"
+  ],
+  "requires": [
+   "value-function"
+  ]
+ },
+ {
+  "concept_id": "contextual-bandit",
+  "name": "Contextual bandit",
+  "area": "reinforcement-learning",
+  "description": "A bandit problem where the agent sees features describing the situation before each choice, so the best option depends on that context.",
+  "aliases": [
+   "contextual bandits",
+   "contextual multi-armed bandit",
+   "associative bandit",
+   "associative search",
+   "bandit with side information"
+  ],
+  "requires": [
+   "multi-armed-bandit",
+   "feature"
+  ]
+ },
+ {
+  "concept_id": "deep-q-network",
+  "name": "Deep Q-network",
+  "area": "reinforcement-learning",
+  "description": "Q-learning with a deep neural network estimating action values, stabilized by replaying stored past experience and a slowly updated copy of the network.",
+  "aliases": [
+   "DQN",
+   "DQNs",
+   "deep Q network",
+   "deep Q-learning",
+   "deep Q learning"
+  ],
+  "requires": [
+   "q-learning",
+   "deep-learning"
+  ]
+ },
+ {
+  "concept_id": "discounted-return",
+  "name": "Discounted return",
+  "area": "reinforcement-learning",
+  "description": "The sum of rewards from a given time onward, each multiplied by a discount factor between 0 and 1 once per step of delay.",
+  "aliases": [
+   "return",
+   "discounted reward",
+   "discounted cumulative reward",
+   "cumulative discounted reward",
+   "discount factor"
+  ],
+  "requires": [
+   "trajectory",
+   "summation-notation"
+  ]
+ },
+ {
+  "concept_id": "exploration-exploitation-tradeoff",
+  "name": "Exploration-exploitation tradeoff",
+  "area": "reinforcement-learning",
+  "description": "The dilemma between trying unfamiliar actions to learn more and choosing the action currently believed best to collect reward now.",
+  "aliases": [
+   "exploration vs exploitation",
+   "exploration versus exploitation",
+   "exploration-exploitation dilemma",
+   "explore-exploit tradeoff",
+   "explore/exploit",
+   "exploration exploitation trade-off"
+  ],
+  "requires": [
+   "reward"
+  ]
+ },
+ {
+  "concept_id": "markov-decision-process",
+  "name": "Markov decision process",
+  "area": "reinforcement-learning",
+  "description": "A formal description of a decision problem by states, actions, rewards, and transition probabilities, where outcomes depend only on the current state and action.",
+  "aliases": [
+   "MDP",
+   "MDPs",
+   "Markov decision processes",
+   "finite MDP"
+  ],
+  "requires": [
+   "reward",
+   "markov-chain"
+  ]
+ },
+ {
+  "concept_id": "multi-armed-bandit",
+  "name": "Multi-armed bandit",
+  "area": "reinforcement-learning",
+  "description": "A simplified decision problem where an agent repeatedly picks among several options with unknown random payoffs, trying to maximize total reward.",
+  "aliases": [
+   "multi-armed bandit problem",
+   "MAB",
+   "k-armed bandit",
+   "n-armed bandit",
+   "bandit problem",
+   "multiarmed bandit"
+  ],
+  "requires": [
+   "exploration-exploitation-tradeoff",
+   "expectation"
+  ]
+ },
+ {
+  "concept_id": "off-policy-learning",
+  "name": "Off-policy learning",
+  "area": "reinforcement-learning",
+  "description": "Learning about one policy, the target, from experience generated by a different policy, such as an older or more exploratory one.",
+  "aliases": [
+   "off-policy",
+   "off policy learning",
+   "off-policy RL",
+   "off-policy reinforcement learning",
+   "off-policy methods"
+  ],
+  "requires": [
+   "trajectory",
+   "importance-sampling"
+  ]
+ },
+ {
+  "concept_id": "policy",
+  "name": "Policy",
+  "area": "reinforcement-learning",
+  "description": "The agent's rule for choosing an action in each situation, either fixed or given as probabilities over the possible actions.",
+  "aliases": [
+   "policy function",
+   "agent policy",
+   "control policy",
+   "stochastic policy",
+   "deterministic policy"
+  ],
+  "requires": [
+   "reinforcement-learning",
+   "conditional-probability"
+  ]
+ },
+ {
+  "concept_id": "policy-gradient",
+  "name": "Policy gradient",
+  "area": "reinforcement-learning",
+  "description": "A family of methods that improve a policy directly by following the gradient of expected return with respect to the policy's parameters.",
+  "aliases": [
+   "policy gradients",
+   "policy gradient methods",
+   "policy gradient theorem",
+   "vanilla policy gradient",
+   "VPG"
+  ],
+  "requires": [
+   "discounted-return",
+   "gradient-descent"
+  ]
+ },
+ {
+  "concept_id": "proximal-policy-optimization",
+  "name": "Proximal policy optimization",
+  "area": "reinforcement-learning",
+  "description": "A policy gradient method that limits how far each update can move the policy by clipping the probability ratio between new and old policies.",
+  "aliases": [
+   "PPO",
+   "proximal policy optimisation",
+   "PPO-Clip",
+   "PPO clip",
+   "clipped surrogate objective"
+  ],
+  "requires": [
+   "trust-region-policy-optimization",
+   "actor-critic"
+  ]
+ },
+ {
+  "concept_id": "q-function",
+  "name": "Q-function",
+  "area": "reinforcement-learning",
+  "description": "A function giving the expected discounted return from taking a specific action in a given state, then following a particular policy.",
+  "aliases": [
+   "action-value function",
+   "action value function",
+   "Q-value",
+   "Q-values",
+   "Q(s,a)",
+   "state-action value function"
+  ],
+  "requires": [
+   "value-function"
+  ]
+ },
+ {
+  "concept_id": "q-learning",
+  "name": "Q-learning",
+  "area": "reinforcement-learning",
+  "description": "A temporal-difference method that learns the Q-function of the best possible policy from experience, even while exploring with a different policy.",
+  "aliases": [
+   "Q learning",
+   "Qlearning",
+   "tabular Q-learning",
+   "Watkins Q-learning"
+  ],
+  "requires": [
+   "temporal-difference-learning",
+   "q-function",
+   "exploration-exploitation-tradeoff"
+  ]
+ },
+ {
+  "concept_id": "reinforce",
+  "name": "REINFORCE",
+  "area": "reinforcement-learning",
+  "description": "The basic policy gradient algorithm: play full episodes, then raise the log-probability of each action in proportion to the return that followed it.",
+  "aliases": [
+   "REINFORCE algorithm",
+   "Monte Carlo policy gradient",
+   "Monte-Carlo policy gradient",
+   "score function estimator",
+   "likelihood ratio policy gradient"
+  ],
+  "requires": [
+   "policy-gradient",
+   "monte-carlo-estimation"
+  ]
+ },
+ {
+  "concept_id": "reinforcement-learning",
+  "name": "Reinforcement learning",
+  "area": "reinforcement-learning",
+  "description": "A kind of machine learning where an agent learns which actions to take by trial and error, guided by rewards from its environment.",
+  "aliases": [
+   "RL",
+   "deep reinforcement learning",
+   "deep RL",
+   "DRL"
+  ],
+  "requires": [
+   "machine-learning"
+  ]
+ },
+ {
+  "concept_id": "reward",
+  "name": "Reward",
+  "area": "reinforcement-learning",
+  "description": "A number an agent receives from its environment after acting, signaling how good the outcome was; the agent tries to maximize its total.",
+  "aliases": [
+   "reward signal",
+   "rewards",
+   "reward function",
+   "scalar reward"
+  ],
+  "requires": [
+   "reinforcement-learning"
+  ]
+ },
+ {
+  "concept_id": "temporal-difference-learning",
+  "name": "Temporal-difference learning",
+  "area": "reinforcement-learning",
+  "description": "Learning value estimates step by step by nudging each toward the observed reward plus the discounted estimated value of the next state.",
+  "aliases": [
+   "TD learning",
+   "temporal difference learning",
+   "TD",
+   "TD(0)",
+   "TD(lambda)",
+   "TD error"
+  ],
+  "requires": [
+   "bellman-equation",
+   "monte-carlo-estimation"
+  ]
+ },
+ {
+  "concept_id": "trajectory",
+  "name": "Trajectory",
+  "area": "reinforcement-learning",
+  "description": "The sequence of states, actions, and rewards an agent experiences while interacting with its environment, such as one full game.",
+  "aliases": [
+   "episode",
+   "rollout",
+   "trajectories",
+   "state-action trajectory",
+   "state-action sequence"
+  ],
+  "requires": [
+   "markov-decision-process",
+   "policy"
+  ]
+ },
+ {
+  "concept_id": "trust-region-policy-optimization",
+  "name": "Trust region policy optimization",
+  "area": "reinforcement-learning",
+  "description": "A policy gradient method that makes each update as large as safely possible by limiting the KL divergence between the old and new policies.",
+  "aliases": [
+   "TRPO",
+   "trust region policy optimisation",
+   "trust-region policy optimization"
+  ],
+  "requires": [
+   "policy-gradient",
+   "advantage-function",
+   "kl-divergence",
+   "importance-sampling"
+  ]
+ },
+ {
+  "concept_id": "value-function",
+  "name": "Value function",
+  "area": "reinforcement-learning",
+  "description": "A function giving the expected discounted return an agent will collect starting from a given state while following a particular policy.",
+  "aliases": [
+   "state-value function",
+   "state value function",
+   "V-function",
+   "V(s)",
+   "state value"
+  ],
+  "requires": [
+   "discounted-return",
+   "expectation"
+  ]
+ },
+ {
+  "concept_id": "ablation-study",
+  "name": "Ablation study",
+  "area": "evaluation-datasets",
+  "description": "An experiment that removes or changes one part of a system at a time to measure how much that part contributes.",
+  "aliases": [
+   "ablation",
+   "ablations",
+   "ablation studies",
+   "ablation experiment",
+   "ablation analysis"
+  ],
+  "requires": [
+   "evaluation-metric"
+  ]
+ },
+ {
+  "concept_id": "accuracy",
+  "name": "Accuracy",
+  "area": "evaluation-datasets",
+  "description": "The fraction of examples a model gets exactly right, such as correct class predictions out of all predictions made.",
+  "aliases": [
+   "classification accuracy",
+   "acc",
+   "top-1 accuracy",
+   "top-1 error",
+   "classification error"
+  ],
+  "requires": [
+   "evaluation-metric",
+   "classification"
+  ]
+ },
+ {
+  "concept_id": "benchmark",
+  "name": "Benchmark",
+  "area": "evaluation-datasets",
+  "description": "A standard dataset and scoring procedure that many researchers use so different models can be compared fairly on the same task.",
+  "aliases": [
+   "benchmark dataset",
+   "benchmarks",
+   "evaluation benchmark",
+   "benchmark suite"
+  ],
+  "requires": [
+   "evaluation-metric"
+  ]
+ },
+ {
+  "concept_id": "bleu",
+  "name": "BLEU",
+  "area": "evaluation-datasets",
+  "description": "A machine translation metric that scores output by how many of its short word sequences also appear in human reference translations.",
+  "aliases": [
+   "BLEU score",
+   "bilingual evaluation understudy",
+   "SacreBLEU",
+   "BLEU-4"
+  ],
+  "requires": [
+   "machine-translation",
+   "n-gram",
+   "precision-and-recall"
+  ]
+ },
+ {
+  "concept_id": "cifar-10",
+  "name": "CIFAR-10",
+  "area": "evaluation-datasets",
+  "description": "A small benchmark of 60,000 tiny 32x32 color images in 10 classes, such as airplane, cat, and truck, widely used for quick experiments.",
+  "aliases": [
+   "CIFAR10",
+   "CIFAR 10",
+   "CIFAR"
+  ],
+  "requires": [
+   "image-classification",
+   "benchmark"
+  ]
+ },
+ {
+  "concept_id": "data-contamination",
+  "name": "Data contamination",
+  "area": "evaluation-datasets",
+  "description": "When benchmark test examples accidentally appear in a model's training data, inflating its scores because it may have memorized the answers.",
+  "aliases": [
+   "benchmark contamination",
+   "test set contamination",
+   "test-set contamination",
+   "test set leakage",
+   "train-test overlap",
+   "training data contamination"
+  ],
+  "requires": [
+   "benchmark",
+   "train-validation-test-split",
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "evaluation-metric",
+  "name": "Evaluation metric",
+  "area": "evaluation-datasets",
+  "description": "A number that summarizes how well a model performs on a task, used to compare models and track progress.",
+  "aliases": [
+   "evaluation measure",
+   "performance metric",
+   "performance measure",
+   "eval metric",
+   "evaluation metrics"
+  ],
+  "requires": [
+   "machine-learning"
+  ]
+ },
+ {
+  "concept_id": "exact-match",
+  "name": "Exact match",
+  "area": "evaluation-datasets",
+  "description": "The percentage of predictions that match a correct reference answer character for character, usually after ignoring capitalization, punctuation, and articles.",
+  "aliases": [
+   "EM",
+   "EM score",
+   "exact match score",
+   "exact-match accuracy"
+  ],
+  "requires": [
+   "accuracy",
+   "question-answering"
+  ]
+ },
+ {
+  "concept_id": "f1-score",
+  "name": "F1 score",
+  "area": "evaluation-datasets",
+  "description": "A single score combining precision and recall through their harmonic mean, so it is high only when both are high.",
+  "aliases": [
+   "F1",
+   "F-1",
+   "F-score",
+   "F-measure",
+   "F1-measure",
+   "F1 metric",
+   "macro F1",
+   "micro F1"
+  ],
+  "requires": [
+   "precision-and-recall",
+   "mean"
+  ]
+ },
+ {
+  "concept_id": "flops",
+  "name": "FLOPs",
+  "area": "evaluation-datasets",
+  "description": "The number of basic arithmetic operations, such as additions and multiplications, a model needs, used to measure its computational cost.",
+  "aliases": [
+   "FLOP",
+   "floating-point operations",
+   "floating point operations",
+   "GFLOPs",
+   "MACs",
+   "multiply-accumulate operations"
+  ],
+  "requires": [
+   "matrix-multiplication",
+   "forward-pass"
+  ]
+ },
+ {
+  "concept_id": "frechet-inception-distance",
+  "name": "Fréchet inception distance",
+  "area": "evaluation-datasets",
+  "description": "A score comparing the mean and covariance of pretrained-classifier features for real and generated images; lower means more realistic, varied samples.",
+  "aliases": [
+   "FID",
+   "FID score",
+   "Frechet inception distance"
+  ],
+  "requires": [
+   "generative-model",
+   "normal-distribution",
+   "covariance-matrix",
+   "googlenet"
+  ]
+ },
+ {
+  "concept_id": "glue",
+  "name": "GLUE",
+  "area": "evaluation-datasets",
+  "description": "A benchmark of nine English sentence-understanding tasks, such as sentiment analysis and natural language inference, scored together to compare models.",
+  "aliases": [
+   "GLUE benchmark",
+   "General Language Understanding Evaluation",
+   "GLUE score"
+  ],
+  "requires": [
+   "benchmark",
+   "natural-language-inference",
+   "sentiment-analysis"
+  ]
+ },
+ {
+  "concept_id": "human-evaluation",
+  "name": "Human evaluation",
+  "area": "evaluation-datasets",
+  "description": "Judging model outputs by asking people to rate or compare them, used when automatic metrics miss qualities like helpfulness or fluency.",
+  "aliases": [
+   "human judgment",
+   "human judgement",
+   "human ratings",
+   "human raters",
+   "manual evaluation",
+   "human assessment"
+  ],
+  "requires": [
+   "evaluation-metric"
+  ]
+ },
+ {
+  "concept_id": "imagenet",
+  "name": "ImageNet",
+  "area": "evaluation-datasets",
+  "description": "A large image dataset whose standard version has about 1.2 million training photos in 1,000 categories, long the main image classification benchmark.",
+  "aliases": [
+   "ILSVRC",
+   "ILSVRC-2012",
+   "ImageNet-1k",
+   "ImageNet 1K",
+   "IN-1k",
+   "ImageNet challenge",
+   "ImageNet Large Scale Visual Recognition Challenge"
+  ],
+  "requires": [
+   "image-classification",
+   "benchmark"
+  ]
+ },
+ {
+  "concept_id": "imagenet-21k",
+  "name": "ImageNet-21k",
+  "area": "evaluation-datasets",
+  "description": "The full ImageNet dataset of roughly 14 million images in about 21,000 categories, often used to pretrain image models before fine-tuning.",
+  "aliases": [
+   "ImageNet 21k",
+   "ImageNet-22k",
+   "ImageNet 22k",
+   "IN-21k",
+   "IN21k",
+   "full ImageNet"
+  ],
+  "requires": [
+   "imagenet",
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "inference-latency",
+  "name": "Inference latency",
+  "area": "evaluation-datasets",
+  "description": "The time a trained model takes to produce an output for one input, which matters for real-time and interactive applications.",
+  "aliases": [
+   "latency",
+   "inference time",
+   "inference speed",
+   "prediction latency",
+   "model latency"
+  ],
+  "requires": [
+   "forward-pass"
+  ]
+ },
+ {
+  "concept_id": "jft-300m",
+  "name": "JFT-300M",
+  "area": "evaluation-datasets",
+  "description": "Google's internal dataset of about 300 million images with noisy, automatically generated labels, used to pretrain large image models like Vision Transformers.",
+  "aliases": [
+   "JFT",
+   "JFT 300M",
+   "JFT300M",
+   "JFT dataset"
+  ],
+  "requires": [
+   "imagenet",
+   "pretraining"
+  ]
+ },
+ {
+  "concept_id": "linear-probing",
+  "name": "Linear probing",
+  "area": "evaluation-datasets",
+  "description": "Testing a pretrained model's learned features by freezing it and training only a simple linear classifier on top to solve a task.",
+  "aliases": [
+   "linear probe",
+   "linear probes",
+   "linear evaluation",
+   "linear evaluation protocol",
+   "linear eval",
+   "linear classifier probe"
+  ],
+  "requires": [
+   "weight-freezing",
+   "classification-head"
+  ]
+ },
+ {
+  "concept_id": "llm-as-a-judge",
+  "name": "LLM-as-a-judge",
+  "area": "evaluation-datasets",
+  "description": "Using a strong large language model to grade or compare other models' outputs, as a cheaper, faster stand-in for human evaluation.",
+  "aliases": [
+   "LLM as a judge",
+   "LLM-as-judge",
+   "LLM judge",
+   "LLM evaluator",
+   "LLM-based evaluation",
+   "GPT-4 as a judge",
+   "AI judge"
+  ],
+  "requires": [
+   "prompting",
+   "human-evaluation"
+  ]
+ },
+ {
+  "concept_id": "mean-average-precision",
+  "name": "Mean average precision",
+  "area": "evaluation-datasets",
+  "description": "A detection and retrieval metric that averages precision over all recall levels for each class or query, then averages across them.",
+  "aliases": [
+   "mAP",
+   "mean AP",
+   "average precision",
+   "AP",
+   "AP50",
+   "mAP@0.5",
+   "box AP"
+  ],
+  "requires": [
+   "precision-and-recall",
+   "object-detection"
+  ]
+ },
+ {
+  "concept_id": "mmlu",
+  "name": "MMLU",
+  "area": "evaluation-datasets",
+  "description": "A benchmark of about 16,000 multiple-choice questions across 57 subjects, from math to law, testing a language model's knowledge and reasoning.",
+  "aliases": [
+   "Massive Multitask Language Understanding",
+   "Measuring Massive Multitask Language Understanding",
+   "MMLU benchmark"
+  ],
+  "requires": [
+   "benchmark",
+   "large-language-model"
+  ]
+ },
+ {
+  "concept_id": "mnist",
+  "name": "MNIST",
+  "area": "evaluation-datasets",
+  "description": "A classic dataset of 70,000 small grayscale images of handwritten digits 0-9, often the first benchmark for image classification.",
+  "aliases": [
+   "MNIST digits",
+   "MNIST dataset",
+   "handwritten digits dataset"
+  ],
+  "requires": [
+   "image-classification",
+   "benchmark"
+  ]
+ },
+ {
+  "concept_id": "ms-coco",
+  "name": "MS COCO",
+  "area": "evaluation-datasets",
+  "description": "A large dataset of everyday scene photos labeled with object boxes, outlines, and captions, used to benchmark detection, segmentation, and captioning.",
+  "aliases": [
+   "COCO",
+   "MS-COCO",
+   "MSCOCO",
+   "Microsoft COCO",
+   "Common Objects in Context",
+   "COCO dataset",
+   "COCO Captions"
+  ],
+  "requires": [
+   "object-detection",
+   "benchmark"
+  ]
+ },
+ {
+  "concept_id": "perplexity",
+  "name": "Perplexity",
+  "area": "evaluation-datasets",
+  "description": "A language model metric equal to the exponential of average per-token cross-entropy; lower means the model is less surprised by real text.",
+  "aliases": [
+   "PPL",
+   "perplexity score",
+   "model perplexity"
+  ],
+  "requires": [
+   "language-model",
+   "cross-entropy-loss"
+  ]
+ },
+ {
+  "concept_id": "precision-and-recall",
+  "name": "Precision and recall",
+  "area": "evaluation-datasets",
+  "description": "Precision is the share of predicted positives that are truly positive; recall is the share of actual positives the model finds.",
+  "aliases": [
+   "precision",
+   "recall",
+   "precision/recall",
+   "precision-recall",
+   "sensitivity",
+   "true positive rate",
+   "positive predictive value"
+  ],
+  "requires": [
+   "accuracy"
+  ]
+ },
+ {
+  "concept_id": "rouge",
+  "name": "ROUGE",
+  "area": "evaluation-datasets",
+  "description": "A summarization metric that scores generated text by how many of the reference summary's words and word sequences it recovers.",
+  "aliases": [
+   "ROUGE score",
+   "ROUGE-1",
+   "ROUGE-2",
+   "ROUGE-L",
+   "ROUGE-N",
+   "recall-oriented understudy for gisting evaluation"
+  ],
+  "requires": [
+   "text-summarization",
+   "n-gram",
+   "precision-and-recall"
+  ]
+ },
+ {
+  "concept_id": "squad",
+  "name": "SQuAD",
+  "area": "evaluation-datasets",
+  "description": "The Stanford Question Answering Dataset, where models answer questions about Wikipedia paragraphs by pointing to the answer span in the text.",
+  "aliases": [
+   "SQuAD 1.1",
+   "SQuAD v1.1",
+   "SQuAD 2.0",
+   "SQuAD v2.0",
+   "SQuAD2.0",
+   "Stanford Question Answering Dataset"
+  ],
+  "requires": [
+   "question-answering",
+   "benchmark"
+  ]
+ },
+ {
+  "concept_id": "top-k-accuracy",
+  "name": "Top-k accuracy",
+  "area": "evaluation-datasets",
+  "description": "The fraction of examples whose correct label appears among the model's k highest-scoring guesses, such as the top five.",
+  "aliases": [
+   "top-5 accuracy",
+   "top-5 error",
+   "top-k error",
+   "top-5 error rate",
+   "top k accuracy"
+  ],
+  "requires": [
+   "accuracy"
+  ]
+ },
+ {
+  "concept_id": "vtab",
+  "name": "VTAB",
+  "area": "evaluation-datasets",
+  "description": "The Visual Task Adaptation Benchmark: 19 varied image tasks, each with only 1,000 training examples, testing how well pretrained models adapt.",
+  "aliases": [
+   "VTAB-1k",
+   "VTAB 1k",
+   "Visual Task Adaptation Benchmark"
+  ],
+  "requires": [
+   "benchmark",
+   "transfer-learning",
+   "image-classification"
+  ]
+ },
+ {
+  "concept_id": "win-rate",
+  "name": "Win rate",
+  "area": "evaluation-datasets",
+  "description": "The fraction of head-to-head comparisons in which judges prefer one model's output over another's, often counting ties as half.",
+  "aliases": [
+   "winrate",
+   "pairwise win rate",
+   "head-to-head win rate",
+   "preference win rate"
+  ],
+  "requires": [
+   "human-evaluation"
+  ]
+ },
+ {
+  "concept_id": "wmt",
+  "name": "WMT",
+  "area": "evaluation-datasets",
+  "description": "The Conference on Machine Translation, whose yearly competitions supply standard translation benchmarks like WMT 2014 English-German, usually scored with BLEU.",
+  "aliases": [
+   "WMT14",
+   "WMT 2014",
+   "WMT'14",
+   "WMT 2014 English-German",
+   "WMT En-De",
+   "WMT English-French",
+   "Conference on Machine Translation",
+   "Workshop on Machine Translation"
+  ],
+  "requires": [
+   "bleu",
+   "benchmark"
+  ]
+ }
+]

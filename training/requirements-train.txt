@@ -1,0 +1,10 @@
+# The GPU box only (Colab or RunPod, Linux + NVIDIA). Not needed by the app.
+# Versions verified together by the CPU smoke run (python -m training.train --smoke).
+torch==2.14.1
+transformers==5.19.0
+peft==0.21.2
+trl==1.15.0
+datasets==5.1.0
+accelerate==1.15.0
+bitsandbytes>=0.48     # 4-bit NF4; CUDA only, which is why training doesn't run on a Mac
+wandb==0.30.0

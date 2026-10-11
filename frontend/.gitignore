@@ -1,0 +1,14 @@
+node_modules
+dist
+*.local
+.env
+.env.*
+!.env.example
+
+# Copied from node_modules/pdfjs-dist before dev and build (scripts/copy-pdfjs-assets.mjs)
+public/pdfjs
+
+# Playwright
+test-results
+playwright-report
+blob-report

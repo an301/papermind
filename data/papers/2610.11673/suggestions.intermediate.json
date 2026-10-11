@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does AB-PIELM jointly optimize subdomain placement and RBF width while keeping normal-equation training?",
+    "Why does AB-PIELM use extreme learning machines with fixed hidden weights instead of gradient-trained networks?",
+    "How many fewer neurons does AB-PIELM need than standard PIELM on the singularly perturbed advection-diffusion problem?",
+    "How is Bayesian optimisation used to recover diffusion coefficients from sparse noisy observations?"
+  ]
+}

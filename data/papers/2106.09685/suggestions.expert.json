@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "Why does LoRA only adapt attention weights (Wq, Wv) and leave MLP layers frozen, and would adapting MLPs change the results?",
+    "How sensitive is performance to rank r, and does r=1 sufficing on GPT-3 hold for tasks far from the pre-training distribution?",
+    "What does the subspace similarity analysis imply about \u0394W amplifying directions not emphasized in W, and how robust is that finding?",
+    "Where does LoRA underperform full fine-tuning or prefix methods, such as in the low-data regime or when batching mixed tasks?"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does Adam combine first and second moment estimates of the gradient to compute each parameter update?",
+    "Why does Adam need initialization bias correction, and what goes wrong without it?",
+    "How does Adam differ from RMSProp and AdaGrad, the methods it builds on?",
+    "What changes in AdaMax when the infinity norm replaces the second moment estimate?"
+  ]
+}

@@ -1,0 +1,26 @@
+/* The single-column pages (Library, What you know, Settings, 404): a left-aligned column that starts
+   at --inset (the wordmark's edge) and stops at --col-max; spare width stays on the right. */
+.page {
+  padding: var(--space-7) var(--space-4) var(--space-8) var(--inset);
+}
+.column { max-width: var(--col-max); }
+.narrow { max-width: var(--settings-max); }
+
+/* Page titles: Sofia 24/650, −0.01em, balanced. Never serif. */
+.title {
+  font: 650 var(--text-24) / var(--lead-24) var(--font-ui);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.subtitle {
+  margin-top: var(--space-2);
+  max-width: 36em;
+  font: 400 var(--text-14) / var(--lead-14) var(--font-ui);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+@media (max-width: 47.99rem) {
+  .page { padding-top: var(--space-6); padding-right: var(--inset); }
+}

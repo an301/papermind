@@ -1,0 +1,64 @@
+{
+  "areas": [
+    {
+      "area_id": "linear-algebra",
+      "name": "Linear algebra",
+      "description": "Vectors, matrices, and the dot product"
+    },
+    {
+      "area_id": "calculus-optimization",
+      "name": "Calculus & optimization basics",
+      "description": "Functions, exponents and logs, derivatives, and how gradient descent finds a minimum"
+    },
+    {
+      "area_id": "probability-statistics",
+      "name": "Probability & statistics",
+      "description": "Chance, averages and spread, probability distributions, and Bayes' rule"
+    },
+    {
+      "area_id": "machine-learning-basics",
+      "name": "Machine learning basics",
+      "description": "Training a model on data, loss functions, and spotting overfitting"
+    },
+    {
+      "area_id": "neural-networks",
+      "name": "Neural networks & training",
+      "description": "Layers, activations, backpropagation, and the tricks that make deep nets train, like Adam, dropout, and batch norm"
+    },
+    {
+      "area_id": "vision-models",
+      "name": "Convolutional & vision models",
+      "description": "How models see images: convolutions, CNNs, and ResNets"
+    },
+    {
+      "area_id": "sequence-models-nlp",
+      "name": "Sequence models & NLP",
+      "description": "Working with text: tokens, word embeddings, RNNs, and tasks like translation"
+    },
+    {
+      "area_id": "attention-transformers",
+      "name": "Attention & transformers",
+      "description": "Self-attention and the transformer architecture behind BERT and GPT"
+    },
+    {
+      "area_id": "large-language-models",
+      "name": "Large language models & alignment",
+      "description": "How chatbots are built and tuned: prompting, fine-tuning, RLHF, DPO, and LoRA"
+    },
+    {
+      "area_id": "generative-models",
+      "name": "Generative models",
+      "description": "Models that create new images and data: autoencoders, GANs, and diffusion"
+    },
+    {
+      "area_id": "reinforcement-learning",
+      "name": "Reinforcement learning",
+      "description": "Learning by trial and error: agents, rewards, and policies"
+    },
+    {
+      "area_id": "evaluation-datasets",
+      "name": "Evaluation, datasets & metrics",
+      "description": "How results are measured: accuracy, BLEU, benchmarks, and well-known datasets like ImageNet"
+    }
+  ]
+}

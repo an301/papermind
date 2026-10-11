@@ -1,0 +1,60 @@
+/* §5.6: 48px, --surface, 1px --line-subtle rule. Never animates on desktop. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-topbar);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--topbar-h);
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line-subtle);
+}
+.back { flex: none; }
+.backLabel { display: inline; }
+@media (max-width: 1279px) { .backLabel { display: none; } }
+.title {
+  min-width: 0;
+  max-width: 40%;
+  margin-left: var(--space-2);
+  font: 560 var(--text-16) / var(--lead-16) var(--font-read);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 599px) { .title { display: none; } }
+.right { margin-left: auto; display: flex; align-items: center; gap: var(--space-1); }
+.pages {
+  padding: 0 var(--space-2);
+  height: var(--h-28);
+  border-radius: var(--r-sm);
+  font: 450 var(--text-13) / var(--h-28) var(--font-ui);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+button.pages:hover { background: var(--hover); color: var(--ink); }
+.pageInput {
+  width: 40px;
+  height: var(--h-20);
+  padding: 0 var(--space-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  background: var(--raised);
+  font: inherit;
+  text-align: center;
+}
+.zoom { display: flex; align-items: center; margin: 0 var(--space-1); }
+.zoomValue {
+  min-width: 48px;
+  height: var(--h-28);
+  border-radius: var(--r-sm);
+  font: 450 var(--text-13) / var(--h-28) var(--font-ui);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.zoomValue:hover { background: var(--hover); color: var(--ink); }
+@media (max-width: 1099px) { .zoomValue { display: none; } }

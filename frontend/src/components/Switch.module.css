@@ -1,0 +1,37 @@
+/* §5.1 Switch: track 28×16 radius 8, thumb 12. Off: --line ring, thumb --ink-2.
+   On: --ink track, thumb --on-ink. The thumb moves 12px: instantly from the keyboard,
+   over --dur-base --ease-out on click. */
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  width: var(--h-28);
+  height: 16px;
+  padding: 0 2px;
+  border-radius: var(--r-sm);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+/* 24px hit area around the 16px track. */
+.switch::before { content: ''; position: absolute; inset: -4px; }
+.switch[aria-checked='true'] { background: var(--ink); box-shadow: none; }
+.thumb {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: 50%;
+  background: var(--ink-2);
+}
+.switch[aria-checked='true'] .thumb { background: var(--on-ink); transform: translateX(var(--space-3)); }
+.switch[data-animate] .thumb { transition: transform var(--dur-base) var(--ease-out); }
+@media (pointer: coarse) {
+  .switch::before { inset: -14px -8px; }
+}
+@media (forced-colors: active) {
+  .switch { border: 1px solid ButtonText; }
+  .thumb { background: ButtonText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .switch[data-animate] .thumb { transition: none; }
+}

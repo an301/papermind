@@ -1,0 +1,28 @@
+/* §5.7: 28px rows, hanging numerals in a fixed 2.5em column, titles aligned for every level. */
+.outline {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: var(--space-4) var(--space-2) var(--space-6);
+  background: var(--surface);
+}
+.heading { padding: 0 var(--space-2) var(--space-2); font: 600 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+.note { padding: 0 var(--space-2) var(--space-2); font: 400 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+.list { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--h-28);
+  padding: 5px var(--space-2);
+  border-radius: var(--r-sm);
+  text-align: left;
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink-2);
+}
+.row:hover { background: var(--hover); color: var(--ink); }
+.row[aria-current] { background: var(--selected); color: var(--ink); }
+.number { flex: none; width: 2.5em; text-align: right; font-variant-numeric: tabular-nums; }
+.title { min-width: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

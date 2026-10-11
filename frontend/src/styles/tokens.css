@@ -1,0 +1,249 @@
+/* ============================================================
+   PaperMind tokens. Light is the default; dark is a designed peer.
+   Theme: <html data-theme="light|dark"> when the user picks one;
+   no attribute = follow the system (prefers-color-scheme).
+   Source of truth: docs/design/DESIGN.md §2.2. Components never use a raw
+   colour, size, radius, shadow or duration; a value that isn't here gets
+   added here first, with a reason.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* ---------- surfaces (OKLCH chroma ≤ .005, hue ≈ 295) ---------- */
+  --canvas:   #E6E6E8;  /* desk behind PDF pages; never holds controls directly */
+  --surface:  #F7F6F9;  /* app ground: header, outline, panel, Library, profile, settings */
+  --raised:   #FEFEFF;  /* composer, inputs, popovers, menus, hover cards, dialogs, toasts */
+
+  /* ---------- text tiers ---------- */
+  --ink:      #222123;  /* primary text, primary button fill, focus ring */
+  --ink-2:    #5B5A5D;  /* secondary: metadata, trail, outline, labels, placeholders */
+  --ink-3:    #868588;  /* disabled text and decorative marks only (3.4:1, not for reading) */
+  --on-ink:   #F7F6F9;  /* text on an --ink fill */
+  --ink-hover:#3B3A3C;  /* primary button hover = color-mix(in oklab, --ink 86%, --surface) */
+
+  /* ---------- lines ---------- */
+  --line:        #868588;  /* control borders: inputs, secondary buttons, segmented track (≥3:1) */
+  --line-subtle: #CECDD0;  /* decorative hairlines: top-bar rule, table rules, chip ring = mix(--line 35%, --surface) */
+
+  /* ---------- interaction tints (alpha of --ink, so they work on any neutral) ---------- */
+  --hover:    rgb(34 33 35 / 0.05);  /* on surface → #ECEBEE */
+  --selected: rgb(34 33 35 / 0.07);  /* on surface → #E8E7EA : selected row, active answer, current outline item */
+  --pressed:  rgb(34 33 35 / 0.09);  /* on surface → #E4E3E6 */
+
+  /* ---------- focus and selection (neutral, never mulberry) ---------- */
+  --focus:        var(--ink);
+  --focus-inner:  #FFFFFF;          /* two-tone ring over the PDF and over any variable background */
+  --focus-outer:  var(--ink);
+  --selection:    #D6D5D7;          /* UI ::selection = mix(in oklab, --ink 14%, --surface) */
+
+  /* ---------- the assistant's ink: assistant marks ONLY (see §2.6) ---------- */
+  --pencil:          #883564;       /* OKLCH .46 .126 348 · HSL 326° */
+  --pencil-on-page:  #883564;       /* brackets/underlines on a light or dimmed page */
+
+  /* ---------- status (icons + short labels only; see §2.6) ---------- */
+  --danger:  #9A4312;  /* rust, OKLCH h 45: work lost, ingestion failed, destructive menu item */
+  --warn:    #81520A;  /* ochre: needs attention, nothing lost (scanned PDF, withdrawn version) */
+  --success: #286648;  /* green: ingestion finished ("Ready") and "Back online" only */
+
+  /* ---------- tooltip, scrim ---------- */
+  --tooltip-bg:  #222123;
+  --tooltip-ink: #F7F6F9;
+  --tooltip-kbd-ring: rgb(255 255 255 / 0.24);  /* §5.24: kbd inside a tooltip */
+  --scrim:       rgb(34 33 35 / 0.32);
+
+  /* ---------- shadows: one light source directly above (x = 0), tinted to --ink ---------- */
+  --shadow-sm: 0 0 0 1px rgb(34 33 35 / .08), 0 1px 2px rgb(34 33 35 / .06), 0 4px 12px -4px rgb(34 33 35 / .12);
+  --shadow-md: 0 0 0 1px rgb(34 33 35 / .08), 0 2px 4px -1px rgb(34 33 35 / .08), 0 12px 28px -8px rgb(34 33 35 / .18);
+  --shadow-lg: 0 0 0 1px rgb(34 33 35 / .08), 0 4px 8px -2px rgb(34 33 35 / .08), 0 24px 56px -16px rgb(34 33 35 / .30);
+  --tooltip-shadow: none;  /* §5.24: no shadow in light, --shadow-sm in dark */
+
+  /* ---------- typography ---------- */
+  --font-read: 'Literata Variable', 'Literata', Georgia, 'Times New Roman', serif;
+  --font-ui:   'Sofia Sans Variable', 'Sofia Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-12: 0.75rem;    /* 12px */
+  --text-13: 0.8125rem;  /* 13px */
+  --text-14: 0.875rem;   /* 14px */
+  --text-15: 0.9375rem;  /* 15px */
+  --text-16: 1rem;       /* 16px */
+  --text-17: 1.0625rem;  /* 17px */
+  --text-19: 1.1875rem;  /* 19px */
+  --text-24: 1.5rem;     /* 24px */
+
+  /* Line heights from the §2.3 type table, so components never write a bare px leading. */
+  --lead-12: 16px;   /* chips, kbd, small labels: 12/16 */
+  --lead-13: 18px;   /* metadata, trail, outline, help text: 13/18 */
+  --lead-14: 20px;   /* UI body, labels, buttons: 14/20 */
+  --lead-15: 22px;   /* question, composer, concept name: 15/22 */
+  --lead-15-head: 20px; /* answer h3: 15/20 */
+  --lead-16: 21px;   /* section heads: 16/21 */
+  --lead-16-read: 24px; /* verbatim quote: Literata 16/24 */
+  --lead-19: 25px;   /* Library paper title: Literata 19/25 */
+  --lead-24: 29px;   /* page titles: 24/29 */
+
+  --answer-size: var(--text-17);  /* user setting: 15.5px (0.96875rem) | 17px | 19px (1.1875rem) */
+  --answer-leading: 1.55;         /* 1.5 | 1.55 | 1.6 for S | M | L */
+  --answer-weight: 400;           /* 380 in dark */
+  --answer-measure: 32em;         /* ≈ 67 characters of Literata (measured); never set measure in ch */
+  --katex-in-read: 1.18em;        /* KaTeX_Main x-height .431 → Literata .507 */
+  --katex-in-ui:   1.13em;        /* → Sofia Sans .488 */
+
+  /* ---------- spacing: one scale, nothing off it ---------- */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  /* ---------- component heights: the fixed list from §2.4 ---------- */
+  --h-20: 20px; --h-28: 28px; --h-32: 32px; --h-36: 36px; --h-40: 40px;
+  --h-44: 44px; --h-48: 48px; --h-52: 52px; --h-56: 56px;
+
+  /* ---------- radii: three values + paper; children use calc(parent − padding) ---------- */
+  --r-page: 2px;   /* PDF pages: paper is paper */
+  --r-xs:   4px;   /* chips, kbd, inline code, highlight marks */
+  --r-sm:   8px;   /* buttons, inputs, rows, segmented track, tooltips, back pill */
+  --r-md:   12px;  /* composer, popovers, menus, hover cards, toasts, dialogs, sheets (top corners) */
+
+  /* ---------- z-index ---------- */
+  --z-topbar: 10;  --z-panel-header: 11; --z-rail: 20;   --z-drawer: 30;
+  --z-sheet: 40;   --z-backpill: 45;     --z-popover: 50; --z-toast: 60;
+  --z-scrim: 69;   --z-dialog: 70;       --z-tooltip: 80; --z-dropzone: 85; --z-skiplink: 90;
+  /* inside a PDF page (page-local stacking context): */
+  --zp-canvas: 0; --zp-highlights: 1; --zp-underline: 2; --zp-text: 3; --zp-brackets: 4; --zp-links: 5;
+
+  /* ---------- motion ---------- */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);    /* entries, UI feedback, bracket draw */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);   /* things moving on screen (thumb, scroll) */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);    /* panel, drawers, sheets */
+  --dur-press:  120ms;  --dur-fast: 150ms;  --dur-base: 200ms;  --dur-slow: 280ms;
+  --dur-exit:   100ms;  /* §5.26, §6.4: menus, popovers and cards close faster than they open */
+  --dur-draw:   220ms;  /* bracket draw */
+  --dur-undraw: 150ms;
+  --dur-settle: 1200ms; /* re-ink and exact-span underline fade after a jump */
+  --dur-word:   150ms;  /* streamed word opacity */
+  --dur-meta:   120ms;  /* Library row metadata fill-in */
+  --dur-spin:   600ms;  /* §5.27: 12px spinner, one turn */
+  --delay-bracket: 150ms; --delay-card: 400ms; --grace-card: 150ms;
+  --delay-tooltip: 600ms; --skip-tooltip: 300ms;
+  --delay-loader: 200ms;  --min-loader: 400ms;
+
+  /* ---------- layout ---------- */
+  --topbar-h: 48px;      /* Reader top bar */
+  --appbar-h: 56px;      /* Library / profile / settings header */
+  --outline-w: 232px;
+  --panel-w: 400px;  --panel-min: 340px;  --panel-max: 560px;
+  --panel-sheet-w: 420px;  /* tablet overlay */
+  --rail-w: 48px;
+  --lane-w: 32px;          /* bracket lane on each side of every page (20px on phones) */
+  --page-fit-max: 920px;   /* page width cap at "Fit width" (user zoom may exceed) */
+  --page-gap: 16px;        /* between pages */
+  --page-panel-gap: 48px;  /* page edge to panel on wide screens */
+  --pdf-min: 620px;        /* the PDF column never gets narrower while the panel is docked */
+  --col-max: 46rem;        /* Library, profile: 736px */
+  --settings-max: 40rem;   /* 640px */
+  --inset: clamp(16px, 5vw, 96px);  /* left inset of single-column pages; matches the wordmark */
+
+  /* ---------- floating layer widths (§5.21–5.26) ---------- */
+  --toast-w: 356px;
+  --dialog-w: 440px;  --dialog-wide-w: 560px;
+  --menu-min-w: 200px;
+  --popover-w: 280px;        /* Appearance popover */
+  --combobox-w: 320px;       /* "Add something you know" */
+  --tooltip-max-w: 240px;
+  --field-filter-w: 240px;   /* Library and profile filter fields */
+  --status-col-w: 200px;     /* Library row right column */
+  --label-col-w: 200px;      /* Settings label column */
+  --strip-w: 160px;          /* Library page strip at its widest (40 slots × 4px) */
+}
+
+/* Answer text size, set by Settings → Answer text size (Medium is the default above). */
+:root[data-answer-size="s"] { --answer-size: 0.96875rem; --answer-leading: 1.5; }
+:root[data-answer-size="l"] { --answer-size: var(--text-19); --answer-leading: 1.6; }
+
+/* ---------- dark: system preference (unless the user forced light) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --canvas:#171719; --surface:#1F1F21; --raised:#28282A;
+    --ink:#E6E6E8; --ink-2:#BABABD; --ink-3:#79787B; --on-ink:#1F1F21; --ink-hover:#C7C7C9;
+    --line:#79787B; --line-subtle:#3C3C3E;
+    --hover:rgb(230 230 232 / 0.05); --selected:rgb(230 230 232 / 0.07); --pressed:rgb(230 230 232 / 0.09);
+    --focus-inner:#1F1F21; --focus-outer:#E6E6E8; --selection:#414143;
+    --pencil:#DCA4C0; --pencil-on-page:#883564;
+    --danger:#E79D7B; --warn:#E4B572; --success:#88C99E;
+    --tooltip-bg:#3D3D3F; --tooltip-ink:#E6E6E8; --scrim:rgb(0 0 0 / 0.56);
+    --tooltip-kbd-ring: rgb(255 255 255 / 0.16);
+    --shadow-sm: 0 0 0 1px rgb(255 255 255 / .10), 0 1px 2px rgb(0 0 0 / .32), 0 4px 12px -4px rgb(0 0 0 / .48);
+    --shadow-md: 0 0 0 1px rgb(255 255 255 / .10), 0 2px 4px -1px rgb(0 0 0 / .36), 0 12px 28px -8px rgb(0 0 0 / .60);
+    --shadow-lg: 0 0 0 1px rgb(255 255 255 / .12), 0 4px 8px -2px rgb(0 0 0 / .40), 0 24px 56px -16px rgb(0 0 0 / .70);
+    --tooltip-shadow: var(--shadow-sm);
+    --answer-weight: 380;
+  }
+}
+
+/* ---------- dark: explicit choice (same values; keep both blocks in sync) ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas:#171719; --surface:#1F1F21; --raised:#28282A;
+  --ink:#E6E6E8; --ink-2:#BABABD; --ink-3:#79787B; --on-ink:#1F1F21; --ink-hover:#C7C7C9;
+  --line:#79787B; --line-subtle:#3C3C3E;
+  --hover:rgb(230 230 232 / 0.05); --selected:rgb(230 230 232 / 0.07); --pressed:rgb(230 230 232 / 0.09);
+  --focus-inner:#1F1F21; --focus-outer:#E6E6E8; --selection:#414143;
+  --pencil:#DCA4C0; --pencil-on-page:#883564;
+  --danger:#E79D7B; --warn:#E4B572; --success:#88C99E;
+  --tooltip-bg:#3D3D3F; --tooltip-ink:#E6E6E8; --scrim:rgb(0 0 0 / 0.56);
+  --tooltip-kbd-ring: rgb(255 255 255 / 0.16);
+  --shadow-sm: 0 0 0 1px rgb(255 255 255 / .10), 0 1px 2px rgb(0 0 0 / .32), 0 4px 12px -4px rgb(0 0 0 / .48);
+  --shadow-md: 0 0 0 1px rgb(255 255 255 / .10), 0 2px 4px -1px rgb(0 0 0 / .36), 0 12px 28px -8px rgb(0 0 0 / .60);
+  --shadow-lg: 0 0 0 1px rgb(255 255 255 / .12), 0 4px 8px -2px rgb(0 0 0 / .40), 0 24px 56px -16px rgb(0 0 0 / .70);
+  --tooltip-shadow: var(--shadow-sm);
+  --answer-weight: 380;
+}
+
+/* ============================================================
+   PDF page tokens. Set on the viewer element:
+   <div class="pdf-viewer" data-page-mode="paper|dimmed|night|inverted">
+   Light theme always uses "paper". Dark theme defaults to "dimmed"
+   (Settings → Page in dark mode). These tokens are palette-independent.
+   ============================================================ */
+.pdf-viewer {
+  /* paper (default in light theme) */
+  --page-canvas-filter: none;
+  --hl-blend: multiply;
+  --hl-yellow: #FDEB9C;  --hl-green: #C4E8C6;  --hl-blue: #C6E0F7;  --hl-orange: #FAD9B0;
+  --hl-swatch-ring: rgb(0 0 0 / 0.12);     /* §5.12: inset ring on the selection-toolbar swatches */
+  --pdf-selection: rgb(34 33 35 / 0.22);   /* text-layer ::selection, neutral graphite */
+  --search-match: #5B5A5D;                 /* 1.5px outline on every match */
+  --search-current: #222123;               /* 2px outline + --pdf-selection fill on the current match */
+  --bracket: var(--pencil-on-page);        /* bracket strokes, numerals, exact-span underline */
+  --page-paper: #FFFFFF;                   /* page placeholder before the canvas paints (§5.27) */
+}
+.pdf-viewer[data-page-mode="dimmed"] {     /* dark-theme default: the page stays light, dimmed */
+  --page-canvas-filter: brightness(0.85);  /* applied to the pdf.js <canvas> ONLY, never to overlays */
+  --hl-yellow: #FEF0B4;  --hl-green: #D5EFD6;  --hl-blue: #D6E9FA;  --hl-orange: #FCE3C6;
+  --search-match: #5B5A5D;  --search-current: #222123;
+  --bracket: #883564;
+  --page-paper: #D9D9D9;
+}
+.pdf-viewer[data-page-mode="night"] {      /* opt-in; pdf.js pageColors { background:'#1F1F21', foreground:'#D9D9DB' } */
+  --page-canvas-filter: none;
+  --hl-blend: lighten;
+  --hl-yellow: #4C4526;  --hl-green: #25432E;  --hl-blue: #203B53;  --hl-orange: #4E3A22;
+  --pdf-selection: rgb(230 230 232 / 0.25);
+  --search-match: #BABABD;  --search-current: #E6E6E8;
+  --bracket: #DCA4C0;
+  --page-paper: #1F1F21;
+}
+.pdf-viewer[data-page-mode="inverted"] {   /* opt-in fallback for scanned PDFs */
+  --page-canvas-filter: invert(0.88) hue-rotate(180deg);
+  --hl-blend: lighten;
+  --hl-yellow: #4C4526;  --hl-green: #25432E;  --hl-blue: #203B53;  --hl-orange: #4E3A22;
+  --pdf-selection: rgb(230 230 232 / 0.25);
+  --search-match: #BABABD;  --search-current: #E6E6E8;
+  --bracket: #DCA4C0;
+  --page-paper: #1F1F1F;
+}
+@media (forced-colors: active) {
+  .pdf-viewer { --hl-blend: difference; }
+  .pdf-highlight { background: none !important; outline: 2px solid Highlight; }
+}

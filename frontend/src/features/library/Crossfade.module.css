@@ -1,0 +1,10 @@
+.stack { display: inline-grid; }
+.stack > * { grid-area: 1 / 1; min-width: 0; }
+.still { min-width: 0; }
+.in { animation: fade-in var(--dur-meta) var(--ease-out) both; }
+.out { animation: fade-out var(--dur-meta) var(--ease-out) both; pointer-events: none; }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; filter: blur(2px); } }
+@media (prefers-reduced-motion: reduce) {
+  .in, .out { animation: none; }
+}

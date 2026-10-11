@@ -1,0 +1,12 @@
+{
+  "held_out_papers": [
+    "1608.06993",
+    "2103.00020",
+    "2203.15556"
+  ],
+  "papers": 30,
+  "sft_train": 1127,
+  "dpo_train": 1033,
+  "sft_eval": 131,
+  "dpo_eval": 125
+}

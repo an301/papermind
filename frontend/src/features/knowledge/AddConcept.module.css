@@ -1,0 +1,21 @@
+.popover { padding: var(--space-2); }
+.search { display: flex; flex-direction: column; }
+.list { list-style: none; margin-top: var(--space-1); max-height: 18rem; overflow-y: auto; overscroll-behavior: contain; }
+.list:empty { display: none; }
+.option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: var(--h-44);
+  padding: var(--space-1) var(--space-2);
+  border-radius: calc(var(--r-md) - var(--space-2));
+  cursor: pointer;
+}
+.active { background: var(--selected); }
+.optionName { font: 400 var(--text-14) / var(--lead-14) var(--font-ui); color: var(--ink); }
+.optionArea { font: 450 var(--text-13) / var(--lead-13) var(--font-ui); color: var(--ink-2); }
+.empty {
+  padding: var(--space-3) var(--space-2) var(--space-2);
+  font: 450 var(--text-13) / var(--lead-13) var(--font-ui);
+  color: var(--ink-2);
+}

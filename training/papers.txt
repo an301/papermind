@@ -1,0 +1,34 @@
+# Training papers for the writer fine-tune: ML papers with a range of topics and
+# writing styles. NONE of the 8 benchmark papers (evals/benchmark/papers.txt) may
+# appear here: training on them would let the calibration number measure
+# memorisation. training/common.py refuses to run if one sneaks in.
+1409.0473   # Bahdanau et al.: neural machine translation with attention
+1409.3215   # Sutskever et al.: sequence to sequence learning
+1301.3781   # Mikolov et al.: word2vec
+1406.2661   # Goodfellow et al.: generative adversarial nets
+1312.6114   # Kingma and Welling: auto-encoding variational Bayes
+1505.04597  # Ronneberger et al.: U-Net
+1506.02640  # Redmon et al.: YOLO
+1409.1556   # Simonyan and Zisserman: VGG
+1608.06993  # Huang et al.: DenseNet
+1607.06450  # Ba et al.: layer normalization
+1802.05365  # Peters et al.: ELMo
+1910.10683  # Raffel et al.: T5
+1907.11692  # Liu et al.: RoBERTa
+1910.13461  # Lewis et al.: BART
+2203.02155  # Ouyang et al.: InstructGPT
+1707.06347  # Schulman et al.: PPO
+1312.5602   # Mnih et al.: playing Atari with deep RL
+2006.11239  # Ho et al.: denoising diffusion probabilistic models
+2103.00020  # Radford et al.: CLIP
+2002.05709  # Chen et al.: SimCLR
+1502.01852  # He et al.: delving deep into rectifiers
+1711.05101  # Loshchilov and Hutter: AdamW
+2001.08361  # Kaplan et al.: scaling laws
+2203.15556  # Hoffmann et al.: Chinchilla
+2104.09864  # Su et al.: RoFormer (rotary embeddings)
+1911.02150  # Shazeer: multi-query attention
+2205.14135  # Dao et al.: FlashAttention
+2305.14314  # Dettmers et al.: QLoRA
+1503.02531  # Hinton et al.: distillation
+1701.06538  # Shazeer et al.: sparsely-gated mixture of experts

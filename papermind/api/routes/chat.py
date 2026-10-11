@@ -1,8 +1,30 @@
-"""The single conversational endpoint: user message in, explanation stream out.
+"""POST /api/chat: one question in, one turn of typed events out over SSE."""
 
-Streams over SSE. Two things stream on the same channel and the frontend needs
-to tell them apart, so events are typed: agent-loop progress (which tool is
-running, which concepts were checked) versus final explanation tokens from the
-local model. Users wait several seconds while the agent retrieves and checks
-prerequisites; showing that work is the difference between "thinking" and "hung".
-"""
+from __future__ import annotations
+
+from collections.abc import AsyncIterator
+from contextlib import aclosing
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
+
+from papermind.api.chat_turn import ChatTurn, open_chat_turn
+from papermind.api.errors import error_responses
+from papermind.api.sse import EventSourceResponse, frame
+from papermind.schemas.events import ChatEvent
+
+router = APIRouter(tags=["chat"])
+
+
+@router.post("/chat", response_class=EventSourceResponse, responses=error_responses(404, 409, 422))
+async def chat(turn: Annotated[ChatTurn, Depends(open_chat_turn)]) -> AsyncIterator[ChatEvent]:
+    """Stream one turn. Errors before the stream are HTTP errors; after it starts, an
+    ``error`` event followed by ``done``.
+
+    The return annotation is what FastAPI publishes as the stream's item
+    schema in OpenAPI. The items actually yielded are ``ServerSentEvent``
+    wrappers (see ``papermind.api.sse``) so each frame carries ``event: <type>``.
+    """
+    async with aclosing(turn.events()) as events:
+        async for event in events:
+            yield frame(event)  # type: ignore[misc]
