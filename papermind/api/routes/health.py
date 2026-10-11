@@ -72,4 +72,10 @@ async def health(res: ResourcesDep) -> HealthResponse:
     )
     checks = {"redis": redis, "neo4j": neo4j, **mcp, "anthropic_key": key}
     status = "ok" if all(c.ok for c in checks.values()) else "degraded"
-    return HealthResponse(status=status, version=res.settings.app_version, checks=checks)
+    return HealthResponse(
+        status=status,
+        version=res.settings.app_version,
+        checks=checks,
+        access_code_required=res.settings.access_code_required,
+        paper_delete_allowed=res.settings.allow_paper_delete,
+    )

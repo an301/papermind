@@ -1,0 +1,18 @@
+# /etc/systemd/system/papermind.service -- the compose stack as a boot-time unit.
+# infra/setup-server.sh installs it; the containers also restart on their own
+# (restart: unless-stopped), so this mainly brings everything up after a reboot.
+[Unit]
+Description=PaperMind (docker compose)
+Requires=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/papermind
+ExecStart=/usr/bin/docker compose --env-file .env -f infra/docker-compose.yml up -d
+ExecStop=/usr/bin/docker compose --env-file .env -f infra/docker-compose.yml down
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target

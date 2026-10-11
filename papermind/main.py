@@ -49,6 +49,7 @@ from papermind.llm.client import LLM
 from papermind.mcp_client.manager import MCPManager, Transport, default_transports
 from papermind.memory.ingest_status import MemoryIngestStatusStore, RedisIngestStatusStore
 from papermind.memory.session_store import MemorySessionStore, RedisSessionStore
+from papermind.memory.usage import RateLimiter, SpendMeter
 from papermind.memory.users import CatalogSource
 from papermind.retrieval.dense import EmbeddingCache, FastEmbedEmbedder
 
@@ -165,6 +166,10 @@ async def open_resources(settings: Settings) -> AsyncIterator[Resources]:
             sessions = MemorySessionStore(ttl_seconds=settings.session_ttl_seconds)
             ingest_status = MemoryIngestStatusStore()
 
+        limiter = RateLimiter(redis)
+        spend = SpendMeter(redis, budget_usd=settings.daily_budget_usd)
+        stack.push_async_callback(spend.aclose)
+
         graph = await get_graph_store(settings)
         stack.push_async_callback(graph.aclose)
         if graph.backend != "neo4j" and settings.environment == "prod":
@@ -176,7 +181,7 @@ async def open_resources(settings: Settings) -> AsyncIterator[Resources]:
 
         await mcp_started
 
-        llm = LLM(settings) if settings.has_api_key else None
+        llm = LLM(settings, on_cost=spend.record) if settings.has_api_key else None
         runner = None
         if llm is not None:
             stack.push_async_callback(llm.aclose)
@@ -227,6 +232,8 @@ async def open_resources(settings: Settings) -> AsyncIterator[Resources]:
             prewarm=runner.prewarm if runner is not None else None,
             arxiv=ArxivLookup(),
             background=background,
+            limiter=limiter,
+            spend=spend,
         )
         log.info("shutting down")
 

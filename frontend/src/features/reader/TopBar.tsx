@@ -5,7 +5,7 @@
 import { ArrowLeftIcon, ArrowUpRightIcon, DotsThreeIcon, MinusIcon, PlusIcon, SidebarSimpleIcon } from '@phosphor-icons/react'
 import { useState, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router'
-import { useDeletePaper } from '../../api/queries'
+import { canRemovePapers, useDeletePaper, useHealth } from '../../api/queries'
 import type { PaperMeta } from '../../api/types'
 import { ButtonLink } from '../../components/Button'
 import { IconButton } from '../../components/IconButton'
@@ -90,6 +90,7 @@ export function TopBar({ paperId, title, meta, numPages, onNewConversation, outl
   const scale = useReaderStore((st) => st.effectiveScale)
   const store = useReaderStore.getState
   const remove = useDeletePaper()
+  const canRemove = canRemovePapers(useHealth().data)
   const navigate = useNavigate()
 
   return (
@@ -151,15 +152,19 @@ export function TopBar({ paperId, title, meta, numPages, onNewConversation, outl
               Paper on arXiv
             </MenuItem>
           ) : null}
-          <MenuSeparator />
-          <MenuItem
-            danger
-            onSelect={() => {
-              remove.mutate(paperId, { onSuccess: () => navigate('/') })
-            }}
-          >
-            Remove from your papers
-          </MenuItem>
+          {canRemove ? (
+            <>
+              <MenuSeparator />
+              <MenuItem
+                danger
+                onSelect={() => {
+                  remove.mutate(paperId, { onSuccess: () => navigate('/') })
+                }}
+              >
+                Remove from your papers
+              </MenuItem>
+            </>
+          ) : null}
         </Menu>
       </div>
     </header>

@@ -8,6 +8,7 @@
  */
 import * as pdfjs from 'pdfjs-dist'
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+import { accessHeaders } from '../../../api/access'
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerUrl
 
@@ -17,6 +18,7 @@ const base = `${import.meta.env.BASE_URL}pdfjs/`
 export function openPdf(url: string) {
   return pdfjs.getDocument({
     url,
+    httpHeaders: accessHeaders(),
     cMapUrl: `${base}cmaps/`,
     cMapPacked: true,
     standardFontDataUrl: `${base}standard_fonts/`,

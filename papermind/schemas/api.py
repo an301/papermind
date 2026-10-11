@@ -54,6 +54,12 @@ class HealthResponse(BaseModel):
     checks: dict[str, ServiceCheck] = Field(
         description="redis, neo4j, mcp:retriever, mcp:prereq_graph, mcp:semantic_scholar, anthropic_key"
     )
+    access_code_required: bool = Field(
+        default=False, description="every route but /health needs the X-Access-Code header"
+    )
+    paper_delete_allowed: bool = Field(
+        default=True, description="false on a shared public server: papers cannot be removed"
+    )
 
 
 AddPaperErrorCode = Literal[

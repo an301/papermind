@@ -1,0 +1,27 @@
+/* The access-code screen (DEPLOY.md): the app header's wordmark row without its
+   navigation, then a single-column page in the Settings measure. */
+.screen { min-height: 100dvh; background: var(--surface); }
+
+.header {
+  display: flex;
+  align-items: center;
+  height: var(--appbar-h);
+  padding-top: env(safe-area-inset-top);
+  padding-left: var(--inset);
+  box-shadow: inset 0 -1px 0 var(--line-subtle);
+}
+
+.wordmark {
+  font: 650 var(--text-16) / var(--lead-16) var(--font-ui);
+  color: var(--ink);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  max-width: 22rem;
+}
+.form > :first-child { align-self: stretch; }

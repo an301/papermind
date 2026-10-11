@@ -1,6 +1,7 @@
 import { CheckIcon, DotsThreeIcon, WarningCircleIcon, WarningIcon } from '@phosphor-icons/react'
 import { useId } from 'react'
 import { Link, useNavigate } from 'react-router'
+import { canRemovePapers, useHealth } from '../../api/queries'
 import type { PaperSummary } from '../../api/types'
 import { Button } from '../../components/Button'
 import { IconButton } from '../../components/IconButton'
@@ -94,6 +95,7 @@ function ReadyRow({ paper, isNew }: { paper: PaperSummary; isNew?: boolean }) {
 
 function RowMenu({ paper, title }: { paper: PaperSummary; title: string }) {
   const navigate = useNavigate()
+  const canRemove = canRemovePapers(useHealth().data)
   return (
     <div className={s.menu}>
       <Menu trigger={<IconButton label={`More for ${title}`} icon={DotsThreeIcon} noTooltip />}>
@@ -107,10 +109,14 @@ function RowMenu({ paper, title }: { paper: PaperSummary; title: string }) {
             Copy arXiv link
           </MenuItem>
         ) : null}
-        <MenuSeparator />
-        <MenuItem danger onSelect={() => removeWithUndo(paper)}>
-          Remove from your papers
-        </MenuItem>
+        {canRemove ? (
+          <>
+            <MenuSeparator />
+            <MenuItem danger onSelect={() => removeWithUndo(paper)}>
+              Remove from your papers
+            </MenuItem>
+          </>
+        ) : null}
       </Menu>
     </div>
   )

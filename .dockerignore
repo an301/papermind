@@ -1,0 +1,24 @@
+# The build context is the repo root; the images copy only what they name,
+# but everything here would still be uploaded to the Docker daemon first.
+.env
+.env.*
+!.env.example
+.git
+.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+.mypy_cache
+frontend/node_modules
+frontend/dist
+frontend/public/pdfjs
+frontend/test-results
+frontend/playwright-report
+data/papers
+data/cache
+data/models
+data/training
+evals/results
+wandb
+out

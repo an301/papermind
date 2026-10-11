@@ -11,6 +11,7 @@
  * (papermind/api/errors.py); it comes back as an `ApiError` carrying both.
  * A request that never reached the server comes back as a `NetworkError`.
  */
+import { accessHeaders, isAccessCodeError, reportAccessRejected } from './access'
 import type { ErrorBody, PaperSummary } from './types'
 
 const RAW_ORIGIN: string = import.meta.env.VITE_API_ORIGIN ?? ''
@@ -68,6 +69,7 @@ export async function errorFromResponse(res: Response): Promise<ApiError> {
     try {
       const body = JSON.parse(text) as Partial<ErrorBody>
       if (body && typeof body.error === 'object' && body.error && typeof body.error.code === 'string') {
+        if (res.status === 401 && isAccessCodeError(body.error.code)) reportAccessRejected()
         return new ApiError(res.status, body.error.code, body.error.message ?? '', body.error)
       }
     } catch {
@@ -89,7 +91,7 @@ export interface RequestOptions {
 /** JSON request → typed JSON response. 204 resolves to undefined. */
 export async function api<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { method = 'GET', body, query, signal, keepalive } = options
-  const headers: Record<string, string> = { Accept: 'application/json' }
+  const headers: Record<string, string> = { Accept: 'application/json', ...accessHeaders() }
   if (body !== undefined) headers['Content-Type'] = 'application/json'
   let res: Response
   try {
@@ -126,6 +128,7 @@ export function uploadPdf(file: File, onProgress?: (fraction: number) => void, s
     const xhr = new XMLHttpRequest()
     xhr.open('POST', apiUrl('/papers/upload'))
     xhr.setRequestHeader('Accept', 'application/json')
+    for (const [name, value] of Object.entries(accessHeaders())) xhr.setRequestHeader(name, value)
     xhr.responseType = 'text'
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable && onProgress) onProgress(e.total ? e.loaded / e.total : 0)

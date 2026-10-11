@@ -9,6 +9,7 @@ import { TooltipProvider } from '../components/Tooltip'
 import { KnowledgePage } from '../features/knowledge/KnowledgePage'
 import { LibraryPage } from '../features/library/LibraryPage'
 import { SettingsPage } from '../features/settings/SettingsPage'
+import { AccessGate } from './AccessGate'
 import { AppShell } from './AppShell'
 import { RouteErrorBoundary } from './ErrorBoundary'
 import { GlobalShortcuts } from './GlobalShortcuts'
@@ -67,10 +68,12 @@ export function App() {
   return (
     <AppProviders>
       <BrowserRouter>
-        <AppRoutes />
-        <IngestWatcher />
-        <GlobalShortcuts />
-        <ShortcutsDialog />
+        <AccessGate>
+          <AppRoutes />
+          <IngestWatcher />
+          <GlobalShortcuts />
+          <ShortcutsDialog />
+        </AccessGate>
       </BrowserRouter>
     </AppProviders>
   )

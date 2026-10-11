@@ -1,5 +1,7 @@
-# Production-shaped stack: Redis + Neo4j + the three MCP servers as separate
-# HTTP services + the API with 4 workers. Run from the repo root:
+# The whole of PaperMind on one server: the website (Caddy, with automatic
+# HTTPS), the API with 4 workers, the three MCP servers as separate HTTP
+# services, Redis and Neo4j. DEPLOY.md walks through it; infra/setup-server.sh
+# does it. By hand, from the repo root:
 #
 #   docker compose -f infra/docker-compose.yml up -d --build
 #   docker compose -f infra/docker-compose.yml run --rm api python scripts/seed_graph.py
@@ -8,6 +10,9 @@
 # worker so that four workers share one retriever (one embedding model and one
 # set of FAISS indexes in memory instead of four), and so restarting the
 # retriever does not restart the graph server or the API.
+
+# Fixed, so volume and container names do not depend on the folder name.
+name: papermind
 
 x-app: &app
   build:
@@ -69,11 +74,34 @@ services:
       MCP_RETRIEVER_URL: http://mcp-retriever:8101/mcp
       MCP_PREREQ_URL: http://mcp-prereq:8102/mcp
       MCP_SCHOLAR_URL: http://mcp-scholar:8103/mcp
+      # Caddy is the only thing that can reach this port and it overwrites
+      # X-Forwarded-For with the visitor's address, so trust it: the rate
+      # limits count visitors, not the proxy.
+      FORWARDED_ALLOW_IPS: "*"
     ports:
       - "127.0.0.1:8000:8000"
     depends_on: [redis, neo4j, mcp-retriever, mcp-prereq, mcp-scholar]
+
+  web:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.web
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on: [api]
+    restart: unless-stopped
 
 volumes:
   papers:
   cache:
   neo4j:
+  # Caddy's certificates: kept so a restart does not ask Let's Encrypt again.
+  caddy-data:
+  caddy-config:

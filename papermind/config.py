@@ -108,6 +108,21 @@ class Settings(BaseSettings):
     # ---- uploads
     max_upload_mb: int = 40
 
+    # ---- public deployment guards. All off by default so local dev is
+    # unchanged; a public server turns them on in its .env (DEPLOY.md).
+    # Every question spends the operator's Anthropic credit, so a public
+    # server needs a gate and a ceiling, not just good intentions.
+    access_code: SecretStr | None = None
+    questions_per_hour: int = 0  # per client IP; 0 = unlimited
+    papers_per_day: int = 0  # arXiv adds + uploads per client IP; 0 = unlimited
+    # Model spend across every reader, per UTC day. Once reached, chat answers
+    # with a "come back tomorrow" error and suggestions fall back to section
+    # titles. 0 = no cap. The Anthropic Console's own limit is the backstop.
+    daily_budget_usd: float = 0.0
+    # The library is shared by everyone on the server, so one visitor could
+    # remove everyone's papers.
+    allow_paper_delete: bool = True
+
     # ---- evals
     wandb_project: str = "papermind"
     wandb_mode: Literal["online", "offline", "disabled"] = "offline"
@@ -127,6 +142,10 @@ class Settings(BaseSettings):
     @property
     def has_api_key(self) -> bool:
         return self.anthropic_api_key is not None and bool(self.anthropic_api_key.get_secret_value().strip())
+
+    @property
+    def access_code_required(self) -> bool:
+        return self.access_code is not None and bool(self.access_code.get_secret_value().strip())
 
 
 @lru_cache(maxsize=1)

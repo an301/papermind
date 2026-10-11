@@ -18,13 +18,15 @@ log = logging.getLogger(__name__)
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 
-def _maybe_prewarm(res: Resources, paper: PaperMeta) -> None:
+async def _maybe_prewarm(res: Resources, paper: PaperMeta) -> None:
     """Warm the prompt cache for this paper so the first question skips the cold prefix.
 
     Strictly best effort and never awaited: the session is returned at once
     and a failed pre-warm only means the first question pays full price.
     """
     if not res.settings.prewarm_cache or res.prewarm is None or not res.settings.has_api_key:
+        return
+    if await res.spend.over_budget():
         return
     res.background.spawn(res.prewarm(paper), name=f"prewarm:{paper.paper_id}")
 
@@ -34,7 +36,7 @@ async def create_session(body: CreateSessionRequest, res: ResourcesDep) -> Sessi
     user = await require_user(res.graph, body.user_id)
     paper = await require_ready_paper(res, body.paper_id)
     session = await res.sessions.create(user.user_id, paper.paper_id, body.level or user.level)
-    _maybe_prewarm(res, paper)
+    await _maybe_prewarm(res, paper)
     return session
 
 

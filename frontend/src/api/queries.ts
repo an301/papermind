@@ -50,6 +50,9 @@ export function useHealth() {
 export const isAnthropicKeyMissing = (health: HealthResponse | undefined): boolean =>
   health?.checks.anthropic_key?.ok === false
 
+/** False on a shared public server, where finished papers can't be removed (unknown counts as allowed). */
+export const canRemovePapers = (health: HealthResponse | undefined): boolean => health?.paper_delete_allowed !== false
+
 // ---------------------------------------------------------------- papers
 
 export const isInFlight = (p: Pick<PaperSummary, 'status'>): boolean =>

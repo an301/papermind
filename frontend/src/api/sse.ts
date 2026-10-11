@@ -12,6 +12,7 @@
  * through" with a Try again button (DESIGN.md §5.25).
  */
 import { API_ORIGIN, NetworkError, apiUrl, errorFromResponse, isAbort, ApiError } from './client'
+import { accessHeaders } from './access'
 import { CHAT_EVENT_TYPES, type ChatEvent, type ChatEventType, type ChatRequest } from './types'
 
 export interface SseMessage {
@@ -136,7 +137,7 @@ export async function* postSse(url: string, body: unknown, signal?: AbortSignal)
   try {
     res = await fetch(resolveUrl(url), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
+      headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream', ...accessHeaders() },
       body: JSON.stringify(body),
       signal,
       cache: 'no-store',

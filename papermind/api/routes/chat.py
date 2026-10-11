@@ -10,13 +10,21 @@ from fastapi import APIRouter, Depends
 
 from papermind.api.chat_turn import ChatTurn, open_chat_turn
 from papermind.api.errors import error_responses
+from papermind.api.guards import limit_questions, within_budget
 from papermind.api.sse import EventSourceResponse, frame
 from papermind.schemas.events import ChatEvent
 
 router = APIRouter(tags=["chat"])
 
 
-@router.post("/chat", response_class=EventSourceResponse, responses=error_responses(404, 409, 422))
+# The budget is checked before the rate limit, so a reader turned away for
+# the day does not also use up their hourly questions.
+@router.post(
+    "/chat",
+    response_class=EventSourceResponse,
+    responses=error_responses(404, 409, 422, 429, 503),
+    dependencies=[Depends(within_budget), Depends(limit_questions)],
+)
 async def chat(turn: Annotated[ChatTurn, Depends(open_chat_turn)]) -> AsyncIterator[ChatEvent]:
     """Stream one turn. Errors before the stream are HTTP errors; after it starts, an
     ``error`` event followed by ``done``.

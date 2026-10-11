@@ -16,10 +16,10 @@ prerequisites this particular reader hasn't met yet are named and offered first.
 ## How a question flows
 
 ```
-Browser · React (Vercel)                 reads the PDF, asks in the margin
+Browser · React (via Caddy)              reads the PDF, asks in the margin
    │  POST /api/chat (question + session id)   ← SSE: typed events
    ▼
-FastAPI (EC2, stateless workers) ──────── Redis: session, scroll position, transcript (24 h TTL)
+FastAPI (stateless workers) ───────────── Redis: session, scroll position, transcript (24 h TTL)
    │
    ▼
 Agent loop · Claude (hand-written ReAct, papermind/agent/loop.py)
@@ -117,13 +117,14 @@ cd frontend && npm test && npm run build
 
 ## Deploy
 
-- **API on EC2:** `infra/docker-compose.yml` runs Redis, Neo4j, the three MCP
-  servers as separate HTTP services, and the API with 4 workers;
-  `infra/ec2/papermind.service` starts it at boot and `infra/ec2/nginx.conf`
-  terminates TLS with SSE buffering off.
-- **Frontend on Vercel:** `frontend/` is a static Vite build; set
-  `VITE_API_ORIGIN` to the API's origin and add that origin's frontend URL to
-  `CORS_ORIGINS` on the server.
+One server runs everything: `infra/docker-compose.yml` starts Caddy (the
+built frontend plus automatic HTTPS), the API with 4 workers, the three MCP
+servers as separate HTTP services, Redis and Neo4j. On a fresh Ubuntu server,
+`bash infra/setup-server.sh` does the whole install. Because every question
+runs on your Anthropic key, a public server turns on the guards in
+`papermind/api/guards.py`: an access code, per-visitor rate limits, and a daily
+spend ceiling fed by the cost of every model call. Step by step, with costs:
+[`DEPLOY.md`](DEPLOY.md).
 
 ## Layout
 
@@ -134,7 +135,7 @@ data/concepts/    the prerequisite graph seed (tracked)
 data/papers/      ingested papers: paper.json tracked for the benchmark, PDFs ignored
 evals/            harness, benchmark, pytest suites
 frontend/         React + Vite + TypeScript
-infra/            Dockerfile, compose, EC2 nginx + systemd
+infra/            Dockerfiles, compose, Caddyfile, server setup script + systemd unit
 docs/             architecture, design spec, screenshots
 ```
 

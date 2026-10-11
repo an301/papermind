@@ -1,0 +1,16 @@
+# The website: the built frontend, served by Caddy, which also proxies /api to
+# the API container and gets the HTTPS certificate by itself (see Caddyfile).
+# Same origin for page and API, so no CORS and no VITE_API_ORIGIN.
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY frontend/ ./
+# The upload hint and the in-browser size check must match the server's
+# MAX_UPLOAD_MB (40 by default), or a 45 MB PDF passes here and fails there.
+ARG MAX_UPLOAD_MB=40
+RUN VITE_MAX_UPLOAD_MB=$MAX_UPLOAD_MB npm run build
+
+FROM caddy:2-alpine
+COPY infra/Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dist /srv

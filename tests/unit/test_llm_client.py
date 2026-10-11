@@ -595,3 +595,18 @@ def test_an_empty_credit_balance_says_so() -> None:
     )
     err = map_api_error(anthropic.BadRequestError("credit", response=response, body=body))
     assert "out of credits" in err.message and not err.retryable
+
+
+async def test_every_billed_call_reaches_the_cost_hook() -> None:
+    costs: list[float] = []
+    client = AsyncAnthropic(
+        api_key="sk-test",
+        http_client=httpx2.AsyncClient(transport=httpx2.MockTransport(Transport(tool_turn()))),
+        max_retries=0,
+    )
+    llm = LLM(fake_settings(), client=client, on_cost=costs.append)
+    result = await llm.stream(
+        system=SYSTEM, messages=MESSAGES, tools=TOOLS, effort="low", max_tokens=100, cache=True
+    )
+    assert costs == [result.cost_usd]
+    assert costs[0] > 0

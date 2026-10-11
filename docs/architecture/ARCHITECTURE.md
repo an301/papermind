@@ -10,10 +10,10 @@ This document is the implementation contract. The shared data models live in
 how the modules use them.
 
 ```
-Browser · React (Vercel)              reads the PDF, asks in a side panel
+Browser · React (served by Caddy)     reads the PDF, asks in a side panel
    │  POST /api/chat  (question + session_id)   ← SSE: typed ChatEvents
    ▼
-FastAPI (EC2, uvicorn --workers N, stateless) ───── Redis: session:{id}, 24h TTL
+FastAPI (uvicorn --workers N, stateless) ───── Redis: session:{id}, 24h TTL
    │
    ▼
 Agent loop · hosted Claude  (papermind/agent/loop.py, hand-written ReAct)
@@ -79,7 +79,7 @@ evals/
 scripts/                  build_concept_graph.py seed_graph.py generate_benchmark.py ingest_benchmark.py
 tests/unit/  tests/integration/
 frontend/                 React + Vite + TS (see docs/design/DESIGN.md)
-infra/                    docker-compose.yml, Dockerfile.api, Dockerfile.mcp, ec2/
+infra/                    docker-compose.yml, Dockerfile.api, Dockerfile.web, Caddyfile, setup-server.sh
 ```
 
 ## Module contracts

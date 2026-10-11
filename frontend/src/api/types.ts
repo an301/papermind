@@ -139,6 +139,10 @@ export interface HealthResponse {
   version: string
   /** redis, neo4j, mcp:retriever, mcp:prereq_graph, mcp:semantic_scholar, anthropic_key */
   checks: Record<string, ServiceCheck>
+  /** Every route but /health needs the X-Access-Code header (a public server). */
+  access_code_required?: boolean
+  /** False on a shared public server: finished papers can't be removed. */
+  paper_delete_allowed?: boolean
 }
 
 export type AddPaperErrorCode =

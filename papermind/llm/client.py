@@ -272,9 +272,18 @@ def _fell_back(usage: Any) -> bool:
 class LLM:
     """The one place that talks to the Anthropic API."""
 
-    def __init__(self, settings: Settings | None = None, *, client: AsyncAnthropic | None = None) -> None:
+    def __init__(
+        self,
+        settings: Settings | None = None,
+        *,
+        client: AsyncAnthropic | None = None,
+        on_cost: Callable[[float], None] | None = None,
+    ) -> None:
         self._settings = settings or get_settings()
         self.model = self._settings.model
+        # Told the cost of every billed call, partial ones included: the
+        # public server's daily spend ceiling (papermind.memory.usage.SpendMeter).
+        self._on_cost = on_cost
         if client is None:
             if not self._settings.has_api_key:
                 raise llm_error("no_api_key")
@@ -489,6 +498,11 @@ class LLM:
             fell_back=_fell_back(message.usage),
             parsed=parsed if isinstance(parsed, BaseModel) else None,
         )
+        if self._on_cost is not None:
+            try:
+                self._on_cost(result.cost_usd)
+            except Exception:
+                log.warning("cost hook failed", exc_info=True)
         log.debug(
             "llm call model=%s stop=%s in=%d out=%d cache_read=%d cache_write=%d %dms request_id=%s",
             model,

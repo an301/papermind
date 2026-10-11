@@ -19,12 +19,13 @@ import re
 import unicodedata
 from typing import Annotated
 
-from fastapi import APIRouter, File, Query, Response, UploadFile
+from fastapi import APIRouter, File, Query, Request, Response, UploadFile
 from fastapi.responses import FileResponse
 
 from papermind.api.arxiv_check import check_arxiv
 from papermind.api.deps import Resources, ResourcesDep
 from papermind.api.errors import AddPaperErrorBody, APIError, add_paper_error, error_responses, not_found
+from papermind.api.guards import limit_papers
 from papermind.api.lookups import (
     PaperIdPath,
     paper_not_found,
@@ -34,6 +35,7 @@ from papermind.api.lookups import (
     summary_from_meta,
 )
 from papermind.api.middleware import too_large_message
+from papermind.api.suggestions import fallback_questions
 from papermind.ingest.arxiv import InvalidArxivId, looks_like_pdf, parse_arxiv_id
 from papermind.ingest.pipeline import arxiv_paper_id, upload_paper_id
 from papermind.memory.ingest_status import IngestStatus
@@ -100,12 +102,13 @@ async def _in_flight(res: Resources, paper_id: str) -> IngestStatus | None:
     response_model=PaperSummary,
     responses={
         200: {"model": PaperSummary, "description": "already in the library"},
-        **error_responses(409, 422, 503, model=AddPaperErrorBody),
+        **error_responses(409, 422, 429, 503, model=AddPaperErrorBody),
     },
 )
 async def add_arxiv_paper(
     body: AddArxivPaperRequest,
     res: ResourcesDep,
+    request: Request,
     response: Response,
     keep_version: Annotated[
         bool,
@@ -130,6 +133,9 @@ async def add_arxiv_paper(
     if res.arxiv is not None:
         choice = await check_arxiv(res.arxiv, ref, paper_id=paper_id, keep_version=keep_version)
         versioned_id, title = choice.versioned_id, choice.title
+    # Counted only once a paper will actually be fetched and embedded:
+    # opening one that is already in the library is free.
+    await limit_papers(request, res)
     status, claimed = await res.ingest_status.claim(paper_id, source="arxiv", title=title)
     if not claimed:  # another request claimed it during the lookup
         raise _already_adding(status)
@@ -164,12 +170,13 @@ async def _read_upload(file: UploadFile, max_mb: int) -> bytes:
     response_model=PaperSummary,
     responses={
         200: {"model": PaperSummary, "description": "already in the library"},
-        **error_responses(409, 413, 415, model=AddPaperErrorBody),
+        **error_responses(409, 413, 415, 429, model=AddPaperErrorBody),
     },
 )
 async def upload_paper(
     file: Annotated[UploadFile, File(description="the paper as a PDF")],
     res: ResourcesDep,
+    request: Request,
     response: Response,
 ) -> PaperSummary:
     pdf = await _read_upload(file, res.settings.max_upload_mb)
@@ -184,6 +191,7 @@ async def upload_paper(
     if meta is not None:
         response.status_code = 200
         return summary_from_meta(meta)
+    await limit_papers(request, res)
     status, claimed = await res.ingest_status.claim(paper_id, source="upload", title=filename)
     if not claimed:
         raise _already_adding(status)
@@ -252,16 +260,27 @@ async def get_suggestions(
     level: Annotated[Level, Query(description="reader level the questions are written for")] = "intermediate",
 ) -> SuggestionsResponse:
     meta = await require_ready_paper(res, paper_id)
+    if await res.spend.over_budget():
+        # Out of model budget for today: the section-title questions cost nothing.
+        return SuggestionsResponse(paper_id=paper_id, level=level, questions=fallback_questions(meta, level))
     questions = await res.suggestions.get(meta, level, res.papers.paper_dir(paper_id))
     return SuggestionsResponse(paper_id=paper_id, level=level, questions=questions)
 
 
-@router.delete("/{paper_id}", status_code=204, responses=error_responses(404))
+@router.delete("/{paper_id}", status_code=204, responses=error_responses(403, 404))
 async def delete_paper(paper_id: PaperIdPath, res: ResourcesDep) -> Response:
     """Remove a paper, or stop adding one: an in-flight ingestion is cancelled and its files removed."""
     meta, status = await asyncio.gather(res.papers.meta(paper_id), res.ingest_status.get(paper_id))
     if meta is None and status is None and not res.jobs.running(paper_id):
         raise paper_not_found(paper_id)
+    # Only a finished paper is protected: clearing a failed or stuck addition
+    # takes nothing away from anyone.
+    if meta is not None and not res.settings.allow_paper_delete:
+        raise APIError(
+            403,
+            "delete_disabled",
+            "Removing papers is turned off on this server, because everyone who uses it shares one library.",
+        )
     # Not awaited: the job stops at its next safe point and removes what it
     # wrote by then (see papermind.api.ingest_jobs); the row disappears now.
     res.jobs.cancel_removed(paper_id)

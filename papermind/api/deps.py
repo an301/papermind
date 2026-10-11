@@ -30,6 +30,7 @@ from papermind.graph.store import GraphStore
 from papermind.ingest.store import validate_paper_id
 from papermind.memory.ingest_status import IngestStatusStore
 from papermind.memory.session_store import SessionStore
+from papermind.memory.usage import RateLimiter, SpendMeter
 from papermind.memory.users import CatalogSource
 from papermind.schemas.api import ServiceCheck
 from papermind.schemas.events import ChatEvent
@@ -129,6 +130,9 @@ class Resources:
     # id, just later and on the library row instead of in the hint line.
     arxiv: ArxivLookupAPI | None = None
     background: TaskSet = field(default_factory=TaskSet)
+    # Public-deployment guards (papermind.api.guards); inert unless enabled in settings.
+    limiter: RateLimiter = field(default_factory=RateLimiter)
+    spend: SpendMeter = field(default_factory=SpendMeter)
 
 
 def get_resources(request: Request) -> Resources:

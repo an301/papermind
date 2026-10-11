@@ -1,0 +1,41 @@
+# One site: the frontend's static files, with /api/* proxied to the API.
+#
+# SITE_ADDRESS is your domain (papermind.example.com): Caddy then gets and
+# renews a Let's Encrypt certificate itself and redirects http to https. Left
+# unset it serves plain http on port 80, for a first look at the server's IP.
+{$SITE_ADDRESS::80} {
+	encode zstd gzip
+
+	handle /api/* {
+		# settings.max_upload_mb is 40; the API enforces it with a clear message.
+		request_body {
+			max_size 45MB
+		}
+		reverse_proxy api:8000 {
+			# The chat answer streams as Server-Sent Events: send each chunk on.
+			flush_interval -1
+		}
+	}
+
+	handle {
+		root * /srv
+		# Client-side routes (/paper/…, /know) all load the app.
+		try_files {path} /index.html
+		file_server
+
+		@hashed path /assets/*
+		header @hashed Cache-Control "public, max-age=31536000, immutable"
+		@pdfjs path /pdfjs/*
+		header @pdfjs Cache-Control "public, max-age=604800"
+		# index.html (under any route) must be revalidated, or a deploy goes unseen.
+		@app not path /assets/* /pdfjs/*
+		header @app Cache-Control "no-cache"
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+}
