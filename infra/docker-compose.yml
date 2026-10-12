@@ -29,6 +29,8 @@ x-app: &app
   volumes:
     - papers:/app/data/papers
     - cache:/app/data/cache
+    # "Report a problem" submissions: kept across rebuilds and redeploys.
+    - feedback:/app/data/feedback
   restart: unless-stopped
 
 services:
@@ -101,6 +103,7 @@ services:
 volumes:
   papers:
   cache:
+  feedback:
   neo4j:
   # Caddy's certificates: kept so a restart does not ask Let's Encrypt again.
   caddy-data:

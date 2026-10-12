@@ -4,10 +4,11 @@
  *
  * Accepts 1706.03762, 1706.03762v5, arXiv:1706.03762, arxiv.org/abs/…,
  * arxiv.org/pdf/…v5, …/pdf/1706.03762.pdf, http(s):// and www. variants,
- * and old-style ids like cs/0112017 or math.GT/0309136.
+ * old-style ids like cs/0112017 or math.GT/0309136, the abs page's "Cite as"
+ * line (arXiv:1706.03762 [cs.CL]) and the DOI (10.48550/arXiv.1706.03762).
  */
 const ARXIV_ID_RE =
-  /^\s*(?:arxiv:\s*)?(?:(?:https?:\/\/)?(?:www\.|export\.)?arxiv\.org\/(?:abs|pdf|html)\/)?(?:(?<new>\d{2}(?:0[1-9]|1[0-2])\.\d{4,5})|(?<archive>[a-z]+(?:-[a-z]+)?)(?:\.[a-z]{2,}(?:-[a-z]{2,})?)?\/(?<old>\d{2}(?:0[1-9]|1[0-2])\d{3}))(?<version>v[1-9]\d*)?(?:\.pdf)?\/?(?:[?#].*)?\s*$/i
+  /^\s*(?:(?:https?:\/\/)?(?:doi\.org\/)?10\.48550\/arxiv\.)?(?:arxiv:\s*)?(?:(?:https?:\/\/)?(?:www\.|export\.)?arxiv\.org\/(?:abs|pdf|html)\/)?(?:(?<new>\d{2}(?:0[1-9]|1[0-2])\.\d{4,5})|(?<archive>[a-z]+(?:-[a-z]+)?)(?:\.[a-z]{2,}(?:-[a-z]{2,})?)?\/(?<old>\d{2}(?:0[1-9]|1[0-2])\d{3}))(?<version>v[1-9]\d*)?(?:\.pdf)?\/?(?:[?#].*)?(?:\s*\[[\w.-]+\])?\s*$/i
 
 export interface ArxivRef {
   /** Canonical, unversioned: '1706.03762', 'hep-th/9901001'. */

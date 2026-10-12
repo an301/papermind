@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "What problem with recurrent and convolutional models does the Transformer try to solve?",
+    "What does an attention mechanism actually do when translating a sentence?",
+    "Without recurrence, how does the Transformer know the order of words in a sentence?",
+    "Why can the Transformer train so much faster than earlier translation models?"
+  ]
+}

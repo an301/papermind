@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import { api } from '../../api/client'
 import { useAddOnboardingAreas, useConceptAreas, useUpdateUser, useUser } from '../../api/queries'
 import type { Level } from '../../api/types'
 import { Button } from '../../components/Button'
@@ -8,6 +9,7 @@ import { Tooltip } from '../../components/Tooltip'
 import { announce } from '../../lib/announce'
 import { clsx } from '../../lib/clsx'
 import { smarten } from '../../lib/format'
+import { useReaderStore } from '../shared/readerStore'
 import { LEVEL_OPTIONS } from './levels'
 import s from './Onboarding.module.css'
 
@@ -72,6 +74,15 @@ function LevelStep({ onContinue, onSkip }: { onContinue: () => void; onSkip: () 
       onSubmit={(e) => {
         e.preventDefault()
         if (level !== user.data?.level) update.mutate({ level })
+        // Onboarding in the Reader: the paper open now should start at this depth
+        // too, not only papers opened later.
+        const reader = useReaderStore.getState()
+        if (reader.paperId && reader.level !== level) {
+          reader.setLevel(level)
+          if (reader.session) {
+            void api(`/sessions/${encodeURIComponent(reader.session.session_id)}`, { method: 'PATCH', body: { level } }).catch(() => {})
+          }
+        }
         onContinue()
       }}
     >

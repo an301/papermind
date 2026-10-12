@@ -11,7 +11,7 @@ export interface FakeApiOptions {
   user?: UserProfile
   knowledge?: KnownConcept[]
   /** Route key ("POST /papers") → status + error body, or 'network' to fail the request outright. */
-  fail?: Record<string, { status: number; code: string; message: string } | 'network'>
+  fail?: Record<string, { status: number; code: string; message: string; extra?: Record<string, unknown> } | 'network'>
 }
 
 export const USER: UserProfile = {
@@ -70,7 +70,11 @@ export function installFakeApi(options: FakeApiOptions = {}) {
 
     const fail = options.fail?.[key]
     if (fail === 'network') throw new TypeError('Failed to fetch')
-    if (fail) return error(fail.status, fail.code, fail.message)
+    if (fail) {
+      // A one-off failure: the next identical request goes through.
+      delete options.fail![key]
+      return json({ error: { code: fail.code, message: fail.message, ...fail.extra } }, fail.status)
+    }
 
     if (key === 'GET /health') return json({ status: 'ok', version: '0.4.0', checks: { anthropic_key: { ok: true } } })
     if (key === 'GET /papers') return json(state.papers)

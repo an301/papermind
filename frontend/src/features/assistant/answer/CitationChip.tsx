@@ -53,14 +53,19 @@ export interface CitationChipProps {
   numeral: number
   messageId: string | null
   withPage: boolean
+  /** Only the numeral: the same source was already cited, with its location, earlier in this paragraph. */
+  compact?: boolean
 }
 
-export function CitationChip({ source, numeral, messageId, withPage }: CitationChipProps) {
+export function CitationChip({ source, numeral, messageId, withPage, compact = false }: CitationChipProps) {
   const active = useReaderStore((st) => st.activeCitation?.chunkId === source.chunk_id && st.activeCitation?.messageId === messageId)
   const [open, setOpen] = useState(false)
 
   const jump = (viaKeyboard: boolean) => {
     setOpen(false)
+    // Below the docked width the panel covers the page: get it out of the way
+    // so the reader sees the passage and its bracket (DESIGN.md §5.15).
+    if (!window.matchMedia('(min-width: 1000px)').matches) useReaderStore.getState().setPanelOpen(false)
     useReaderStore
       .getState()
       .requestScrollToChunk(source.chunk_id, { label: source.label, messageId, viaKeyboard })
@@ -96,7 +101,7 @@ export function CitationChip({ source, numeral, messageId, withPage }: CitationC
           onBlur={() => setOpen(false)}
         >
           <span className={s.numeral}>{numeral}</span>
-          <span className={s.where}>{chipLocation(source, withPage)}</span>
+          {compact ? null : <span className={s.where}>{chipLocation(source, withPage)}</span>}
         </button>
       </HoverCard.Trigger>
       <HoverCard.Portal>

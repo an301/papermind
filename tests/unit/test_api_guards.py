@@ -7,7 +7,7 @@ from typing import Any
 
 import fakeredis
 
-from papermind.api.guards import ACCESS_HEADER
+from papermind.api.guards import ACCESS_HEADER, visitor_key
 from papermind.memory.usage import RateLimiter, SpendMeter
 from papermind.schemas.session import Session
 from tests.unit.test_api_support import PAPER_ID, FakeRunner, Harness, make_harness, make_settings
@@ -76,21 +76,50 @@ async def test_chat_and_pdf_are_behind_the_code(tmp_path: Path) -> None:
     assert (await _ask(h, session.session_id, {ACCESS_HEADER: CODE})).status_code == 200
 
 
-async def test_guessing_codes_gets_rate_limited(tmp_path: Path) -> None:
+async def test_guessing_codes_locks_the_visitor_out_even_for_the_right_code(tmp_path: Path) -> None:
     h = _harness(tmp_path, access_code=CODE)
     async with h.client() as client:
-        codes = [
+        missing = [(await client.get("/api/papers")).status_code for _ in range(25)]
+        guesses = [
             (await client.get("/api/papers", headers={ACCESS_HEADER: f"guess-{i}"})).status_code
             for i in range(21)
         ]
-        # The right code still works: only wrong guesses are counted.
-        right = await client.get("/api/papers", headers={ACCESS_HEADER: CODE})
-    assert codes[:20] == [401] * 20
-    assert codes[20] == 429
-    assert right.status_code == 200
+        # Locked out: a right guess now looks exactly like a wrong one.
+        right = await client.get("/api/access", headers={ACCESS_HEADER: CODE})
+        health = await client.get("/api/health")
+    assert set(missing) == {401}  # a missing code is not a guess
+    assert guesses[:20] == [401] * 20
+    assert guesses[20] == 429
+    assert right.status_code == 429
+    assert health.status_code == 200
+
+
+async def test_an_upload_without_the_code_is_refused_before_its_body_is_read(tmp_path: Path) -> None:
+    h = _harness(tmp_path, access_code=CODE)
+    async with h.client() as client:
+        response = await client.post(
+            "/api/papers/upload", files={"file": ("x.pdf", b"%PDF-1.4" + b"0" * 1024, "application/pdf")}
+        )
+    assert response.status_code == 401
+    assert response.headers["connection"] == "close"
+
+
+def test_ipv6_visitors_are_counted_per_64() -> None:
+    assert visitor_key("2001:db8:1:2:aaaa::1") == visitor_key("2001:db8:1:2:bbbb::9") == "2001:db8:1:2::/64"
+    assert visitor_key("203.0.113.9") == "203.0.113.9"
+    assert visitor_key(None) == "unknown"
 
 
 # ---------------------------------------------------------------- rate limits
+
+
+async def test_refused_questions_do_not_use_up_the_hour(tmp_path: Path) -> None:
+    h = _harness(tmp_path, questions_per_hour=1)
+    session = await _session(h)
+    async with h.client() as client:
+        bad = await client.post("/api/chat", json={"session_id": "s_nope", "message": "hi"})
+    assert bad.status_code == 404
+    assert (await _ask(h, session.session_id)).status_code == 200
 
 
 async def test_questions_per_hour(tmp_path: Path) -> None:

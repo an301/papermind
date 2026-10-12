@@ -41,7 +41,7 @@ const MarkerContext = createContext<MarkerContextValue>({
   sharedSections: new Set(),
 })
 
-function Marker(props: ComponentProps<'cite'> & { 'data-label'?: string }) {
+function Marker(props: ComponentProps<'cite'> & { 'data-label'?: string; 'data-repeat'?: boolean | string }) {
   const ctx = useContext(MarkerContext)
   const label = props['data-label'] ?? ''
   if (label.startsWith('P')) {
@@ -57,6 +57,7 @@ function Marker(props: ComponentProps<'cite'> & { 'data-label'?: string }) {
       numeral={numeral}
       messageId={ctx.messageId}
       withPage={!!source.section_number && ctx.sharedSections.has(source.section_number)}
+      compact={!!props['data-repeat']}
     />
   )
 }

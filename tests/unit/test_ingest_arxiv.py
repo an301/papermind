@@ -67,7 +67,8 @@ def test_parse_arxiv_id_accepts_every_form(raw: str, arxiv_id: str, version: str
         "1706.03762v0",
         "https://example.com/abs/1706.03762",
         "https://arxiv.org/list/cs.LG/recent",
-        "10.48550/arXiv.1706.03762",
+        "10.1145/3292500.3330701",  # a DOI, but not arXiv's
+        "arXiv:1706.03762 [cs.CL] extra",
     ],
 )
 def test_parse_arxiv_id_rejects_junk(raw: str) -> None:
@@ -227,3 +228,11 @@ async def test_bad_request_is_not_found() -> None:
     async with _client() as client:
         with pytest.raises(ArxivNotFound):
             await client.metadata(ArxivRef("1706.03762"))
+
+
+@pytest.mark.parametrize(
+    "raw",
+    ["arXiv:1706.03762 [cs.CL]", "10.48550/arXiv.1706.03762", "https://doi.org/10.48550/arXiv.1706.03762"],
+)
+def test_parse_arxiv_id_accepts_the_cite_as_line_and_the_doi(raw: str) -> None:
+    assert parse_arxiv_id(raw).arxiv_id == "1706.03762"

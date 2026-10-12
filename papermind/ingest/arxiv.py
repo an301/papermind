@@ -52,6 +52,7 @@ _OPENSEARCH = "{http://a9.com/-/spec/opensearch/1.1/}"
 #   1706.03762 | 1706.03762v7 | arXiv:1706.03762 | 1412.6980.pdf
 #   https://arxiv.org/abs/1706.03762v7 | arxiv.org/pdf/1706.03762v7 | .../pdf/1706.03762.pdf
 #   hep-th/9901001 | math.GT/0309136v2 | https://arxiv.org/abs/cond-mat/0102536
+#   arXiv:1706.03762 [cs.CL]  (the "Cite as" line)  |  10.48550/arXiv.1706.03762 (the DOI)
 #
 # New-style ids are YYMM.NNNN (2007-2014) or YYMM.NNNNN (2015+). Old-style ids are
 # archive[.SUBJECT]/YYMMNNN; the subject class is not part of the identifier
@@ -59,6 +60,7 @@ _OPENSEARCH = "{http://a9.com/-/spec/opensearch/1.1/}"
 ARXIV_ID_RE = re.compile(
     r"""
     ^\s*
+    (?:(?:https?://)?(?:doi\.org/)?10\.48550/arxiv\.)?
     (?:arxiv:\s*)?
     (?:(?:https?://)?(?:www\.|export\.)?arxiv\.org/(?:abs|pdf|html)/)?
     (?:
@@ -69,6 +71,7 @@ ARXIV_ID_RE = re.compile(
     (?:\.pdf)?
     /?
     (?:[?\#].*)?
+    (?:\s*\[[\w.\-]+\])?
     \s*$
     """,
     re.IGNORECASE | re.VERBOSE,

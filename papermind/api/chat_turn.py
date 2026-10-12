@@ -27,9 +27,10 @@ from dataclasses import dataclass
 from typing import Annotated, Any, cast
 
 import anyio
-from fastapi import Depends
+from fastapi import Depends, Request
 
 from papermind.api.deps import Resources, ResourcesDep
+from papermind.api.guards import limit_questions
 from papermind.api.lookups import require_ready_paper, require_session
 from papermind.api.sse import ChatEventModel
 from papermind.graph.store import GraphStore
@@ -168,9 +169,12 @@ class PreparedTurn:
     """False when the profile read already failed; the turn then skips its other graph reads."""
 
 
-async def prepare_turn(body: ChatRequest, res: ResourcesDep) -> PreparedTurn:
+async def prepare_turn(body: ChatRequest, res: ResourcesDep, request: Request) -> PreparedTurn:
     session = await require_session(res, body.session_id)
     paper = await require_ready_paper(res, session.paper_id)
+    # Counted only for a question that will run: a refused one (bad session,
+    # paper not ready) does not use up the reader's hour.
+    await limit_questions(request, res)
     user = await load_user(res.graph, session)
     graph_available = user is not None
     if user is None:

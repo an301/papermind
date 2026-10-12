@@ -30,7 +30,15 @@ export type Hint =
   | { kind: 'adding'; ref: ArxivRef }
   | { kind: 'exists'; title: string; paperId: string }
   /** The server or the browser refused it. `danger` when a file was rejected. */
-  | { kind: 'refused'; message: string; tone: 'danger' | 'neutral'; retry?: () => void }
+  | { kind: 'refused'; message: string; tone: 'danger' | 'neutral'; retry?: () => void; actions?: HintAction[] }
+
+/** A way forward from a refusal: "Add v5", "Add v3", "Open it" (DESIGN.md §5.25). */
+export interface HintAction {
+  label: string
+  run?: () => void
+  /** A link instead of a button. */
+  to?: string
+}
 
 export const useAddHint = create<{ hint: Hint }>()(() => ({ hint: { kind: 'idle' } }))
 /**
@@ -74,7 +82,7 @@ const cachedPapers = (): PaperSummary[] => queryClient.getQueryData<PaperSummary
  * Add by arXiv id. Resolves 'added' (a new row is in the list), 'exists'
  * (it was already there; the hint says so) or 'failed' (the hint says why).
  */
-export async function addArxiv(raw: string): Promise<'added' | 'exists' | 'failed'> {
+export async function addArxiv(raw: string, options: { keepVersion?: boolean } = {}): Promise<'added' | 'exists' | 'failed'> {
   const ref = validateArxiv(raw)
   if (!ref) return 'failed'
   const known = cachedPapers().find((p) => p.paper_id === ref.paperId)
@@ -90,7 +98,11 @@ export async function addArxiv(raw: string): Promise<'added' | 'exists' | 'faile
   try {
     // A failed row for the same paper has to go before it can be added again.
     if (known?.status === 'failed') await api<void>(`/papers/${encodeURIComponent(known.paper_id)}`, { method: 'DELETE' }).catch(() => {})
-    const summary = await api<PaperSummary>('/papers', { method: 'POST', body: { arxiv: ref.display } })
+    const summary = await api<PaperSummary>('/papers', {
+      method: 'POST',
+      body: { arxiv: ref.display },
+      query: options.keepVersion ? { keep_version: true } : undefined,
+    })
     upsertPaperInCache(queryClient, summary)
     void queryClient.invalidateQueries({ queryKey: qk.papers, exact: true })
     if (summary.status === 'ready') {
@@ -104,6 +116,19 @@ export async function addArxiv(raw: string): Promise<'added' | 'exists' | 'faile
       setHint({ kind: 'refused', message: UNREACHABLE, tone: 'neutral', retry: () => void addArxiv(raw) })
     } else if (isApiError(e, 'invalid_input')) {
       setHint({ kind: 'invalid', message: e.message || notAnId() })
+    } else if (e instanceof ApiError && ['newer_version', 'withdrawn', 'not_found', 'already_added'].includes(e.code)) {
+      // Retrying would only get the same answer; offer what the reader can do instead.
+      const detail = (e.detail ?? {}) as { latest_version?: string | null; paper_id?: string | null }
+      const actions: HintAction[] = []
+      if (e.code === 'already_added' && detail.paper_id) {
+        actions.push({ label: 'Open it', to: `/paper/${encodeURIComponent(detail.paper_id)}` })
+      } else if (detail.latest_version) {
+        actions.push({ label: `Add ${detail.latest_version}`, run: () => void addArxiv(`${ref.arxivId}${detail.latest_version}`) })
+      }
+      if (e.code === 'newer_version' && ref.version) {
+        actions.push({ label: `Add ${ref.version}`, run: () => void addArxiv(raw, { keepVersion: true }) })
+      }
+      setHint({ kind: 'refused', message: e.message, tone: 'neutral', actions })
     } else if (isApiError(e, 'arxiv_unreachable')) {
       setHint({ kind: 'refused', message: e.message, tone: 'neutral', retry: () => void addArxiv(raw) })
     } else if (e instanceof ApiError) {

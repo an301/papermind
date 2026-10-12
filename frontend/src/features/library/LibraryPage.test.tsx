@@ -90,6 +90,27 @@ describe('Library', () => {
     expect((await screen.findAllByText('Waiting to start…'))[0]).toBeInTheDocument()
   })
 
+  it('offers the latest version or the pasted one when arXiv has a newer version, instead of a retry', async () => {
+    const { api, user } = renderLibrary({
+      papers: [ATTENTION],
+      fail: {
+        'POST /papers': {
+          status: 422,
+          code: 'newer_version',
+          message: 'You pasted v1. The latest version is v2.',
+          extra: { latest_version: 'v2', paper_id: '2006.11239' },
+        },
+      },
+    })
+    await screen.findByRole('link', { name: /Attention Is All You Need/ })
+    await user.type(addField(), '2006.11239v1{Enter}')
+    expect(await screen.findByText(/The latest version is v2/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Try again' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add v2' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Add v1' }))
+    await waitFor(() => expect(api.fetchMock.mock.calls.some(([url]) => String(url).includes('keep_version=true'))).toBe(true))
+  })
+
   it('says when a paper is already there, with a way to open it', async () => {
     const { api, user } = renderLibrary({ papers: [ATTENTION] })
     await screen.findByRole('link', { name: /Attention Is All You Need/ })

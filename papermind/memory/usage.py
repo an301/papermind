@@ -44,6 +44,24 @@ class RateLimiter:
             return None
         return (window + 1) * window_s - now
 
+    async def blocked(
+        self, bucket: str, key: str, *, limit: int, window_s: int, now: float | None = None
+    ) -> float | None:
+        """Without counting: seconds until the window resets if ``key`` already used ``limit`` hits."""
+        now = time.time() if now is None else now
+        window = int(now // window_s)
+        name = f"rl:{bucket}:{key}:{window}"
+        if self._redis is None:
+            count = self._local.get(name, 0)
+        else:
+            try:
+                raw = await self._redis.get(name)
+            except RedisError:
+                log.warning("rate limiter could not reach Redis; letting %s through", name, exc_info=True)
+                return None
+            count = int(raw) if raw else 0
+        return (window + 1) * window_s - now if count >= limit else None
+
     async def _incr(self, name: str, ttl_s: int) -> int | None:
         if self._redis is None:
             if len(self._local) > 10_000:

@@ -102,15 +102,21 @@ function Problem({ answer, onRetry, onRephrase }: { answer: Answer; onRetry: () 
 
 function KnowledgeLine({ added, removed }: { added: ConceptRef[]; removed: ConceptRef[] }) {
   const [undone, setUndone] = useState(false)
+  const [undoFailed, setUndoFailed] = useState(false)
   const add = useAddKnowledge()
   const forget = useForgetKnowledge()
   if (!added.length && !removed.length) return null
   if (undone) return <p className={s.noteLine}>Undone.</p>
   const undo = async () => {
-    await Promise.allSettled([
+    const results = await Promise.allSettled([
       ...added.map((c) => forget.mutateAsync(c.concept_id)),
       ...removed.map((c) => add.mutateAsync(c.concept_id)),
     ])
+    if (results.some((r) => r.status === 'rejected')) {
+      setUndoFailed(true)
+      announce('Couldn’t undo that. Try again.')
+      return
+    }
     setUndone(true)
     announce('Undone')
   }
@@ -119,9 +125,9 @@ function KnowledgeLine({ added, removed }: { added: ConceptRef[]; removed: Conce
     : `Took ${listJoin(removed.map((c) => c.name))} off what you know.`
   return (
     <p className={s.noteLine}>
-      {text}{' '}
+      {undoFailed ? 'Couldn’t undo that.' : text}{' '}
       <button type="button" className={s.inlineAction} onClick={undo}>
-        Undo
+        {undoFailed ? 'Try again' : 'Undo'}
       </button>
     </p>
   )
@@ -219,15 +225,24 @@ export const TurnView = memo(function TurnView({ turn, latest, calloutsAllowed, 
 
       {answer.phase === 'not_sent' ? (
         <p className={s.problem}>
-          <WarningCircleIcon size={14} aria-hidden="true" /> {answer.problem?.kind === 'not_sent' && answer.problem.offline ? 'Will send when you’re back online.' : 'Not sent.'}{' '}
+          <WarningCircleIcon size={14} aria-hidden="true" />{' '}
+          {answer.problem?.kind === 'not_sent' && answer.problem.offline ? (
+            'Will send when you’re back online.'
+          ) : (
+            <>
+              Not sent.{answer.problem?.kind === 'not_sent' && answer.problem.reason ? ` ${answer.problem.reason}` : ''}
+            </>
+          )}{' '}
           <button type="button" className={s.inlineAction} onClick={retry}>
             Try again
           </button>
         </p>
       ) : answer.phase === 'queued' ? (
         <p className={s.trail}>
-          <ClockIcon size={14} aria-hidden="true" className={s.inlineIcon} /> Waiting for the paper to finish indexing. This will send when it’s
-          ready.
+          <ClockIcon size={14} aria-hidden="true" className={s.inlineIcon} />{' '}
+          {answer.queueReason === 'turn'
+            ? 'Waiting for the answer above to finish.'
+            : 'Waiting for the paper to finish indexing. This will send when it’s ready.'}
         </p>
       ) : (
         <Trail answer={answer} />

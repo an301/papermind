@@ -48,8 +48,12 @@ export function Composer({ paperId, streaming, onSend, onStop, restore }: Compos
     if (focusSeq) ref.current?.focus()
   }, [focusSeq])
 
+  // Only a prefill made while this composer is mounted: an old one must not
+  // overwrite the draft every time the panel reopens.
+  const seenPrefill = useRef(useComposerPrefill.getState().seq)
   useEffect(() => {
-    if (prefill.seq) {
+    if (prefill.seq && prefill.seq !== seenPrefill.current) {
+      seenPrefill.current = prefill.seq
       setText(prefill.text)
       ref.current?.focus()
     }

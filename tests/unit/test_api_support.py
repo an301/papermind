@@ -116,6 +116,10 @@ class FilePaperStore:
     def _dir(self, paper_id: str) -> Path:
         return self.papers_dir / paper_id
 
+    def save_pdf(self, paper_id: str, pdf: bytes) -> None:
+        self._dir(paper_id).mkdir(parents=True, exist_ok=True)
+        self.pdf_path(paper_id).write_bytes(pdf)
+
     def save(self, record: PaperRecord, pdf: bytes) -> None:
         directory = self._dir(record.meta.paper_id)
         directory.mkdir(parents=True, exist_ok=True)

@@ -12,6 +12,7 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import json
+import logging
 from collections.abc import AsyncIterator, Callable
 from dataclasses import dataclass, field
 from typing import Protocol
@@ -35,6 +36,9 @@ LEVEL_DEFINITIONS: dict[Level, str] = {
     "intermediate": "standard notation; assumes linear algebra and basic machine learning",
     "expert": "precise and technical; assumes familiarity with transformers",
 }
+
+log = logging.getLogger(__name__)
+
 
 HISTORY_MESSAGES = 4  # the last two exchanges
 HISTORY_CHARS = 1200
@@ -211,6 +215,10 @@ def mistral_messages(inp: WriterInput) -> list[dict[str, str]]:
     return [{"role": "user", "content": f"{head}\n\n{paper}\n\n{render_writer_message(inp)}"}]
 
 
+# Readers see this; the server address and the upstream reply go to the log.
+WRITER_UNAVAILABLE = "The answer writer is not available right now. Try again in a moment."
+
+
 class MistralWriter:
     """The fine-tuned Mistral 7B writer, served by vLLM's OpenAI-compatible API.
 
@@ -237,32 +245,47 @@ class MistralWriter:
         }
         url = s.mistral_base_url.rstrip("/") + "/chat/completions"
         client = self._client or httpx.AsyncClient(timeout=s.mistral_timeout_s)
+        produced = False
         try:
             async with client.stream("POST", url, json=body, headers=headers) as response:
                 if response.status_code >= 400:
                     detail = (await response.aread()).decode(errors="replace")[:300]
+                    log.warning("Mistral writer at %s answered %d: %s", url, response.status_code, detail)
                     retryable = response.status_code in (408, 429) or response.status_code >= 500
-                    raise PaperMindLLMError(
-                        "api_error",
-                        f"The Mistral writer at {s.mistral_base_url} answered {response.status_code}: {detail}",
-                        retryable=retryable,
-                    )
+                    raise PaperMindLLMError("api_error", WRITER_UNAVAILABLE, retryable=retryable)
                 async for line in response.aiter_lines():
                     if not line.startswith("data:"):
                         continue
                     data = line[5:].strip()
                     if data == "[DONE]":
                         break
-                    choices = json.loads(data).get("choices") or []
-                    delta = (choices[0].get("delta") or {}).get("content") if choices else None
+                    try:
+                        frame = json.loads(data)
+                    except ValueError:
+                        log.warning("Mistral writer sent a frame that is not JSON: %.300s", data)
+                        raise PaperMindLLMError("api_error", WRITER_UNAVAILABLE, retryable=True) from None
+                    # vLLM reports a failure mid-stream as an ordinary data frame.
+                    if frame.get("object") == "error" or "error" in frame:
+                        log.warning("Mistral writer failed mid-answer: %.300s", data)
+                        raise PaperMindLLMError("api_error", WRITER_UNAVAILABLE, retryable=True)
+                    choices = frame.get("choices") or []
+                    if not choices:
+                        continue
+                    delta = (choices[0].get("delta") or {}).get("content")
                     if delta:
+                        produced = True
                         yield delta
+                    if choices[0].get("finish_reason") == "length":
+                        log.warning(
+                            "Mistral answer hit mistral_max_tokens=%d and was cut off", s.mistral_max_tokens
+                        )
+            if not produced:
+                # Nothing streamed: a non-streaming endpoint, or an empty reply.
+                log.warning("Mistral writer at %s returned no answer text", url)
+                raise PaperMindLLMError("api_error", WRITER_UNAVAILABLE, retryable=True)
         except httpx.HTTPError as exc:
-            raise PaperMindLLMError(
-                "api_error",
-                f"Couldn’t reach the Mistral writer at {s.mistral_base_url}. Is vLLM running? ({type(exc).__name__})",
-                retryable=True,
-            ) from exc
+            log.warning("could not reach the Mistral writer at %s: %s", url, type(exc).__name__)
+            raise PaperMindLLMError("api_error", WRITER_UNAVAILABLE, retryable=True) from exc
         finally:
             if self._client is None:
                 await client.aclose()

@@ -146,9 +146,7 @@ async def test_writer_errors_propagate_after_reporting_usage() -> None:
 
 
 def _sse(*deltas: str) -> bytes:
-    frames = [
-        "data: " + json.dumps({"choices": [{"delta": {"content": d}}]}) + "\n\n" for d in deltas
-    ]
+    frames = ["data: " + json.dumps({"choices": [{"delta": {"content": d}}]}) + "\n\n" for d in deltas]
     return ("".join(frames) + "data: [DONE]\n\n").encode()
 
 
@@ -177,12 +175,26 @@ async def test_mistral_writer_failures_become_retryable_api_errors() -> None:
     def broken(request: httpx.Request) -> httpx.Response:
         return httpx.Response(503, text="model loading")
 
-    settings = fake_settings(writer_backend="mistral")
-    for handler in (down, broken):
+    def error_mid_answer(request: httpx.Request) -> httpx.Response:
+        body = _sse("Attention is").replace(
+            b"data: [DONE]", b'data: {"object": "error", "message": "CUDA OOM"}\n\ndata: [DONE]'
+        )
+        return httpx.Response(200, content=body)
+
+    def nothing(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"choices": [{"message": {"content": "not streamed"}}]})
+
+    def garbage(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=b"data: {not json\n\n")
+
+    settings = fake_settings(writer_backend="mistral", mistral_base_url="http://10.0.0.7:8001/v1")
+    for handler in (down, broken, error_mid_answer, nothing, garbage):
         writer = MistralWriter(settings, client=httpx.AsyncClient(transport=httpx.MockTransport(handler)))
         with pytest.raises(PaperMindLLMError) as err:
             _ = [c async for c in writer.stream(writer_input())]
         assert err.value.code == "api_error" and err.value.retryable
+        # Readers never see the server's address or its raw reply.
+        assert "10.0.0.7" not in str(err.value) and "CUDA" not in str(err.value)
 
 
 def test_mistral_prompt_is_the_compact_rubric_plus_the_claude_sections() -> None:

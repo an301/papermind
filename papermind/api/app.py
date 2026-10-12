@@ -14,6 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from papermind.api.deps import Resources
 from papermind.api.errors import install_error_handlers
+from papermind.api.guards import AccessGate
 from papermind.api.middleware import CatchUnhandled, RequestSizeLimit
 from papermind.api.routes import api_router
 from papermind.config import Settings
@@ -53,6 +54,9 @@ def build_app(
         RequestSizeLimit, upload_path="/api/papers/upload", max_upload_mb=settings.max_upload_mb
     )
     app.add_middleware(CatchUnhandled)
+    # Outside the size limit, so a request without the access code is refused
+    # before its body is read; inside CORS, so the refusal is readable.
+    app.add_middleware(AccessGate)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,

@@ -81,6 +81,14 @@ class PaperStore:
     def pdf_path(self, paper_id: str) -> Path:
         return self._dir(paper_id) / PDF_FILE
 
+    def save_pdf(self, paper_id: str, pdf: bytes) -> None:
+        """Put the PDF in place before processing, so a reader can open the paper
+        early ("Open now") while it is still being indexed. The paper only joins
+        the library when ``save`` writes its record."""
+        directory = self._dir(paper_id)
+        directory.mkdir(parents=True, exist_ok=True)
+        write_atomic(directory / PDF_FILE, pdf)
+
     def save(self, record: PaperRecord, pdf: bytes) -> None:
         paper_id = record.meta.paper_id
         directory = self._dir(paper_id)

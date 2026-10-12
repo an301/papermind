@@ -6,6 +6,7 @@ event-handling mistakes that a fake client would hide.
 
 from __future__ import annotations
 
+import asyncio
 import json
 from typing import Any
 
@@ -610,3 +611,28 @@ async def test_every_billed_call_reaches_the_cost_hook() -> None:
     )
     assert costs == [result.cost_usd]
     assert costs[0] > 0
+
+
+async def test_a_stream_stopped_mid_answer_still_reports_what_was_billed() -> None:
+    costs: list[float] = []
+    client = AsyncAnthropic(
+        api_key="sk-test",
+        http_client=httpx2.AsyncClient(transport=httpx2.MockTransport(Transport(tool_turn()))),
+        max_retries=0,
+    )
+    llm = LLM(fake_settings(), client=client, on_cost=costs.append)
+
+    async def reader_pressed_stop(_chunk: str) -> None:
+        raise asyncio.CancelledError
+
+    with pytest.raises(asyncio.CancelledError):
+        await llm.stream(
+            system=SYSTEM,
+            messages=MESSAGES,
+            tools=TOOLS,
+            effort="low",
+            max_tokens=100,
+            cache=True,
+            on_text=reader_pressed_stop,
+        )
+    assert len(costs) == 1 and costs[0] > 0

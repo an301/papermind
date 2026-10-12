@@ -31,3 +31,12 @@ describe('parseArxiv (DESIGN.md §5.4)', () => {
     expect(parseArxiv('1706.03762v7')?.display).toBe('1706.03762v7')
   })
 })
+
+describe('parseArxiv: what people copy from the abs page', () => {
+  it('accepts the "Cite as" line and the DOI', () => {
+    expect(parseArxiv('arXiv:1706.03762 [cs.CL]')?.display).toBe('1706.03762')
+    expect(parseArxiv('10.48550/arXiv.1706.03762')?.display).toBe('1706.03762')
+    expect(parseArxiv('https://doi.org/10.48550/arXiv.1706.03762v7')?.display).toBe('1706.03762v7')
+    expect(parseArxiv('see 1706.03762 here')).toBeNull()
+  })
+})

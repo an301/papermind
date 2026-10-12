@@ -214,9 +214,14 @@ async def get_paper(paper_id: PaperIdPath, res: ResourcesDep) -> PaperDetail:
     },
 )
 async def get_pdf(paper_id: PaperIdPath, res: ResourcesDep) -> FileResponse:
-    meta = await require_ready_paper(res, paper_id)
+    meta = await res.papers.meta(paper_id)
+    if meta is None and not await _in_flight(res, paper_id):
+        meta = await require_ready_paper(res, paper_id)  # raises the right 404 / 409
+    # A paper still being added is served too once its PDF is on disk ("Open now").
     path = res.papers.pdf_path(paper_id)
     if not await asyncio.to_thread(path.is_file):
+        if meta is None:  # still downloading: nothing to show yet
+            await require_ready_paper(res, paper_id)
         raise not_found(
             "pdf_not_found",
             "The PDF for this paper is missing on the server. Delete the paper and add it again.",
@@ -226,7 +231,7 @@ async def get_pdf(paper_id: PaperIdPath, res: ResourcesDep) -> FileResponse:
     return FileResponse(
         path,
         media_type="application/pdf",
-        filename=meta.filename or f"{paper_id}.pdf",
+        filename=(meta.filename if meta else None) or f"{paper_id}.pdf",
         content_disposition_type="inline",
         headers={"Cache-Control": "private, max-age=3600"},
     )
@@ -284,6 +289,14 @@ async def delete_paper(paper_id: PaperIdPath, res: ResourcesDep) -> Response:
     # Not awaited: the job stops at its next safe point and removes what it
     # wrote by then (see papermind.api.ingest_jobs); the row disappears now.
     res.jobs.cancel_removed(paper_id)
+    # The addition may have finished between the check above and the cancel;
+    # on a server where papers can't be removed, a finished one stays.
+    if meta is None and not res.settings.allow_paper_delete and await res.papers.meta(paper_id) is not None:
+        raise APIError(
+            403,
+            "delete_disabled",
+            "Removing papers is turned off on this server, because everyone who uses it shares one library.",
+        )
     await res.ingest_status.delete(paper_id)
     await res.papers.discard(paper_id)
     return Response(status_code=204)

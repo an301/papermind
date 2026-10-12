@@ -12,7 +12,7 @@ import { copyText } from '../../lib/clipboard'
 import { clsx } from '../../lib/clsx'
 import { megabytes, NBSP, pageLabel } from '../../lib/format'
 import { getProgress, type ReadingProgress } from '../../lib/readingProgress'
-import { addArxiv } from './addFlow'
+import { addArxiv, setHint } from './addFlow'
 import { Crossfade } from './Crossfade'
 import { PageStrip } from './PageStrip'
 import { arxivIdOf, canOpenEarly, canRetry, displayTitle, failureText, hasRealTitle, ingestSteps, metaLine } from './paperText'
@@ -255,7 +255,7 @@ export function UploadRow({ upload }: { upload: Upload }) {
               <span className={s.failureText}>{upload.error}</span>
             </div>
             <div className={s.actions}>
-              <Button variant="text" textSize="small" tone="ink" flush onClick={() => void retryUpload(upload.id)}>
+              <Button variant="text" textSize="small" tone="ink" flush onClick={() => void retryUpload(upload.id)?.then((o) => o.refused && setHint({ kind: 'refused', message: o.refused.message, tone: 'danger' }))}>
                 Try again
               </Button>
               <Button variant="text" textSize="small" onClick={() => removeFailedUpload(upload.id)}>

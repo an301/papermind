@@ -14,6 +14,7 @@ import { IconButton } from '../../../components/IconButton'
 import { listJoin } from '../../../lib/format'
 import { useReaderStore } from '../../shared/readerStore'
 import s from './Turn.module.css'
+import { announce } from '../../../lib/announce'
 
 const hidden = new Set<string>()
 
@@ -67,7 +68,12 @@ export function GapCallout({ gaps, level }: { gaps: GapsFound; level: Level }) {
     }
   }
   const undo = async () => {
-    await Promise.allSettled(concepts.map((c) => forget.mutateAsync(c.concept_id)))
+    const results = await Promise.allSettled(concepts.map((c) => forget.mutateAsync(c.concept_id)))
+    if (results.some((r) => r.status === 'rejected')) {
+      // Still marked as known on the server: say so rather than pretend.
+      announce('Couldn’t undo that. Try again.')
+      return
+    }
     setState('open')
   }
 

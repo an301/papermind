@@ -5,7 +5,7 @@
  * renderer maps to a chip (§5.15). Markers inside code are not text nodes, so
  * they stay as written.
  */
-import type { Root, Text } from 'mdast'
+import type { Parent, Root, RootContent, Text } from 'mdast'
 import { visit } from 'unist-util-visit'
 
 export const MARKER_RE = /\[([SP]\d+)\]/g
@@ -33,7 +33,34 @@ export function remarkMarkers() {
       parent.children.splice(index, 1, ...parts)
       return index + parts.length
     })
+    markRepeats(tree)
   }
+}
+
+/** Block-level nodes whose chips are read together: a paragraph, a list item's line, a heading, a cell. */
+const BLOCKS = new Set(['paragraph', 'heading', 'tableCell'])
+
+/**
+ * A second chip for the same source in one paragraph carries only its numeral
+ * ("1" rather than "1 §1 pp. 1–2" three times in a row); the first one there
+ * already said where it is. It still links to the passage like any chip.
+ */
+function markRepeats(tree: Root) {
+  visit(tree, (node) => {
+    if (!BLOCKS.has(node.type)) return
+    const seen = new Set<string>()
+    const walk = (n: RootContent) => {
+      const props = n.type === 'text' ? (n.data?.hProperties as Record<string, unknown> | undefined) : undefined
+      const label = typeof props?.dataLabel === 'string' ? props.dataLabel : null
+      if (label?.startsWith('S')) {
+        if (seen.has(label)) props!.dataRepeat = true
+        seen.add(label)
+      }
+      if ('children' in n) for (const child of (n as Parent).children) walk(child)
+    }
+    for (const child of (node as Parent).children) walk(child)
+    return 'skip'
+  })
 }
 
 /** Typography pass for prose the model wrote (§5.14): curly quotes, ellipses, no-break spaces in "p. 4". */

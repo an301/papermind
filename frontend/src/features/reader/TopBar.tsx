@@ -5,7 +5,11 @@
 import { ArrowLeftIcon, ArrowUpRightIcon, DotsThreeIcon, MinusIcon, PlusIcon, SidebarSimpleIcon } from '@phosphor-icons/react'
 import { useState, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router'
-import { canRemovePapers, useDeletePaper, useHealth } from '../../api/queries'
+import { qk } from '../../api/keys'
+import { canRemovePapers, useHealth } from '../../api/queries'
+import { queryClient } from '../../api/queryClient'
+import type { PaperDetail } from '../../api/types'
+import { removeWithUndo } from '../library/removals'
 import type { PaperMeta } from '../../api/types'
 import { ButtonLink } from '../../components/Button'
 import { IconButton } from '../../components/IconButton'
@@ -89,7 +93,6 @@ export function TopBar({ paperId, title, meta, numPages, onNewConversation, outl
   const panelOpen = useReaderStore((st) => st.panelOpen)
   const scale = useReaderStore((st) => st.effectiveScale)
   const store = useReaderStore.getState
-  const remove = useDeletePaper()
   const canRemove = canRemovePapers(useHealth().data)
   const navigate = useNavigate()
 
@@ -158,7 +161,10 @@ export function TopBar({ paperId, title, meta, numPages, onNewConversation, outl
               <MenuItem
                 danger
                 onSelect={() => {
-                  remove.mutate(paperId, { onSuccess: () => navigate('/') })
+                  // The same as removing from the Library: back to the list, with Undo.
+                  const summary = queryClient.getQueryData<PaperDetail>(qk.paper(paperId))?.summary
+                  navigate('/')
+                  if (summary) removeWithUndo(summary)
                 }}
               >
                 Remove from your papers

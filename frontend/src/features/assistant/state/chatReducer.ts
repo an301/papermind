@@ -28,7 +28,7 @@ export type ChatAction =
   /** The stream ended without `done`. */
   | { type: 'ended'; turnKey: string; answerKey: string; at: number }
   /** The POST failed before streaming. */
-  | { type: 'not_sent'; turnKey: string; answerKey: string; at: number; offline?: boolean }
+  | { type: 'not_sent'; turnKey: string; answerKey: string; at: number; offline?: boolean; reason?: string }
   /** A queued question was cancelled: drop the answer (and the turn when it was the only one). */
   | { type: 'cancelled'; turnKey: string; answerKey: string }
   | { type: 'show_version'; turnKey: string; index: number }
@@ -309,7 +309,7 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
         ...a,
         phase: 'not_sent',
         queueReason: null,
-        problem: { kind: 'not_sent', offline: action.offline },
+        problem: { kind: 'not_sent', offline: action.offline, reason: action.reason },
         endedAt: action.at,
       }))
 

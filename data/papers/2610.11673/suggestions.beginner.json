@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "Why do standard physics-informed neural solvers struggle with sharp gradients and multiscale behavior?",
+    "What is a physics-informed extreme learning machine, and how does it avoid gradient-based training?",
+    "How does AB-PIELM decide where to place subdomains and how local its radial basis functions should be?",
+    "How does AB-PIELM recover diffusion coefficients from sparse noisy data using Bayesian optimisation?"
+  ]
+}

@@ -399,8 +399,10 @@ class LLM:
         tool_json: dict[int, list[str]] = {}
         malformed: dict[int, str] = {}
         request_id: str | None = None
+        opened: Any = None
         try:
             async with self._client.beta.messages.stream(**kwargs) as stream:
+                opened = stream
                 request_id = stream.request_id
                 events = stream.__aiter__()
                 while True:
@@ -440,10 +442,19 @@ class LLM:
                     elif on_text is not None and event.type == "text" and event.text:
                         await on_text(event.text)
                 final = await stream.get_final_message()
-        except anthropic.AnthropicError as exc:
-            raise map_api_error(exc) from exc
-        except _TRANSPORT_ERRORS as exc:
-            raise map_transport_error(exc, request_id) from exc
+        except (PaperMindLLMError, ToolInputParseError):
+            raise  # raised above with the partial usage already counted
+        except BaseException as exc:
+            # Cancelled (the reader pressed Stop) or failed mid-answer: what was
+            # generated so far was billed, so it still counts toward the daily
+            # budget. _partial reports it through the cost hook.
+            if opened is not None:
+                self._partial(opened, started, first_event, request_id)
+            if isinstance(exc, anthropic.AnthropicError):
+                raise map_api_error(exc) from exc
+            if isinstance(exc, _TRANSPORT_ERRORS):
+                raise map_transport_error(exc, request_id) from exc
+            raise
 
         result = self._result(final, started=started, first_event=first_event, request_id=request_id)
         # A refusal mid-argument also leaves the input unterminated; it is a

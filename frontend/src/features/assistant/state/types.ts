@@ -45,13 +45,13 @@ export type AnswerPhase =
   | 'dropped'
   | 'not_sent'
 
-export type QueueReason = 'paper' | 'offline'
+export type QueueReason = 'paper' | 'offline' | 'turn'
 
 /** Why an answer has no complete text, as the turn shows it (§5.25). */
 export type AnswerProblem =
   | { kind: 'error'; code: ErrorCode; message: string; retryable: boolean }
   /** The request failed before streaming (HTTP 4xx/5xx or no connection): "Not sent." */
-  | { kind: 'not_sent'; offline?: boolean }
+  | { kind: 'not_sent'; offline?: boolean; reason?: string }
 
 /** How a version came about, for the pager ("Version 2 of 2 · Simpler"). */
 export type AnswerVariant = 'original' | 'simpler' | 'more_technical' | 'retry'

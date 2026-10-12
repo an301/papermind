@@ -47,7 +47,9 @@ export function StatusBars() {
   return (
     <>
       {!online ? (
-        <StatusBar icon={WifiSlashIcon}>{OFFLINE_COPY[pathname] ?? OFFLINE_COPY['/']}</StatusBar>
+        <StatusBar icon={WifiSlashIcon}>
+          {pathname.startsWith('/paper/') ? 'You’re offline. Keep reading; questions will send when you’re back.' : (OFFLINE_COPY[pathname] ?? OFFLINE_COPY['/'])}
+        </StatusBar>
       ) : backOnline ? (
         <StatusBar icon={CheckIcon} tone="success">
           Back online.

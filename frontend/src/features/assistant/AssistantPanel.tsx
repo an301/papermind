@@ -90,6 +90,7 @@ export function AssistantPanel({ mode = 'full' }: AssistantPanelProps) {
   const turns = useConversation((st) => st.chat.turns)
   const status = useConversation((st) => st.sessionStatus)
   const renewed = useConversation((st) => st.sessionRenewed)
+  const sessionError = useConversation((st) => st.sessionError)
   const open = useConversation((st) => st.open)
   const ask = useConversation((st) => st.ask)
   const stop = useConversation((st) => st.stop)
@@ -224,7 +225,9 @@ export function AssistantPanel({ mode = 'full' }: AssistantPanelProps) {
                 </Button>
               }
             >
-              Can’t reach the PaperMind server. If you’re running it yourself, start it with make dev.
+              {sessionError && sessionError !== 'The PaperMind server didn’t respond.'
+                ? `Couldn’t start a conversation with this paper. ${sessionError}`
+                : 'Can’t reach the PaperMind server. If you’re running it yourself, start it with make dev.'}
             </ErrorState>
           </div>
         ) : empty && status === 'ready' ? (

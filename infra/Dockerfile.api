@@ -21,9 +21,9 @@ COPY data/concepts ./data/concepts
 # takes most of a minute, which a cold container should never pay on a request.
 RUN python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-base-en-v1.5', cache_dir='/app/data/models')"
 
-# The papers and cache volumes mount here. Created now so a fresh named
+# The papers, cache and feedback volumes mount here. Created now so a fresh named
 # volume copies this ownership; otherwise it is root's and ingestion fails.
-RUN mkdir -p /app/data/papers /app/data/cache \
+RUN mkdir -p /app/data/papers /app/data/cache /app/data/feedback \
     && useradd --create-home papermind && chown -R papermind /app
 USER papermind
 

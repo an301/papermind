@@ -15,12 +15,14 @@ development behaves exactly as before. The counters are in
 from __future__ import annotations
 
 import hmac
+import ipaddress
 import math
 
 from fastapi import Request
+from starlette.types import ASGIApp, Receive, Scope, Send
 
-from papermind.api.deps import ResourcesDep
-from papermind.api.errors import APIError
+from papermind.api.deps import Resources, ResourcesDep
+from papermind.api.errors import APIError, error_response
 from papermind.memory.usage import DAY_S
 
 ACCESS_HEADER = "X-Access-Code"
@@ -29,10 +31,24 @@ HOUR_S = 60 * 60
 ACCESS_FAILURES_PER_HOUR = 20
 
 
+def visitor_key(host: str | None) -> str:
+    """Who to count a limit against: the address, or its /64 for IPv6, since
+    one IPv6 connection usually controls a whole /64 and could rotate through it."""
+    if not host:
+        return "unknown"
+    try:
+        address = ipaddress.ip_address(host)
+    except ValueError:
+        return host
+    if address.version == 6:
+        return str(ipaddress.ip_network(f"{address}/64", strict=False).network_address) + "/64"
+    return host
+
+
 def client_ip(request: Request) -> str:
-    """The visitor's address. Behind the proxy, uvicorn's --proxy-headers has
+    """The visitor's limit key. Behind the proxy, uvicorn's --proxy-headers has
     already replaced the proxy's address with the one it forwarded."""
-    return request.client.host if request.client else "unknown"
+    return visitor_key(request.client.host if request.client else None)
 
 
 def _wait(seconds: float) -> str:
@@ -43,32 +59,77 @@ def _wait(seconds: float) -> str:
     return f"{hours} hours"
 
 
-# ---------------------------------------------------------------- dependencies
+# ---------------------------------------------------------------- access code
 
 
-async def require_access(request: Request, res: ResourcesDep) -> None:
-    """Every route but /health: the visitor must send the server's access code."""
+async def access_error(res: Resources, given: str, visitor: str) -> APIError | None:
+    """Why this request may not proceed, or None. A visitor locked out for wrong
+    guesses is refused before the code is even compared, so a right guess made
+    during the lockout is not distinguishable from a wrong one."""
     settings = res.settings
     if not settings.access_code_required:
-        return
+        return None
     assert settings.access_code is not None
-    given = request.headers.get(ACCESS_HEADER, "").strip()
-    if not given:
-        raise APIError(401, "access_code_required", "Enter the access code to use PaperMind.")
-    expected = settings.access_code.get_secret_value().strip()
-    if hmac.compare_digest(given.encode(), expected.encode()):
-        return
-    retry = await res.limiter.hit(
-        "access-fail", client_ip(request), limit=ACCESS_FAILURES_PER_HOUR, window_s=HOUR_S
+    locked = await res.limiter.blocked(
+        "access-fail", visitor, limit=ACCESS_FAILURES_PER_HOUR, window_s=HOUR_S
     )
-    if retry is not None:
-        raise APIError(
+    if locked is not None:
+        return APIError(
             429,
             "rate_limited",
-            f"Too many wrong access codes from this network. Try again in {_wait(retry)}.",
-            headers={"Retry-After": str(math.ceil(retry))},
+            f"Too many wrong access codes from this network. Try again in {_wait(locked)}.",
+            headers={"Retry-After": str(math.ceil(locked))},
         )
-    raise APIError(401, "access_code_invalid", "That access code is not right. Check it and try again.")
+    given = given.strip()
+    if not given:
+        return APIError(401, "access_code_required", "Enter the access code to use PaperMind.")
+    expected = settings.access_code.get_secret_value().strip()
+    if hmac.compare_digest(given.encode(), expected.encode()):
+        return None
+    await res.limiter.hit("access-fail", visitor, limit=ACCESS_FAILURES_PER_HOUR, window_s=HOUR_S)
+    return APIError(401, "access_code_invalid", "That access code is not right. Check it and try again.")
+
+
+class AccessGate:
+    """ASGI middleware: every /api route but /health needs the access code.
+
+    Middleware rather than a dependency because FastAPI reads (and spools) a
+    multipart upload before it runs dependencies; here a request without the
+    code is refused before a byte of its body is read.
+    """
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        path = scope.get("path", "")
+        if (
+            scope["type"] != "http"
+            or not path.startswith("/api/")
+            or path == "/api/health"
+            or scope["method"] == "OPTIONS"
+        ):
+            await self.app(scope, receive, send)
+            return
+        res: Resources | None = getattr(scope["app"].state, "resources", None)
+        if res is None or not res.settings.access_code_required:
+            await self.app(scope, receive, send)
+            return
+        given = next(
+            (v.decode("latin-1") for k, v in scope["headers"] if k.lower() == ACCESS_HEADER.lower().encode()),
+            "",
+        )
+        client = scope.get("client")
+        error = await access_error(res, given, visitor_key(client[0] if client else None))
+        if error is None:
+            await self.app(scope, receive, send)
+            return
+        # The body is never read; closing tells the client not to send the rest.
+        headers = {**(error.headers or {}), "Connection": "close"}
+        await error_response(error.status_code, error.code, error.message, headers)(scope, receive, send)
+
+
+# ---------------------------------------------------------------- dependencies
 
 
 async def within_budget(res: ResourcesDep) -> None:

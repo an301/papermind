@@ -88,8 +88,11 @@ export function AddPaperForm() {
           }}
           onBlur={() => {
             if (!value.trim() || busy) return
+            // Leaving the field to press a button in the hint line ("Try again",
+            // "Add v5") must not replace that hint before the click lands.
+            if (hint.kind !== 'idle' && hint.kind !== 'invalid') return
             const ref = validateArxiv(value)
-            if (ref && hint.kind !== 'exists') setHint({ kind: 'ready', ref })
+            if (ref) setHint({ kind: 'ready', ref })
           }}
           trailing={
             <Button variant="text" textSize="small" className={s.choose} onClick={() => fileRef.current?.click()}>
@@ -160,6 +163,20 @@ function HintLine({ id, hint }: { id: string; hint: Hint }) {
       content = (
         <>
           {hint.message}
+          {hint.actions?.map((action) => (
+            <span key={action.label}>
+              {' '}
+              {action.to ? (
+                <Link to={action.to} className={textLinkClass()}>
+                  {action.label}
+                </Link>
+              ) : (
+                <button type="button" className={textLinkClass()} onClick={action.run}>
+                  {action.label}
+                </button>
+              )}
+            </span>
+          ))}
           {hint.retry ? (
             <>
               {' '}

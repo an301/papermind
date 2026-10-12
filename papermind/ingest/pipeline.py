@@ -249,6 +249,9 @@ class Ingestor:
 
     async def _process(self, pdf: bytes, source: _Source, report: ProgressFn) -> PaperRecord:
         paper_id = source.paper_id
+        save_pdf = getattr(self.store, "save_pdf", None)
+        if save_pdf is not None:
+            await asyncio.to_thread(save_pdf, paper_id, pdf)
         await report(IngestStage.EXTRACTING, 0.0)
         document = await asyncio.to_thread(extract_pdf, pdf)
         await report(IngestStage.EXTRACTING, 1.0)

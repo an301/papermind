@@ -238,6 +238,16 @@ async def test_pdf_supports_range_requests(tmp_path: Path) -> None:
     assert partial.content == MINIMAL_PDF[:100]
 
 
+async def test_pdf_can_be_read_while_the_paper_is_still_being_indexed(tmp_path: Path) -> None:
+    h = make_harness(tmp_path, with_paper=False)
+    await h.res.ingest_status.claim("1409.0473", source="arxiv", title="x")
+    h.store.save_pdf("1409.0473", MINIMAL_PDF)
+    async with h.client() as client:
+        response = await client.get("/api/papers/1409.0473/pdf")
+    assert response.status_code == 200
+    assert response.content == MINIMAL_PDF
+
+
 async def test_pdf_of_a_paper_that_is_still_processing_is_409(tmp_path: Path) -> None:
     h = make_harness(tmp_path, with_paper=False)
     await h.res.ingest_status.claim("1409.0473", source="arxiv", title="x")

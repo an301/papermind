@@ -8,7 +8,7 @@
  * the POST never got through, the paper wasn't ready yet.
  */
 import { create } from 'zustand'
-import { ApiError, api, isAbort, isNotFound } from '../../../api/client'
+import { ApiError, NetworkError, api, isAbort, isApiError, isNotFound } from '../../../api/client'
 import { queryClient } from '../../../api/queryClient'
 import { streamChat } from '../../../api/sse'
 import type { ChatEvent, Level, Session } from '../../../api/types'
@@ -28,6 +28,8 @@ interface ConversationState {
   sessionStatus: SessionStatus
   /** "Started a new conversation" after Redis expired the old one (24 h). */
   sessionRenewed: boolean
+  /** Why the session couldn't be opened, for the failed state and for "Not sent." */
+  sessionError: string | null
   chat: ChatState
 }
 
@@ -59,10 +61,23 @@ interface ConversationActions {
 
 type Store = ConversationState & ConversationActions
 
+/** What a reader is told when a request failed before anything streamed. */
+export function failureReason(e: unknown): string {
+  if (e instanceof ApiError && e.message) return e.message
+  if (e instanceof NetworkError) return 'The PaperMind server didn’t respond.'
+  return 'The question couldn’t be sent.'
+}
+
 /** In-flight streams by answer key. */
 const controllers = new Map<string, AbortController>()
-/** Answers waiting for the paper to finish indexing. */
+/** Answers waiting (for the paper to finish indexing, or their turn); calling one releases it. */
 const waiting = new Map<string, () => void>()
+/**
+ * Answers run one at a time. The server answers each question with the
+ * history before it, so two at once would double the cost and interleave the
+ * saved transcript. "Explain X first" or Simpler pressed mid-answer waits here.
+ */
+let lane: Promise<void> = Promise.resolve()
 
 export const useConversation = create<Store>()((set, get) => {
   const dispatch = (action: ChatAction) => set((s) => ({ chat: chatReducer(s.chat, action) }))
@@ -83,6 +98,93 @@ export const useConversation = create<Store>()((set, get) => {
     const session = await api<Session>('/sessions', { method: 'POST', body: { user_id: userId, paper_id: paperId, level } })
     storage.set(sessionKey(paperId), session.session_id)
     return { session, renewed: !!stored }
+  }
+
+  /** Who and at what level the current paper's conversation was opened for; reused to reconnect. */
+  let opened: { userId: string; level: Level } | null = null
+  /** The open/reconnect in progress, so a question asked meanwhile waits for it instead of failing. */
+  let connecting: Promise<void> | null = null
+
+  /**
+   * Restore or create this paper's session and install it. `keepChat` reconnects
+   * under a thread the reader is already looking at (a question is waiting on it)
+   * instead of replacing that thread with the restored transcript.
+   */
+  function connect(paperId: string, userId: string, level: Level, keepChat: boolean): Promise<void> {
+    opened = { userId, level }
+    set(keepChat ? { sessionStatus: 'loading', sessionError: null } : { paperId, sessionStatus: 'loading', sessionRenewed: false, sessionError: null, chat: initialChatState })
+    const attempt = (async () => {
+      try {
+        const { session, renewed } = await restoreOrCreate(paperId, userId, level)
+        if (get().paperId !== paperId) return
+        useReaderStore.getState().setSession(session)
+        if (keepChat) {
+          set({ sessionStatus: 'ready', sessionRenewed: get().sessionRenewed || renewed })
+        } else {
+          // Questions asked while this was loading are already in the thread
+          // (and waiting on this session); they go after the restored history.
+          const restored = turnsFromMessages(session.messages, session.level)
+          const turns = [...restored, ...get().chat.turns]
+          set({ sessionStatus: 'ready', sessionRenewed: renewed, chat: { turns } })
+          showLatestSources(restored)
+        }
+      } catch (e) {
+        if (get().paperId === paperId) set({ sessionStatus: 'failed', sessionError: failureReason(e) })
+      }
+    })()
+    connecting = attempt
+    void attempt.finally(() => {
+      if (connecting === attempt) connecting = null
+    })
+    return attempt
+  }
+
+  /** This paper's session, waiting for an open in progress and retrying one that failed. */
+  async function ensureSession(): Promise<Session | null> {
+    const paperId = get().paperId
+    const current = () => {
+      const s = useReaderStore.getState().session
+      return s && s.paper_id === paperId ? s : null
+    }
+    if (current()) return current()
+    if (connecting) await connecting
+    if (current()) return current()
+    // Opening failed, or the reader was closed and reopened and forgot it: connect again.
+    if (paperId && opened) await connect(paperId, opened.userId, opened.level, true)
+    return current()
+  }
+
+  /** The session expired or the server lost it (Redis restarted): start a new one for this paper. */
+  async function renewSession(): Promise<Session | null> {
+    const paperId = get().paperId
+    if (!paperId || !opened) return null
+    storage.remove(sessionKey(paperId))
+    const level = useReaderStore.getState().level
+    const session = await api<Session>('/sessions', { method: 'POST', body: { user_id: opened.userId, paper_id: paperId, level } })
+    storage.set(sessionKey(paperId), session.session_id)
+    if (get().paperId !== paperId) return null
+    useReaderStore.getState().setSession(session)
+    set({ sessionRenewed: true, sessionStatus: 'ready', sessionError: null })
+    return session
+  }
+
+  /** Run an answer after any that are already running; while it waits it shows as queued. */
+  function enqueue(turnKey: string, answerKey: string, start: () => Promise<void>) {
+    const before = lane
+    const mustWait = controllers.size > 0 || get().chat.turns.some((t) => t.answers.some((a) => a.key !== answerKey && STOPPABLE_PHASES.has(a.phase)))
+    const job = (async () => {
+      if (mustWait) {
+        dispatch({ type: 'queued', turnKey, answerKey, reason: 'turn' })
+        await Promise.race([before, new Promise<void>((resolve) => waiting.set(answerKey, resolve))])
+        waiting.delete(answerKey)
+        if (findAnswer(turnKey, answerKey)?.phase !== 'queued') return // stopped while waiting
+        dispatch({ type: 'sending', turnKey, answerKey, at: Date.now() })
+      } else {
+        await before
+      }
+      await start()
+    })()
+    lane = job.catch(() => {})
   }
 
   /** Mirror the latest finished answer's citations onto the page (§1.2: the newest answer is active). */
@@ -118,9 +220,12 @@ export const useConversation = create<Store>()((set, get) => {
       dispatch({ type: 'sending', turnKey, answerKey, at: Date.now() })
     }
 
-    const session = useReaderStore.getState().session
+    // Asked while the session was still opening, or after opening it failed:
+    // wait for it (or try once more) rather than refusing the question.
+    let session = await ensureSession()
+    if (findAnswer(turnKey, answerKey)?.phase !== 'sending') return // stopped while waiting
     if (!session) {
-      dispatch({ type: 'not_sent', turnKey, answerKey, at: Date.now() })
+      dispatch({ type: 'not_sent', turnKey, answerKey, at: Date.now(), reason: get().sessionError ?? 'The conversation couldn’t be started.' })
       return
     }
 
@@ -128,14 +233,30 @@ export const useConversation = create<Store>()((set, get) => {
     controllers.set(answerKey, controller)
     let sawDone = false
     try {
-      const stream = streamChat(
-        { session_id: session.session_id, message, quote: quote ? { text: quote.text, page: quote.page ?? null } : null, level },
-        controller.signal,
-      )
-      for await (const event of stream) {
-        dispatch({ type: 'event', turnKey, answerKey, event, at: Date.now() })
-        onEvent(event)
-        if (event.type === 'done') sawDone = true
+      for (let attempt = 0; ; attempt++) {
+        try {
+          const stream = streamChat(
+            { session_id: session.session_id, message, quote: quote ? { text: quote.text, page: quote.page ?? null } : null, level },
+            controller.signal,
+          )
+          for await (const event of stream) {
+            dispatch({ type: 'event', turnKey, answerKey, event, at: Date.now() })
+            onEvent(event)
+            if (event.type === 'done') sawDone = true
+          }
+          break
+        } catch (e) {
+          // The session expired (24 h) or the server lost it: start a new one and
+          // send the question again, once, instead of refusing it forever.
+          if (attempt === 0 && isApiError(e, 'session_not_found') && !controller.signal.aborted) {
+            const fresh = await renewSession().catch(() => null)
+            if (fresh && !controller.signal.aborted) {
+              session = fresh
+              continue
+            }
+          }
+          throw e
+        }
       }
       if (!sawDone) dispatch({ type: 'ended', turnKey, answerKey, at: Date.now() })
     } catch (e) {
@@ -143,7 +264,10 @@ export const useConversation = create<Store>()((set, get) => {
       const answer = findAnswer(turnKey, answerKey)
       const started = answer && answer.phase !== 'sending'
       if (started) dispatch({ type: 'ended', turnKey, answerKey, at: Date.now() })
-      else dispatch({ type: 'not_sent', turnKey, answerKey, at: Date.now(), offline: !(e instanceof ApiError) && !navigator.onLine })
+      else {
+        const offline = !(e instanceof ApiError) && !navigator.onLine
+        dispatch({ type: 'not_sent', turnKey, answerKey, at: Date.now(), offline, reason: offline ? undefined : failureReason(e) })
+      }
     } finally {
       controllers.delete(answerKey)
     }
@@ -174,23 +298,28 @@ export const useConversation = create<Store>()((set, get) => {
     paperId: null,
     sessionStatus: 'idle',
     sessionRenewed: false,
+    sessionError: null,
     chat: initialChatState,
 
     open: async (paperId, userId, level) => {
-      if (get().paperId === paperId && get().sessionStatus !== 'failed') return
-      for (const c of controllers.values()) c.abort()
-      controllers.clear()
-      set({ paperId, sessionStatus: 'loading', sessionRenewed: false, chat: initialChatState })
-      try {
-        const { session, renewed } = await restoreOrCreate(paperId, userId, level)
-        if (get().paperId !== paperId) return
-        const turns = turnsFromMessages(session.messages, session.level)
-        useReaderStore.getState().setSession(session)
-        set({ sessionStatus: 'ready', sessionRenewed: renewed, chat: { turns } })
-        showLatestSources(turns)
-      } catch {
-        if (get().paperId === paperId) set({ sessionStatus: 'failed' })
+      if (get().paperId === paperId && get().sessionStatus !== 'failed') {
+        opened = { userId, level }
+        if (connecting) await connecting
+        const session = useReaderStore.getState().session
+        if (session && session.paper_id === paperId) return
+        // Back to a paper opened earlier: closing the reader cleared its session.
+        // Reconnect and restore the thread (and its brackets), unless an answer is
+        // still streaming into the thread on screen.
+        await connect(paperId, userId, level, get().busy())
+        return
       }
+      // Retrying after a failure keeps any question the reader is waiting on.
+      const retrying = get().paperId === paperId
+      if (!retrying) {
+        for (const c of controllers.values()) c.abort()
+        controllers.clear()
+      }
+      await connect(paperId, userId, level, retrying && get().chat.turns.length > 0)
     },
 
     ask: ({ question, quote = null, level, turnKey, variant = 'original', still = false }) => {
@@ -208,7 +337,9 @@ export const useConversation = create<Store>()((set, get) => {
         dispatch({ type: 'asked', turn })
       }
       const message = versionMessage(text, variant, still)
-      void run(key, answer.key, message, quote, depth)
+      const answerKey = answer.key
+      const turnKeyNow = key
+      enqueue(turnKeyNow, answerKey, () => run(turnKeyNow, answerKey, message, quote, depth))
       return key
     },
 
@@ -229,7 +360,7 @@ export const useConversation = create<Store>()((set, get) => {
       const answer = turn?.answers.find((a) => a.key === answerKey)
       if (!turn || !answer) return
       dispatch({ type: 'resend', turnKey, answerKey, startedAt: Date.now() })
-      void run(turnKey, answerKey, versionMessage(turn.question, answer.variant, answer.still), turn.quote, answer.level)
+      enqueue(turnKey, answerKey, () => run(turnKey, answerKey, versionMessage(turn.question, answer.variant, answer.still), turn.quote, answer.level))
     },
 
     showVersion: (turnKey, index) => {
@@ -248,6 +379,7 @@ export const useConversation = create<Store>()((set, get) => {
       get().stop()
       storage.remove(sessionKey(paperId))
       useReaderStore.getState().clearPassages({ keepPinned: false })
+      useReaderStore.getState().setSession(null)
       set({ paperId: null })
       await get().open(paperId, userId, level)
     },
@@ -255,6 +387,18 @@ export const useConversation = create<Store>()((set, get) => {
     busy: () => get().chat.turns.some((t) => t.answers.some((a) => STOPPABLE_PHASES.has(a.phase))),
   }
 })
+
+// "Will send when you're back online": keep that promise.
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    const { chat, retryNotSent } = useConversation.getState()
+    for (const turn of chat.turns) {
+      for (const answer of turn.answers) {
+        if (answer.phase === 'not_sent' && answer.problem?.kind === 'not_sent' && answer.problem.offline) retryNotSent(turn.key, answer.key)
+      }
+    }
+  })
+}
 
 /** Is any answer in this conversation still live (streaming or waiting)? */
 export const anyLive = (state: ChatState): boolean => state.turns.some((t) => t.answers.some(isLive))

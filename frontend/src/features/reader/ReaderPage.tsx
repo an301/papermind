@@ -25,6 +25,7 @@ import { Outline } from './Outline'
 import { PdfViewer } from './pdf/PdfViewer'
 import type { ReadSelection } from './pdf/selection'
 import { askAboutSelection, explainSelection, SelectionPopover } from './SelectionPopover'
+import { StatusBars } from '../../app/StatusBars'
 import { TopBar } from './TopBar'
 import s from './ReaderPage.module.css'
 
@@ -161,6 +162,17 @@ export function ReaderPage() {
     if (summary?.status === 'ready') recordOpen(paperId)
   }, [paperId, summary?.status])
 
+  // Opened early and the PDF fetch failed: once the paper is ready, try again by itself.
+  const pdfErrorRef = useRef(pdfError)
+  useEffect(() => {
+    pdfErrorRef.current = pdfError
+  }, [pdfError])
+  useEffect(() => {
+    if (summary?.status !== 'ready' || !pdfErrorRef.current) return
+    setPdfError(null)
+    setReloadKey((k) => k + 1)
+  }, [summary?.status])
+
   useEffect(() => {
     if (title) document.title = `${title} · PaperMind`
   }, [title])
@@ -276,6 +288,26 @@ export function ReaderPage() {
     )
   }
 
+  // A failed poll keeps showing the paper it already has; only a first load that failed stops here.
+  if (paper.isError && !paper.data) {
+    return (
+      <div className={s.reader}>
+        <TopBar paperId={paperId} title="" meta={null} numPages={0} onNewConversation={newConversation} outlineToggle={false} />
+        <div className={s.message}>
+          <ErrorState
+            action={
+              <Button size="sm" busy={paper.isFetching} busyLabel="Trying…" onClick={() => void paper.refetch()}>
+                Try again
+              </Button>
+            }
+          >
+            Couldn’t open this paper. The PaperMind server didn’t respond.
+          </ErrorState>
+        </div>
+      </div>
+    )
+  }
+
   const pdfReady = !!summary && summary.status !== 'queued' && !(summary.status === 'processing' && summary.stage === 'downloading')
   const outlineAsColumn = wide && outlineOpen && !!meta
   const outlineAsDrawer = !wide && outlineOpen && !!meta
@@ -284,6 +316,8 @@ export function ReaderPage() {
   return (
     <div className={s.reader}>
       <TopBar paperId={paperId} title={title} meta={meta} numPages={numPages || meta?.num_pages || 0} onNewConversation={newConversation} outlineToggle={!!meta} />
+      {/* The Reader sits outside AppShell, so the offline and API-key bars are added here. */}
+      <StatusBars />
       <div
         className={s.body}
         style={{
@@ -328,12 +362,12 @@ export function ReaderPage() {
             </div>
           ) : pdfReady ? (
             <PdfViewer url={pdfUrl(paperId)} onSelection={onSelection} onLoaded={setNumPages} onError={setPdfError} reloadKey={reloadKey} />
-          ) : (
+          ) : summary ? (
             <div className={s.message}>
-              <p className={s.preparing}>Getting this paper from arXiv…</p>
-              <ProgressBar value={summary?.progress ?? 0} label="Preparing the paper" />
+              <p className={s.preparing}>{summary.source === 'arxiv' ? 'Getting this paper from arXiv…' : 'Preparing this paper…'}</p>
+              <ProgressBar value={summary.progress ?? 0} label="Preparing the paper" />
             </div>
-          )}
+          ) : null}
           <BackPill />
         </main>
 

@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { useKnowledge, useResetKnowledge } from '../../api/queries'
+import { api } from '../../api/client'
+import { useKnowledge, useResetKnowledge, useUserId } from '../../api/queries'
+import type { KnownConcept } from '../../api/types'
 import { Button } from '../../components/Button'
 import { Dialog, DialogClose } from '../../components/Dialog'
 import { toast } from '../../components/Toast'
@@ -12,6 +14,7 @@ import s from './SettingsPage.module.css'
  */
 export function ResetKnowledge() {
   const knowledge = useKnowledge()
+  const userId = useUserId()
   const resetAll = useResetKnowledge()
   const [open, setOpen] = useState(false)
   const busy = resetAll.isPending
@@ -20,7 +23,14 @@ export function ResetKnowledge() {
 
   async function reset() {
     setError(null)
-    const { failed } = await resetAll.mutateAsync((knowledge.data ?? []).map((k) => k.concept_id))
+    // Include the guesses not yet confident enough to show: otherwise they
+    // survive the reset and reappear after one more signal.
+    let ids = (knowledge.data ?? []).map((k) => k.concept_id)
+    if (userId) {
+      const all = await api<KnownConcept[]>(`/users/${encodeURIComponent(userId)}/knowledge`, { query: { include: 'not_yet' } }).catch(() => null)
+      if (all) ids = [...new Set([...ids, ...all.map((k) => k.concept_id)])]
+    }
+    const { failed } = await resetAll.mutateAsync(ids)
     if (failed) {
       setError(`Couldn’t forget ${plural(failed, 'concept')}. Try again to finish.`)
       return
