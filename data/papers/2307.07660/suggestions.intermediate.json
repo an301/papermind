@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does the second random rank in zip-zip trees break ties and remove the zip tree bias toward smaller keys?",
+    "Why do zip-zip trees need only O(log log n) bits of metadata per node while treaps need \u0398(log n)?",
+    "How does the just-in-time variant get away with an expected O(1) bits of metadata per node?",
+    "How does the 1.3863 log n expected depth of zip-zip trees compare with original zip trees in the experiments?"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does PublishOnApprovalActivity decide whether to auto-publish an item after moderation approval?",
+    "Why are reactive re-approvals and IEC items skipped by the guards at the start of the activity?",
+    "What changed when steps like price floor, fee, and publish access checks moved into AMPG after the refactor?",
+    "How does this approval-triggered publish flow differ from the existing Studio publish flow, such as the agreed fee comparison?"
+  ]
+}

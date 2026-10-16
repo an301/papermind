@@ -1,0 +1,2392 @@
+{
+ "meta": {
+  "paper_id": "up_3a68fb352477",
+  "source": "upload",
+  "arxiv_id": null,
+  "arxiv_version": null,
+  "title": "Publish on Approval Tech Spec [Anish Nambirajan]",
+  "authors": [
+   "Economy Engineering",
+   "Design Spec",
+   "Alex Yu"
+  ],
+  "abstract": null,
+  "published": null,
+  "filename": "Publish on Approval Tech Spec [Anish Nambirajan] (2).pdf",
+  "num_pages": 26,
+  "page_sizes": [
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ]
+  ],
+  "sections": [
+   {
+    "section_id": "sec_front_matter",
+    "number": null,
+    "title": "Front matter",
+    "level": 1,
+    "page": 0,
+    "y": 74.7
+   },
+   {
+    "section_id": "sec_use_for_2_eng_week_projects",
+    "number": null,
+    "title": "Use for 2+ eng week projects. If cross-team post to #economy-tech-specs for further review. Economy Council review only required for cross-team projects",
+    "level": 1,
+    "page": 0,
+    "y": 303.7
+   },
+   {
+    "section_id": "sec_epic_ucp_1561",
+    "number": null,
+    "title": "Epic: UCP-1561",
+    "level": 1,
+    "page": 0,
+    "y": 502.5
+   },
+   {
+    "section_id": "sec_objective",
+    "number": null,
+    "title": "Objective",
+    "level": 1,
+    "page": 0,
+    "y": 546.7
+   },
+   {
+    "section_id": "sec_background",
+    "number": null,
+    "title": "Background",
+    "level": 1,
+    "page": 1,
+    "y": 70.8
+   },
+   {
+    "section_id": "sec_design_overview",
+    "number": null,
+    "title": "Design Overview",
+    "level": 1,
+    "page": 1,
+    "y": 491.6
+   },
+   {
+    "section_id": "sec_flow",
+    "number": null,
+    "title": "Flow",
+    "level": 1,
+    "page": 2,
+    "y": 330.6
+   },
+   {
+    "section_id": "sec_detailed_design",
+    "number": null,
+    "title": "Detailed Design",
+    "level": 1,
+    "page": 2,
+    "y": 418.4
+   },
+   {
+    "section_id": "sec_storage_creator_publishing_preferences_eaas",
+    "number": null,
+    "title": "Storage: Creator Publishing Preferences (EaaS)",
+    "level": 2,
+    "page": 2,
+    "y": 458.9
+   },
+   {
+    "section_id": "sec_api_preferences_crud",
+    "number": null,
+    "title": "API: Preferences CRUD",
+    "level": 1,
+    "page": 5,
+    "y": 522.0
+   },
+   {
+    "section_id": "sec_field_mapping_preferences_to",
+    "number": null,
+    "title": "Field Mapping: Preferences to PublishNewItemRequest",
+    "level": 2,
+    "page": 8,
+    "y": 468.2
+   },
+   {
+    "section_id": "sec_publish_activity_publishonapprovalactivity",
+    "number": null,
+    "title": "Publish Activity: PublishOnApprovalActivity",
+    "level": 2,
+    "page": 11,
+    "y": 72.0
+   },
+   {
+    "section_id": "sec_the_workflow_s_execution_context_already",
+    "number": null,
+    "title": "The workflow's execution context already provides",
+    "level": 2,
+    "page": 11,
+    "y": 153.1
+   },
+   {
+    "section_id": "sec_steps_as_originally_designed_before_the",
+    "number": null,
+    "title": "Steps as originally designed, before the AMPG refactor. Kept as the record of what was approved; the shipped activity is the list in the next section, and steps 3 and 6 through 9g below all moved into AMPG",
+    "level": 2,
+    "page": 11,
+    "y": 302.6
+   },
+   {
+    "section_id": "sec_1",
+    "number": "1",
+    "title": "Guard: if ModerationActionType != Proactive or ModerationStatus != Approved, return (skip reactive re-approvals and rejections)",
+    "level": 1,
+    "page": 11,
+    "y": 350.2
+   },
+   {
+    "section_id": "sec_2",
+    "number": "2",
+    "title": "Guard: if TargetIsIec, return (IEC items have a separate publish flow",
+    "level": 1,
+    "page": 11,
+    "y": 379.3
+   },
+   {
+    "section_id": "sec_3",
+    "number": "3",
+    "title": "Resolve zeroth copy via GetUserAssetsByAssetId (AssetsRegistry, already wired). Get Payer/AssetCreator/CreatorInstanceId. If count == 0, throw (workflow retries). If count > 1, return (granted item, skip)",
+    "level": 1,
+    "page": 11,
+    "y": 466.6
+   },
+   {
+    "section_id": "sec_4",
+    "number": "4",
+    "title": "Read CreatorPublishingPreferences (via token service client, already wired). Query by TargetCreatorId (individual) or creatorGroupId (group, from context). If no record exists, return",
+    "level": 1,
+    "page": 11,
+    "y": 510.3
+   },
+   {
+    "section_id": "sec_5",
+    "number": "5",
+    "title": "Check autoPublishEnabled == true. If not, return",
+    "level": 1,
+    "page": 11,
+    "y": 539.3
+   },
+   {
+    "section_id": "sec_6",
+    "number": "6",
+    "title": "Get price floor (AMPG GetDynamicPriceFloorAsync). If price below floor, return silently",
+    "level": 1,
+    "page": 11,
+    "y": 553.9
+   },
+   {
+    "section_id": "sec_7",
+    "number": "7",
+    "title": "Compute fee (MarketplaceIntelligence GetPublishingFeeAsync)",
+    "level": 1,
+    "page": 11,
+    "y": 568.4
+   },
+   {
+    "section_id": "sec_7b_compare_fee_to_agreedpublishingfee_only",
+    "number": null,
+    "title": "7b. Compare fee to agreedPublishingFee. ← only done in studio flow",
+    "level": 2,
+    "page": 11,
+    "y": 583.0
+   },
+   {
+    "section_id": "sec_8",
+    "number": "8",
+    "title": "Check balance (VirtualCurrency GetRobuxBalanceAsync). If insufficient, notify and return",
+    "level": 1,
+    "page": 11,
+    "y": 597.5
+   },
+   {
+    "section_id": "sec_9",
+    "number": "9",
+    "title": "Check publish access (AMPG CheckPublishAccess). Verifies group permission, ID/age verified, not banned, subscription status",
+    "level": 1,
+    "page": 11,
+    "y": 626.6
+   },
+   {
+    "section_id": "sec_9c_check_delisting_itemdelistingservice_if",
+    "number": null,
+    "title": "9c. Check delisting (ItemDelistingService). If delisted, return",
+    "level": 2,
+    "page": 11,
+    "y": 655.7
+   },
+   {
+    "section_id": "sec_9d_check_commerce_restriction_commerceservice_if",
+    "number": null,
+    "title": "9d. Check commerce restriction (CommerceService). If AllowSale == false, return",
+    "level": 2,
+    "page": 11,
+    "y": 670.3
+   },
+   {
+    "section_id": "sec_10",
+    "number": "10",
+    "title": "Build PublishNewItemRequest from preferences + resolved fields. Call PublishNewItemAsync (CollectiblesGateway, already wired)",
+    "level": 1,
+    "page": 12,
+    "y": 101.5
+   },
+   {
+    "section_id": "sec_11",
+    "number": "11",
+    "title": "On success: notify creator (PrivateMessages, already wired)",
+    "level": 1,
+    "page": 12,
+    "y": 130.5
+   },
+   {
+    "section_id": "sec_12",
+    "number": "12",
+    "title": "On failure: notify creator with reason",
+    "level": 1,
+    "page": 12,
+    "y": 145.1
+   },
+   {
+    "section_id": "sec_failure_handling",
+    "number": null,
+    "title": "Failure handling",
+    "level": 2,
+    "page": 14,
+    "y": 72.0
+   },
+   {
+    "section_id": "sec_frontend_considerations",
+    "number": null,
+    "title": "Frontend Considerations",
+    "level": 2,
+    "page": 14,
+    "y": 368.0
+   },
+   {
+    "section_id": "sec_caveats_and_alternatives",
+    "number": null,
+    "title": "Caveats and Alternatives",
+    "level": 1,
+    "page": 15,
+    "y": 414.9
+   },
+   {
+    "section_id": "sec_production_considerations",
+    "number": null,
+    "title": "Production Considerations",
+    "level": 1,
+    "page": 17,
+    "y": 149.0
+   },
+   {
+    "section_id": "sec_cross_team_impact",
+    "number": null,
+    "title": "Cross-Team Impact",
+    "level": 2,
+    "page": 17,
+    "y": 193.1
+   },
+   {
+    "section_id": "sec_traffic_estimates",
+    "number": null,
+    "title": "Traffic Estimates",
+    "level": 1,
+    "page": 18,
+    "y": 329.6
+   },
+   {
+    "section_id": "sec_security_and_privacy_considerations",
+    "number": null,
+    "title": "Security and Privacy Considerations",
+    "level": 1,
+    "page": 18,
+    "y": 659.9
+   },
+   {
+    "section_id": "sec_risks",
+    "number": null,
+    "title": "Risks",
+    "level": 1,
+    "page": 19,
+    "y": 204.0
+   },
+   {
+    "section_id": "sec_studio_changes",
+    "number": null,
+    "title": "Studio Changes",
+    "level": 1,
+    "page": 19,
+    "y": 444.0
+   },
+   {
+    "section_id": "sec_appendix",
+    "number": null,
+    "title": "Appendix",
+    "level": 1,
+    "page": 20,
+    "y": 682.9
+   },
+   {
+    "section_id": "sec_data_consistency_considerations",
+    "number": null,
+    "title": "Data Consistency Considerations",
+    "level": 2,
+    "page": 21,
+    "y": 72.0
+   },
+   {
+    "section_id": "sec_data_cacheability_considerations",
+    "number": null,
+    "title": "Data Cacheability Considerations",
+    "level": 2,
+    "page": 22,
+    "y": 205.4
+   },
+   {
+    "section_id": "sec_monitoring_plan",
+    "number": null,
+    "title": "Monitoring Plan",
+    "level": 1,
+    "page": 22,
+    "y": 541.7
+   },
+   {
+    "section_id": "sec_loggings",
+    "number": null,
+    "title": "Loggings",
+    "level": 3,
+    "page": 22,
+    "y": 575.7
+   },
+   {
+    "section_id": "sec_event_streams",
+    "number": null,
+    "title": "Event Streams",
+    "level": 3,
+    "page": 23,
+    "y": 112.5
+   },
+   {
+    "section_id": "sec_rollout_rollback_plan",
+    "number": null,
+    "title": "Rollout/Rollback Plan",
+    "level": 2,
+    "page": 23,
+    "y": 556.5
+   },
+   {
+    "section_id": "sec_sunset_plan",
+    "number": null,
+    "title": "Sunset Plan",
+    "level": 1,
+    "page": 24,
+    "y": 310.4
+   },
+   {
+    "section_id": "sec_latency_expectations_sla",
+    "number": null,
+    "title": "Latency Expectations / SLA",
+    "level": 2,
+    "page": 24,
+    "y": 377.6
+   },
+   {
+    "section_id": "sec_testing_plan",
+    "number": null,
+    "title": "Testing Plan",
+    "level": 2,
+    "page": 24,
+    "y": 549.8
+   },
+   {
+    "section_id": "sec_functional_test",
+    "number": null,
+    "title": "Functional Test",
+    "level": 2,
+    "page": 24,
+    "y": 587.2
+   }
+  ],
+  "chunk_count": 40,
+  "chunker_version": "3",
+  "ingested_at": "2026-10-14T00:29:05.066073Z"
+ },
+ "chunks": [
+  {
+   "chunk_id": "up_3a68fb352477:sec_front_matter",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_front_matter",
+   "section_number": null,
+   "section_title": "Front matter",
+   "part": null,
+   "text": "Economy Engineering Design Spec Publish on Approval Summary Streamline creator item publishing by removing the manual post-approval publish step. Creators save default publishing preferences (pricing, regional pricing, sale locations) and opt-in to auto-publish; once moderation approves an opted-in item, the system publishes it automatically using those preferences.\n\nAuthors: Anish Nambirajan Reviewers: Varun Chandramouli, Alex Yu Status: Finalized Last Updated: Jul 21, 2026 Self Link: go/edd-template",
+   "token_count": 127,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 75.8,
+     "y0": 76.0,
+     "x1": 606.3,
+     "y1": 263.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_use_for_2_eng_week_projects",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_use_for_2_eng_week_projects",
+   "section_number": null,
+   "section_title": "Use for 2+ eng week projects. If cross-team post to #economy-tech-specs for further review. Economy Council review only required for cross-team projects",
+   "part": null,
+   "text": "pacer row, do not delete :-)\n\nReviewer Team Date SignOff",
+   "token_count": 14,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 277.7,
+     "y0": 397.2,
+     "x1": 409.0,
+     "y1": 409.2
+    },
+    {
+     "page": 0,
+     "x0": 107.6,
+     "y0": 435.3,
+     "x1": 502.8,
+     "y1": 447.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_objective",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_objective",
+   "section_number": null,
+   "section_title": "Objective",
+   "part": null,
+   "text": "Today, after a creator uploads a UGC item from Studio and it passes moderation, they must manually publish it from the Creator Dashboard: setting price, sale locations, and regional pricing each time. This adds friction and delay, especially for high-volume creators who reuse the same settings.\n\nThis project lets creators save default publishing preferences and opt in to automatic publishing. Once moderation approves an opted-in item, the system publishes it automatically using the saved preferences. This reduces time-to-publish, removes a repetitive manual step, and improves the experience for repeat creators.",
+   "token_count": 155,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 72.0,
+     "y0": 579.7,
+     "x1": 526.8,
+     "y1": 637.3
+    },
+    {
+     "page": 0,
+     "x0": 72.0,
+     "y0": 655.6,
+     "x1": 530.2,
+     "y1": 713.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_background",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_background",
+   "section_number": null,
+   "section_title": "Background",
+   "part": null,
+   "text": "The Creator Dashboard is the primary tool creators use to manage their UGC marketplace items. The current publishing flow works as follows:\n\n1. A creator designs a UGC item (accessory, makeup, etc.) in Roblox Studio and uploads it. At this point, only an asset exists (identified by AssetId). It is not yet in the marketplace or collectible system.\n\n2. The asset enters moderation. A moderator (human or automated) reviews and approves or rejects it. The decision is routed to avatar-catalog-moderation, which updates avtr-mktpl-moderation-status-service (moderation record) and assets-registry-service (asset approval status). The moderation-status service then emits an AssetVersionModerationEvent to the SNS topic AvatarAssetModerationEventsSnsTopicArn.\n\n3. After approval, the creator must manually return to the Creator Dashboard, navigate to the item, configure publishing settings (price, sale location, regional pricing, limited/quantity, resale restrictions), and click \"Publish Item.\" This calls POST /v1/collectibles (CollectiblesController.PublishCollectibleItemAsync → gRPC PublishNewItemAsync → Collectibles Gateway), which creates the collectible record and puts the item on sale.\n\nProblem: Step 3 is manual and repetitive. Creators who upload many items with the same settings must repeat this process for every item. There is no way to save defaults or automate publishing.\n\nThe collectible record does not exist until the publish endpoint is called. The publish call itself requires the asset to already be approved. The creation is gated by a moderation check (CheckPublishAccessAsync). This means any automation must create the collectible on approval.",
+   "token_count": 418,
+   "page_start": 1,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 72.0,
+     "y0": 104.9,
+     "x1": 538.8,
+     "y1": 320.2
+    },
+    {
+     "page": 1,
+     "x0": 72.0,
+     "y0": 337.6,
+     "x1": 530.8,
+     "y1": 378.4
+    },
+    {
+     "page": 1,
+     "x0": 72.0,
+     "y0": 395.8,
+     "x1": 526.0,
+     "y1": 451.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_design_overview",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_design_overview",
+   "section_number": null,
+   "section_title": "Design Overview",
+   "part": null,
+   "text": "The system automates the manual publish step by saving a creator's publishing preferences and using them to publish automatically when moderation approves an item. Because the collectible record is only created at publish time (and creation requires approval), the moderation-approval event is the trigger.\n\nThe solution has five components:\n\n1. Creator Publishing Preferences (Storage): A new EaaS entity that stores a creator's default publishing configuration: pricing, sale location, and regional pricing. One record per individual creator, and one shared record per group; the member who uploads is the one charged the publishing fee (resolved at publish time). Opt-in and fee consent are captured at upload from Studio, not stored as separate fields.\n\n2. Preferences API: A CRUD API on item-configuration-api that the Dashboard calls to create, read, update, and delete a creator's saved preferences. Preferences are stored as an EaaS entity our own entity service (creator-preferences-service), accessed via AMPG.\n\n3. Dashboard Preferences UI: A modal in Creator Dashboard, opened from the Creations toolbar on the Avatar Items tab, where creators configure their default publishing settings (price, sale location, regional pricing).\n\n4. Publish Activity: A new activity (PublishOnApprovalActivity) added as a phase in the existing TriggerPostModerationTasksWorkflow in avtr-mktpl-moderation-status-workflow. This workflow already runs after every moderation decision. On a proactive approval, the activity reads the per-item opt-in and the creator's preferences (creator identity comes from the workflow's execution context, not from the asset), and calls AMPG PublishItem, which resolves the zeroth copy and runs every publish-eligibility check before calling the Collectibles Gateway. 5. Notifications: the activity sends the creator one private message when auto-publish permanently fails (UCP-1935) and one when it succeeds (UCP-1945), each behind its own setting and writing its own counter. Outcomes that are ambiguous, or where a notice would contradict what happens next, deliberately send nothing.",
+   "token_count": 529,
+   "page_start": 1,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 72.0,
+     "y0": 524.6,
+     "x1": 522.0,
+     "y1": 582.2
+    },
+    {
+     "page": 1,
+     "x0": 72.0,
+     "y0": 600.5,
+     "x1": 244.9,
+     "y1": 612.5
+    },
+    {
+     "page": 1,
+     "x0": 72.0,
+     "y0": 630.9,
+     "x1": 532.9,
+     "y1": 718.8
+    },
+    {
+     "page": 2,
+     "x0": 72.0,
+     "y0": 73.1,
+     "x1": 540.4,
+     "y1": 297.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_flow",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_flow",
+   "section_number": null,
+   "section_title": "Flow",
+   "part": null,
+   "text": "- How both records get written and what starts the activity - What the activity does",
+   "token_count": 21,
+   "page_start": 2,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 2,
+     "x0": 90.0,
+     "y0": 358.8,
+     "x1": 390.4,
+     "y1": 386.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_storage_creator_publishing_preferences_eaas_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_storage_creator_publishing_preferences_eaas",
+   "section_number": null,
+   "section_title": "Storage: Creator Publishing Preferences (EaaS)",
+   "part": 1,
+   "text": "Entity: CreatorPublishingPreferences One record per creator context: one record per individual creator, and one shared record per group (keyed by creatorGroupId). A group record holds the group's shared publishing defaults; the member who uploads and opts in to the item is the one charged the publishing fee (resolved at publish time), consistent with how manual group publishing already charges an individual payer, not group funds.\n\nColumn Type Required Description\n\nid UUID Yes (PK) Auto-generated primary key\n\ncreator oneof Yes Identifies the creator. A discriminated union: the (Creator) user variant stores a pseudonymous userKey (RTBF handled automatically) Column Type Required Description\n\nThe group variant stores a raw groupId (not personal data). Only one variant is stored per record\n\npublishingType enum Yes Limited=1, NonLimited=2. Stored as a string (For the first version we scalar (Enum.Parse on read, repo convention). only auto publish non EaaS has no enum type. Activity maps to limiteds, and we can CollectibleItemType at publish time. expand to limiteds later if there's a need. It keeps the publishing fee calculation simpler, and limiteds are expected to be a small fraction of non limiteds. We keep this field so adding them later won't need a migration.)\n\nsaleLocationType enum Yes Stored as a string scalar holding the collectibles member name: ShopAndAllExperiences, ExperiencesDevApiOnly, ShopOnly, ShopAndExperiencesById (Enum.Parse on read; EaaS has no enum type). The 1/2/3/4 numbering is ICA's HTTP enum only. Below ICA the same four members are 1/5/6/7 in the collectibles shared enum, so a numeric cast would mismap and the conversion is name-based. ICA's HTTP name for the dev-API location is ExperiencesAndDeveloperApi, translated by TranslateSaleLocationType / CollectiblesSaleLocationTypeExtensions.",
+   "token_count": 460,
+   "page_start": 2,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 2,
+     "x0": 72.0,
+     "y0": 496.0,
+     "x1": 541.3,
+     "y1": 565.9
+    },
+    {
+     "page": 2,
+     "x0": 113.0,
+     "y0": 589.3,
+     "x1": 468.3,
+     "y1": 601.0
+    },
+    {
+     "page": 2,
+     "x0": 77.2,
+     "y0": 614.9,
+     "x1": 451.1,
+     "y1": 624.5
+    },
+    {
+     "page": 2,
+     "x0": 77.2,
+     "y0": 638.1,
+     "x1": 529.6,
+     "y1": 671.4
+    },
+    {
+     "page": 3,
+     "x0": 113.0,
+     "y0": 79.0,
+     "x1": 468.3,
+     "y1": 90.6
+    },
+    {
+     "page": 3,
+     "x0": 337.5,
+     "y0": 104.6,
+     "x1": 520.1,
+     "y1": 137.9
+    },
+    {
+     "page": 3,
+     "x0": 77.2,
+     "y0": 151.5,
+     "x1": 526.6,
+     "y1": 303.9
+    },
+    {
+     "page": 3,
+     "x0": 77.2,
+     "y0": 317.5,
+     "x1": 531.6,
+     "y1": 469.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_storage_creator_publishing_preferences_eaas_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_storage_creator_publishing_preferences_eaas",
+   "section_number": null,
+   "section_title": "Storage: Creator Publishing Preferences (EaaS)",
+   "part": 2,
+   "text": "places string? Nullable JSON-serialized array of root place IDs, e.g. \"[123,456,789]\". Max 128 chars (entity limit). The 1-5 entry count is enforced by the ICA and AMPG validators, not by the entity, and is not enforced on the publish path. Set when saleLocationType is ShopAndExperiencesById or ExperiencesDevApiOnly.\n\npriceInRobux long Yes Creator's preferred minimum price in Robux. Required and must be > 0 on create; isFree is rejected, so 0 and free are not saveable in v1, which is NonLimited-only. Becomes genuinely optional only if Limited support lands.\n\npriceOffset long Yes Margin above dynamic price floor\n\nisFree bool Yes Must be false in v1. NonLimited items cannot be free, and the rule is enforced unconditionally in both ICA and AMPG.\n\nColumn Type Required Description\n\nenableRegionalPricing bool Yes Whether to apply regional price adjustments. Defaults to true unless the creator turns it off.\n\nMatches the configuration page.\n\nisRentalOptIn bool Yes default false. Only applicable to NonLimited since backend rejects rental for Limited items.\n\nautoPublishEnabled bool Yes Master switch: auto-publish all approved items\n\ncreated timestamp Yes Record creation time\n\nupdated timestamp Yes Last modified time (set manually via Timestamp.Now on create and every update; not auto-managed)\n\n- autoPublishEnabled: kept as a global pause switch. Allows a creator to disable all auto-publishing at once without un-opting individual items. (defaults to true when preferences are first saved). The activity requires both autoPublishEnabled == true AND the per-item opt-in to proceed.\n\n- priceInRobux = creator's preferred minimum, sent to the gateway as DynamicPrice.MinimumPrice. Nothing on the auto path compares it to the current dynamic price floor: not the activity, not AMPG, and GetDynamicPriceFloor has no caller in avatar-marketplace-publishing at all.",
+   "token_count": 468,
+   "page_start": 3,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 77.2,
+     "y0": 483.5,
+     "x1": 534.5,
+     "y1": 564.4
+    },
+    {
+     "page": 3,
+     "x0": 77.2,
+     "y0": 578.0,
+     "x1": 522.8,
+     "y1": 635.2
+    },
+    {
+     "page": 3,
+     "x0": 77.2,
+     "y0": 648.8,
+     "x1": 472.6,
+     "y1": 658.4
+    },
+    {
+     "page": 3,
+     "x0": 77.2,
+     "y0": 672.0,
+     "x1": 531.6,
+     "y1": 705.3
+    },
+    {
+     "page": 4,
+     "x0": 113.0,
+     "y0": 79.0,
+     "x1": 468.3,
+     "y1": 90.6
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 104.6,
+     "x1": 519.4,
+     "y1": 137.9
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 151.5,
+     "x1": 522.6,
+     "y1": 173.0
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 186.6,
+     "x1": 524.6,
+     "y1": 196.2
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 209.7,
+     "x1": 423.0,
+     "y1": 219.3
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 232.9,
+     "x1": 534.3,
+     "y1": 266.3
+    },
+    {
+     "page": 4,
+     "x0": 90.0,
+     "y0": 289.3,
+     "x1": 539.1,
+     "y1": 402.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_storage_creator_publishing_preferences_eaas_p3",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_storage_creator_publishing_preferences_eaas",
+   "section_number": null,
+   "section_title": "Storage: Creator Publishing Preferences (EaaS)",
+   "part": 3,
+   "text": "Entity: ItemUploadContext\n\nKeyed by: itemtype and itemId. Operations are create, get and delete only, deliberately no update, so opting an item out is a delete and one row records one agreed fee for the item's whole life.\n\nField Type Why\n\nid UUID EaaS primary key\n\nitemType long UploadItemType: Invalid = 0, Asset = 1, Bundle = 2. Assets only today, Bundle is a stretch.\n\nLooks have no enum value at all and excluded because they have their own publish flow.\n\nStored as a plain long, validated with Enum.IsDefined at the API boundary.\n\n(assets for now)\n\n*don’t support looks in auto publish since they have their own publish flow\n\nitemId long Lookup key, activity queries by this after approval\n\nautoPublish bool Boolean determining if item is optedin for autopublish\n\nagreedPublishingFee long? Fee the creator saw and accepted at upload time\n\ncreator Oneof (Creator) User (userKey, RTBF) or Group (raw GroupId)\n\nactingUser user? Whoever was authenticated on the upload call. The uploading member for a group creator, the creator themselves for an individual. Written as ActingUser?.Id ?? 0, so 0 encodes \"no acting user\" rather than null. Built-in EaaS user type, tagged identity.userKey, so the id is pseudonymized and RtbF is automatic. The gRPC field is the flat acting_user_id; the activity refuses a group publish when it is <= 0.\n\ncreated timestamp When it was written",
+   "token_count": 344,
+   "page_start": 4,
+   "page_end": 5,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 72.0,
+     "y0": 449.3,
+     "x1": 213.1,
+     "y1": 461.0
+    },
+    {
+     "page": 4,
+     "x0": 72.0,
+     "y0": 478.4,
+     "x1": 515.9,
+     "y1": 519.2
+    },
+    {
+     "page": 4,
+     "x0": 137.2,
+     "y0": 542.6,
+     "x1": 476.7,
+     "y1": 554.3
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 566.4,
+     "x1": 470.9,
+     "y1": 577.0
+    },
+    {
+     "page": 4,
+     "x0": 77.2,
+     "y0": 589.2,
+     "x1": 535.4,
+     "y1": 703.3
+    },
+    {
+     "page": 5,
+     "x0": 389.2,
+     "y0": 90.4,
+     "x1": 463.1,
+     "y1": 101.0
+    },
+    {
+     "page": 5,
+     "x0": 389.2,
+     "y0": 113.4,
+     "x1": 518.2,
+     "y1": 147.0
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 159.1,
+     "x1": 527.4,
+     "y1": 181.2
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 193.4,
+     "x1": 523.2,
+     "y1": 215.5
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 227.6,
+     "x1": 499.8,
+     "y1": 249.7
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 261.9,
+     "x1": 532.2,
+     "y1": 284.0
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 296.1,
+     "x1": 535.6,
+     "y1": 456.2
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 468.4,
+     "x1": 478.7,
+     "y1": 479.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_api_preferences_crud_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_api_preferences_crud",
+   "section_number": null,
+   "section_title": "API: Preferences CRUD",
+   "part": 1,
+   "text": "New endpoints on item-configuration-api. It already has auth, validation, and downstream gRPC clients. New controller: PublishingPreferencesController at [Route(\"v1/preferences/publishing\")].\n\nMethod Endpoint Description\n\nPOST /v1/preferences/publishing Create or replace preferences for a creator. Upsert: an existing record is read first and overwritten in full, returning 200, never 409.\n\nGET /v1/preferences/publishing Read preferences for a creator PATCH /v1/preferences/publishing Update preferences\n\nDELETE /v1/preferences/publishing Delete preferences (disables auto-publish)\n\nCreator identification: for writes (POST/PATCH), creatorUserId and creatorGroupId are in the request body with creatorUserId validated against the authenticated user. For reads and deletes (GET/DELETE), the user is identified from the auth cookie on the frontend, and you pass an optional creatorGroupId to act on a group, which the backend authorizes against the cookie user. Field names reuse the existing publish API; enableRegionalPricing is the one intentional rename to match the configuration page.\n\nCreate request (POST /v1/preferences/publishing):\n\n{ \"creatorUserId\": 12345, \"publishingType\": \"NonLimited\", \"saleLocationType\": \"ShopAndAllExperiences\", \"places\": [ ], \"priceInRobux\": 100, \"priceOffset\": 0, \"isFree\": false, \"enableRegionalPricing\": true, \"isRentalOptIn\": false, \"autoPublishEnabled\": true, }\n\nRead (GET): /v1/preferences/publishing for the authenticated user, or ?groupId=67890 for a group the user manages. The user is identified from the auth cookie, not a query param.\n\nResponse: same shape as create + id, created, updated.\n\nUpdate (PATCH): partial update. Send creatorUserId, creatorGroupId when acting for a group, and only the fields you are changing. Validation runs on the merged result, not on the request, so a partial update that would leave a record the publish path refuses is rejected with 400.",
+   "token_count": 480,
+   "page_start": 5,
+   "page_end": 6,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 72.0,
+     "y0": 544.6,
+     "x1": 518.6,
+     "y1": 585.3
+    },
+    {
+     "page": 5,
+     "x0": 81.0,
+     "y0": 608.7,
+     "x1": 445.4,
+     "y1": 620.4
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 632.6,
+     "x1": 504.0,
+     "y1": 669.6
+    },
+    {
+     "page": 5,
+     "x0": 77.2,
+     "y0": 681.8,
+     "x1": 442.3,
+     "y1": 693.5
+    },
+    {
+     "page": 6,
+     "x0": 77.2,
+     "y0": 79.0,
+     "x1": 389.1,
+     "y1": 90.6
+    },
+    {
+     "page": 6,
+     "x0": 77.2,
+     "y0": 102.9,
+     "x1": 499.1,
+     "y1": 114.5
+    },
+    {
+     "page": 6,
+     "x0": 72.0,
+     "y0": 136.1,
+     "x1": 540.7,
+     "y1": 220.5
+    },
+    {
+     "page": 6,
+     "x0": 72.0,
+     "y0": 237.9,
+     "x1": 338.3,
+     "y1": 424.1
+    },
+    {
+     "page": 6,
+     "x0": 72.0,
+     "y0": 441.5,
+     "x1": 534.7,
+     "y1": 525.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_api_preferences_crud_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_api_preferences_crud",
+   "section_number": null,
+   "section_title": "API: Preferences CRUD",
+   "part": 2,
+   "text": "Delete (DELETE): /v1/preferences/publishing for the authenticated user, or ?groupId=67890 for a group the user manages. Removes the record and disables auto-publish.\n\nAuthorization - All endpoints: [Authorize] (HTTP Bearer token, AuthenticatedUser from BaseApiController context) - Endpoints are protected, can’t call them without being logged in - Individual creators: AuthenticatedUser.Id == creatorUserId - you can only edit your own preferences. The system checks: are you the person this record belongs to?\n\n- Groups: authenticated user must have group publish permission (reuse IGroupPermissionVerifier.CanUserConfigureAvatarShopAssetForGroup; note POST /v1/collectibles itself authorizes group publishes via AMPG CheckPublishAccess + an identity-match check, not this verifier) - You can only edit a group's preferences with publish permission in that group. - Second layer, AMPG, on Create and Get only: GetAgentConfigureAccessStatusAsync runs five checks, configure permission, creation access, ID verification, Premium, and for group agents the group owner's Premium.\n\n- That check reads the owner's Premium, not the uploader's, so a group whose owner lacks Premium is refused.\n\n- GET is therefore configure-only, not view-level: a view-only member is denied at AMPG whatever ICA allowed.\n\n- Update and Delete are id-keyed and need only an authenticated user, so ICA's check is their only group authorization.\n\n‘\n\nValidation Rules\n\nRule Error\n\ncreatorUserId should be the authenticated/logged in InvalidAgent member and is always set; creatorGroupId is optional and set when acting for a group, in which case the member's group permission is verified\n\nisFree must be false and priceInRobux must be > 0. CannotBeFree Enforced unconditionally in both ICA and AMPG today despite the NonLimited-worded error messages, so adding Limited support means revisiting these two rules, not just the publishingType allowlist.",
+   "token_count": 481,
+   "page_start": 6,
+   "page_end": 7,
+   "boxes": [
+    {
+     "page": 6,
+     "x0": 72.0,
+     "y0": 528.8,
+     "x1": 539.1,
+     "y1": 555.0
+    },
+    {
+     "page": 6,
+     "x0": 72.0,
+     "y0": 587.0,
+     "x1": 527.1,
+     "y1": 715.0
+    },
+    {
+     "page": 7,
+     "x0": 72.0,
+     "y0": 73.0,
+     "x1": 543.0,
+     "y1": 244.7
+    },
+    {
+     "page": 7,
+     "x0": 72.0,
+     "y0": 276.6,
+     "x1": 80.6,
+     "y1": 288.3
+    },
+    {
+     "page": 7,
+     "x0": 72.0,
+     "y0": 320.3,
+     "x1": 470.6,
+     "y1": 352.5
+    },
+    {
+     "page": 7,
+     "x0": 77.2,
+     "y0": 364.7,
+     "x1": 437.1,
+     "y1": 414.3
+    },
+    {
+     "page": 7,
+     "x0": 77.2,
+     "y0": 426.5,
+     "x1": 448.1,
+     "y1": 488.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_api_preferences_crud_p3",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_api_preferences_crud",
+   "section_number": null,
+   "section_title": "API: Preferences CRUD",
+   "part": 3,
+   "text": "If you picked \"sell in specific experiences\" NoExperiencesListed (ShopAndExperiencesById), or the dev-API location (ExperiencesAndDeveloperApi), you must list 1-5 experience IDs. Can't pick \"specific\" and leave it blank.\n\nIf you picked either of the other two sale locations, the UnexpectedPlaceIds places field must be empty. Don't send place IDs when they don't apply.\n\npriceInRobux > 0, priceOffset >= 0 InvalidPriceOffset (offset) / InvalidMinimumPrice (price) / Prices cannot be negative and the fee must be valid ItemPriceTooHigh (over cap) / All rules:\n\nCreate Preferences (AMPG):\n\n1. Agent: required, must specify user or group 2. PublishingType: must be NonLimited (v1 only) 3. SaleLocationType: must not be Invalid 4. IsFree: must be false 5. PriceInRobux: must be > 0 6. PriceOffset: must be >= 0 7. PriceInRobux: must be <= MaxCollectiblePrice 8. Places: must have 1–5 entries when SaleLocationType requires places (ShopAndExperiencesById or ExperiencesDevApiOnly) 9. Places: must be empty for the other two sale locations\n\nUpdate Preferences (AMPG):\n\n1. Id: required, valid UUID 2. Preferences: required 3. Rules 2–9 from above on the Preferences fields\n\nGet Preferences (AMPG):\n\n1. Agent: required, must specify user or group\n\nDelete Preferences (AMPG):\n\n1. Id: required, valid UUID",
+   "token_count": 324,
+   "page_start": 7,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 7,
+     "x0": 77.2,
+     "y0": 501.0,
+     "x1": 480.4,
+     "y1": 550.7
+    },
+    {
+     "page": 7,
+     "x0": 77.2,
+     "y0": 562.9,
+     "x1": 477.4,
+     "y1": 599.9
+    },
+    {
+     "page": 7,
+     "x0": 77.2,
+     "y0": 612.1,
+     "x1": 525.0,
+     "y1": 649.1
+    },
+    {
+     "page": 8,
+     "x0": 72.0,
+     "y0": 73.0,
+     "x1": 122.1,
+     "y1": 84.6
+    },
+    {
+     "page": 8,
+     "x0": 72.0,
+     "y0": 102.1,
+     "x1": 438.0,
+     "y1": 259.2
+    },
+    {
+     "page": 8,
+     "x0": 72.0,
+     "y0": 291.2,
+     "x1": 325.6,
+     "y1": 346.5
+    },
+    {
+     "page": 8,
+     "x0": 72.0,
+     "y0": 363.9,
+     "x1": 304.2,
+     "y1": 390.1
+    },
+    {
+     "page": 8,
+     "x0": 72.0,
+     "y0": 407.5,
+     "x1": 227.2,
+     "y1": 433.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_field_mapping_preferences_to_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_field_mapping_preferences_to",
+   "section_number": null,
+   "section_title": "Field Mapping: Preferences to PublishNewItemRequest",
+   "part": 1,
+   "text": "From preferences (stored): Preference Field gRPC Field Notes\n\npublishingType ItemType Limited → CollectibleItemType.Limited, NonLimited → CollectibleItemType.NonLimited\n\nsaleLocationType SaleLocationType Maps via TranslateSaleLocationType (not 1:1); gRPC member is ExperiencesDevApiOnly (no 'And') and values are not 1-4 (ShopOnly=1, ShopAndAllExperiences=5, ExperiencesDevApiOnly=6, ShopAndExperiencesById=7)\n\nplaces PlaceIds Parsed from JSON string. Populated when saleLocationType is ShopAndExperiencesById or ExperiencesDevApiOnly.\n\npriceInRobux Price + DynamicPrice.MinimumPrice Same value sets both fields priceOffset DynamicPrice.PriceOffset Only set when isFree = false (inside DynamicPrice block\n\nisFree PriceConfiguration If true → PriceConfiguration.Free = {}.\n\nIf false → PriceConfiguration.DynamicPrice = {MinimumPrice, PriceOffset, OptOutFromRegionalPricing}\n\nenableRegionalPricing DynamicPrice.OptOutFromRegionalPricing Stored as the positive form, so the activity sends OptOutFromRegionalPricing as the inverse of enableRegionalPricing. Only set when isFree is false.\n\nquantity Quantity v1 (NonLimited only): hardcoded to 0 by the activity.\n\nNot stored in preferences.\n\nquantityLimitPerUser QuantityLimitPerUser v1 (NonLimited only): hardcoded to 0 by the activity.\n\nNot stored in preferences.\n\nresaleRestriction ResaleRestriction v1 (NonLimited only): hardcoded to Disabled by the activity. Not stored in preferences.\n\nisRentalOptIn IsRentalOptIn v1 (NonLimited only): hardcoded to false by the activity.\n\nNot stored in preferences.\n\nNot from preferences (resolved at publish time by AMPG PublishItemOperation):\n\ngRPC Field Source How\n\nIdempotencyKey Event Deterministic UUID derived from the AssetId alone. The gateway key must be a canonical UUID, so the id is hashed into one.\n\nPrevents duplicates on workflow retry, and permanently binds one asset id to one publish outcome: once the gateway records a terminal result for that token, that asset can never be auto-published again.",
+   "token_count": 500,
+   "page_start": 8,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 36.0,
+     "y0": 496.8,
+     "x1": 172.8,
+     "y1": 508.4
+    },
+    {
+     "page": 8,
+     "x0": 55.9,
+     "y0": 517.3,
+     "x1": 479.2,
+     "y1": 529.0
+    },
+    {
+     "page": 8,
+     "x0": 42.8,
+     "y0": 541.0,
+     "x1": 538.8,
+     "y1": 560.9
+    },
+    {
+     "page": 8,
+     "x0": 42.8,
+     "y0": 573.0,
+     "x1": 565.0,
+     "y1": 634.3
+    },
+    {
+     "page": 8,
+     "x0": 42.8,
+     "y0": 646.3,
+     "x1": 549.4,
+     "y1": 676.6
+    },
+    {
+     "page": 8,
+     "x0": 42.8,
+     "y0": 688.6,
+     "x1": 462.8,
+     "y1": 698.2
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 78.8,
+     "x1": 553.6,
+     "y1": 98.7
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 110.7,
+     "x1": 533.1,
+     "y1": 151.3
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 163.4,
+     "x1": 565.4,
+     "y1": 193.6
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 205.7,
+     "x1": 559.2,
+     "y1": 225.6
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 237.6,
+     "x1": 559.2,
+     "y1": 257.5
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 269.6,
+     "x1": 557.4,
+     "y1": 289.5
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 301.5,
+     "x1": 573.2,
+     "y1": 321.4
+    },
+    {
+     "page": 9,
+     "x0": 36.0,
+     "y0": 342.9,
+     "x1": 451.5,
+     "y1": 375.2
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 387.2,
+     "x1": 566.0,
+     "y1": 448.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_field_mapping_preferences_to_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_field_mapping_preferences_to",
+   "section_number": null,
+   "section_title": "Field Mapping: Preferences to PublishNewItemRequest",
+   "part": 2,
+   "text": "Agent Workflow context + - Activity sends a nested agent: User{TargetCreatorId} or ItemUploadContext Group{TargetCreatorId, ActingUserId}.\n\n- ActingUserId comes from ItemUploadContext.actingUser; a group publish is refused when it is <= 0.\n\n- AMPG converts it to the flat Collectibles agent (UserId/GroupId + AgentType) and checks the acting member's group permission.\n\nPayer Ownership + preferences Both cases: the acting user AMPG verified from the request agent, agent.User.UserId for an individual and agent.Group.ActingUserId for a group. NOT taken from the zeroth copy.\n\nOn the auto path that value comes from ItemUploadContext.actingUser. Only the uploading member is ever charged, never group funds.\n\nAssetCreator GetUserAssetsByAssetId Agent { UserId = initialUserAsset.UserId, Type = AgentType.User } - the holder of the zeroth copy\n\nCreatorInstanceId GetUserAssetsByAssetId initialUserAsset.Id.ToString() - the long user-asset id of the zeroth copy (a long, NOT a UUID)\n\nTarget Event { AssetId = event.AssetId }\n\nAgreedPublishingFee ItemUploadContext The fee the creator consented to at upload, read from ItemUploadContext.agreedPublishingFee and passed through unchanged. Neither the activity nor AMPG calls marketplace-intelligence on this path. CollectiblesGatewayService recomputes the fee and rejects any mismatch in either direction.\n\nName Underlying Asset Left unset by the activity on purpose.\n\nAMPG supplies the asset's own name and description.\n\nDescription Underlying Asset Same as Name\n\nShouldWaivePublishingFee Hardcoded Determined by AMPG via CheckWaiveCreationFees plus the test-item check (UCP-1746), not by the caller: PublishItemRequest has no such field. AMPG's IsCheckWaivePublishingFeeEnabled must match ICA's production value before the cutover.\n\nScheduledRelease not used since autopublish is immediate",
+   "token_count": 459,
+   "page_start": 9,
+   "page_end": 10,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 460.6,
+     "x1": 571.1,
+     "y1": 521.9
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 533.9,
+     "x1": 570.6,
+     "y1": 595.2
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 617.6,
+     "x1": 573.6,
+     "y1": 637.5
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 649.5,
+     "x1": 564.1,
+     "y1": 669.5
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 681.5,
+     "x1": 409.8,
+     "y1": 691.1
+    },
+    {
+     "page": 9,
+     "x0": 42.8,
+     "y0": 703.1,
+     "x1": 517.1,
+     "y1": 712.7
+    },
+    {
+     "page": 10,
+     "x0": 301.5,
+     "y0": 78.8,
+     "x1": 566.6,
+     "y1": 119.4
+    },
+    {
+     "page": 10,
+     "x0": 42.8,
+     "y0": 131.4,
+     "x1": 521.3,
+     "y1": 151.3
+    },
+    {
+     "page": 10,
+     "x0": 42.8,
+     "y0": 163.4,
+     "x1": 366.0,
+     "y1": 172.9
+    },
+    {
+     "page": 10,
+     "x0": 42.8,
+     "y0": 185.0,
+     "x1": 569.1,
+     "y1": 225.6
+    },
+    {
+     "page": 10,
+     "x0": 72.0,
+     "y0": 247.1,
+     "x1": 365.3,
+     "y1": 258.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_publish_activity_publishonapprovalactivity",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_publish_activity_publishonapprovalactivity",
+   "section_number": null,
+   "section_title": "Publish Activity: PublishOnApprovalActivity",
+   "part": null,
+   "text": "The auto-publish logic runs as a new phase in TriggerPostModerationTasksWorkflow (avtr-mktpl-moderation-status-workflow). This workflow already triggers after every moderation decision. No new SQS queue or SNS subscription anymore.",
+   "token_count": 58,
+   "page_start": 11,
+   "page_end": 11,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 72.0,
+     "y0": 109.7,
+     "x1": 501.7,
+     "y1": 146.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_the_workflow_s_execution_context_already",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_the_workflow_s_execution_context_already",
+   "section_number": null,
+   "section_title": "The workflow's execution context already provides",
+   "part": null,
+   "text": "- TargetId (AssetId) - TargetType (Asset/Bundle) - ModerationStatus (Approved/Moderated) - ModerationActionType (Proactive/Reactive) - TargetCreatorId + TargetCreatorType (User/Group) - TargetIsIec (whether item is In-Experience Creation) - TargetName\n\nThese are resolved by the existing DataPreparation phase before our activity runs.",
+   "token_count": 84,
+   "page_start": 11,
+   "page_end": 11,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 90.0,
+     "y0": 166.3,
+     "x1": 364.6,
+     "y1": 253.9
+    },
+    {
+     "page": 11,
+     "x0": 72.0,
+     "y0": 272.9,
+     "x1": 480.7,
+     "y1": 284.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_2_guard_if_targetisiec_return_iec_items",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_2",
+   "section_number": "2",
+   "section_title": "Guard: if TargetIsIec, return (IEC items have a separate publish flow",
+   "part": null,
+   "text": "2b. Guard: if TargetSubtype.AssetType is a 2D classic asset type (Tshirt, Shirt, Pants) or AvatarBackground, return. These asset types are image-based items that follow a different publishing flow. Only 3D UGC marketplace types should auto-publish (DynamicHead, Torso, LeftArm, RightArm, LeftLeg, RightLeg, EyebrowAccessory, EyelashAccessory, HairAccessory, and other 3D accessories/makeup handled by the workflow service).",
+   "token_count": 106,
+   "page_start": 11,
+   "page_end": 11,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 72.0,
+     "y0": 394.5,
+     "x1": 531.4,
+     "y1": 465.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_9d_check_commerce_restriction_commerceservice_if",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_9d_check_commerce_restriction_commerceservice_if",
+   "section_number": null,
+   "section_title": "9d. Check commerce restriction (CommerceService). If AllowSale == false, return",
+   "part": null,
+   "text": "9f. Copy validation (AssetsRegistry, already wired). If same hash already published under different AssetId, return. -> taken from item-config-api 9g. Validate name (from context TargetName) under 50 chars, description under 1000 chars, price under MaxCollectiblePrice.",
+   "token_count": 68,
+   "page_start": 11,
+   "page_end": 12,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 72.0,
+     "y0": 685.4,
+     "x1": 528.2,
+     "y1": 711.6
+    },
+    {
+     "page": 12,
+     "x0": 72.0,
+     "y0": 73.0,
+     "x1": 537.3,
+     "y1": 99.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_12_on_failure_notify_creator_with_reason_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_12",
+   "section_number": "12",
+   "section_title": "On failure: notify creator with reason",
+   "part": 1,
+   "text": "Steps AFTER AMPG refactor AMPG refactor :\n\n1. Guard: if ModerationActionType != Proactive or ModerationStatus != Approved, return 2. Guard: if TargetIsIec, return 2b. Guard: if TargetSubtype.AssetType is a 2D classic asset type (Tshirt, Shirt, Pants) or AvatarBackground, return 3. Read ItemUploadContext (itemType=Asset, itemId=TargetId). If no record or autoPublish == false, return 4. Read CreatorPublishingPreferences (by TargetCreatorId / TargetCreatorType). If no record, return 5. Check autoPublishEnabled == true. If not, return 6. Build AMPG PublishItemRequest from preferences + target (target = AssetId; agent = User{TargetCreatorId} or Group{TargetCreatorId, actingUserId}).\n\n- The idempotency token is a deterministic UUID from the asset id alone; resale_restriction is set explicitly to DISABLED because the proto default INVALID would be rejected; quantity, quantityLimitPerUser, name and description are left at proto defaults on purpose.\n\n7. Call AMPG.PublishItem - AMPG internally resolves the zeroth copy (CreatorInstanceId / AssetCreator), takes Payer from the acting user it verified, and runs all publish-eligibility checks (access, balance, delisting, commerce, copy, resale, rental, already-published, 2D, fee waiver) 8. Record the outcome.\n\n- A gateway status in {InvalidArgument, FailedPrecondition, PermissionDenied, NotFound, AlreadyExists, OutOfRange} is permanent. Two error codes short-circuit it:\n\nItemAlreadyPublished records already_published whatever the status, since the item is published either way, and ItemModerated records item_not_approved, since the gateway reads the stored moderation status itself and the workflow ran ahead of the approval it can see. Everything else in the set records publish_rejected.\n\n- Anything else is transient and rethrows for Overseer to retry. The shipped activity also has seven guards this list omits, each recording its own skip reason except the flag check, which returns before any counter is incremented:",
+   "token_count": 496,
+   "page_start": 12,
+   "page_end": 12,
+   "boxes": [
+    {
+     "page": 12,
+     "x0": 72.0,
+     "y0": 175.6,
+     "x1": 542.9,
+     "y1": 610.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_12_on_failure_notify_creator_with_reason_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_12",
+   "section_number": "12",
+   "section_title": "On failure: notify creator with reason",
+   "part": 2,
+   "text": "- IsPublishOnApprovalEnabled false returns before anything else - TargetType must be AssetItem - TargetId must parse to a positive long; a group upload needs ItemUploadContext.actingUser > 0 - publishingType must be NonLimited; the stored price must not be free or <= 0 - A sale location that requires places must have them.\n\n- On a successful call, WorkflowResult's Completed and Success pair picks the label: published, publish_in_progress when Success holds but it has not settled, publish_failed, publish_incomplete when neither holds, no_workflow_result when absent.\n\n- The two notification settings behave like the flag check rather than the guards: off returns before any counter, so a flat notification counter cannot be told from the feature being off.\n\n9. Tell the creator, behind two settings of its own.\n\n- Success on published, publish_in_progress and already_published (IsPublishOnApprovalSuccessNotificationsEnabled). Failure on publish_failed, publish_incomplete and publish_rejected (IsPublishOnApprovalNotificationsEnabled), except when the status was AlreadyExists.\n\n- Nothing on item_not_approved, no_workflow_result, the transient arm, or any guard above the opt-in read: each is ambiguous or premature.\n\n- Recipient is the uploading user, not TargetCreatorId, a group id on group uploads. - Shared send path: dedupe on a marker, send, read SendMessageResult since the call can succeed undelivered, never rethrow so a notification failure cannot re-run the publish.\n\n- Separate counter and marker prefix per notice: a shared counter reads a success send as a failure notified, a shared prefix dedupes one notice against the other.",
+   "token_count": 413,
+   "page_start": 12,
+   "page_end": 13,
+   "boxes": [
+    {
+     "page": 12,
+     "x0": 162.0,
+     "y0": 612.8,
+     "x1": 534.4,
+     "y1": 711.8
+    },
+    {
+     "page": 13,
+     "x0": 72.0,
+     "y0": 73.0,
+     "x1": 542.3,
+     "y1": 361.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_failure_handling",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_failure_handling",
+   "section_number": null,
+   "section_title": "Failure handling",
+   "part": null,
+   "text": "- For skip conditions (not proactive, wrong target type, IEC, 2D, no upload context, not opted in, no preferences, auto-publish disabled, unsupported publishing type, unpublishable price, missing places, no acting user): activity returns normally. No retry needed. AMPG eligibility rejections (insufficient balance, delisted, commerce-restricted, copy detected, access denied) are permanent too, recorded as publish_rejected and not retried.\n\n- For transient failures (EaaS timeout, gateway unavailable): activity throws. The Overseer workflow framework retries with exponential backoff and checkpoints progress.\n\n- If retries keep failing, the workflow enters RequireIntervention state for manual investigation.\n\n- The IdempotencyKey is a deterministic UUID derived from the asset id alone, so retries cannot create a duplicate collectible. It also means one asset id gets exactly one publish outcome for its lifetime, which matters when testing.\n\n- Already-published items: If the creator manually publishes during a delay, the Collectibles Gateway rejects because a collectible already exists. Activity treats this as a skip.\n\nRollout safety: the activity is gated by IsPublishOnApprovalEnabled in avtr-mktpl-moderation-status-workflow, default false. This is not autoPublishEnabled, which is a field on the creator's preferences acting as a per-creator pause switch. When the flag is off the activity returns immediately.",
+   "token_count": 357,
+   "page_start": 14,
+   "page_end": 14,
+   "boxes": [
+    {
+     "page": 14,
+     "x0": 72.0,
+     "y0": 92.7,
+     "x1": 537.6,
+     "y1": 279.0
+    },
+    {
+     "page": 14,
+     "x0": 72.0,
+     "y0": 299.8,
+     "x1": 535.3,
+     "y1": 349.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_frontend_considerations",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_frontend_considerations",
+   "section_number": null,
+   "section_title": "Frontend Considerations",
+   "part": null,
+   "text": "Figma link:\n\nhttps://www.figma.com/design/mGvMlV5YoGqGgk5b7koBkK/Default-publish-setting-in-studio--J une-16-?node-id=39-10492&t=yxr2edDLdXATrrdA-11\n\nUse feature flags Entry point: gear icon on Creations > Avatar Items > \"Studio publish settings\" in the dropdown menu. Opens a modal (not a separate page). Per Figma designs.\n\n- One modal per creator context (individual or group).\n\n- Pattern: Modal with form fields (similar to CommunicationSettingsContainer.tsx pattern but as a modal).\n\nCreator context - Modal uses useCurrentOrganization() to determine if the creator is operating as an individual or a group.\n\n- Reads the record using the auth cookie to identify the user, with an optional creatorGroupId when operating as a group.\n\n- A creator can have different preferences for personal items vs. a group they manage.\n\nPage info:\n\n- Modal form fields (map to CreatorPublishingPreferences entity):\n\n- Availability: \"Non-limited\" (static text) - Timed Option toggle - Price configurations: \"Amount above price floor\" (priceOffset) + \"Do not price below\" (priceInRobux), required in v1 despite the Figma label reading Optional; empty or 0 disables Save - Regional Pricing toggle (enableRegionalPricing) - Sell in Marketplace toggle - Sell in experiences toggle - Experience locations radio (All games / Specific experiences) — these toggles + radio together determine saleLocationType - If \"Specific experiences\" selected: experience ID input field (places, max 5 entries, shows \"0/5 Experiences\" counter) - Save / Cancel buttons (button says \"Set\" when updating existing preferences) - Success toast on save: \"Publishing defaults saved\"\n\nNew API client: modules/clients/publishingPreferences.ts - new file created in the frontend that contains functions like getPreferences(), createPreferences(), updatePreferences(), deletePreferences().\n\n- Each one calls backend CRUD endpoints.\n\n- It follows the same structure as the existing itemconfiguration.ts file (which wraps the collectibles API calls).\n\nFeature flag: Gate the modal and its entry point behind isAutoPublishPreferencesEnabled. - Entry point hidden until the flag is enabled.",
+   "token_count": 535,
+   "page_start": 14,
+   "page_end": 15,
+   "boxes": [
+    {
+     "page": 14,
+     "x0": 72.0,
+     "y0": 393.4,
+     "x1": 536.5,
+     "y1": 434.2
+    },
+    {
+     "page": 14,
+     "x0": 72.0,
+     "y0": 451.6,
+     "x1": 530.2,
+     "y1": 536.0
+    },
+    {
+     "page": 14,
+     "x0": 72.0,
+     "y0": 553.5,
+     "x1": 524.5,
+     "y1": 637.9
+    },
+    {
+     "page": 14,
+     "x0": 72.0,
+     "y0": 655.3,
+     "x1": 420.8,
+     "y1": 710.6
+    },
+    {
+     "page": 15,
+     "x0": 126.0,
+     "y0": 73.0,
+     "x1": 536.6,
+     "y1": 244.7
+    },
+    {
+     "page": 15,
+     "x0": 72.0,
+     "y0": 262.1,
+     "x1": 539.9,
+     "y1": 346.5
+    },
+    {
+     "page": 15,
+     "x0": 72.0,
+     "y0": 363.9,
+     "x1": 516.8,
+     "y1": 391.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_caveats_and_alternatives_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_caveats_and_alternatives",
+   "section_number": null,
+   "section_title": "Caveats and Alternatives",
+   "part": 1,
+   "text": "Approach Pros Cons Verdict\n\nNew SQS processor in All required dependencies already in One more service to deploy and Rejected avatar-marketplace-publishing this repo (fee calc, balance check, monitor. New SQS subscription to CollectiblesGateway, EaaS). Follows existing SNS topic. unnecessary existing pattern (5+ processors here). infrastructure; Shared lib provides rollout gating. post-moderation Independent deploy from moderation workflow already triggers code. on the same event\n\nActivity in No new service, queue, or subscription. Adds dependencies to Selected TriggerPostModerationTasks Workflow already triggers after avtr-mktpl-moderation-status-work workflow moderation. Retry/checkpoint handled flow. Couples auto-publish to by framework. Key clients already moderation workflow deploys.\n\nwired.\n\nReuse avtr-mktpl-synapse-service for No new table needed Designed for Rejected opt in flag content-understanding metadata (quality, category), not creator intent. Not consumed by\n\nsearch/recs. Poor fit for this.\n\nAttach auto-publish flag to No separate store needed Flag is unrelated to moderation; Rejected moderation event contract pollutes their contract. No persistent source of truth for analytics.\n\nOwn EaaS table for opt in flag Persistent, queryable for analytics One more entity to maintain Accepted\n\nCaveats:\n\n- Price floor changes: a creator's saved minimum can be valid when preferences are saved and below the floor by the time an item is approved.\n\n- The price floor is not enforced by the Collectibles Gateway during publishing, and it is not enforced anywhere on the auto path either: the activity does not check it and neither does AMPG PublishItem. GetDynamicPriceFloor has no caller in the repo.\n\n- Whether an auto-publish should instead skip when the saved minimum has fallen below the floor is an open question, not a shipped behavior.\n\n- Publish-time eligibility (ID verification, premium status, actor bans, group permission, commerce restrictions): these are not enforced by the Collectibles Gateway's PublishNewItem. They live in AMPG and are checked inside PublishItem via the access-policy evaluator, the same gate the manual path uses. The activity does not run the check itself: it calls PublishItem and records a permanent publish_rejected if access is denied.",
+   "token_count": 575,
+   "page_start": 15,
+   "page_end": 16,
+   "boxes": [
+    {
+     "page": 15,
+     "x0": 65.9,
+     "y0": 455.0,
+     "x1": 566.4,
+     "y1": 467.1
+    },
+    {
+     "page": 15,
+     "x0": 15.0,
+     "y0": 479.3,
+     "x1": 597.3,
+     "y1": 553.9
+    },
+    {
+     "page": 15,
+     "x0": 15.0,
+     "y0": 577.0,
+     "x1": 531.1,
+     "y1": 630.0
+    },
+    {
+     "page": 15,
+     "x0": 15.0,
+     "y0": 664.7,
+     "x1": 533.5,
+     "y1": 707.0
+    },
+    {
+     "page": 16,
+     "x0": 345.0,
+     "y0": 78.9,
+     "x1": 461.6,
+     "y1": 88.7
+    },
+    {
+     "page": 16,
+     "x0": 15.0,
+     "y0": 111.8,
+     "x1": 531.2,
+     "y1": 154.0
+    },
+    {
+     "page": 16,
+     "x0": 15.0,
+     "y0": 166.2,
+     "x1": 534.4,
+     "y1": 176.1
+    },
+    {
+     "page": 16,
+     "x0": 72.0,
+     "y0": 209.6,
+     "x1": 540.7,
+     "y1": 406.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_caveats_and_alternatives_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_caveats_and_alternatives",
+   "section_number": null,
+   "section_title": "Caveats and Alternatives",
+   "part": 2,
+   "text": "- Group member removal: If the uploader loses group permission between upload and approval (removed from group, role changed, or banned), AMPG's access-policy check denies the publish. AMPG verifies the uploader's permission via the group permission verifier, using ItemUploadContext.actingUser as the acting member.\n\n- The creator gets the generic failure notice, which does not name the reason and suggests publishing from the Dashboard, which a member who has lost permission cannot do either. The group's shared preferences record is unaffected; only that item fails to auto-publish.\n\n- Fee disclosure in modal: the modal does NOT display a publishing fee.\n\nagreedPublishingFee was deliberately removed from the preferences entity: the fee varies by item type (HairAccessory 1000, Hat 1500, Body 2500), so no single per-creator value is meaningful and a stored one goes stale immediately because nothing refreshes it. Header copy, if a fee is ever shown: \"Publishing fees will be deducted automatically when an item is published.\"\n\n- Fee consent is captured in Studio at upload time, stored on ItemUploadContext.agreedPublishingFee.\n\n- Neither the activity nor AMPG compares fees; CollectiblesGatewayService recomputes at publish time and rejects on any mismatch in either direction, so a fee that drops fails too. On the auto path a mismatch is a permanent rejection recorded as publish_rejected, with the reason only in CGS logs; the creator gets the generic failure notice, which cannot name the fee.\n\n- The workflow framework may retry the activity on transient failures. - The deterministic idempotency token, derived from the asset id, ensures retries don't create duplicate collectibles.",
+   "token_count": 425,
+   "page_start": 16,
+   "page_end": 17,
+   "boxes": [
+    {
+     "page": 16,
+     "x0": 90.0,
+     "y0": 407.7,
+     "x1": 542.4,
+     "y1": 699.4
+    },
+    {
+     "page": 17,
+     "x0": 90.0,
+     "y0": 87.6,
+     "x1": 530.9,
+     "y1": 126.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_cross_team_impact_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_cross_team_impact",
+   "section_number": null,
+   "section_title": "Cross-Team Impact",
+   "part": 1,
+   "text": "Within the group:\n\nThe EaaS entity is self-service. Post-refactor the activity calls only creator-preferences-service and AMPG. CollectiblesGateway, MarketplaceIntelligence, VirtualCurrency and AssetsRegistry are AMPG's dependencies now, and are already used by existing services in our repo.\n\nItem Action\n\nCRUD API endpoints New controller in item-configuration-api\n\nDashboard preferences UI New modal in creator-hub\n\nEaaS entity (CreatorPublishingPreferences) New entity in our own service\n\nHosts the .ps.yaml and exposes a gRPC client. The CRUD API reaches it via AMPG; the activity calls it directly, following the pattern the token service already uses.\n\nGateway authorizations.yml Grant avtr-mktpl-moderation-status-workflow PublishItem in AMPG's own authorizations.yml, and GetPreferences plus GetItemUploadContext on creator-preferences-service. Both files are ours, so no cross-team wait.\n\nThe workflow never calls GetDynamicPriceFloor and never calls the Collectibles Gateway directly, so the activity needs no Foundation grant.\n\nAMPG does need cross-team grants of its own for the checks it absorbed: ownership GetUserAssetsByAssetId, bundles IsItemInBundle, and catalog-item-status BatchGetTestItems.\n\nPublishOnApprovalActivity New activity plus two gRPC clients in avtr-mktpl-moderation-status-workflow:",
+   "token_count": 329,
+   "page_start": 17,
+   "page_end": 17,
+   "boxes": [
+    {
+     "page": 17,
+     "x0": 72.0,
+     "y0": 218.6,
+     "x1": 534.7,
+     "y1": 294.4
+    },
+    {
+     "page": 17,
+     "x0": 77.2,
+     "y0": 306.6,
+     "x1": 479.1,
+     "y1": 317.2
+    },
+    {
+     "page": 17,
+     "x0": 77.2,
+     "y0": 329.3,
+     "x1": 420.2,
+     "y1": 339.9
+    },
+    {
+     "page": 17,
+     "x0": 77.2,
+     "y0": 352.1,
+     "x1": 435.8,
+     "y1": 362.7
+    },
+    {
+     "page": 17,
+     "x0": 303.0,
+     "y0": 375.1,
+     "x1": 534.1,
+     "y1": 420.2
+    },
+    {
+     "page": 17,
+     "x0": 77.2,
+     "y0": 432.3,
+     "x1": 535.6,
+     "y1": 569.4
+    },
+    {
+     "page": 17,
+     "x0": 77.2,
+     "y0": 581.5,
+     "x1": 478.0,
+     "y1": 603.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_cross_team_impact_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_cross_team_impact",
+   "section_number": null,
+   "section_title": "Cross-Team Impact",
+   "part": 2,
+   "text": "creator-preferences-service for both reads, and avatar-marketplace-publishing-gateway for the publish call. MarketplaceIntelligence, VirtualCurrency, Commerce and ItemDelisting are AMPG's dependencies now, not the workflow's.\n\nOutside the group - inform only These services already handle traffic from our existing code. The workflow service already uses the same gRPC clients, API keys, and service mesh auth patterns established in our repo.\n\nService Owner Why Inform\n\nCollectibles Gateway Foundation Team Reached indirectly: the activity calls AMPG PublishItem, and AMPG is the new caller of PublishNewItemAsync, not the workflow. Loop in Foundation oncall for the rollout window, since every publish lands on CGS.\n\nMarketplaceIntelligence Service Marketplace Foundation No longer in scope. Neither the activity #economy-marketplace-foundation nor AMPG calls marketplace-intelligence on the publish path; CGS does the fee comparison itself.\n\nVirtualCurrency Gateway Developer Monetization No longer called by the workflow. The #developer-monetization balance check moved into AMPG, which already had this client registered.",
+   "token_count": 282,
+   "page_start": 17,
+   "page_end": 18,
+   "boxes": [
+    {
+     "page": 17,
+     "x0": 303.0,
+     "y0": 604.5,
+     "x1": 525.4,
+     "y1": 661.2
+    },
+    {
+     "page": 18,
+     "x0": 72.0,
+     "y0": 87.5,
+     "x1": 539.2,
+     "y1": 148.8
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 160.9,
+     "x1": 535.3,
+     "y1": 222.2
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 234.2,
+     "x1": 531.3,
+     "y1": 274.8
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 286.9,
+     "x1": 530.3,
+     "y1": 317.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_traffic_estimates",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_traffic_estimates",
+   "section_number": null,
+   "section_title": "Traffic Estimates",
+   "part": null,
+   "text": "Triggering conditions: Moderation approval event and creator opted in to auto-publish.\n\nQPS estimates\n\nComponent Estimated QPS Notes\n\nPublishOnApprovalActivity Around 1 QPS (upper bound, all Around 0.5-1 items approved/sec based on (workflow) approvals) * opt-in rate current production volume.\n\nBut not all creators will opt in, only a subset.\n\nSo actual auto-publishes = that 1 QPS × opt-in rate\n\nPreference API (reads) < 1 One read per page load, infrequent visits.\n\nPreference API (writes) < 1 One-time setup, occasional tweaks.\n\nExternal service calls per Around 1 QPS Three calls per event from the activity: two auto-publish creator-preferences-service reads and one AMPG PublishItem. AMPG then fans out to AssetsRegistry, ItemDelisting, Commerce, VirtualCurrency, Synapse and CollectiblesGateway on its own budget.",
+   "token_count": 206,
+   "page_start": 18,
+   "page_end": 18,
+   "boxes": [
+    {
+     "page": 18,
+     "x0": 72.0,
+     "y0": 361.4,
+     "x1": 498.1,
+     "y1": 373.4
+    },
+    {
+     "page": 18,
+     "x0": 72.0,
+     "y0": 387.8,
+     "x1": 462.9,
+     "y1": 419.0
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 431.3,
+     "x1": 530.7,
+     "y1": 451.9
+    },
+    {
+     "page": 18,
+     "x0": 356.2,
+     "y0": 463.7,
+     "x1": 533.7,
+     "y1": 495.1
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 507.3,
+     "x1": 521.4,
+     "y1": 517.2
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 529.4,
+     "x1": 500.0,
+     "y1": 539.2
+    },
+    {
+     "page": 18,
+     "x0": 77.2,
+     "y0": 551.4,
+     "x1": 529.4,
+     "y1": 615.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_security_and_privacy_considerations",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_security_and_privacy_considerations",
+   "section_number": null,
+   "section_title": "Security and Privacy Considerations",
+   "part": null,
+   "text": "Security: No new attack surfaces. Dashboard API uses existing auth. Activity runs within avtr-mktpl-moderation-status-workflow, which already uses service-mesh auth for all its downstream calls. The auto path has no user session, and CollectiblesGatewayService requires an authenticated user in the request context. AMPG therefore asserts robloxctx-authenticated-userid on its outbound CGS call, set to the acting user it has already verified owns the item; on the auto path that value comes from ItemUploadContext.actingUser.\n\nPrivacy: We only store publishing settings, not personal info. The creatorUser field is anonymized via EaaS and auto-deleted if the creator deletes their account.",
+   "token_count": 173,
+   "page_start": 18,
+   "page_end": 19,
+   "boxes": [
+    {
+     "page": 18,
+     "x0": 72.0,
+     "y0": 692.9,
+     "x1": 504.2,
+     "y1": 718.1
+    },
+    {
+     "page": 19,
+     "x0": 72.0,
+     "y0": 73.1,
+     "x1": 537.7,
+     "y1": 124.7
+    },
+    {
+     "page": 19,
+     "x0": 72.0,
+     "y0": 139.1,
+     "x1": 483.8,
+     "y1": 164.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_risks",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_risks",
+   "section_number": null,
+   "section_title": "Risks",
+   "part": null,
+   "text": "Risk Likelihood Impact Mitigation to Lower Risk\n\nCreator uploads many items that medium low Every skip and every rejection is only a counter label all fail auto-publish (e.g., and a log line, so a creator whose items silently fail Insufficient balance), so failures has no way to find out why. Surfacing failures is a accumulate invisibly follow-on.\n\nEaaS platform downtime prevents low medium Activity throws on EaaS failure. Workflow framework activity from reading preferences retries with exponential backoff. Events are not lost.",
+   "token_count": 134,
+   "page_start": 19,
+   "page_end": 19,
+   "boxes": [
+    {
+     "page": 19,
+     "x0": 110.4,
+     "y0": 233.7,
+     "x1": 530.7,
+     "y1": 245.7
+    },
+    {
+     "page": 19,
+     "x0": 42.8,
+     "y0": 258.0,
+     "x1": 580.0,
+     "y1": 305.0
+    },
+    {
+     "page": 19,
+     "x0": 42.8,
+     "y0": 329.3,
+     "x1": 582.3,
+     "y1": 354.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_studio_changes_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_studio_changes",
+   "section_number": null,
+   "section_title": "Studio Changes",
+   "part": 1,
+   "text": "Studio Integration: Per-Item Opt-In\n\nThis extends the core feature by adding a per-item opt-in at upload time from Studio. The core (Dashboard preferences + activity) can ship independently. Studio is required scope, and so are notifications. This adds a per-item choice of whether to auto-publish.\n\nCreator experience:\n\n- Creator first saves publishing defaults in the Creator Dashboard modal (price, sale location, regional pricing).\n\n- In Studio's upload dialog, a \"Publish to Marketplace\" row appears whenever the ToolboxPublishOnApproval fast flag is on and the item is an avatar item.\n\n- When the creator has no saved defaults the toggle renders disabled with a link to the Dashboard modal, rather than being hidden.\n\n- The row shows the publishing fee for the exact asset type being uploaded, refetched when the asset type or creator changes.\n\n- Toggling it on is both the opt-in and the fee consent for that item.\n\n- Creator uploads. Item goes through moderation. On approval, the activity sees the opt-in and auto-publishes using the saved defaults. The uploading member is charged.\n\nHow the opt-in flag flows from Studio to the activity:\n\n1. Studio to assets-upload-api: Studio writes a JSON object carrying both keys into the encryptedCreationContext entry of the existing additionalParameters field: { publishOnApproval: true, agreedPublishingFee: 1500 }.\n\n- The parser accepts raw JSON or base64, and raw JSON is the better default because every other producer on that field already writes raw JSON.\n\n- Both keys or neither, since one alone is dropped as an incomplete payload.\n\n- A mismatch fails silently: the parser sees no opt-in, every item skips, and the counter reads no_upload_context with nothing obviously broken.\n\n- assets-upload-api also allow-lists additionalParameters keys per environment, so the key must be registered in each.\n\n2. assets-upload-api to AMACP: The upload api finishes, emits AssetsUploadCompleteEvent onto SNS/SQS. AMACP (avatar-marketplace-asset-creation-processor) consumes it.",
+   "token_count": 506,
+   "page_start": 19,
+   "page_end": 20,
+   "boxes": [
+    {
+     "page": 19,
+     "x0": 72.0,
+     "y0": 482.1,
+     "x1": 255.2,
+     "y1": 493.8
+    },
+    {
+     "page": 19,
+     "x0": 72.0,
+     "y0": 511.2,
+     "x1": 540.2,
+     "y1": 551.9
+    },
+    {
+     "page": 19,
+     "x0": 72.0,
+     "y0": 569.4,
+     "x1": 540.6,
+     "y1": 712.0
+    },
+    {
+     "page": 20,
+     "x0": 90.0,
+     "y0": 73.0,
+     "x1": 541.2,
+     "y1": 99.2
+    },
+    {
+     "page": 20,
+     "x0": 72.0,
+     "y0": 116.6,
+     "x1": 540.5,
+     "y1": 302.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_studio_changes_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_studio_changes",
+   "section_number": null,
+   "section_title": "Studio Changes",
+   "part": 2,
+   "text": "3. AMACP to AMCPO: AMACP calls StartAssetCreationWorkflowAsync on AMCPO, forwarding upload context (ActingUserId, CreatorId, CreatorType, and the opt-in flag).\n\n4. AMCPO persists the opt-in: During the asset creation workflow, after the AssetId is created but before CreateModerationRecordActivity runs, AMCPO persists the opt-in keyed by itemType + itemId. This is the ItemUploadContext store.\n\n5. Context is dropped at moderation: CreateModerationRecordActivity only sends {TargetType, TargetId (AssetId), IdempotencyToken} to the moderation service. The opt-in flag cannot ride through.\n\n6. Activity reads it back: At approval time, the activity receives AssetVersionModerationEvent (which has AssetId), looks up ItemUploadContext by itemType + itemId. If it exists and the creator has saved preferences, proceeds with auto-publish.\n\nWhat needs to be built:\n\n- ItemUploadContext store: new small EaaS entity keyed by itemType + itemId..\n\nWritten by a new AMCPO workflow activity behind IsItemUploadContextWriteEnabled, inserted between RefundCreationFee and CreateModerationRecord so no item can reach approval with its opt-in missing. Read by the activity direct from creator-preferences-service, not via AMPG.\n\n- AMACP change:. Decodes encryptedCreationContext off AssetsUploadCompleteEvent and populates item_upload_context (field 13) on StartAssetCreationWorkflowRequest, behind IsItemUploadContextForwardEnabled. A context that is not ours is dropped with a warning and never fails the upload.\n\n- Studio UI: \"Publish to Marketplace\" the row (toggle, fee, copy, Dashboard link, both reads, group support) is up for review. The fee preview it calls is already shipped end to end: MI PreviewPublishingFee, the ICA endpoint, and the production gateway route.",
+   "token_count": 441,
+   "page_start": 20,
+   "page_end": 20,
+   "boxes": [
+    {
+     "page": 20,
+     "x0": 72.0,
+     "y0": 305.7,
+     "x1": 542.1,
+     "y1": 462.9
+    },
+    {
+     "page": 20,
+     "x0": 72.0,
+     "y0": 480.3,
+     "x1": 537.9,
+     "y1": 666.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_data_consistency_considerations_p1",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_data_consistency_considerations",
+   "section_number": null,
+   "section_title": "Data Consistency Considerations",
+   "part": 1,
+   "text": "- What happens during subsystem failures?\n\nSubsystem down Impact Recovery\n\nEaaS (preferences storage) Activity can’t read preferences. Activity throws → workflow retries API can’t save with exponential backoff\n\nBy then EaaS is probably back. No data lost, just delayed.\n\nCollectiblesGatewayService Publish fails inside AMPG; the AMPG surfaces it as a transient activity never calls CGS directly. status, so the activity throws and Overseer retries.\n\nAMPG (PublishItem) No publish call can be made. Transient statuses throw and AMPG also fronts the balance, Overseer retries. The six permanent delisting and commerce checks. statuses record publish_rejected and are not retried.\n\nitem-configuration-api (CRUD API) Dashboard can't save/read Auto-publish is unaffected. The preferences activity reads preferences directly from creator-preferences-service.\n\nAny previously saved preferences still work. Only the Dashboard UI is broken: creators can't save or edit preferences until the API recovers.\n\nManual publishing still works.\n\n- What happens if there is a read on partial write?\n\n- Can't happen. EaaS writes all fields in one shot (one gRPC call), not one field at a time. A reader always sees either the full old record or the full new record.\n\n- The activity reads one record, then makes one publish call. The read always gives a complete snapshot, and the publish either fully succeeds or fully fails.",
+   "token_count": 352,
+   "page_start": 21,
+   "page_end": 21,
+   "boxes": [
+    {
+     "page": 21,
+     "x0": 90.0,
+     "y0": 96.5,
+     "x1": 332.8,
+     "y1": 108.2
+    },
+    {
+     "page": 21,
+     "x0": 108.9,
+     "y0": 131.6,
+     "x1": 489.8,
+     "y1": 143.3
+    },
+    {
+     "page": 21,
+     "x0": 77.2,
+     "y0": 155.3,
+     "x1": 525.8,
+     "y1": 175.2
+    },
+    {
+     "page": 21,
+     "x0": 389.2,
+     "y0": 186.4,
+     "x1": 530.8,
+     "y1": 206.3
+    },
+    {
+     "page": 21,
+     "x0": 77.2,
+     "y0": 218.3,
+     "x1": 521.8,
+     "y1": 248.6
+    },
+    {
+     "page": 21,
+     "x0": 77.2,
+     "y0": 260.6,
+     "x1": 535.8,
+     "y1": 301.2
+    },
+    {
+     "page": 21,
+     "x0": 77.2,
+     "y0": 313.3,
+     "x1": 531.8,
+     "y1": 395.3
+    },
+    {
+     "page": 21,
+     "x0": 90.0,
+     "y0": 416.8,
+     "x1": 535.3,
+     "y1": 486.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_data_consistency_considerations_p2",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_data_consistency_considerations",
+   "section_number": null,
+   "section_title": "Data Consistency Considerations",
+   "part": 2,
+   "text": "- One accepted edge case: a creator disables auto-publish at the exact moment the activity reads their preferences. The activity would still publish using what it already read. This is extremely rare (millisecond window). The creator does get the success notice, so they learn the item went on sale and can take it down.\n\n- Do we use conditional updates on EaaS? (or if not, please explain) - No. A conditional update means \"only save if nobody else changed it since I read it.\"\n\n- Only one person ever edits a creator's preferences (the creator themselves, or their group admin). Two people racing to edit is basically impossible.\n\n- Even if it happened, last save wins.\n\n- The activity only reads preferences, never writes. So there's no scenario where the activity and the Dashboard fight over the same record.\n\n- What if 1/N services are suddenly killed?\n\n- The system degrades gracefully. auto-publish pauses but no data is lost or corrupted.\n\n- The workflow checkpoints its progress, so Overseer retries the phase until it succeeds or requires intervention.\n\n- Nothing is lost.\n\n- No items are incorrectly published. The activity either completes the publish call or throws, and the deterministic idempotency token means a retry cannot double-publish.\n\n- Manual publishing (current) remains fully operational as long as item-configuration-api and CollectiblesGatewayService are up.",
+   "token_count": 347,
+   "page_start": 21,
+   "page_end": 22,
+   "boxes": [
+    {
+     "page": 21,
+     "x0": 90.0,
+     "y0": 489.5,
+     "x1": 540.8,
+     "y1": 704.8
+    },
+    {
+     "page": 22,
+     "x0": 162.0,
+     "y0": 73.0,
+     "x1": 542.9,
+     "y1": 186.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_data_cacheability_considerations",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_data_cacheability_considerations",
+   "section_number": null,
+   "section_title": "Data Cacheability Considerations",
+   "part": null,
+   "text": "Consumer Cache Decision Rationale\n\nPublish Activity No cache, always read The activity runs in the background when fresh from EaaS moderation approves an item. No user is waiting, so a slightly slower read is fine. It must always see the creator's current preferences. If it read from a stale cache, it could auto-publish after a creator already turned it off.\n\nDashboard API No server-side cache The only person reading is the creator (item-configuration-api) themselves. When they save preferences and reload the page, they should see their changes immediately. Traffic is low, and EaaS reads are already fast, so adding a cache would add complexity for no real gain.\n\nDashboard Frontend (React Query) Short client side staletime Avoids redundant fetches during tab switches or re-renders within a session. Acceptable because the only writer is the same user in the same browser. On explicit save, invalidate the query to refetch.",
+   "token_count": 233,
+   "page_start": 22,
+   "page_end": 22,
+   "boxes": [
+    {
+     "page": 22,
+     "x0": 122.8,
+     "y0": 236.9,
+     "x1": 469.2,
+     "y1": 248.5
+    },
+    {
+     "page": 22,
+     "x0": 77.2,
+     "y0": 260.6,
+     "x1": 521.1,
+     "y1": 332.2
+    },
+    {
+     "page": 22,
+     "x0": 77.2,
+     "y0": 344.3,
+     "x1": 533.1,
+     "y1": 405.6
+    },
+    {
+     "page": 22,
+     "x0": 77.2,
+     "y0": 417.6,
+     "x1": 536.1,
+     "y1": 468.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_loggings",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_loggings",
+   "section_number": null,
+   "section_title": "Loggings",
+   "part": null,
+   "text": "Structured JSON logging via Serilog (same pattern as avatar-marketplace-asset-creation-processor). The activity logs through Roblox.EventLog.ILogger using named placeholders rather than LogContext.PushProperty, deliberately, so the values land as queryable Serilog properties: - TargetId, Detail, StatusCode, ErrorCode, CollectibleItemId, CollectibleProductId, SkipReason - Makes log searchable and fliterable wt\n\nLog levels:\n\n- LogDebug: skip with reason. Skipping is the common case rather than an anomaly, because this workflow also runs for rejections, bundles and 2D types, so the counter is what to alert on. LogInformation: successful publish, publish still settling, already published - LogWarning: transient failures (downstream timeout, will retry) - LogError: validation failures, malformed events, unrecoverable errors",
+   "token_count": 208,
+   "page_start": 22,
+   "page_end": 23,
+   "boxes": [
+    {
+     "page": 22,
+     "x0": 72.0,
+     "y0": 596.3,
+     "x1": 520.5,
+     "y1": 655.3
+    },
+    {
+     "page": 22,
+     "x0": 72.0,
+     "y0": 668.4,
+     "x1": 539.3,
+     "y1": 715.3
+    },
+    {
+     "page": 23,
+     "x0": 90.0,
+     "y0": 73.0,
+     "x1": 413.9,
+     "y1": 96.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_event_streams",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_event_streams",
+   "section_number": null,
+   "section_title": "Event Streams",
+   "part": null,
+   "text": "Numbers the activity tracks so we can monitor its health Prometheus counters per processing outcome (follows MetricsWriter pattern from catalog-post-moderation-processor). These serve both monitoring and analysis (queryable in Grafana):\n\nMetric Type Description\n\npublish_on_approval_count Counter One increment per activity execution, carrying either a skip reason or a publish result. This is the only metric the activity emits, and nothing increments at all when IsPublishOnApprovalEnabled is off.\n\n(not implemented) Counter Skip reasons are labels on the single counter above, not a skip reasons are labels on separate metric. Real values: not_proactive_approval, publish_on_approval_count iec_item, unsupported_target_type, non_auto_publishable_asset_type, invalid_item_id, no_upload_context, not_opted_in, no_preferences, auto_publish_disabled, no_acting_user, unsupported_publishing_type, price_not_publishable, missing_place_ids.\n\n(not implemented) Counter Publish outcomes are labels on the same counter. Real values: published, publish_in_progress, publish_failed, publish_incomplete, publish_rejected, already_published, publish_transient_error, no_workflow_result.\n\nBecause there is no separate received counter, a skip rate is computed by summing labels.\n\n(not implemented) n/a No duration histogram is emitted today.\n\nFrontend preferences page: unifiedLoggerClient from @modules/eventStream/unifiedLoggerClient for tracking preference saves and auto-publish toggle changes (events sent to ecsv2 for analytics).",
+   "token_count": 381,
+   "page_start": 23,
+   "page_end": 23,
+   "boxes": [
+    {
+     "page": 23,
+     "x0": 72.0,
+     "y0": 133.1,
+     "x1": 525.4,
+     "y1": 186.2
+    },
+    {
+     "page": 23,
+     "x0": 141.9,
+     "y0": 206.6,
+     "x1": 449.9,
+     "y1": 218.6
+    },
+    {
+     "page": 23,
+     "x0": 77.2,
+     "y0": 230.8,
+     "x1": 532.0,
+     "y1": 273.1
+    },
+    {
+     "page": 23,
+     "x0": 77.2,
+     "y0": 285.3,
+     "x1": 534.1,
+     "y1": 370.7
+    },
+    {
+     "page": 23,
+     "x0": 77.2,
+     "y0": 382.9,
+     "x1": 534.1,
+     "y1": 446.8
+    },
+    {
+     "page": 23,
+     "x0": 77.2,
+     "y0": 459.0,
+     "x1": 463.0,
+     "y1": 468.8
+    },
+    {
+     "page": 23,
+     "x0": 72.0,
+     "y0": 500.0,
+     "x1": 521.4,
+     "y1": 539.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_rollout_rollback_plan",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_rollout_rollback_plan",
+   "section_number": null,
+   "section_title": "Rollout/Rollback Plan",
+   "part": null,
+   "text": "The activity is gated by IsPublishOnApprovalEnabled in avtr-mktpl-moderation-status-workflow, a bare bool.\n\n- It has no allowlist, no percentage rollout and no soothsayer gate, so the first production flip is 100% of opted-in creators. Adding rollout controls before that flip is an open item, raised in review. The ICA cutover quartet is the model to copy:\n\nIsUseAmpgPublishItemEnabledForAllUsers, IsUseAmpgPublishItemEnabledForSoothsayer, UseAmpgPublishItemUserRolloutPercentage, UseAmpgPublishItemAllowlist.\n\nFlip order across services, and it matters: AMPG PublishItemEnabled first, since while it is off PublishItem rejects every call, then ICA's UseAmpgPublishItem quartet staged up, then AMACP IsItemUploadContextForwardEnabled and AMCPO IsItemUploadContextWriteEnabled, then the activity's IsPublishOnApprovalEnabled, then creator-hub isAutoPublishPreferencesEnabled.\n\nRollout: every Mosaic entry must be created as a scalar bool type. An appsettings entry holding a bare true never binds a root-bound bool and fails silently, which cost three test runs on sitetest1.\n\nFrontend: the modal and its entry point are gated behind isAutoPublishPreferencesEnabled. Hidden until enabled.\n\nRollback: set IsPublishOnApprovalEnabled = false and the activity returns before doing anything; manual publishing stays unaffected. Not instant in practice: the setting is read through IOptionsMonitor.CurrentValue and there is an open platform bug where that does not re-bind on a runtime config change, so expect a restart and verify by behavior. A rollback also cannot rest on the flag alone once workflow checkpoints have persisted.",
+   "token_count": 407,
+   "page_start": 23,
+   "page_end": 24,
+   "boxes": [
+    {
+     "page": 23,
+     "x0": 72.0,
+     "y0": 581.0,
+     "x1": 536.3,
+     "y1": 694.5
+    },
+    {
+     "page": 24,
+     "x0": 72.0,
+     "y0": 73.0,
+     "x1": 540.9,
+     "y1": 128.3
+    },
+    {
+     "page": 24,
+     "x0": 72.0,
+     "y0": 145.7,
+     "x1": 542.4,
+     "y1": 288.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_sunset_plan",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_sunset_plan",
+   "section_number": null,
+   "section_title": "Sunset Plan",
+   "part": null,
+   "text": "After stable launch at 100% rollout, remove rollout settings and feature flags.",
+   "token_count": 20,
+   "page_start": 24,
+   "page_end": 24,
+   "boxes": [
+    {
+     "page": 24,
+     "x0": 72.0,
+     "y0": 331.5,
+     "x1": 447.2,
+     "y1": 343.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_latency_expectations_sla",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_latency_expectations_sla",
+   "section_number": null,
+   "section_title": "Latency Expectations / SLA",
+   "part": null,
+   "text": "No user-facing latency impact. The activity is asynchronous; no user is waiting for it. The only user-facing component is the Preferences API (save/load in the Dashboard modal), which is a single EaaS read/write per request, same speed as existing endpoints.\n\nMeasurement: There is no duration histogram today, only the publish_on_approval_count counter. Adding one is a follow-on if per-event latency turns out to matter. Visualize in Grafana with P50/P95/P99 breakdowns. During rollout, watch existing CollectiblesGateway and MarketplaceIntelligence latency dashboards to make sure we're not slowing them down.",
+   "token_count": 153,
+   "page_start": 24,
+   "page_end": 24,
+   "boxes": [
+    {
+     "page": 24,
+     "x0": 72.0,
+     "y0": 402.2,
+     "x1": 529.6,
+     "y1": 440.7
+    },
+    {
+     "page": 24,
+     "x0": 72.0,
+     "y0": 468.2,
+     "x1": 531.3,
+     "y1": 519.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "up_3a68fb352477:sec_functional_test",
+   "paper_id": "up_3a68fb352477",
+   "section_id": "sec_functional_test",
+   "section_number": null,
+   "section_title": "Functional Test",
+   "part": null,
+   "text": "Backend:\n\n- Unit tests for PublishOnApprovalActivity: guard and skip conditions with a negative control for each, upload-context and preferences lookup including the NotFound contract, request field mapping, gateway error classification (permanent vs transient), and WorkflowResult outcome mapping - Unit tests for CRUD API: validation rules, authorization, request/response mapping - Component tests: activity with mocked downstream gRPC services, verify correct calls are made with expected arguments Frontend:\n\n- Preferences form renders properly, validates inputs, calls API on save - Save disabled states, the places field for the two sale locations that require it, and the group context switch Error states (API failures, validation errors)",
+   "token_count": 187,
+   "page_start": 24,
+   "page_end": 25,
+   "boxes": [
+    {
+     "page": 24,
+     "x0": 72.0,
+     "y0": 612.0,
+     "x1": 525.3,
+     "y1": 696.5
+    },
+    {
+     "page": 25,
+     "x0": 72.0,
+     "y0": 73.0,
+     "x1": 530.7,
+     "y1": 171.9
+    }
+   ]
+  }
+ ]
+}

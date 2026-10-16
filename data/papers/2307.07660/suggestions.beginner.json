@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "What is a zip tree, and why does it end up favoring smaller keys over larger ones?",
+    "How do zip-zip trees change zip trees to remove the bias toward smaller keys?",
+    "Why do zip-zip trees need far fewer bits of extra data per node than treaps?",
+    "What does it mean for a tree to be strongly history independent, and why does it matter?"
+  ]
+}

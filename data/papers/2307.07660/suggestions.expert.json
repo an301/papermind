@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "How does the secondary rank in zip-zip trees remove the small-key bias of geometric ranks, and what tie probability remains?",
+    "Why does the 1.3863 log n depth bound need only O(log log n) bits per node, and what breaks if the secondary rank range is shrunk?",
+    "What does the just-in-time variant pay in expected rank comparisons or restructuring to get O(1) expected metadata bits?",
+    "Does the O(n) partial persistence overhead and strong history independence still hold under adversarial or adaptive key sequences?"
+  ]
+}

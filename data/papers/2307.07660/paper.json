@@ -1,0 +1,1499 @@
+{
+ "meta": {
+  "paper_id": "2307.07660",
+  "source": "arxiv",
+  "arxiv_id": "2307.07660",
+  "arxiv_version": "v2",
+  "title": "Zip-zip Trees: Making Zip Trees More Balanced, Biased, Compact, or Persistent",
+  "authors": [
+   "Ofek Gila",
+   "Michael T. Goodrich",
+   "Robert E. Tarjan"
+  ],
+  "abstract": "We define simple variants of zip trees, called zip-zip trees, which provide several advantages over zip trees, including overcoming a bias that favors smaller keys over larger ones. We analyze zip-zip trees theoretically and empirically, showing, e.g., that the expected depth of a node in an $n$-node zip-zip tree is at most $1.3863\\log n-1+o(1)$, which matches the expected depth of treaps and binary search trees built by uniformly random insertions. Unlike these other data structures, however, zip-zip trees achieve their bounds using only $O(\\log\\log n)$ bits of metadata per node, w.h.p., as compared to the $Θ(\\log n)$ bits per node required by treaps. In fact, we even describe a ``just-in-time'' zip-zip tree variant, which needs just an expected $O(1)$ number of bits of metadata per node. Moreover, we can define zip-zip trees to be strongly history independent, whereas treaps are generally only weakly history independent. We also introduce \\emph{biased zip-zip trees}, which have an explicit bias based on key weights, so the expected depth of a key, $k$, with weight, $w_k$, is $O(\\log (W/w_k))$, where $W$ is the weight of all keys in the weighted zip-zip tree. Finally, we show that one can easily make zip-zip trees partially persistent with only $O(n)$ space overhead w.h.p.",
+  "published": "2023-07-14",
+  "filename": null,
+  "num_pages": 24,
+  "page_sizes": [
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ],
+   [
+    612.0,
+    792.0
+   ]
+  ],
+  "sections": [
+   {
+    "section_id": "sec_front_matter",
+    "number": null,
+    "title": "Front matter",
+    "level": 1,
+    "page": 0,
+    "y": 114.6
+   },
+   {
+    "section_id": "sec_abstract",
+    "number": null,
+    "title": "Abstract",
+    "level": 1,
+    "page": 0,
+    "y": 273.4
+   },
+   {
+    "section_id": "sec_1",
+    "number": "1",
+    "title": "Introduction",
+    "level": 1,
+    "page": 0,
+    "y": 489.1
+   },
+   {
+    "section_id": "sec_2",
+    "number": "2",
+    "title": "A Review of Zip Trees",
+    "level": 1,
+    "page": 3,
+    "y": 401.0
+   },
+   {
+    "section_id": "sec_3",
+    "number": "3",
+    "title": "Zip-zip Trees",
+    "level": 1,
+    "page": 5,
+    "y": 421.3
+   },
+   {
+    "section_id": "sec_4",
+    "number": "4",
+    "title": "Experiments",
+    "level": 1,
+    "page": 14,
+    "y": 475.3
+   },
+   {
+    "section_id": "sec_5",
+    "number": "5",
+    "title": "Biased Zip-zip Trees",
+    "level": 1,
+    "page": 17,
+    "y": 497.3
+   },
+   {
+    "section_id": "sec_6",
+    "number": "6",
+    "title": "Future Work",
+    "level": 1,
+    "page": 18,
+    "y": 510.1
+   },
+   {
+    "section_id": "sec_7",
+    "number": "7",
+    "title": "Declarations",
+    "level": 1,
+    "page": 19,
+    "y": 184.2
+   },
+   {
+    "section_id": "sec_references",
+    "number": null,
+    "title": "References",
+    "level": 1,
+    "page": 20,
+    "y": 116.5
+   },
+   {
+    "section_id": "sec_A",
+    "number": "A",
+    "title": "Pseudo-code for Insertion and Deletion in Zip Trees and Zip-zip Trees",
+    "level": 1,
+    "page": 22,
+    "y": 116.5
+   }
+  ],
+  "chunk_count": 31,
+  "chunker_version": "3",
+  "ingested_at": "2026-10-13T23:32:09.381589Z"
+ },
+ "chunks": [
+  {
+   "chunk_id": "2307.07660:sec_front_matter",
+   "paper_id": "2307.07660",
+   "section_id": "sec_front_matter",
+   "section_number": null,
+   "section_title": "Front matter",
+   "part": null,
+   "text": "Zip-zip Trees: Making Zip Trees More Balanced, Biased, Compact, or Persistent^{⋆}\n\nOfek Gila^{1*[0009−0005−5931−771X]}, Michael T. Goodrich^{1*[0000−0002−8943−191X]}, and Robert E. Tarjan^{2*[0000−0001−7505−5768]}\n\n^1 University of California, Irvine CA 92697, USA {ogila, goodrich}@uci.edu ^2 Princeton University, Princeton NJ 08544, USA ret@cs.princeton.edu",
+   "token_count": 90,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 135.9,
+     "y0": 114.6,
+     "x1": 479.6,
+     "y1": 146.9
+    },
+    {
+     "page": 0,
+     "x0": 137.6,
+     "y0": 169.2,
+     "x1": 477.7,
+     "y1": 246.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_abstract",
+   "paper_id": "2307.07660",
+   "section_id": "sec_abstract",
+   "section_number": null,
+   "section_title": "Abstract",
+   "part": null,
+   "text": "We define simple variants of zip trees, called zip-zip trees, which provide several advantages over zip trees, including overcoming a bias that favors smaller keys over larger ones. We analyze zip-zip trees theoretically and empirically, showing, e.g., that the expected depth of a node in an n-node zip-zip tree is at most 1.3863 log n −1 + o(1), which matches the expected depth of treaps and binary search trees built by uniformly random insertions. Unlike these other data structures, however, zip-zip trees achieve their bounds using only O(log log n) bits of metadata per node, w.h.p., as compared to the Θ(log n) bits per node required by treaps. In addition, we describe a “just-in-time” zip-zip tree variant, which needs just an expected O(1) number of bits of metadata per node. Moreover, we can define zip-zip trees to be strongly history independent, whereas treaps are generally only weakly history independent. We also introduce biased zip-zip trees, which have an explicit bias based on key weights, so the expected depth of a key, k, with weight, wk, is O(log(W/wk)), where W is the weight of all keys in the weighted zip-zip tree. Finally, we show that one can easily make zip-zip trees partially persistent with only O(n) space overhead w.h.p.",
+   "token_count": 316,
+   "page_start": 0,
+   "page_end": 0,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 163.1,
+     "y0": 273.4,
+     "x1": 452.3,
+     "y1": 468.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_1_introduction_p1",
+   "paper_id": "2307.07660",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 1,
+   "text": "A zip tree is a type of randomized binary search tree introduced by Tarjan, Levy, and Timmel [29]. Each node contains a specified key and a small randomly generated rank. Nodes are in symmetric order by key, smaller to larger, and in max-heap order by rank. At a high level, zip trees are similar to other random search structures, such as the treap data structure of Seidel and Aragon [26], the skip list data structure of Pugh [23], and the randomized binary search tree (RBST) data structure of Martínez and Roura [18], but with two advantages:\n\n1. Insertions and deletions in zip trees are described in terms of simple “zip” and “unzip” operations rather than sequences of rotations as in treaps and RBSTs, which are arguably more complicated; and 2. Like treaps, zip trees organize keys using random ranks, but the ranks used by zip trees use Θ(log log n) bits each, whereas the key labels used by treaps and RBSTs use Θ(log n) bits each. Also, as we review and expand upon, zip trees are topologically isomorphic to skip lists, but use less space.\n\nIn addition, zip trees have a desirable privacy-preservation property with respect to their history independence [17]. A data structure is weakly history independent if, for any two sequences of operations X and Y that take the data structure from initialization to state A, the distribution over memory after X is performed is identical to the distribution after Y . Thus, if an adversary observes the final state of the data structure, the adversary cannot determine the sequence of operations that led to that state. A data structure is strongly history independent, on the other hand, if, for any two (possibly empty) sequences of operations X and Y that take a data structure in state A to state B, the distribution over representations of B after X is performed on a representation, r, is identical to the distribution after Y is performed on r. Thus, if an adversary observes the states of the data structure at different times, the adversary cannot determine the sequence of operations that led to the second state beyond just what can be inferred from the states themselves. For example, it is easy to show that skip lists and zip trees are strongly history independent, and that treaps and RBSTs are weakly history independent.^3",
+   "token_count": 574,
+   "page_start": 0,
+   "page_end": 1,
+   "boxes": [
+    {
+     "page": 0,
+     "x0": 134.8,
+     "y0": 512.9,
+     "x1": 480.6,
+     "y1": 636.4
+    },
+    {
+     "page": 1,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 361.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_1_introduction_p2",
+   "paper_id": "2307.07660",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 2,
+   "text": "Indeed, zip trees and skip lists are strongly history independent for exactly the same reason, since Tarjan, Levy, and Timmel [29] define zip trees using a tie-breaking rule for ranks that makes zip trees isomorphic to skip lists, so that, for instance, a search in a zip tree would encounter the same keys as would be encountered in a search in an isomorphic skip list. This isomorphism between zip trees and skip lists has a potentially undesirable property, however, in that there is an inherent bias in a zip tree that favors smaller keys over larger keys. For example, as we discuss, the analysis from Tarjan, Levy, and Timmel [29] implies that the expected depth of the smallest key in an (original) zip tree is 0.5 log n whereas the expected depth of the largest key is log n. Moreover, this same analysis implies that the expected depth for any node in a zip tree is at most 1.5 log n + O(1), whereas Seidel and Aragon [26] show that the expected depth of any node in a treap is at most 1.3863 log n + 1, and Martínez and Roura [18] prove a similar result for RBSTs.\n\nAs mentioned above, the inventors of zip trees chose their tie-breaking rule to provide an isomorphism between zip trees and skip lists. But one may ask if there is a (hopefully simple) modification to the tie-breaking rule for zip trees that makes them more balanced for all keys, ideally while still maintaining the property that they are strongly history independent and that the metadata for keys in a zip tree requires only O(log log n) bits per key w.h.p.\n\nNote that the structure of zip trees is identical in structure to the skip list tree, independently discovered by Erickson two years prior [12]. Skip list trees perform insertions and deletions using rotations rather than through the zip and unzip operations of zip trees.",
+   "token_count": 453,
+   "page_start": 1,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 1,
+     "x0": 134.8,
+     "y0": 363.7,
+     "x1": 480.7,
+     "y1": 624.7
+    },
+    {
+     "page": 2,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.7,
+     "y1": 139.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_1_introduction_p3",
+   "paper_id": "2307.07660",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 3,
+   "text": "In this paper, we show how to improve the balance of nodes in zip trees by a remarkably simple change to its tie-breaking rule for ranks. Specifically, we describe and analyze a zip-tree variant we call zip-zip trees, in which we give each key a rank pair, r = (r_1, r_2), such that r_1 is chosen from a geometric distribution as in the original definition of zip trees, and r_2 is an integer chosen uniformly at random, e.g., in the range [1, log^c n], for c ≥3. We build a zip-zip tree just like an original zip tree, but with these rank pairs as its ranks, ordered and compared lexicographically. We also consider a just-in-time (JIT) variant of zip-zip trees, where we build the secondary r_2 ranks bit by bit as needed to break ties. Just like an original zip tree, zip-zip trees (with static secondary ranks) are strongly history independent, and, in any variant, each rank in a zip-zip tree requires only O(log log n) bits w.h.p. Nevertheless, as we show (and verify experimentally), the expected depth of any node in a zip-zip tree storing n keys is at most 1.3863 log n−1+o(1), whereas the expected depth of a node in an original zip tree is 1.5 log n+O(1), as mentioned above. We also show (and verify experimentally) that the expected depths of the smallest and largest keys in a zip-zip tree are the same—namely, they both are at most 0.6932 log n+γ +o(1), where γ = 0.577721566 . . . is the Euler-Mascheroni constant.\n\nIn addition to showing how to make zip trees more balanced, by using the zip-zip tree tie-breaking rule, we also describe how to make them more biased for weighted keys. Specifically, we study how to store weighted keys in a zip-zip tree, giving us the following variant (which can also be implemented for the original zip-tree tie-breaking rule):\n\n– biased zip-zip trees: These are a biased version of zip-zip trees, which support searches with expected performance bounds that are logarithmic in W/w_k, where W is the total weight of all keys in the tree and w_k is the weight of the search key, k.\n\nBiased zip-zip trees can be used in simplified versions of the link-cut tree data structure of Sleator and Tarjan [28] for dynamically maintaining arbitrary trees, which has many applications, e.g., see Acar [1].",
+   "token_count": 562,
+   "page_start": 2,
+   "page_end": 2,
+   "boxes": [
+    {
+     "page": 2,
+     "x0": 134.8,
+     "y0": 141.9,
+     "x1": 480.7,
+     "y1": 511.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_1_introduction_p4",
+   "paper_id": "2307.07660",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 4,
+   "text": "Zip-zip trees and biased zip-zip trees have only O(log log n) bits of metadata per key w.h.p. (assuming polynomial weights in the weighted case) and are strongly history independent . The just-in-time (JIT) variant utilizes only O(1) bits of metadata per operation w.h.p. but lacks history independence. Moreover, if zip-zip trees are implemented using the tiny pointers technique of Bender, Conway, Farach-Colton, Kuszmaul, and Tagliavini [5], then all of the non-key data used to implement such a tree requires just O(n log log n) bits overall w.h.p.\n\nAdditional Prior Work. Before we provide our results, let us briefly review some additional related prior work. Although this analysis doesn’t apply to treaps or RBSTs, Devroye [8,9] showed that the expected height of a randomly-constructed binary search tree tends to 4.311 log n in the limit, which tightened a similar earlier result of Flajolet and Odlyzko [13]. Reed [24] tightened this bound even further, showing that the variance of the height of a randomly-constructed binary search tree is O(1). Eberl, Haslbeck, and Nipkow [11] showed that this analysis also applies to treaps and RBSTs, with respect to their expected height. Papadakis, Munro, and Poblete [22] provided an analysis for the expected search cost in a skip list, showing the expected cost is roughly 2 log n.",
+   "token_count": 335,
+   "page_start": 2,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 2,
+     "x0": 134.8,
+     "y0": 513.2,
+     "x1": 480.7,
+     "y1": 594.9
+    },
+    {
+     "page": 2,
+     "x0": 134.8,
+     "y0": 607.3,
+     "x1": 480.7,
+     "y1": 665.1
+    },
+    {
+     "page": 3,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.7,
+     "y1": 175.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_1_introduction_p5",
+   "paper_id": "2307.07660",
+   "section_id": "sec_1",
+   "section_number": "1",
+   "section_title": "Introduction",
+   "part": 5,
+   "text": "With respect to weighted keys, Bent, Sleator, and Tarjan [6] introduced a biased search tree data structure, for storing a set, K, of n weighted keys, with a search time of O(log(W/w_k)), where w_k is the weight of the search key, k, and W = ∑_{k∈K} w_k. Their data structure is not history independent, however. Seidel and Aragon [26] provided a weighted version of treaps, which are weakly history independent and have expected O(log(W/w_k)) access times, but weighted treaps have weight-dependent key labels that use exponentially more bits than are needed for weighted zip-zip trees. Afek, Kaplan, Korenfeld, Morrison, and Tarjan [2] provided a fast concurrent self-adjusting biased search tree when the weights are access frequencies. Zip trees and by extension zip-zip trees would similarly work well in a concurrent setting, since most updates affect only the bottom of the tree, and updates can be done purely top down, although such an implementation is not explored in this paper. Bagchi, Buchsbaum, and Goodrich [4] introduced randomized biased skip lists, which are strongly history independent and in which the expected time to access a key, k, is likewise O(log(W/w_k)). Our weighted zip-zip trees are analogous to biased skip lists, but use less space.\n\n⋆ Research at Princeton Univ. was partially supported by a gift from Microsoft. Research at Univ. of California, Irvine was supported by NSF Grant 2212129.\n\n3 If the random priorities used in a treap are distinct and unchanging for all keys and all time (which occurs only probabilistically), then the treap is strongly history independent.",
+   "token_count": 403,
+   "page_start": 0,
+   "page_end": 3,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 134.8,
+     "y0": 178.1,
+     "x1": 480.7,
+     "y1": 379.3
+    },
+    {
+     "page": 0,
+     "x0": 137.3,
+     "y0": 643.5,
+     "x1": 480.6,
+     "y1": 664.9
+    },
+    {
+     "page": 1,
+     "x0": 137.5,
+     "y0": 632.1,
+     "x1": 480.7,
+     "y1": 664.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_2_a_review_of_zip_trees_p1",
+   "paper_id": "2307.07660",
+   "section_id": "sec_2",
+   "section_number": "2",
+   "section_title": "A Review of Zip Trees",
+   "part": 1,
+   "text": "In this section, we review the (original) zip tree data structure of Tarjan, Levy, and Timmel [29].\n\nA Brief Review of Skip Lists. We begin by reviewing a related structure, namely, the skip list structure of Pugh [23]. Let log n denote the base-two logarithm. A skip list is a hierarchical, linked collection of sorted lists that is constructed using randomization. All keys are stored in level 0, and, for each key, k, in level i ≥0, we include k in the list in level i + 1 if a random coin flip (i.e., a random bit) is “heads” (i.e., 1), which occurs with probability 1/2 and is independent of all other coin flips. Thus, we expect half of the keys on level i to also appear in level i + 1. In addition, every level includes a node that stores a key, −∞, that is less than every other key, and a node that stores a key, +∞, that is greater than every other key. The highest level of a skip list is the smallest i such that the list at level i only stores −∞and +∞. (See Figure 1.) The following theorem follows from well-known properties of skip lists.\n\nTheorem 1. Let S be a skip list built from n distinct keys. The probability that the height of S is more than log n+f(n) is at most 2^{−f(n)}, for any monotonically increasing function f(n) > 0.\n\nLevel 4\n\nLevel 3\n\nLevel 2\n\nLevel 1\n\nLevel 0\n\nProof. Note that the highest level in S is determined by the random variable X = max{X_1, X_2, . . . , X_n}, where each X_i is an independent geometric random variable with success probability 1/2. Thus, for any i = 1, 2, . . . , n,\n\nPr(X_i > log n + f(n)) < 2^{−(log n+f(n))} = 2^{−f(n)}/n;\n\nBy a union bound, Pr(X > log n + f(n)) < 2^{−f(n)}. ⊓⊔",
+   "token_count": 412,
+   "page_start": 3,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 3,
+     "x0": 134.8,
+     "y0": 427.9,
+     "x1": 480.6,
+     "y1": 449.8
+    },
+    {
+     "page": 3,
+     "x0": 134.8,
+     "y0": 465.1,
+     "x1": 480.6,
+     "y1": 606.6
+    },
+    {
+     "page": 3,
+     "x0": 134.8,
+     "y0": 618.9,
+     "x1": 480.6,
+     "y1": 652.8
+    },
+    {
+     "page": 4,
+     "x0": 136.8,
+     "y0": 118.1,
+     "x1": 155.7,
+     "y1": 123.9
+    },
+    {
+     "page": 4,
+     "x0": 136.8,
+     "y0": 136.6,
+     "x1": 155.7,
+     "y1": 142.5
+    },
+    {
+     "page": 4,
+     "x0": 136.8,
+     "y0": 155.2,
+     "x1": 155.7,
+     "y1": 161.1
+    },
+    {
+     "page": 4,
+     "x0": 136.8,
+     "y0": 173.8,
+     "x1": 155.7,
+     "y1": 179.7
+    },
+    {
+     "page": 4,
+     "x0": 136.8,
+     "y0": 192.4,
+     "x1": 155.7,
+     "y1": 198.3
+    },
+    {
+     "page": 4,
+     "x0": 134.8,
+     "y0": 233.8,
+     "x1": 480.6,
+     "y1": 267.7
+    },
+    {
+     "page": 4,
+     "x0": 197.7,
+     "y0": 278.7,
+     "x1": 417.6,
+     "y1": 292.3
+    },
+    {
+     "page": 4,
+     "x0": 134.8,
+     "y0": 302.7,
+     "x1": 480.6,
+     "y1": 314.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_2_a_review_of_zip_trees_p2",
+   "paper_id": "2307.07660",
+   "section_id": "sec_2",
+   "section_number": "2",
+   "section_title": "A Review of Zip Trees",
+   "part": 2,
+   "text": "Zip Trees and Their Isomorphism to Skip Lists. We next review the definition of the (original) zip tree data structure [29]. A zip tree is a binary search tree in which nodes are max-heap ordered according to random ranks, with ties broken in favor of smaller keys, so that the parent of a node has rank greater than that of its left child and no less than that of its right child [29]. The rank of a node is drawn from a geometric distribution with success probability 1/2, starting from a rank 0, so that a node has rank k with probability 1/2^{k+1}. As noted by Tarjan, Levy, and Timmel [29], there is a natural isomorphism between a skip-list, L, and a zip tree, T, where L contains a key k in its level-i list if and only if k has rank at least i in T. That is, the rank of a key, k, in T equals the highest level in L that contains k. See Figure 2. Incidentally, this isomorphism is topologically identical to a duality between skip lists and binary search trees observed earlier by Dean and Jones [7], but the constructions of Dean and Jones are for binary search trees that involve rotations to maintain balance and have different metadata than zip trees, so, apart from the topological similarities, the analyses of Dean and Jones don’t apply to zip trees.\n\nAn advantage of a zip tree, T, over its isomorphic skip list, L, is that T’s space usage is roughly half of that of L, and T’s search times are also better. Nevertheless, there is a potential undesirable property of zip trees, in that an original zip tree is biased towards smaller keys, as we show in the following.\n\nTheorem 2. Let T be an (original) zip tree storing n distinct keys. Then the expected depth of the smallest key is 0.5 log n + O(1), whereas the expected depth of the largest key is log n + O(1).\n\nProof. The bound for the largest (respectively smallest) key follows immediately from Lemma 3.3 (respectively Lemma 3.4) from Tarjan, Levy, and Timmel [29] and the fact that the expected largest rank in T is at most log n + O(1). ⊓⊔",
+   "token_count": 504,
+   "page_start": 4,
+   "page_end": 4,
+   "boxes": [
+    {
+     "page": 4,
+     "x0": 134.8,
+     "y0": 331.2,
+     "x1": 480.7,
+     "y1": 569.6
+    },
+    {
+     "page": 4,
+     "x0": 134.8,
+     "y0": 583.8,
+     "x1": 480.6,
+     "y1": 617.7
+    },
+    {
+     "page": 4,
+     "x0": 134.8,
+     "y0": 631.2,
+     "x1": 480.6,
+     "y1": 665.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_2_a_review_of_zip_trees_p3",
+   "paper_id": "2307.07660",
+   "section_id": "sec_2",
+   "section_number": "2",
+   "section_title": "A Review of Zip Trees",
+   "part": 3,
+   "text": "That is, the expected depth of the largest key in an original zip tree is twice that of the smallest key. This bias also carries over into the bound of Tarjan, Levy, and Timmel [29] on the expected depth of a node in an original zip tree, which they show is at most 1.5 log n + O(1). In contrast, the expected depth of a node in a treap or randomized binary search tree is at most 1.39 log n + O(1) [18,26].\n\nInsertion and Deletion in Zip Trees and Zip-zip Trees. Insertion and deletion in a zip tree are done by simple “unzip” and “zip” operations. These algorithms also work for the variants we discuss in this paper, with the only difference being in the way we define ranks.\n\nTo insert a new node x into a zip tree, we search for x in the tree until reaching the node y that x will replace, namely the node y such that y.rank ≤x.rank, with strict inequality if y.key < x.key. From y, we follow the rest of the search path for x, emphunzipping it by splitting it into a path, P, containing each node with key less than x.key and a path, Q, containing each node with key greater than x.key (recall that we assume keys are distinct) [29]. The top node on P (respectively Q) becomes the left (respectively right) child of the node to be inserted, which itself replaces y as a child of its parent. To delete a node x, we perform the inverse operation: We do a search to find x, and let P and Q be the right spine of the left subtree of x and the left spine of the right subtree of x, respectively. Then we zip P and Q together to form a single path R, by merging them from top to bottom in non-increasing rank order, breaking a tie in favor of the smaller key [29]. The top node of R replaces x as a child of its parent. See Figure 3. Pseudo-code is provided in Appendix A.\n\nFig. 1: An example skip list.",
+   "token_count": 451,
+   "page_start": 4,
+   "page_end": 5,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 175.8
+    },
+    {
+     "page": 5,
+     "x0": 134.8,
+     "y0": 188.8,
+     "x1": 480.7,
+     "y1": 402.0
+    },
+    {
+     "page": 4,
+     "x0": 245.0,
+     "y0": 210.3,
+     "x1": 370.4,
+     "y1": 220.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p1",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 1,
+   "text": "In this section, we define and analyze the zip-zip tree data structure.\n\nUniform Zip Trees. As a warm-up, let us first define a variant of the original zip tree, called the uniform zip tree. This is a zip tree in which the rank of each key is a random integer drawn independently from a uniform distribution over a suitable range. We perform insertions and deletions in a uniform zip tree exactly as in an original zip tree, except that rank comparisons are done using these uniform ranks rather than using ranks drawn from a geometric distribution. If there are no rank ties that occur during its construction, a uniform zip tree is a treap [26]. But if a rank tie occurs, we resolve it using the tie-breaking rule for a zip tree, rather than doing a complete tree rebuild, as is done for a treap [26]. We introduce uniform zip trees only as a stepping stone to our definition of zip-zip trees, which we give next.\n\nZip-zip Trees. A zip-zip tree is a zip tree in which we define the rank of each key to be a pair, r = (r_1, r_2), where r_1 is drawn independently from a geometric distribution with success probability 1/2 (as in original zip trees) and r_2 is an integer drawn independently from a uniform distribution on the interval [1, log^c n], for c ≥3. We perform insertions and deletions in a zip-zip tree exactly as in an original zip tree, except that rank comparisons are done lexicographically based on the (r_1, r_2) pairs. That is, we perform an update operation focused primarily on the r_1 ranks, as in an original zip tree, but we break ties by reverting to r_2 ranks. And if we still get a rank tie for two pairs of ranks, then we break these ties as in original zip trees, biasing in favor of smaller keys. As we shall show, such ties occur with such low probability that they don’t significantly impact the expected depth of any node in a zip-zip tree. This also implies that the expected depth of the smallest key in a zip-zip tree is the same as for the largest key.\n\nLet x_i be a node in a zip-zip tree, T. Define the r_1-rank group of x_i as the connected subtree of T containing all nodes with the same r_1-rank as x_i. That is, each node in x_i’s r_1-rank group has a rank tie with x_i when comparing ranks with just the first rank coordinate, r_1.",
+   "token_count": 569,
+   "page_start": 5,
+   "page_end": 6,
+   "boxes": [
+    {
+     "page": 5,
+     "x0": 134.8,
+     "y0": 445.8,
+     "x1": 435.3,
+     "y1": 455.8
+    },
+    {
+     "page": 5,
+     "x0": 134.8,
+     "y0": 468.7,
+     "x1": 480.6,
+     "y1": 490.7
+    },
+    {
+     "page": 6,
+     "x0": 134.8,
+     "y0": 294.6,
+     "x1": 480.7,
+     "y1": 400.2
+    },
+    {
+     "page": 6,
+     "x0": 134.8,
+     "y0": 416.4,
+     "x1": 480.7,
+     "y1": 630.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p2",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 2,
+   "text": "Lemma 1. The r_1-rank group for any node, x_i, in a zip-zip tree is a uniform zip tree defined using r_2-ranks.\n\nProof. The proof follows immediately from the definitions. ⊓⊔\n\nIncidentally, Lemma 1 is the motivation for the name “zip-zip tree,” since a zip-zip tree can be viewed as a zip tree comprised of little zip trees. Moreover, this lemma immediately implies that a zip-zip tree is strongly history independent, since both zip trees and uniform zip trees are strongly history independent.\n\nSee Figure 4.\n\nLemma 2. The number of nodes in an r_1-rank group in a zip-zip tree, T storing n keys has expected value 2 and is at most 2 log n with high probability.\n\nProof. Consider the smallest node of a particular r_1-rank group and begin an in-order traversal. Any node with smaller rank appears beneath the group without affecting it, while any node with higher rank stops the traversal. The r_1-rank group is defined as all nodes encountered along the traversal sharing the same rank as u. The set of nodes in an r_1-rank group in T is a sequence of consecutive nodes with rank exactly r_1 in an in-order traversal starting from a rank-r_1 node, stopping when a node is encountered with greater rank. Thus the number of nodes, X, in an r_1-rank group is a random variable drawn from a geometric distribution with success probability 1/2; hence, E[X] = 2 and X is at most 2 log n with probability at least 1 −1/n^2. Moreover, by a union bound, all the r_1-rank groups in T have size at most 2 log n with probability at least 1 −1/n.\n\n⊓⊔\n\nWe can also define a variant of a zip-zip tree that is not history independent but that uses only O(1) bits of metadata per key in expectation.",
+   "token_count": 422,
+   "page_start": 6,
+   "page_end": 7,
+   "boxes": [
+    {
+     "page": 6,
+     "x0": 134.8,
+     "y0": 643.2,
+     "x1": 480.6,
+     "y1": 665.9
+    },
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 299.4,
+     "x1": 480.6,
+     "y1": 309.5
+    },
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 319.8,
+     "x1": 480.6,
+     "y1": 377.6
+    },
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 387.9,
+     "x1": 480.6,
+     "y1": 409.8
+    },
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 420.2,
+     "x1": 480.7,
+     "y1": 561.5
+    },
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 572.0,
+     "x1": 480.6,
+     "y1": 593.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p3",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 3,
+   "text": "Just-in-Time Zip-zip Trees. In a just-in-time (JIT) zip-zip tree, we define the (r_1, r_2) rank pair for a key, x_i, so that r_1 is (as always) drawn independently from a geometric distribution with success probability 1/2, but where r_2 is an initially empty string of random bits. If at any time during an update in a JIT zip-zip tree, there is a tie between two rank pairs, (r_{1,i}, r_{2,i}) and (r_{1,j}, r_{2,j}), for two keys, x_i and x_j, respectively, then we independently add unbiased random bits, one bit at a time, to r_{2,i} and r_{2,j} until x_i and x_j no longer have a tie in their rank pairs, where r_2-rank comparisons are done by viewing the binary strings as binary fractions after a decimal point.\n\nNote that the definition of an r_1-rank group is the same for JIT zip-zip trees and (standard) zip-zip trees. Rather than store r_1-ranks explicitly, however, we store them as a difference between the r_1-rank of a node and the r_1-rank of its parent (except for the root). Moreover, by construction, each r_1-rank group in a JIT zip-zip tree is a treap; hence, a JIT zip-zip tree is topologically isomorphic to a treap.\n\nTheorem 3. Let T be a JIT zip-zip tree resulting from n update operations starting from an initially empty tree. The expected number of bits of rank metadata in any non-root node in T is O(1), and the number of bits required for all the rank metadata in T is O(n) w.h.p.\n\nTo prove this, we use the following lemma:\n\nLemma 3. Let X be the sum of n independent geometric random variables with success probability 1/2. Then, for t ≥2,\n\nPr(X > (2 + t)n) ≤e^{−tn/10}.\n\nProof. The proof follows immediately by a Chernoff bound for a sum of n independent geometric random variables (see, e.g., Goodrich and Tamassia [14, pp. 555–556]). ⊓⊔\n\nUsing this lemma, we can prove that JIT zip-zip trees use O(n) total metadata with high probability.",
+   "token_count": 469,
+   "page_start": 7,
+   "page_end": 8,
+   "boxes": [
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 607.3,
+     "x1": 480.7,
+     "y1": 665.9
+    },
+    {
+     "page": 8,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 235.8
+    },
+    {
+     "page": 8,
+     "x0": 134.8,
+     "y0": 247.8,
+     "x1": 480.6,
+     "y1": 293.6
+    },
+    {
+     "page": 8,
+     "x0": 149.7,
+     "y0": 305.4,
+     "x1": 336.1,
+     "y1": 315.4
+    },
+    {
+     "page": 8,
+     "x0": 134.8,
+     "y0": 327.4,
+     "x1": 480.6,
+     "y1": 349.3
+    },
+    {
+     "page": 8,
+     "x0": 246.4,
+     "y0": 359.8,
+     "x1": 369.0,
+     "y1": 371.7
+    },
+    {
+     "page": 8,
+     "x0": 134.8,
+     "y0": 384.2,
+     "x1": 480.6,
+     "y1": 418.1
+    },
+    {
+     "page": 8,
+     "x0": 134.8,
+     "y0": 429.9,
+     "x1": 480.6,
+     "y1": 451.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p4",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 4,
+   "text": "Proof (of Theorem 3). The set of nodes in an r_1-rank group in T is a sequence of consecutive nodes with rank exactly r_1 in an in-order traversal starting from a rank-r_1 node, stopping when a node is encountered with greater rank. All the nodes in this group require O(1) bits to store their r_1 rank difference except the root, v. Assuming that the root of this rank group is not the root of the tree, this group has a parent u with rank r^{′}_1 > r_1. The difference between the r_1-rank of v and its parent is r^{′}_1 −r_1. That is, this rank difference is a random variable that is drawn from a geometric distribution with success probability 1/2 (starting at level r_1 + 1); hence, its expected value is at most 2. Further, for similar reasons, the sum of all the r_1-rank differences for all nodes in T that are roots of their rank groups while not being the global root (like u) can be bounded by the sum, X, of n independent geometric random variables with success probability 1/2. (Indeed, this is also an over-estimate, since a r_1-rank difference for a parent in the same r_1-rank group is 0 .) By Lemma 3, X is O(n) with (very) high probability. Thus, with (very) high probability, the sum of all r_1-rank differences between children and parents in T is O(n). Note that the root itself still requires O(log log n) bits.\n\nLet us next consider all the r_2-ranks in a JIT zip-zip tree. Recall that each time there is a rank tie when using existing (r_1, r_2) ranks, during a given update, we augment the two r_2 ranks bit by bit until they are different. That is, the length of each such augmentation is a geometric random variable with success probability 1/2. Further, by the way that the zip and unzip operations work, the number of such encounters that could possibly have a rank tie is upper bounded by the sum of the r_1-ranks of the keys involved, i.e., by the sum of n geometric random variables with success probability 1/2. Thus, by Lemma 3, the number of such encounters is at most N = 12n and the number of added bits that occur during these encounters is at most 12N, with (very) high probability. ⊓⊔\n\nRemark 1. The expected average number of bits of metadata per node in an RBST is also O(1) if the bits are dynamically allocated. This was observed by Xiaoyang Xu (private communication, 2023).",
+   "token_count": 580,
+   "page_start": 8,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 8,
+     "x0": 134.8,
+     "y0": 463.9,
+     "x1": 480.7,
+     "y1": 665.1
+    },
+    {
+     "page": 9,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.7,
+     "y1": 235.6
+    },
+    {
+     "page": 9,
+     "x0": 134.8,
+     "y0": 247.2,
+     "x1": 480.6,
+     "y1": 281.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p5",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 5,
+   "text": "External Zip-zip Trees. Zip-zip trees as we have defined them use the internal representation of a binary search tree, as do zip trees. An alternative that is useful in some applications, e.g., Merkle trees [19], is the external representation, in which the items are stored in the external nodes of the tree, and the internal nodes contain only keys, used to guide searches. It is straightforward to use the external representation, as we now briefly describe. One important point is that there is one less internal node than external node. If we want to preserve strong history independence, we must choose a unique item whose key is not in an internal node. In our version this is the item with smallest key, but it could be the item with largest key instead.\n\nIgnoring the question of ranks, an external binary search tree contains a set of items in its external nodes, one item per node. We assume each item has a distinct key. The items are in symmetric order by increasing key: If external node x precedes external node y in symmetric order, the key of the item in x is smaller than the key of the item in y. Each internal node contains the key of the item in the next node in symmetric order, which is the smallest node in symmetric order in its right subtree, reached by starting at the right child and proceeding through left children until reaching an external node. (See Figure 5.) The item of smallest key is the unique item whose key is not stored in an internal node. As a special case, a tree containing only one item consists of a single external node containing that item. Instead of storing keys in internal nodes, we can store pointers to the corresponding external nodes. Searches proceed down from the root as in an internal binary search tree, but do not stop until reaching an external node (although searches can sometimes be sped up if pointers instead of keys are stored in internal nodes).\n\nAn external zip-zip tree is an external binary search tree in which each internal node has a rank generated as described for zip-zip trees, with the internal nodes max-heap ordered by rank and ties broken in favor of smaller key.",
+   "token_count": 537,
+   "page_start": 9,
+   "page_end": 9,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 134.8,
+     "y0": 295.9,
+     "x1": 480.7,
+     "y1": 629.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p6",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 6,
+   "text": "An insertion into a non-empty external zip-zip tree inserts two nodes into the tree, one external, containing the new item, and one internal. To insert a new item, we generate a random rank for the new internal node. We proceed down from the root along the search path for the key of the new item, until reaching an external node or reaching an internal node whose rank is less than that of the new internal node (including tie-breaking). Let x be the node reached, and let y be its parent. We unzip the search path from node x down, splitting it into two paths, P, containing all nodes on the path with key less than that of the new key, and Q, containing all nodes on the path with key greater than that of the new key. Nodes on P going down are in increasing order by key, so P becomes a left path; those on Q going down are in decreasing order by key, so Q becomes a right path. If x was previously the root of the tree, the new internal node becomes the new root; otherwise, the new internal node replaces x as a child of y. The top node of P becomes the left child of the new internal node. The new external node becomes the left child of the bottom node of Q, and the top node of Q becomes the right child of the new internal node. There is one important exception: If the bottom node of Q is an external node (before the new external node is added), the new external node becomes the left child of the new internal node, and the key of the bottom node on Q becomes the key of the new internal node: In this case, the bottom node on Q contains the item of previously smallest key, and the new item has even smaller key. The following lemma implies that this insertion algorithm is correct:\n\nLemma 4. If an insertion results in a path Q whose bottom node, say z, is external, then path P is empty, z has the smallest key before the insertion, and the key of the new item is less than that of z.",
+   "token_count": 475,
+   "page_start": 9,
+   "page_end": 10,
+   "boxes": [
+    {
+     "page": 9,
+     "x0": 134.8,
+     "y0": 631.2,
+     "x1": 480.6,
+     "y1": 665.1
+    },
+    {
+     "page": 10,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 343.2
+    },
+    {
+     "page": 10,
+     "x0": 134.8,
+     "y0": 356.5,
+     "x1": 480.6,
+     "y1": 390.4
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p7",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 7,
+   "text": "Proof. Suppose z is external. If z did not have the smallest key before the insertion, then in the tree before the insertion there is an internal node that is an ancestor of z and contains the same key. Let this node be w. The search for the new key visits w and must proceed to the left child of w, since since z is on Q and hence must have smaller key than the new key. But z is in the right subtree of w and hence cannot be on the search path for the new key, a contradiction. It follows that z has the smallest key before the insertion, which further implies that P is empty.\n\nDeletion is the inverse of insertion: Search for the internal node having the key to be deleted. Zip together the right spine of its left subtree and the left spine of its right subtree. deleting the bottom node on the latter, which is the external node whose item has the key to be deleted. Replace the internal node having the key to be deleted by the top node on the zipped path. If the search reaches an external node, delete this external node and its parent; replace the deleted parent by its right child.\n\nDepth Analysis. The main theoretical result of this paper is the following.\n\nTheorem 4. The expected depth, δ_j, of the j-th smallest key in a zip-zip tree, T, storing n keys is equal to H_j + H_{n−j+1} −1 + o(1), where H_n = ∑^n_{i=1}(1/i) is the n-th harmonic number.\n\nProof. Let us denote the ordered list of (distinct) keys stored in T as L = (x_1, x_2, . . . , x_n), where we use “x_j” to denote both the node in T and the key that is stored there. Let X be a random variable equal to the depth of the j-th smallest key, x_j, in T, and note that\n\n∑ X = X_i, i=1,...,j−1,j+1,...,n",
+   "token_count": 420,
+   "page_start": 10,
+   "page_end": 11,
+   "boxes": [
+    {
+     "page": 10,
+     "x0": 134.8,
+     "y0": 403.3,
+     "x1": 480.6,
+     "y1": 496.9
+    },
+    {
+     "page": 10,
+     "x0": 134.8,
+     "y0": 509.8,
+     "x1": 480.6,
+     "y1": 591.5
+    },
+    {
+     "page": 10,
+     "x0": 134.8,
+     "y0": 607.9,
+     "x1": 469.4,
+     "y1": 617.9
+    },
+    {
+     "page": 10,
+     "x0": 134.8,
+     "y0": 631.2,
+     "x1": 480.6,
+     "y1": 665.1
+    },
+    {
+     "page": 11,
+     "x0": 134.8,
+     "y0": 282.5,
+     "x1": 480.6,
+     "y1": 329.2
+    },
+    {
+     "page": 11,
+     "x0": 252.7,
+     "y0": 339.2,
+     "x1": 362.6,
+     "y1": 362.5
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p8",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 8,
+   "text": "where X_i is an indicator random variable that is 1 iff x_i is an ancestor of x_j. Let A denote the event where the r_1-rank of the root, z, of T is more than 3 log n, or the total size of all the r_1-rank groups of x_j’s ancestors is more than d log n, for a suitable constant, d, chosen so that, by Lemma 3, Pr(A) ≤2/n^2. Let B denote the event, conditioned on A not occurring, where the r_1-rank group of an ancestor of x_j contains two keys with the same rank, i.e., their ranks are tied even after doing a lexicographic rank comparison. Note that, conditioned on A not occurring, and assuming c ≥4 (for the sake of a o(1) additive term^4), the probability that any two keys in any of the r_1-rank groups of x_j’s ancestors have a tie among their r_2-ranks is at most d^2 log^2 n/ log^4 n; hence, Pr(B) ≤d^2/ log^2 n. Finally, let C denote the complement event to both A and B, that is, the r_1-rank of z is less than 3 log n and each r_1-rank group for an ancestor of x_j has keys with unique (r_1, r_2) rank pairs. Thus, by the definition of conditional expectation,\n\nδ_j = E[X] = E[X|A] · Pr(A) + E[X|B] · Pr(B) + E[X|C] · Pr(C) ≤2n n_2 + d^3 log n log_2 n + E[X|C] ≤E[X|C] + o(1).\n\nSo, for the sake of deriving an expectation for X, let us assume that the condition C holds. Thus, for any x_i, where i̸ = j, x_i is an ancestor of x_j iff x_i’s rank pair, r = (r_1, r_2), is the unique maximum such rank pair for the keys from x_i to x_j, inclusive, in L (allowing for either case of x_i < x_j or x_j < x_i, and doing rank comparisons lexicographically). Since each key in this range has equal probability of being assigned the unique maximum rank pair among the keys in this range,\n\n1 Pr(X_i = 1) = |i −j| + 1.\n\nThus, by the linearity of expectation,\n\nE[X|C] = H_j + H_{n+1−j} −1.\n\nTherefore, δ_j = H_j + H_{n+1−j} −1 + o(1). ⊓⊔\n\nThis immediately gives us the following:\n\nCorollary 1. The expected depth, δ_j, of the j-th smallest key in a zip-zip tree, T, storing n keys can be bounded as follows:\n\n1. If j = 1 or j = n, then δ_j < ln n + γ + o(1) < 0.6932 log n + γ + o(1), where γ = 0.57721566 . . . is the Euler-Mascheroni constant.\n\n2. For any 1 ≤j ≤n, δ_j < 2 ln n −1 + o(1) < 1.3863 log n −1 + o(1).",
+   "token_count": 554,
+   "page_start": 11,
+   "page_end": 12,
+   "boxes": [
+    {
+     "page": 11,
+     "x0": 134.8,
+     "y0": 372.3,
+     "x1": 480.6,
+     "y1": 589.4
+    },
+    {
+     "page": 11,
+     "x0": 134.8,
+     "y0": 600.2,
+     "x1": 480.6,
+     "y1": 647.5
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 192.3
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 203.8,
+     "x1": 480.6,
+     "y1": 255.8
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 266.4,
+     "x1": 480.6,
+     "y1": 333.0
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p9",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 9,
+   "text": "Proof. The bounds all follow from Theorem 4, the fact that ln 2 = 0.69314718 . . ., and Franel’s inequality (see, e.g., Guo and Qi [15]):\n\nH_n < ln n + γ + 1 2n.\n\nThus, for (1), if j = 1 or j = n, δ_j = H_n < ln n + γ + o(1).\n\nFor (2), if 1 ≤j ≤n,\n\nδ_j = H_j + H_{n−j+1} −1 < ln j + ln(n −j + 1) + 2γ −1 + o(1)\n\n≤2 ln n −1 + o(1),\n\nsince ln 2 > γ and j(n −j + 1) is maximized at j = n/2 or j = (n + 1)/2. ⊓⊔\n\nIncidentally, these bounds are actually tighter than those derived by Seidel and Aragon for treaps [26], but similar bounds can be shown to hold for treaps.\n\nHeight Analysis. We similarly prove tighter bounds for the height of zip-zip trees.\n\nTheorem 5. The height of a zip-zip tree, T, holding a set, S, of n keys is at most 3.82 log n with probability 1 −o(1).\n\nProof. As in the proof of Theorem 4, we note that the depth, X, in T of the i-th smallest key, x_i, can be characterized as follows. Let\n\n∑ ∑ L_i = X_j, and R_i = X_j, 1≤j<i i<j≤n where X_j is a 0-1 random variable that is 1 if and only if x_j is an ancestor of x_i, where x_i is the i-th smallest key in S and x_j is the j-th smallest key. Then X = 1+L_i +R_i. Further, note that the random variables that are summed in L_i (or, respectively, R_i) are independent, and, focusing on E[X|C], as in the proof of Theorem 4, E[L_i] = H_i −1 and E[R_i] = H_{n−i+1} −1, where H_m = ∑^m_{k=1} 1/k is the m-th Harmonic number; hence, E[X|C] = H_i + H_{n−i+1} −1 < 2 ln n −1. Thus, we can apply a Chernoff bound to characterize X by bounding L_i and R_i separately (w.l.o.g., we focus on L_i), conditioned on C holding. For example, for the high-probability bound for the proof, it is sufficient that, for some small constant, ε > 0, there is a reasonably small δ > 0 such that\n\nP(L_i > (1 + δ) ln n) < 2^{−((1+ε)/ ln 2)(ln 2) log n} = 2^{−(1+ε) log n} = 1/n^{1+ε},\n\nwhich would establish the theorem by a union bound. In particular, we choose δ = 1.75 and let μ = E[L_i]. Then by a Chernoff bound, e.g., see [3,16,20,21,27], for μ = ln n, we have the following:\n\nPr(L_i > 2.75 ln n) = Pr(L_i > (1 + δ)μ) ( )_{μ} e^{δ} < (1 + δ)^{1+δ} ( e1.75 )ln n = 2.75^{2.75} ≤2.8−(ln 2) log n ≤2.04^{−log n} 1 = nlog 2.04 ,",
+   "token_count": 544,
+   "page_start": 12,
+   "page_end": 13,
+   "boxes": [
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 342.2,
+     "x1": 480.6,
+     "y1": 427.1
+    },
+    {
+     "page": 12,
+     "x0": 220.4,
+     "y0": 438.5,
+     "x1": 395.0,
+     "y1": 478.5
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 489.9,
+     "x1": 480.6,
+     "y1": 500.0
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 510.5,
+     "x1": 480.7,
+     "y1": 532.4
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 546.0,
+     "x1": 480.6,
+     "y1": 568.0
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 578.5,
+     "x1": 480.6,
+     "y1": 600.4
+    },
+    {
+     "page": 12,
+     "x0": 134.8,
+     "y0": 611.0,
+     "x1": 480.6,
+     "y1": 667.1
+    },
+    {
+     "page": 13,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.7,
+     "y1": 433.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p10",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 10,
+   "text": "which establishes the above bound for ε = log_2 2.04−1 > 0. Combining this with a similar bound for R_i, and the derived from Markov’s inequality with respect to E[X|A] and E[X|B], given in the proof of Theorem 4 for the conditional events A and B, we get that the height of of a zip-zip tree is at most\n\n2(2.75)(ln 2) log n ≤3.82 log n,\n\nwith probability 1 −o(1). ⊓⊔\n\nMaking Zip-zip Trees Partially Persistent. A data structure that can be updated in a current version while also allowing for queries in past versions is said to be partially persistent, and Driscoll, Sarnak, Sleator, and Tarjan [10] show how to make any bounded-degree linked structure, like a binary search tree, T, into a partially persistent data structure by utilizing techniques employing “fat nodes” and “node splitting.” They show that if a sequence of n updates on T only modifies O(n) data fields and pointers, then T can be made partially persistent with only an constant-factor increase in time and space for processing the sequence of updates, and allows for queries in any past instance of T. We show below that zip-zip trees have this property, w.h.p., thereby proving the following theorem.\n\nTheorem 6. One can transform an initially empty zip-zip tree, T, to be partially persistent, over the course of n insert and delete operations, so as to support, w.h.p., O(log n) amortized-time updates in the current version and O(log n)-time queries in the current or past versions, using O(n) space.",
+   "token_count": 370,
+   "page_start": 13,
+   "page_end": 14,
+   "boxes": [
+    {
+     "page": 13,
+     "x0": 134.8,
+     "y0": 438.9,
+     "x1": 480.6,
+     "y1": 523.7
+    },
+    {
+     "page": 13,
+     "x0": 134.8,
+     "y0": 535.6,
+     "x1": 480.7,
+     "y1": 665.1
+    },
+    {
+     "page": 14,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 163.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_3_zip_zip_trees_p11",
+   "paper_id": "2307.07660",
+   "section_id": "sec_3",
+   "section_number": "3",
+   "section_title": "Zip-zip Trees",
+   "part": 11,
+   "text": "Proof. By the way that the zip and unzip operations work, the total number of data or pointer changes in T over the course of n insert and delete operations can be upper bounded by the sum of r_1-ranks for all the keys involved, i.e., by the sum of n geometric random variables with success probability 1/2. Thus, by Lemma 3, the number of data or pointer changes in T is at most N = 12n with (very) high probability. Driscoll, Sarnak, Sleator, and Tarjan [10] show how to make any bounded-degree linked structure, like a binary search tree, T, into a partially persistent data structure by utilizing techniques employing “fat nodes” and “node splitting,” so that if a sequence of n updates on T only modifies O(n) data fields and pointers, then T can be made partially persistent with only an constant-factor increase in time and space for processing the sequence of updates, and this allows for queries in any past instance of T in the same asymptotic time as in the ephemeral version of T plus the time to locate the appropriate prior version. Alternatively, Sarnak and Tarjan [25] provide a simpler set of techniques that apply to binary search trees without parent parent pointers. Combining these facts establishes the theorem. ⊓⊔\n\nFor example, we can apply this theorem with respect to a sequence of n updates of a zip-zip tree that can be performed in O(n log n) time and O(n) space w.h.p., e.g., to provide a simple construction of an O(n)-space planar point-location data structure that supports O(log n)-time queries. A similar construction was provided by Sarnak and Tarjan [25], based on the more-complicated red-black tree data structure; hence, our construction can be viewed as simplifying their construction.\n\nFig. 2: An example zip tree, corresponding to the skip list in Figure 1.\n\nFig. 3: How insertion in a zip tree is done via unzipping and deletion is done via zipping.\n\nFig. 4: A zip-zip tree, with each node labeled with its (r_1, r_2) rank. Each shaded subtree is an r_1-rank group defining a uniform zip tree based on r_2 ranks.\n\nFig. 5: How insertion in an external zip tree is done via unzipping and deletion is done via zipping. Comparison nodes are represented with a prime symbol. Analogous to the operation depicted in Figure 3.\n\n4 Taking c = 3 would only cause an O(1) additive term.",
+   "token_count": 580,
+   "page_start": 5,
+   "page_end": 14,
+   "boxes": [
+    {
+     "page": 14,
+     "x0": 134.8,
+     "y0": 174.2,
+     "x1": 480.7,
+     "y1": 363.4
+    },
+    {
+     "page": 14,
+     "x0": 134.8,
+     "y0": 373.8,
+     "x1": 480.6,
+     "y1": 455.4
+    },
+    {
+     "page": 5,
+     "x0": 153.3,
+     "y0": 651.5,
+     "x1": 462.1,
+     "y1": 661.5
+    },
+    {
+     "page": 6,
+     "x0": 134.8,
+     "y0": 259.2,
+     "x1": 480.7,
+     "y1": 281.1
+    },
+    {
+     "page": 7,
+     "x0": 134.8,
+     "y0": 264.0,
+     "x1": 480.6,
+     "y1": 287.4
+    },
+    {
+     "page": 11,
+     "x0": 134.8,
+     "y0": 235.1,
+     "x1": 480.7,
+     "y1": 268.9
+    },
+    {
+     "page": 11,
+     "x0": 137.5,
+     "y0": 654.0,
+     "x1": 362.9,
+     "y1": 664.9
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_4_experiments_p1",
+   "paper_id": "2307.07660",
+   "section_id": "sec_4",
+   "section_number": "4",
+   "section_title": "Experiments",
+   "part": 1,
+   "text": "We augment our theoretical findings with experimental results, where we repeatedly constructed search trees with keys, {0, 1, . . . , n−1}, inserted in order (since insertion order doesn’t matter). Randomness was obtained by using a linear congruential pseudo-random generator. For both uniform zip trees and zip-zip trees with static r_2-ranks, we draw integers independently for the uniform ranks from the intervals [1, n^c], and [1, log^c n], respectively, choosing c = 3.\n\nDepth Discrepancy. First, we consider the respective depths of the smallest and the largest keys in an original zip tree, compared with the depths of these keys in a zip-zip tree. See Figure 6. The empirical results for the depths for smallest and largest keys in a zip tree clearly match the theoretic expected values of 0.5 log n and log n, respectively, from Theorem 2. For comparison purposes, we also plot the depths for smallest and largest keys in a uniform zip tree, which is essentially a treap, and in a zip-zip tree (with static r_2-ranks). Observe that, after the number of nodes, n, grows beyond small tree sizes, there is no discernible difference between the depths of the largest and smallest keys, and that this is very close to the theoretical bound of 0.69 log n. Most notably, apart from some differences for very small trees, the depths for smallest and largest keys in a zip-zip tree quickly conform to the uniform zip tree results, while using exponentially fewer bits for each node’s rank.",
+   "token_count": 373,
+   "page_start": 14,
+   "page_end": 15,
+   "boxes": [
+    {
+     "page": 14,
+     "x0": 134.8,
+     "y0": 500.2,
+     "x1": 480.7,
+     "y1": 570.0
+    },
+    {
+     "page": 14,
+     "x0": 134.8,
+     "y0": 583.4,
+     "x1": 480.6,
+     "y1": 665.9
+    },
+    {
+     "page": 15,
+     "x0": 134.8,
+     "y0": 331.1,
+     "x1": 480.6,
+     "y1": 400.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_4_experiments_p2",
+   "paper_id": "2307.07660",
+   "section_id": "sec_4",
+   "section_number": "4",
+   "section_title": "Experiments",
+   "part": 2,
+   "text": "Average Key Depth and Tree Height. Next, we empirically study the average key depth and average height for the three aforementioned zip tree variants. See Figure 7. Notably, we observe that for all tree sizes, despite using exponentially fewer rank bits per node, the zip-zip tree performs indistinguishably well from the uniform zip tree, equally outperforming the original zip tree variant. The average key depths and average tree heights for all variants appear to approach some constant multiple of log n. For example, the average depth of a key in an original zip tree, uniform zip tree, and zip-zip tree reached 1.373 log n, 1.267 log n, 1.267 log n, respectively. Interestingly, these values are roughly 8.5% less than the original zip tree and treap theoretical average key depths of 1.5 log n [29] and 1.39 log n [26], respectively, suggesting that both variants approach their limits at a similar rate. Also, we note that our empirical average height bounds for uniform zip trees and zip-zip trees get as high as 2.542 log n.\n\nRank Comparisons. Next, we experimentally determine the frequency of complete rank ties (collisions) for the uniform and zip-zip variants. See Figure 8 (left). The experiments show how the frequencies of rank collisions decrease polynomially in n for the uniform zip tree and in log n for the second rank of the zip-zip variant. This reflects how these rank values were drawn uniformly from a range of n^c and log^c n, respectively. Specifically, we observe the decrease to be polynomial to n^{−2.97} and log^{−2.99} n, matching our chosen value of c being 3.\n\nJust-in-Time Zip-zip Trees. In our final zip-zip tree experiment, we show how the just-in-time variant uses an expected constant number of bits per node. See Figure 8 (right). We observe a results of only 1.133 bits per node for storing the geometric (r_1) rank differences, and only 2.033 bits per node for storing the uniform (r_2) ranks, leading to a remarkable total of 3.166 expected bits per node of rank metadata to achieve ideal treap properties. Note that these results were obtained when nodes were inserted in increasing order of keys, and may not hold in general. For a uniformly at random insertion order, results were largely similar.",
+   "token_count": 562,
+   "page_start": 15,
+   "page_end": 16,
+   "boxes": [
+    {
+     "page": 15,
+     "x0": 134.8,
+     "y0": 421.4,
+     "x1": 480.7,
+     "y1": 586.8
+    },
+    {
+     "page": 15,
+     "x0": 134.8,
+     "y0": 607.3,
+     "x1": 480.6,
+     "y1": 665.1
+    },
+    {
+     "page": 16,
+     "x0": 134.8,
+     "y0": 330.5,
+     "x1": 480.6,
+     "y1": 355.0
+    },
+    {
+     "page": 16,
+     "x0": 134.8,
+     "y0": 388.7,
+     "x1": 480.7,
+     "y1": 494.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_4_experiments_p3",
+   "paper_id": "2307.07660",
+   "section_id": "sec_4",
+   "section_number": "4",
+   "section_title": "Experiments",
+   "part": 3,
+   "text": "Varying Geometric Mean. In the original zip tree paper, the authors suggest that zip trees could be more balanced by increasing the mean of the geometric distribution by which a nodes’ rank is chosen. The authors left this question open to experimental study, which we will now address.\n\nWe ran our experiments using zip trees with 2^16 or around 65 thousand keys, varying the success probability of the geometric distribution from 0.00001 to 0.999, which in turn varies the mean from 10,000 to 1.001. Recall that the original zip tree reaches an average depth of 1.30 log n and height of 2.96 log n while using roughly 1 log log n bits of space and that the zip-zip tree reaches an average depth of 1.21 log n and height of 2.37 log n while using roughly 4 log log n bits of space. Figure 9 confirms the results for the original zip trees, perfectly matching depth, height, and memory results when p = 1/2. Interestingly, when p = 0.0002 the depth, height, and memory results of this modified zip tree perfectly match results from the new zip-zip tree.\n\nFig. 6: Experimental results for the depth discrepancy between the smallest and largest keys in the original, uniform (treap), and zip-zip variants of the zip tree. Each data point is scaled down by a factor of log n (base 2).\n\nFig. 7: Experimental results for the average node depth and tree height, comparing the original, uniform (treap-like), and zip-zip variants of the zip tree. Each data point is scaled down by a factor of log n (base 2).\n\nFig. 8: (Left) The frequency of encountered rank ties per rank comparison for the uniform variant and per element insertion for the zip-zip variant. (Right) The metadata size for the just-in-time implementation of the zip-zip tree.\n\nFig. 9: Experimental results for the original zip tree when varying the geometric success probability (p) for the rank distribution. These show the trade-off between the number of bits required (Right) versus the performance gained (Left). Like before, the depths and heights are scaled down by a factor of log n, while the root ranks this time are scaled by a factor of log log n (all base 2).",
+   "token_count": 533,
+   "page_start": 15,
+   "page_end": 17,
+   "boxes": [
+    {
+     "page": 17,
+     "x0": 134.8,
+     "y0": 310.7,
+     "x1": 480.6,
+     "y1": 476.2
+    },
+    {
+     "page": 15,
+     "x0": 134.8,
+     "y0": 283.7,
+     "x1": 480.6,
+     "y1": 317.6
+    },
+    {
+     "page": 16,
+     "x0": 134.8,
+     "y0": 285.7,
+     "x1": 480.7,
+     "y1": 319.5
+    },
+    {
+     "page": 16,
+     "x0": 134.8,
+     "y0": 627.6,
+     "x1": 480.7,
+     "y1": 661.5
+    },
+    {
+     "page": 17,
+     "x0": 134.8,
+     "y0": 239.4,
+     "x1": 483.7,
+     "y1": 297.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_5_biased_zip_zip_trees_p1",
+   "paper_id": "2307.07660",
+   "section_id": "sec_5",
+   "section_number": "5",
+   "section_title": "Biased Zip-zip Trees",
+   "part": 1,
+   "text": "In this section, we describe how to make zip-zip trees biased for weighted keys. In this case, we assume each key, k, has an associated weight, w_k, such as an access frequency. Without loss of generality, we assume that weights don’t change, since we can simulate a weight change by deleting and reinserting a key with its new weight.\n\nOur method for modifying zip-zip trees to accommodate weighted keys is simple—when we insert a key, k, with weight, w_k, we now assign k a rank pair, r = (r_1, r_2), such that r_1 is ⌊log w_k⌋+ X_k, where X_k is drawn independently from a geometric distribution with success probability 1/2, and r_2 is an integer independently chosen uniformly in the range from 1 to ⌈log^c n⌉, where c ≥3. Thus, the only modification to our zip-zip tree construction to define a biased zip-zip tree is that the r_1 component is now a sum of a logarithmic rank and a value drawn from a geometric distribution. As with our zip-zip tree definition for unweighted keys, all the update and search operations for biased zip-zip trees are the same as for the original zip trees, except for this modification to the rank, r, for each key (and performing rank comparisons lexicographically). Therefore, assuming polynomial weights, we still can represent each such rank, r, using O(log log n) bits w.h.p.\n\nWe also have the following theorem, which implies the expected search performance bounds for weighted keys.\n\nTheorem 7. The expected depth of a key, k, with weight, w_k, in a biased zip-zip tree storing a set, K, of n keys is O(log(W/w_k)), where W = ∑_{k∈K} w_k. Proof. By construction, a biased zip-zip tree, T, is dual to a biased skip list, L, defined on K with the same r_1 ranks as for the keys in K as assigned during their insertions into T. Bagchi, Buchsbaum, and Goodrich [4] show that the expected depth of a key, k, in L is O(log(W/w_k)). Therefore, by Theorem 1, and the linearity of expectation, the expected depth of k in T is O(log(W/w_k)), where, as mentioned above, W is the sum of the weights of the keys in T and w_k is the weight of the key, k. ⊓⊔",
+   "token_count": 522,
+   "page_start": 17,
+   "page_end": 18,
+   "boxes": [
+    {
+     "page": 17,
+     "x0": 134.8,
+     "y0": 523.5,
+     "x1": 480.6,
+     "y1": 666.5
+    },
+    {
+     "page": 18,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.7,
+     "y1": 211.7
+    },
+    {
+     "page": 18,
+     "x0": 134.8,
+     "y0": 222.7,
+     "x1": 480.6,
+     "y1": 337.2
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_5_biased_zip_zip_trees_p2",
+   "paper_id": "2307.07660",
+   "section_id": "sec_5",
+   "section_number": "5",
+   "section_title": "Biased Zip-zip Trees",
+   "part": 2,
+   "text": "Thus, a biased zip-zip tree has similar expected search and update performance as a biased skip list, but with reduced space, since a biased zip-zip tree has exactly n nodes, whereas, assuming a standard skip-list representation where we use a linked-list node for each instance of a key, k, on a level in the skip list (from level-0 to the highest level where k appears) a biased skip list has an expected number of nodes equal to 2n + 2 ∑_{k∈K} log w_k. For example, if there are n^{ε} keys with weight n^{ε}, then such a biased skip list would require Ω(n log n) nodes, whereas a dual biased zip-zip tree would have just n nodes.\n\nFurther, due to their simplicity and weight biasing, we can utilize biased zip-zip trees as the biased auxiliary data structures in the link-cut dynamic tree data structure of Sleator and Tarjan [28], thereby providing a simple implementation of link-cut trees.",
+   "token_count": 224,
+   "page_start": 18,
+   "page_end": 18,
+   "boxes": [
+    {
+     "page": 18,
+     "x0": 134.8,
+     "y0": 348.2,
+     "x1": 480.7,
+     "y1": 489.7
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_6_future_work",
+   "paper_id": "2307.07660",
+   "section_id": "sec_6",
+   "section_number": "6",
+   "section_title": "Future Work",
+   "part": null,
+   "text": "In our paper, there is a clear trade-off between memory and history independence. In order to achieve an expected constant amount of metadata bits per node, history independence must be sacrificed. It remains interesting to see whether a version of the zip tree that is able to optimize for both while still maintaining good average node depth and height exists. In Section 4 we ran experiments on a version of the zip tree where the geometric mean was increased and saw that it was able to reproduce the results of the zip-zip tree. While such a variant would not be able to run using only an expected constant number of bits per node in the same way as the JIT variant, it nevertheless remains interesting whether something can be proved about the average node depth and height of such a tree. Particularly whether it is possible to similarly achieve good asymptotic bounds if the geometric mean is some function of the final size of the tree. As stated in the original paper, the zip tree and its variants present themselves well to concurrent implementations, and there remains no known non-blocking implementation.",
+   "token_count": 280,
+   "page_start": 18,
+   "page_end": 19,
+   "boxes": [
+    {
+     "page": 18,
+     "x0": 134.8,
+     "y0": 535.6,
+     "x1": 480.7,
+     "y1": 665.1
+    },
+    {
+     "page": 19,
+     "x0": 134.8,
+     "y0": 118.0,
+     "x1": 480.6,
+     "y1": 163.8
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_7_declarations",
+   "paper_id": "2307.07660",
+   "section_id": "sec_7",
+   "section_number": "7",
+   "section_title": "Declarations",
+   "part": null,
+   "text": "Conflict of Interest. The authors declare that there were no conflicts of interest during the writing and publication of these results.",
+   "token_count": 34,
+   "page_start": 19,
+   "page_end": 19,
+   "boxes": [
+    {
+     "page": 19,
+     "x0": 134.8,
+     "y0": 209.7,
+     "x1": 480.6,
+     "y1": 231.6
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_references_p1",
+   "paper_id": "2307.07660",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 1,
+   "text": "1. Acar, U.A.: Self-Adjusting Computation. Ph.D. thesis, Carnegie Mellon Univ. (2005) 2. Afek, Y., Kaplan, H., Korenfeld, B., Morrison, A., Tarjan, R.E.: The CB tree: a practical concurrent self-adjusting search tree 27(6), 393–417. https://doi.org/10.1007/s00446-014-0229-0 3. Alon, N., Spencer, J.H.: The Probabilistic Method. John Wiley & Sons, 4th edn. (2016) 4. Bagchi, A., Buchsbaum, A.L., Goodrich, M.T.: Biased skip lists. Algorithmica 42, 31–48 (2005) 5. Bender, M.A., Conway, A., Farach-Colton, M., Kuszmaul, W., Tagliavini, G.: Tiny pointers. In: ACM-SIAM Symposium on Discrete Algorithms (SODA). pp. 477–508 (2023). https://doi.org/10.1137/1.9781611977554.ch21 6. Bent, S.W., Sleator, D.D., Tarjan, R.E.: Biased search trees. SIAM Journal on Computing 14(3), 545–568 (1985) 7. Dean, B.C., Jones, Z.H.: Exploring the duality between skip lists and binary search trees. In: Proc. of the 45th Annual Southeast Regional Conference (ACM-SE). pp. 395–399 (2007). https://doi.org/10.1145/1233341.1233413 8. Devroye, L.: A note on the height of binary search trees. J. ACM 33(3), 489–498 (1986) 9. Devroye, L.: Branching processes in the analysis of the heights of trees. Acta Informatica 24(3), 277–298 (1987) 10. Driscoll, J.R., Sarnak, N., Sleator, D.D., Tarjan, R.E.: Making data structures persistent. Journal of Computer and System Sciences 38(1), 86–124 (1989). https://doi.org/10.1016/0022-0000(89)90034-2 11. Eberl, M., Haslbeck, M.W., Nipkow, T.: Verified analysis of random binary tree structures. In: 9th Int. Conf. on Interactive Theorem Proving (ITP). pp. 196–214. Springer (2018) 12. Erickson, J.: Lecture notes on treaps. Online (2017), available: https://jeffe.cs.illinois.edu/teaching/algorithms/notes/03-treaps.pdf 13.",
+   "token_count": 436,
+   "page_start": 20,
+   "page_end": 20,
+   "boxes": [
+    {
+     "page": 20,
+     "x0": 134.8,
+     "y0": 143.7,
+     "x1": 480.7,
+     "y1": 475.3
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_references_p2",
+   "paper_id": "2307.07660",
+   "section_id": "sec_references",
+   "section_number": null,
+   "section_title": "References",
+   "part": 2,
+   "text": "Flajolet, P., Odlyzko, A.: The average height of binary trees and other simple trees. Journal of Computer and System Sciences 25(2), 171–213 (1982) 14. Goodrich, M.T., Tamassia, R.: Algorithm Design and Applications. Wiley (2015) 15. Guo, B.N., Qi, F.: Sharp bounds for harmonic numbers. Applied Mathematics and Computation 218(3), 991–995 (2011). https://doi.org/10.1016/j.amc.2011.01.089 16. Hagerup, T., Rüb, C.: A guided tour of Chernoff bounds. Information Processing Letters 33(6), 305–308 (1990) 17. Hartline, J.D., Hong, E.S., Mohr, A.E., Pentney, W.R., Rocke, E.C.: Characterizing history independent data structures. Algorithmica 42, 57–74 (2005) 18. Martínez, C., Roura, S.: Randomized binary search trees. J. ACM 45(2), 288–323 (1998). https://doi.org/10.1145/274787.274812 19. Merkle, R.C.: Protocols for public key cryptosystems. In: 1980 IEEE Symposium on Security and Privacy. pp. 122–122 (1980). https://doi.org/10.1109/SP.1980.10006 20. Mitzenmacher, M., Upfal, E.: Probability and Computing: Randomization and Probabilistic Techniques in Algorithms and Data Analysis. Cambridge University Press, 2nd edn. (2017) 21. Motwani, R., Raghavan, P.: Randomized Algorithms. Cambridge University Press (1995) 22. Papadakis, T., Ian Munro, J., Poblete, P.V.: Average search and update costs in skip lists. BIT Numerical Mathematics 32(2), 316–332 (1992) 23. Pugh, W.: Skip lists: A probabilistic alternative to balanced trees. Commun. ACM 33(6), 668–676 (jun 1990). https://doi.org/10.1145/78973.78977 24. Reed, B.: The height of a random binary search tree. J. ACM 50(3), 306–332 (2003) 25. Sarnak, N., Tarjan, R.E.: Planar point location using persistent search trees.\n\nCommunications of the ACM 29(7), 669–679 (1986) 26. Seidel, R., Aragon, C.R.: Randomized search trees. Algorithmica 16(4-5), 464–497 (1996) 27. Shiu, D.: Efficient computation of tight approximations to Chernoff bounds.\n\nComputational Statistics pp. 1–15 (2022) 28. Sleator, D.D., Tarjan, R.E.: A data structure for dynamic trees. In: 13th ACM Symposium on Theory of Computing (STOC). pp. 114–122 (1981) 29. Tarjan, R.E., Levy, C., Timmel, S.: Zip trees. ACM Trans. Algorithms 17(4), 34:1–34:12 (2021). https://doi.org/10.1145/3476830",
+   "token_count": 554,
+   "page_start": 20,
+   "page_end": 21,
+   "boxes": [
+    {
+     "page": 20,
+     "x0": 134.8,
+     "y0": 466.4,
+     "x1": 480.7,
+     "y1": 664.9
+    },
+    {
+     "page": 21,
+     "x0": 134.8,
+     "y0": 118.8,
+     "x1": 480.7,
+     "y1": 292.1
+    }
+   ]
+  },
+  {
+   "chunk_id": "2307.07660:sec_A_pseudo_code_for_insertion_and_deletion",
+   "paper_id": "2307.07660",
+   "section_id": "sec_A",
+   "section_number": "A",
+   "section_title": "Pseudo-code for Insertion and Deletion in Zip Trees and Zip-zip Trees",
+   "part": null,
+   "text": "For completeness, we give the pseudo-code for the insert and delete operations, from Tarjan, Levy, and Timmel [29], in Figures 10 and 11.\n\nfunction Insert(x) rank ←x.rank ←RandomRank key ←x.key cur ←root while cur̸ = null and (rank < cur.rank or (rank = cur.rank and key > cur.key)) do prev ←cur cur ←if key < cur.key then cur.left else cur.right\n\nif cur = root then root ←x else if key < prev.key then prev.left ←x else prev.right ←x\n\nif cur = null then { x.left ←x.right ←null; return } if key < cur.key then x.right ←cur else x.left ←cur prev ←x\n\nwhile cur̸ = null do fix ←prev\n\nif cur.key < key then repeat { prev ←cur; cur ←cur.right } until cur = null or cur.key > key else repeat { prev ←cur; cur ←cur.left } until cur = null or cur.key < key\n\nif fix.key > key or (fix = x and prev.key > key) then\n\nelse function Delete(x) key ←x.key cur ←root while key̸ = cur.key do prev ←cur cur ←if key < cur.key then cur.left else cur.right\n\nleft ←cur.left; right ←cur.right\n\nif left = null then cur ←right else if right = null then cur ←left else if left.rank ≥right.rank then cur ←left else cur ←right\n\nif root = x then root ←cur else if key < prev.key then prev.left ←cur else prev.right ←cur\n\nwhile left̸ = null and right̸ = null do if left.rank ≥right.rank then repeat { prev ←left; left ←left.right } until left = null or left.rank < right.rank prev.right ←right else repeat { prev ←right; right ←right.left } until right = null or left.rank ≥right.rank\n\nFig. 10: Insertion in a zip tree (or zip-zip tree), from [29].\n\nfix.left ←cur fix.right ←cur\n\nFig. 11: Deletion in a zip tree (or zip-zip tree), from [29].\n\nprev.left ←left",
+   "token_count": 407,
+   "page_start": 22,
+   "page_end": 23,
+   "boxes": [
+    {
+     "page": 22,
+     "x0": 134.8,
+     "y0": 155.9,
+     "x1": 480.6,
+     "y1": 177.8
+    },
+    {
+     "page": 22,
+     "x0": 136.3,
+     "y0": 199.9,
+     "x1": 494.8,
+     "y1": 313.6
+    },
+    {
+     "page": 22,
+     "x0": 150.1,
+     "y0": 326.4,
+     "x1": 375.6,
+     "y1": 357.4
+    },
+    {
+     "page": 22,
+     "x0": 150.1,
+     "y0": 370.2,
+     "x1": 232.8,
+     "y1": 390.3
+    },
+    {
+     "page": 22,
+     "x0": 163.9,
+     "y0": 403.2,
+     "x1": 390.3,
+     "y1": 483.4
+    },
+    {
+     "page": 22,
+     "x0": 163.9,
+     "y0": 496.4,
+     "x1": 180.8,
+     "y1": 505.4
+    },
+    {
+     "page": 23,
+     "x0": 136.3,
+     "y0": 232.6,
+     "x1": 376.0,
+     "y1": 313.4
+    },
+    {
+     "page": 23,
+     "x0": 150.1,
+     "y0": 326.2,
+     "x1": 344.8,
+     "y1": 368.2
+    },
+    {
+     "page": 23,
+     "x0": 150.1,
+     "y0": 381.0,
+     "x1": 332.5,
+     "y1": 412.0
+    },
+    {
+     "page": 23,
+     "x0": 150.1,
+     "y0": 424.8,
+     "x1": 361.0,
+     "y1": 510.6
+    },
+    {
+     "page": 22,
+     "x0": 181.5,
+     "y0": 528.6,
+     "x1": 433.9,
+     "y1": 538.6
+    },
+    {
+     "page": 22,
+     "x0": 177.7,
+     "y0": 485.3,
+     "x1": 237.9,
+     "y1": 494.4
+    },
+    {
+     "page": 22,
+     "x0": 177.7,
+     "y0": 507.2,
+     "x1": 242.8,
+     "y1": 516.3
+    },
+    {
+     "page": 23,
+     "x0": 182.5,
+     "y0": 533.9,
+     "x1": 432.8,
+     "y1": 543.9
+    },
+    {
+     "page": 23,
+     "x0": 177.7,
+     "y0": 512.5,
+     "x1": 244.7,
+     "y1": 521.6
+    }
+   ]
+  }
+ ]
+}
