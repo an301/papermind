@@ -1,5 +1,8 @@
 # PaperMind
 
+https://18-190-198-47.sslip.io/
+Password: 
+
 A research-paper reading agent that explains at your level. Open a paper (an
 arXiv link or your own PDF), read it, and ask questions in the margin. Answers
 are built on the passages of the paper that actually answer the question, cite
