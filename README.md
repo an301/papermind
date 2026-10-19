@@ -151,10 +151,3 @@ QLoRA SFT, then DPO. The fine-tuned model serves through vLLM behind
 base vs tuned model with retrieval held fixed. The data steps run on your
 laptop; training needs a rented NVIDIA GPU (about 2 hours on an A100). Steps,
 costs and settings: [`training/README.md`](training/README.md).
-
-## Not built yet
-
-- From the design spec: find-in-paper, your own highlights and "Your marks",
-  pinning answers to the page, the phone bottom-sheet detents, and the
-  Appearance popover (theme and page mode are in Settings). "Background" labels
-  on uncited paragraphs stay off until the uncited-paragraph eval gate passes.
