@@ -6,7 +6,7 @@ import { ArrowLeftIcon, ArrowUpRightIcon, DotsThreeIcon, MinusIcon, PlusIcon, Si
 import { useState, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { qk } from '../../api/keys'
-import { canRemovePapers, useHealth } from '../../api/queries'
+import { canRemovePaper, useHealth } from '../../api/queries'
 import { queryClient } from '../../api/queryClient'
 import type { PaperDetail } from '../../api/types'
 import { removeWithUndo } from '../library/removals'
@@ -93,7 +93,7 @@ export function TopBar({ paperId, title, meta, numPages, onNewConversation, outl
   const panelOpen = useReaderStore((st) => st.panelOpen)
   const scale = useReaderStore((st) => st.effectiveScale)
   const store = useReaderStore.getState
-  const canRemove = canRemovePapers(useHealth().data)
+  const canRemove = canRemovePaper(useHealth().data, paperId)
   const navigate = useNavigate()
 
   return (

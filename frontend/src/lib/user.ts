@@ -10,14 +10,9 @@
 import { api, isNotFound } from '../api/client'
 import type { UserProfile } from '../api/types'
 import { storage } from './storage'
+import { forgetStoredUser, storedUserId, USER_ID_KEY } from './userId'
 
-export const USER_ID_KEY = 'pm:user'
-
-export const storedUserId = (): string | null => storage.get(USER_ID_KEY)
-
-export function forgetStoredUser(): void {
-  storage.remove(USER_ID_KEY)
-}
+export { forgetStoredUser, storedUserId, USER_ID_KEY }
 
 let inflight: Promise<UserProfile> | null = null
 

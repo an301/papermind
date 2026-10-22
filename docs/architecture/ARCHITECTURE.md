@@ -360,6 +360,14 @@ started — failures become an `error` event followed by `done`. Client
 disconnects cancel the turn. Ingestion runs as a background task; its status
 lives in Redis (`ingest:{paper_id}`) so any worker can report progress.
 
+Every request carries the reader's anonymous user id in `X-Reader-Id`. arXiv
+papers are shared by all readers; an upload is private to the readers who
+uploaded it (`papermind/memory/paper_readers.py`, one marker file per reader
+under `data/papers/.readers/{paper_id}/`). For anyone else every paper route
+answers 404, as if the upload did not exist. Uploading the same bytes again
+makes that reader one of its readers, and removing an upload takes it from
+that reader only: the files go when its last reader removes it.
+
 Errors before streaming use HTTP status + `{"error": {"code", "message"}}`.
 
 ## Evaluation

@@ -29,7 +29,7 @@ The Claude costs come out of your Anthropic account, so the server has guards
 | `QUESTIONS_PER_HOUR` | 20 | one visitor running up the bill |
 | `PAPERS_PER_DAY` | 5 | one visitor filling the disk |
 | `DAILY_BUDGET_USD` | 5 | everyone together: chat pauses until midnight UTC |
-| `ALLOW_PAPER_DELETE` | false | one visitor emptying the shared library |
+| `ALLOW_PAPER_DELETE` | false | one visitor removing the shared arXiv papers (readers can always remove their own uploads) |
 
 Also set a monthly limit in the Anthropic Console (Settings → Limits). That
 limit is enforced by Anthropic, so it holds even if the server's own counters
@@ -90,8 +90,9 @@ the access code.
 Open the URL, type the code, open a paper, ask a question. The first answer
 after a restart is a few seconds slower while the paper's index loads.
 
-Share the URL and the code with people. Everyone shares one library; each
-browser gets its own reading level and "what you know".
+Share the URL and the code with people. Everyone shares the arXiv papers, but
+an uploaded PDF is private: only the browser that uploaded it sees it. Each
+browser also gets its own reading level and "what you know".
 
 ## Day to day
 

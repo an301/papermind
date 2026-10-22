@@ -119,8 +119,9 @@ class Settings(BaseSettings):
     # with a "come back tomorrow" error and suggestions fall back to section
     # titles. 0 = no cap. The Anthropic Console's own limit is the backstop.
     daily_budget_usd: float = 0.0
-    # The library is shared by everyone on the server, so one visitor could
-    # remove everyone's papers.
+    # arXiv papers are shared by everyone on the server, so one visitor could
+    # remove everyone's. Uploads are private to their readers and can always
+    # be removed by them (papermind.memory.paper_readers).
     allow_paper_delete: bool = True
 
     # ---- evals
@@ -130,6 +131,12 @@ class Settings(BaseSettings):
     @property
     def papers_dir(self) -> Path:
         return self.data_dir / "papers"
+
+    @property
+    def paper_readers_dir(self) -> Path:
+        # Inside papers_dir so it lives on the same persistent volume; the
+        # leading dot keeps PaperStore.list from taking it for a paper.
+        return self.papers_dir / ".readers"
 
     @property
     def concepts_path(self) -> Path:

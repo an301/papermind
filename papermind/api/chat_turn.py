@@ -171,7 +171,8 @@ class PreparedTurn:
 
 async def prepare_turn(body: ChatRequest, res: ResourcesDep, request: Request) -> PreparedTurn:
     session = await require_session(res, body.session_id)
-    paper = await require_ready_paper(res, session.paper_id)
+    # The session's own reader: only someone who could open the paper made it.
+    paper = await require_ready_paper(res, session.paper_id, reader_id=session.user_id)
     # Counted only for a question that will run: a refused one (bad session,
     # paper not ready) does not use up the reader's hour.
     await limit_questions(request, res)

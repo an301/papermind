@@ -4,11 +4,17 @@
  * sent as `X-Access-Code` on every API request: JSON, uploads, the chat
  * stream and pdf.js's PDF fetches.
  *
+ * The same requests carry the reader's anonymous id as `X-Reader-Id`: an
+ * uploaded PDF is listed and served only to the readers who uploaded it.
+ *
  * A request refused for its code tells the gate (`onAccessRejected`), which
  * clears the stored code and asks again: the operator may have changed it.
  */
 
+import { storedUserId } from '../lib/userId'
+
 export const ACCESS_HEADER = 'X-Access-Code'
+export const READER_HEADER = 'X-Reader-Id'
 const STORAGE_KEY = 'papermind.accessCode'
 
 let current: string | null = read()
@@ -36,9 +42,14 @@ export function setAccessCode(code: string | null): void {
   }
 }
 
-/** Headers to add to an API request; empty when no code is stored. */
+/** Headers to add to an API request: the access code and reader id, each when stored. */
 export function accessHeaders(): Record<string, string> {
-  return current ? { [ACCESS_HEADER]: current } : {}
+  const headers: Record<string, string> = {}
+  if (current) headers[ACCESS_HEADER] = current
+  // Read at request time: the id appears once the first visit creates the profile.
+  const readerId = storedUserId()
+  if (readerId) headers[READER_HEADER] = readerId
+  return headers
 }
 
 export const isAccessCodeError = (code: string): boolean =>

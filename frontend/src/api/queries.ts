@@ -50,8 +50,13 @@ export function useHealth() {
 export const isAnthropicKeyMissing = (health: HealthResponse | undefined): boolean =>
   health?.checks.anthropic_key?.ok === false
 
-/** False on a shared public server, where finished papers can't be removed (unknown counts as allowed). */
-export const canRemovePapers = (health: HealthResponse | undefined): boolean => health?.paper_delete_allowed !== false
+/**
+ * Whether this reader may remove the paper. A shared public server protects
+ * finished arXiv papers (unknown counts as allowed); a reader's own upload
+ * (`up_` ids) is private to them and can always be removed.
+ */
+export const canRemovePaper = (health: HealthResponse | undefined, paperId: string): boolean =>
+  paperId.startsWith('up_') || health?.paper_delete_allowed !== false
 
 // ---------------------------------------------------------------- papers
 
@@ -127,7 +132,11 @@ export interface UploadVariables {
 export function useUploadPaper() {
   const client = useQueryClient()
   return useMutation({
-    mutationFn: ({ file, onProgress, signal }: UploadVariables) => uploadPdf(file, onProgress, signal),
+    mutationFn: async ({ file, onProgress, signal }: UploadVariables) => {
+      // The upload belongs to whoever sends it (X-Reader-Id), so the id must exist first.
+      await bootstrapUser()
+      return uploadPdf(file, onProgress, signal)
+    },
     onSuccess: ({ summary }) => {
       upsertPaperInCache(client, summary)
       void client.invalidateQueries({ queryKey: qk.papers, exact: true })

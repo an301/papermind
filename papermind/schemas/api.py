@@ -58,7 +58,8 @@ class HealthResponse(BaseModel):
         default=False, description="every route but /health needs the X-Access-Code header"
     )
     paper_delete_allowed: bool = Field(
-        default=True, description="false on a shared public server: papers cannot be removed"
+        default=True,
+        description="false on a shared public server: arXiv papers cannot be removed (a reader's own uploads always can)",
     )
 
 

@@ -141,7 +141,7 @@ export interface HealthResponse {
   checks: Record<string, ServiceCheck>
   /** Every route but /health needs the X-Access-Code header (a public server). */
   access_code_required?: boolean
-  /** False on a shared public server: finished papers can't be removed. */
+  /** False on a shared public server: finished arXiv papers can't be removed (a reader's own uploads always can). */
   paper_delete_allowed?: boolean
 }
 

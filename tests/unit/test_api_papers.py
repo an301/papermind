@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -12,10 +13,13 @@ from papermind.api.ingest_jobs import IngestJobs
 from papermind.ingest.arxiv import ArxivUnavailable
 from papermind.ingest.extract import NoTextPDF
 from papermind.memory.ingest_status import MemoryIngestStatusStore
+from papermind.memory.paper_readers import is_upload
 from papermind.schemas.paper import IngestStage
+from papermind.schemas.session import UserProfile
 from tests.unit.test_api_support import (
     MINIMAL_PDF,
     PAPER_ID,
+    READER_ID,
     FakeIngest,
     FakeLLM,
     make_harness,
@@ -360,6 +364,8 @@ async def test_delete_removes_paper_and_cancels_ingestion(tmp_path: Path) -> Non
 async def test_paper_ids_of_every_shape_route(tmp_path: Path, paper_id: str) -> None:
     h = make_harness(tmp_path, with_paper=False)
     h.store.save(make_record(paper_id), MINIMAL_PDF)
+    if is_upload(paper_id):
+        await h.res.readers.add(paper_id, READER_ID)
     async with h.client() as client:
         response = await client.get(f"/api/papers/{paper_id}")
     assert response.status_code == 200
@@ -595,3 +601,103 @@ async def test_delete_mid_ingestion_removes_the_files_written_so_far(tmp_path: P
     assert not h.res.jobs.running("2401.00001")
     assert not (h.store.papers_dir / "2401.00001").exists()
     assert not (cache_root / "2401.00001").exists()
+
+
+# ---------------------------------------------------------------- private uploads
+
+OTHER_READER = "u_someone_else"
+
+
+async def _upload_ready(h, client, pdf: bytes = MINIMAL_PDF) -> str:
+    response = await client.post("/api/papers/upload", files={"file": ("resume.pdf", pdf, "application/pdf")})
+    assert response.status_code == 202, response.text
+    paper_id = response.json()["paper_id"]
+    await _wait_for_status(client, paper_id, "ready")
+    return paper_id
+
+
+async def test_an_upload_is_listed_and_served_only_to_its_reader(tmp_path: Path) -> None:
+    h = make_harness(tmp_path)
+    async with h.client() as owner, h.client(OTHER_READER) as other, h.client(None) as anonymous:
+        paper_id = await _upload_ready(h, owner)
+
+        assert paper_id in [r["paper_id"] for r in (await owner.get("/api/papers")).json()]
+        assert (await owner.get(f"/api/papers/{paper_id}/pdf")).status_code == 200
+        for client in (other, anonymous):
+            # The shared arXiv paper is still everyone's.
+            assert [r["paper_id"] for r in (await client.get("/api/papers")).json()] == [PAPER_ID]
+            for path in ("", "/pdf", "/chunks/c_0001", "/suggestions"):
+                response = await client.get(f"/api/papers/{paper_id}{path}")
+                assert response.status_code == 404, path
+                assert response.json()["error"]["code"] == "paper_not_found", path
+            assert (await client.delete(f"/api/papers/{paper_id}")).status_code == 404
+    assert (await h.res.papers.meta(paper_id)) is not None, "a refused delete removes nothing"
+
+
+async def test_an_in_flight_upload_is_hidden_from_other_readers(tmp_path: Path) -> None:
+    h = make_harness(tmp_path, with_paper=False)
+    h.ingest.gate.clear()
+    async with h.client() as owner, h.client(OTHER_READER) as other:
+        files = {"file": ("resume.pdf", MINIMAL_PDF, "application/pdf")}
+        paper_id = (await owner.post("/api/papers/upload", files=files)).json()["paper_id"]
+        assert [r["paper_id"] for r in (await owner.get("/api/papers")).json()] == [paper_id]
+        assert (await other.get("/api/papers")).json() == []
+        assert (await other.get(f"/api/papers/{paper_id}/pdf")).status_code == 404
+        h.ingest.gate.set()
+        await _wait_for_status(owner, paper_id, "ready")
+
+
+async def test_a_session_cannot_be_opened_on_someone_elses_upload(tmp_path: Path) -> None:
+    h = make_harness(tmp_path)
+    other_user = await h.graph.upsert_user(
+        UserProfile(user_id=OTHER_READER, level="intermediate", created_at=datetime.now(UTC))
+    )
+    async with h.client() as owner, h.client(OTHER_READER) as other:
+        paper_id = await _upload_ready(h, owner)
+        response = await other.post(
+            "/api/sessions", json={"user_id": other_user.user_id, "paper_id": paper_id}
+        )
+    assert response.status_code == 404
+    assert response.json()["error"]["code"] == "paper_not_found"
+
+
+async def test_uploading_without_a_reader_id_is_refused(tmp_path: Path) -> None:
+    h = make_harness(tmp_path, with_paper=False)
+    async with h.client(None) as client:
+        response = await client.post(
+            "/api/papers/upload", files={"file": ("resume.pdf", MINIMAL_PDF, "application/pdf")}
+        )
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "invalid_input"
+    assert h.ingest.calls == []
+
+
+async def test_uploading_the_same_pdf_shares_it_with_the_second_reader(tmp_path: Path) -> None:
+    h = make_harness(tmp_path)
+    async with h.client() as owner, h.client(OTHER_READER) as other:
+        paper_id = await _upload_ready(h, owner)
+        again = await other.post(
+            "/api/papers/upload", files={"file": ("mine.pdf", MINIMAL_PDF, "application/pdf")}
+        )
+        assert again.status_code == 200 and again.json()["paper_id"] == paper_id
+        assert (await other.get(f"/api/papers/{paper_id}")).status_code == 200
+    assert [c for c in h.ingest.calls if c[0] == "upload"] == [("upload", "resume.pdf")], "not ingested twice"
+
+
+async def test_removing_an_upload_takes_it_from_that_reader_and_the_files_go_with_the_last(
+    tmp_path: Path,
+) -> None:
+    # Even where shared papers are protected: an upload is its readers' own.
+    h = make_harness(tmp_path, settings=make_settings(tmp_path, allow_paper_delete=False))
+    async with h.client() as owner, h.client(OTHER_READER) as other:
+        paper_id = await _upload_ready(h, owner)
+        await other.post("/api/papers/upload", files={"file": ("mine.pdf", MINIMAL_PDF, "application/pdf")})
+
+        assert (await owner.delete(f"/api/papers/{paper_id}")).status_code == 204
+        assert (await owner.get(f"/api/papers/{paper_id}")).status_code == 404
+        assert (await other.get(f"/api/papers/{paper_id}")).status_code == 200
+
+        assert (await other.delete(f"/api/papers/{paper_id}")).status_code == 204
+        assert (await h.res.papers.meta(paper_id)) is None
+        assert not (h.res.readers.root / paper_id).exists()
+        assert (await other.delete(f"/api/papers/{PAPER_ID}")).status_code == 403

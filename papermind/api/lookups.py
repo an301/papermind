@@ -69,7 +69,16 @@ def not_ready_error(status: IngestStatus) -> APIError:
     )
 
 
-async def paper_summary(res: Resources, paper_id: str) -> tuple[PaperSummary, PaperMeta | None]:
+async def require_readable(res: Resources, paper_id: str, reader_id: str | None) -> None:
+    """Someone else's upload is "not found", never "forbidden": its existence is private too."""
+    if not await res.readers.can_read(paper_id, reader_id):
+        raise paper_not_found(paper_id)
+
+
+async def paper_summary(
+    res: Resources, paper_id: str, *, reader_id: str | None
+) -> tuple[PaperSummary, PaperMeta | None]:
+    await require_readable(res, paper_id, reader_id)
     meta = await res.papers.meta(paper_id)
     if meta is not None:
         return summary_from_meta(meta), meta
@@ -79,7 +88,8 @@ async def paper_summary(res: Resources, paper_id: str) -> tuple[PaperSummary, Pa
     return status_summary(status), None
 
 
-async def require_ready_paper(res: Resources, paper_id: str) -> PaperMeta:
+async def require_ready_paper(res: Resources, paper_id: str, *, reader_id: str | None) -> PaperMeta:
+    await require_readable(res, paper_id, reader_id)
     meta = await res.papers.meta(paper_id)
     if meta is not None:
         return meta

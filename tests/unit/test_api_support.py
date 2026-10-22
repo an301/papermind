@@ -20,7 +20,7 @@ import httpx
 from fastapi import FastAPI
 
 from papermind.api.app import build_app
-from papermind.api.deps import AsyncPapers, Resources
+from papermind.api.deps import READER_HEADER, AsyncPapers, Resources
 from papermind.api.ingest_jobs import IngestJobs, ProgressFn
 from papermind.api.suggestions import SuggestionService
 from papermind.config import Settings
@@ -28,6 +28,7 @@ from papermind.graph.store import InMemoryGraphStore
 from papermind.graph.testing import sample_catalog
 from papermind.ingest.arxiv import ArxivMetadata, ArxivNotFound
 from papermind.memory.ingest_status import RedisIngestStatusStore
+from papermind.memory.paper_readers import PaperReaders
 from papermind.memory.session_store import RedisSessionStore
 from papermind.memory.users import CatalogSource
 from papermind.schemas.events import (
@@ -49,6 +50,7 @@ from papermind.schemas.session import UserProfile
 from papermind.schemas.tools import ConceptRef, Gap
 
 PAPER_ID = "1706.03762"
+READER_ID = "u_reader"
 MINIMAL_PDF = b"%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n" + b"0123456789" * 50
 
 
@@ -368,12 +370,16 @@ class Harness:
     redis: Any
     graph: InMemoryGraphStore
 
-    def client(self) -> httpx.AsyncClient:
-        return httpx.AsyncClient(transport=httpx.ASGITransport(app=self.app), base_url="http://test")
+    def client(self, reader_id: str | None = READER_ID) -> httpx.AsyncClient:
+        """A browser: it sends its reader id, as the frontend does, unless given None."""
+        headers = {READER_HEADER: reader_id} if reader_id else {}
+        return httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=self.app), base_url="http://test", headers=headers
+        )
 
     async def add_user(self, level: str = "intermediate") -> UserProfile:
         return await self.graph.upsert_user(
-            UserProfile(user_id="u_reader", level=level, created_at=datetime.now(UTC))  # type: ignore[arg-type]
+            UserProfile(user_id=READER_ID, level=level, created_at=datetime.now(UTC))  # type: ignore[arg-type]
         )
 
 
@@ -398,7 +404,8 @@ def make_harness(
     concepts_dir = settings.data_dir / "concepts"
     concepts_dir.mkdir(parents=True, exist_ok=True)
     (concepts_dir / "concepts.json").write_text(json.dumps({"version": 1, "concepts": []}))
-    papers = AsyncPapers(store)
+    readers = PaperReaders(settings.paper_readers_dir)
+    papers = AsyncPapers(store, derived_dirs=[readers.root])
     res = Resources(
         settings=settings,
         sessions=RedisSessionStore(redis, ttl_seconds=settings.session_ttl_seconds),
@@ -410,6 +417,7 @@ def make_harness(
         ),
         suggestions=SuggestionService(llm),
         catalog=CatalogSource(settings.concepts_path),
+        readers=readers,
         redis=redis,
         mcp=mcp,
         runner=runner,

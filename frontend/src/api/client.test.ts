@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { USER_ID_KEY } from '../lib/userId'
 import { api, ApiError, apiUrl, errorFromResponse, isApiError, isNotFound, NetworkError } from './client'
 
 const json = (body: unknown, status = 200) =>
@@ -28,6 +29,23 @@ describe('api', () => {
     expect(init.method).toBe('PATCH')
     expect(init.body).toBe('{"level":"expert"}')
     expect((init.headers as Record<string, string>)['Content-Type']).toBe('application/json')
+  })
+
+  it('sends the stored reader id, which decides whose uploads the server shows', async () => {
+    const fetchMock = vi.fn(() => Promise.resolve(json([])))
+    globalThis.fetch = fetchMock
+    const sentHeaders = async () => {
+      await api('/papers')
+      const [, init] = fetchMock.mock.lastCall as unknown as [string, RequestInit]
+      return init.headers
+    }
+    expect(await sentHeaders()).not.toHaveProperty('X-Reader-Id')
+    window.localStorage.setItem(USER_ID_KEY, 'u_abc')
+    try {
+      expect(await sentHeaders()).toHaveProperty('X-Reader-Id', 'u_abc')
+    } finally {
+      window.localStorage.removeItem(USER_ID_KEY)
+    }
   })
 
   it('resolves 204 to undefined', async () => {

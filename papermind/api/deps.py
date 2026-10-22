@@ -29,6 +29,7 @@ from papermind.config import Settings
 from papermind.graph.store import GraphStore
 from papermind.ingest.store import validate_paper_id
 from papermind.memory.ingest_status import IngestStatusStore
+from papermind.memory.paper_readers import PaperReaders, valid_reader_id
 from papermind.memory.session_store import SessionStore
 from papermind.memory.usage import RateLimiter, SpendMeter
 from papermind.memory.users import CatalogSource
@@ -37,6 +38,11 @@ from papermind.schemas.events import ChatEvent
 from papermind.schemas.paper import Chunk, PaperMeta, PaperRecord
 
 Emit = Callable[[ChatEvent], Awaitable[None]]
+
+# The reader's anonymous user id, sent on every request so the API can tell
+# whose uploads to show. Unguessable (papermind.memory.users.new_user_id), so
+# knowing it is what makes a request that reader's.
+READER_HEADER = "X-Reader-Id"
 
 
 class PaperStoreAPI(Protocol):
@@ -121,6 +127,8 @@ class Resources:
     jobs: IngestJobs
     suggestions: SuggestionService
     catalog: CatalogSource
+    # Who may read each upload (arXiv papers are everyone's).
+    readers: PaperReaders
     redis: Redis | None = None
     mcp: MCPStatus | None = None
     runner: TurnRunner | None = None
@@ -141,6 +149,14 @@ def get_resources(request: Request) -> Resources:
 
 
 ResourcesDep = Annotated[Resources, Depends(get_resources)]
+
+
+def get_reader_id(request: Request) -> str | None:
+    """The requesting reader, or None for a missing or malformed id (who then sees no uploads)."""
+    return valid_reader_id(request.headers.get(READER_HEADER))
+
+
+ReaderDep = Annotated[str | None, Depends(get_reader_id)]
 
 
 def _settings(res: ResourcesDep) -> Settings:

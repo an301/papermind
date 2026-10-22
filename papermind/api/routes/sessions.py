@@ -6,7 +6,7 @@ import logging
 
 from fastapi import APIRouter
 
-from papermind.api.deps import Resources, ResourcesDep
+from papermind.api.deps import ReaderDep, Resources, ResourcesDep
 from papermind.api.errors import error_responses
 from papermind.api.lookups import require_ready_paper, require_session, require_user
 from papermind.schemas.api import CreateSessionRequest, UpdateSessionRequest
@@ -32,9 +32,9 @@ async def _maybe_prewarm(res: Resources, paper: PaperMeta) -> None:
 
 
 @router.post("", response_model=Session, responses=error_responses(404, 409))
-async def create_session(body: CreateSessionRequest, res: ResourcesDep) -> Session:
+async def create_session(body: CreateSessionRequest, res: ResourcesDep, reader_id: ReaderDep) -> Session:
     user = await require_user(res.graph, body.user_id)
-    paper = await require_ready_paper(res, body.paper_id)
+    paper = await require_ready_paper(res, body.paper_id, reader_id=reader_id)
     session = await res.sessions.create(user.user_id, paper.paper_id, body.level or user.level)
     await _maybe_prewarm(res, paper)
     return session

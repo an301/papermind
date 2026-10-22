@@ -9,6 +9,7 @@ import { isAbort, NetworkError, uploadPdf, type UploadResult } from '../../api/c
 import { qk } from '../../api/keys'
 import { upsertPaperInCache } from '../../api/queries'
 import { queryClient } from '../../api/queryClient'
+import { bootstrapUser } from '../../lib/user'
 
 export interface Upload {
   id: string
@@ -58,6 +59,8 @@ export async function startUpload(file: File): Promise<UploadOutcome> {
 
 async function run(id: string, file: File, controller: AbortController): Promise<UploadOutcome> {
   try {
+    // The upload belongs to whoever sends it (X-Reader-Id), so the id must exist first.
+    await bootstrapUser()
     const result = await uploadPdf(file, (fraction) => patch(id, { fraction }), controller.signal)
     upsertPaperInCache(queryClient, result.summary)
     drop(id)

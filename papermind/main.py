@@ -48,6 +48,7 @@ from papermind.ingest.store import PaperStore
 from papermind.llm.client import LLM
 from papermind.mcp_client.manager import MCPManager, Transport, default_transports
 from papermind.memory.ingest_status import MemoryIngestStatusStore, RedisIngestStatusStore
+from papermind.memory.paper_readers import PaperReaders
 from papermind.memory.session_store import MemorySessionStore, RedisSessionStore
 from papermind.memory.usage import RateLimiter, SpendMeter
 from papermind.memory.users import CatalogSource
@@ -195,7 +196,8 @@ async def open_resources(settings: Settings) -> AsyncIterator[Resources]:
 
         store = PaperStore(settings.papers_dir)
         embedding_cache = settings.cache_dir / "embeddings"
-        papers = AsyncPapers(store, derived_dirs=[embedding_cache])
+        readers = PaperReaders(settings.paper_readers_dir)
+        papers = AsyncPapers(store, derived_dirs=[embedding_cache, readers.root])
         # From this app's settings rather than the process-wide defaults, so an
         # app built on another data_dir (the integration tests) stays inside it.
         # The model itself loads lazily, on the first ingestion.
@@ -225,6 +227,7 @@ async def open_resources(settings: Settings) -> AsyncIterator[Resources]:
             jobs=jobs,
             suggestions=SuggestionService(llm, effort=settings.classifier_effort),
             catalog=CatalogSource(settings.concepts_path),
+            readers=readers,
             redis=redis,
             mcp=mcp,
             runner=runner,

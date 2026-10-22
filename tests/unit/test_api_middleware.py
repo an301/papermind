@@ -12,10 +12,11 @@ from typing import Any
 import httpx
 import pytest
 
+from papermind.api.deps import READER_HEADER
 from papermind.api.middleware import DRAIN_FACTOR, JSON_BODY_LIMIT_BYTES
 from papermind.graph.store import InMemoryGraphStore
 from papermind.graph.testing import sample_catalog
-from tests.unit.test_api_support import MINIMAL_PDF, PAPER_ID, make_harness, make_settings
+from tests.unit.test_api_support import MINIMAL_PDF, PAPER_ID, READER_ID, make_harness, make_settings
 
 ORIGIN = "http://localhost:5173"
 MB = 1024 * 1024
@@ -158,7 +159,12 @@ async def test_an_upload_under_the_limit_still_goes_through(tmp_path: Path) -> N
     h = make_harness(tmp_path, with_paper=False, settings=make_settings(tmp_path, max_upload_mb=1))
     body = multipart(512 * 1024)
 
-    out = await exchange(h.app, "/api/papers/upload", body, [MULTIPART, CHUNKED])
+    out = await exchange(
+        h.app,
+        "/api/papers/upload",
+        body,
+        [MULTIPART, CHUNKED, (READER_HEADER.lower().encode(), READER_ID.encode())],
+    )
 
     assert out.status == 202, out.body
     assert out.consumed == sum(map(len, body))
