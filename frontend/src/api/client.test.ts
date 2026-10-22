@@ -31,7 +31,7 @@ describe('api', () => {
     expect((init.headers as Record<string, string>)['Content-Type']).toBe('application/json')
   })
 
-  it('sends the stored reader id, which decides whose uploads the server shows', async () => {
+  it('sends the stored reader id, which decides which added papers the server shows', async () => {
     const fetchMock = vi.fn(() => Promise.resolve(json([])))
     globalThis.fetch = fetchMock
     const sentHeaders = async () => {

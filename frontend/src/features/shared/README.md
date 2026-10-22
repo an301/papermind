@@ -104,7 +104,7 @@ All keys start with `pm:`.
 
 | Key | Owner | Value |
 |---|---|---|
-| `pm:user` | `src/lib/userId.ts` | anonymous user id; sent as `X-Reader-Id`, it decides whose uploads the server shows |
+| `pm:user` | `src/lib/userId.ts` | anonymous user id; sent as `X-Reader-Id`, it decides which added papers the server shows |
 | `pm:theme` | `src/lib/preferences.ts` | `light` \| `dark` (absent = system); read by `index.html` before first paint |
 | `pm:prefs` | `src/lib/preferences.ts` | other preferences and hint counters |
 | `pm:read:{paperId}` | `src/lib/readingProgress.ts` | reading progress for the Library |

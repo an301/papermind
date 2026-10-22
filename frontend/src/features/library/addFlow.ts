@@ -13,6 +13,7 @@ import { queryClient } from '../../api/queryClient'
 import type { PaperSummary } from '../../api/types'
 import { announce } from '../../lib/announce'
 import { megabytes } from '../../lib/format'
+import { bootstrapUser } from '../../lib/user'
 import { parseArxiv, type ArxivRef } from '../../lib/arxiv'
 import { displayTitle } from './paperText'
 import { startUpload } from './uploads'
@@ -98,6 +99,8 @@ export async function addArxiv(raw: string, options: { keepVersion?: boolean } =
   try {
     // A failed row for the same paper has to go before it can be added again.
     if (known?.status === 'failed') await api<void>(`/papers/${encodeURIComponent(known.paper_id)}`, { method: 'DELETE' }).catch(() => {})
+    // The paper joins the sender's library (X-Reader-Id), so the id must exist first.
+    await bootstrapUser()
     const summary = await api<PaperSummary>('/papers', {
       method: 'POST',
       body: { arxiv: ref.display },

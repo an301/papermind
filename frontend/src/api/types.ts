@@ -125,6 +125,8 @@ export interface PaperSummary {
   /** Machine-readable failure reason, see AddPaperErrorCode. */
   error_code?: string | null
   added_at: IsoDateTime
+  /** In every reader's library (the server's starter papers); false for papers this reader added. */
+  shared?: boolean
 }
 
 // ---------------------------------------------------------------- api.py
@@ -141,7 +143,7 @@ export interface HealthResponse {
   checks: Record<string, ServiceCheck>
   /** Every route but /health needs the X-Access-Code header (a public server). */
   access_code_required?: boolean
-  /** False on a shared public server: finished arXiv papers can't be removed (a reader's own uploads always can). */
+  /** False on a shared public server: the shared papers can't be removed (a reader's own always can). */
   paper_delete_allowed?: boolean
 }
 

@@ -126,3 +126,6 @@ class PaperSummary(BaseModel):
     error: str | None = None
     error_code: str | None = Field(None, description="machine-readable failure reason, see AddPaperErrorCode")
     added_at: datetime
+    shared: bool = Field(
+        False, description="in every reader's library (the server's starter papers); false for papers this reader added"
+    )

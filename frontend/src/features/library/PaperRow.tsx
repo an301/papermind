@@ -95,7 +95,7 @@ function ReadyRow({ paper, isNew }: { paper: PaperSummary; isNew?: boolean }) {
 
 function RowMenu({ paper, title }: { paper: PaperSummary; title: string }) {
   const navigate = useNavigate()
-  const canRemove = canRemovePaper(useHealth().data, paper.paper_id)
+  const canRemove = canRemovePaper(useHealth().data, paper)
   return (
     <div className={s.menu}>
       <Menu trigger={<IconButton label={`More for ${title}`} icon={DotsThreeIcon} noTooltip />}>

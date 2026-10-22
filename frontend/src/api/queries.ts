@@ -51,12 +51,12 @@ export const isAnthropicKeyMissing = (health: HealthResponse | undefined): boole
   health?.checks.anthropic_key?.ok === false
 
 /**
- * Whether this reader may remove the paper. A shared public server protects
- * finished arXiv papers (unknown counts as allowed); a reader's own upload
- * (`up_` ids) is private to them and can always be removed.
+ * Whether this reader may remove the paper. A paper they added is theirs and
+ * can always be removed; a shared public server protects the shared ones
+ * (unknown health counts as allowed, an unknown paper as shared).
  */
-export const canRemovePaper = (health: HealthResponse | undefined, paperId: string): boolean =>
-  paperId.startsWith('up_') || health?.paper_delete_allowed !== false
+export const canRemovePaper = (health: HealthResponse | undefined, paper: PaperSummary | undefined): boolean =>
+  paper?.shared === false || health?.paper_delete_allowed !== false
 
 // ---------------------------------------------------------------- papers
 
@@ -114,7 +114,11 @@ export function removePaperFromCache(client: QueryClient, paperId: string): Pape
 export function useAddArxivPaper() {
   const client = useQueryClient()
   return useMutation({
-    mutationFn: (arxiv: string) => api<PaperSummary>('/papers', { method: 'POST', body: { arxiv } }),
+    mutationFn: async (arxiv: string) => {
+      // The paper joins the sender's library (X-Reader-Id), so the id must exist first.
+      await bootstrapUser()
+      return api<PaperSummary>('/papers', { method: 'POST', body: { arxiv } })
+    },
     onSuccess: (summary) => {
       upsertPaperInCache(client, summary)
       void client.invalidateQueries({ queryKey: qk.papers, exact: true })

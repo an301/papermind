@@ -1,15 +1,19 @@
-"""Who may read an uploaded PDF.
+"""Whose library each paper is in.
 
     {root}/{paper_id}/{user_id}   -> empty marker file, one per reader
 
-arXiv papers are public, so everyone who has the access code shares them. An
-upload may be anything (a draft, a resume), so it is listed and served only to
-the readers who uploaded it. Upload ids are content hashes, so a second reader
-who uploads the same bytes gets the same paper; having the file is proof
-enough, and they are added as a reader rather than told it exists.
+A paper added through the app is private to the readers who added it, arXiv
+or upload alike. A paper with no readers was put there by the operator (the
+setup script's starter papers, ``python -m papermind.ingest``) and is shared
+with everyone, except an upload: with no readers it is nobody's, never
+everyone's, so an upload can only fail closed.
+
+Paper ids are deterministic (the arXiv id, or a hash of the PDF), so a second
+reader who adds the same paper gets the same one; they are added as a reader
+rather than told it exists.
 
 On disk next to the papers, not in Redis: production Redis keeps no data across
-restarts, and losing this would hide every upload from its owner. One empty
+restarts, and losing this would hide every paper from its owner. One empty
 file per reader makes adding and removing a single create or unlink, so the
 API workers need no lock between them.
 """
@@ -41,36 +45,40 @@ class PaperReaders:
     def __init__(self, root: Path) -> None:
         self.root = root
 
+    def _dir(self, paper_id: str) -> Path:
+        return self.root / validate_paper_id(paper_id)
+
     def _marker(self, paper_id: str, reader_id: str) -> Path:
-        validate_paper_id(paper_id)
         if valid_reader_id(reader_id) is None:
             raise ValueError(f"invalid reader id: {reader_id!r}")
-        return self.root / paper_id / reader_id
+        return self._dir(paper_id) / reader_id
 
     def _add(self, paper_id: str, reader_id: str) -> None:
         marker = self._marker(paper_id, reader_id)
         marker.parent.mkdir(parents=True, exist_ok=True)
         marker.touch()
 
-    def _remove(self, paper_id: str, reader_id: str) -> int:
-        marker = self._marker(paper_id, reader_id)
-        marker.unlink(missing_ok=True)
+    def _readers(self, paper_id: str) -> frozenset[str]:
         try:
-            return sum(1 for _ in marker.parent.iterdir())
+            return frozenset(entry.name for entry in self._dir(paper_id).iterdir())
         except FileNotFoundError:
-            return 0
+            return frozenset()
 
     async def add(self, paper_id: str, reader_id: str) -> None:
         await asyncio.to_thread(self._add, paper_id, reader_id)
 
-    async def remove(self, paper_id: str, reader_id: str) -> int:
-        """Stop sharing the paper with this reader. Returns how many readers remain."""
-        return await asyncio.to_thread(self._remove, paper_id, reader_id)
+    async def remove(self, paper_id: str, reader_id: str) -> None:
+        await asyncio.to_thread(self._marker(paper_id, reader_id).unlink, missing_ok=True)
+
+    async def readers(self, paper_id: str) -> frozenset[str]:
+        """Who added the paper through the app; empty for a shared paper."""
+        return await asyncio.to_thread(self._readers, paper_id)
+
+    async def is_shared(self, paper_id: str) -> bool:
+        return not is_upload(paper_id) and not await self.readers(paper_id)
 
     async def can_read(self, paper_id: str, reader_id: str | None) -> bool:
-        if not is_upload(paper_id):
-            return True
-        reader_id = valid_reader_id(reader_id)
-        if reader_id is None:
-            return False
-        return await asyncio.to_thread(self._marker(paper_id, reader_id).is_file)
+        readers = await self.readers(paper_id)
+        if not readers:
+            return not is_upload(paper_id)
+        return valid_reader_id(reader_id) in readers

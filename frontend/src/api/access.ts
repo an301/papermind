@@ -4,8 +4,8 @@
  * sent as `X-Access-Code` on every API request: JSON, uploads, the chat
  * stream and pdf.js's PDF fetches.
  *
- * The same requests carry the reader's anonymous id as `X-Reader-Id`: an
- * uploaded PDF is listed and served only to the readers who uploaded it.
+ * The same requests carry the reader's anonymous id as `X-Reader-Id`: a paper
+ * a reader adds (arXiv or upload) is listed and served only to them.
  *
  * A request refused for its code tells the gate (`onAccessRejected`), which
  * clears the stored code and asks again: the operator may have changed it.

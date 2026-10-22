@@ -21,8 +21,9 @@ PAPER_ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._\-]{0,79}$"
 PaperIdPath = Annotated[str, Path(pattern=PAPER_ID_PATTERN, description="arXiv id or up_<sha12>")]
 
 
-def summary_from_meta(meta: PaperMeta) -> PaperSummary:
+def summary_from_meta(meta: PaperMeta, *, shared: bool) -> PaperSummary:
     return PaperSummary(
+        shared=shared,
         paper_id=meta.paper_id,
         source=meta.source,
         title=meta.title,
@@ -70,7 +71,7 @@ def not_ready_error(status: IngestStatus) -> APIError:
 
 
 async def require_readable(res: Resources, paper_id: str, reader_id: str | None) -> None:
-    """Someone else's upload is "not found", never "forbidden": its existence is private too."""
+    """Someone else's paper is "not found", never "forbidden": its existence is private too."""
     if not await res.readers.can_read(paper_id, reader_id):
         raise paper_not_found(paper_id)
 
@@ -81,7 +82,7 @@ async def paper_summary(
     await require_readable(res, paper_id, reader_id)
     meta = await res.papers.meta(paper_id)
     if meta is not None:
-        return summary_from_meta(meta), meta
+        return summary_from_meta(meta, shared=await res.readers.is_shared(paper_id)), meta
     status = await res.ingest_status.get(paper_id)
     if status is None:
         raise paper_not_found(paper_id)

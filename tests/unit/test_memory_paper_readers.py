@@ -7,22 +7,31 @@ import pytest
 from papermind.memory.paper_readers import PaperReaders
 
 
-async def test_arxiv_papers_are_everyones_and_uploads_only_their_readers(tmp_path: Path) -> None:
+async def test_a_paper_nobody_added_is_shared_except_an_upload(tmp_path: Path) -> None:
     readers = PaperReaders(tmp_path)
-    await readers.add("up_0123456789ab", "u_alice")
+    assert await readers.is_shared("1706.03762")
     assert await readers.can_read("1706.03762", None)
-    assert await readers.can_read("up_0123456789ab", "u_alice")
-    assert not await readers.can_read("up_0123456789ab", "u_bob")
-    assert not await readers.can_read("up_0123456789ab", None)
+    assert not await readers.is_shared("up_0123456789ab")
+    assert not await readers.can_read("up_0123456789ab", "u_alice"), "an upload fails closed"
 
 
-async def test_remove_counts_the_readers_left(tmp_path: Path) -> None:
+@pytest.mark.parametrize("paper_id", ["2401.00001", "up_0123456789ab"])
+async def test_a_paper_readers_added_is_theirs_alone(tmp_path: Path, paper_id: str) -> None:
+    readers = PaperReaders(tmp_path)
+    await readers.add(paper_id, "u_alice")
+    assert not await readers.is_shared(paper_id)
+    assert await readers.can_read(paper_id, "u_alice")
+    assert not await readers.can_read(paper_id, "u_bob")
+    assert not await readers.can_read(paper_id, None)
+
+
+async def test_remove_takes_one_reader_and_is_idempotent(tmp_path: Path) -> None:
     readers = PaperReaders(tmp_path)
     await readers.add("up_0123456789ab", "u_alice")
     await readers.add("up_0123456789ab", "u_bob")
-    assert await readers.remove("up_0123456789ab", "u_alice") == 1
-    assert await readers.remove("up_0123456789ab", "u_alice") == 1, "idempotent"
-    assert await readers.remove("up_0123456789ab", "u_bob") == 0
+    await readers.remove("up_0123456789ab", "u_alice")
+    await readers.remove("up_0123456789ab", "u_alice")
+    assert await readers.readers("up_0123456789ab") == {"u_bob"}
 
 
 @pytest.mark.parametrize("reader_id", ["../u_alice", "u_a/b", "alice", "u_", ""])

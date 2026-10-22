@@ -603,7 +603,7 @@ async def test_delete_mid_ingestion_removes_the_files_written_so_far(tmp_path: P
     assert not (cache_root / "2401.00001").exists()
 
 
-# ---------------------------------------------------------------- private uploads
+# ---------------------------------------------------------------- private papers
 
 OTHER_READER = "u_someone_else"
 
@@ -701,3 +701,61 @@ async def test_removing_an_upload_takes_it_from_that_reader_and_the_files_go_wit
         assert (await h.res.papers.meta(paper_id)) is None
         assert not (h.res.readers.root / paper_id).exists()
         assert (await other.delete(f"/api/papers/{PAPER_ID}")).status_code == 403
+
+
+async def _add_arxiv_ready(client, arxiv_id: str = "1409.0473") -> str:
+    response = await client.post("/api/papers", json={"arxiv": arxiv_id})
+    assert response.status_code == 202, response.text
+    paper_id = response.json()["paper_id"]
+    await _wait_for_status(client, paper_id, "ready")
+    return paper_id
+
+
+async def test_an_arxiv_paper_a_reader_adds_is_theirs_and_the_starters_are_everyones(tmp_path: Path) -> None:
+    h = make_harness(tmp_path)  # PAPER_ID was put on the server directly, like a starter paper
+    async with h.client() as owner, h.client(OTHER_READER) as other:
+        paper_id = await _add_arxiv_ready(owner)
+
+        rows = {r["paper_id"]: r["shared"] for r in (await owner.get("/api/papers")).json()}
+        assert rows == {paper_id: False, PAPER_ID: True}
+        assert [r["paper_id"] for r in (await other.get("/api/papers")).json()] == [PAPER_ID]
+        for path in ("", "/pdf", "/suggestions"):
+            assert (await other.get(f"/api/papers/{paper_id}{path}")).status_code == 404, path
+        assert (await other.get(f"/api/papers/{PAPER_ID}")).json()["summary"]["shared"] is True
+
+
+async def test_adding_someone_elses_arxiv_paper_gives_the_reader_their_own_copy(tmp_path: Path) -> None:
+    h = make_harness(tmp_path, with_paper=False)
+    async with h.client() as owner, h.client(OTHER_READER) as other:
+        paper_id = await _add_arxiv_ready(owner)
+        again = await other.post("/api/papers", json={"arxiv": "1409.0473"})
+        assert again.status_code == 200 and again.json()["shared"] is False
+        assert (await other.get(f"/api/papers/{paper_id}")).status_code == 200
+    assert len(h.ingest.calls) == 1, "not ingested twice"
+
+
+async def test_adding_a_starter_paper_leaves_it_shared(tmp_path: Path) -> None:
+    h = make_harness(tmp_path)
+    async with h.client() as reader, h.client(OTHER_READER) as other:
+        response = await reader.post("/api/papers", json={"arxiv": PAPER_ID})
+        assert response.status_code == 200 and response.json()["shared"] is True
+        assert (await other.get(f"/api/papers/{PAPER_ID}")).status_code == 200
+    assert await h.res.readers.readers(PAPER_ID) == frozenset()
+
+
+async def test_adding_an_arxiv_paper_without_a_reader_id_is_refused(tmp_path: Path) -> None:
+    h = make_harness(tmp_path, with_paper=False)
+    async with h.client(None) as client:
+        response = await client.post("/api/papers", json={"arxiv": "1409.0473"})
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "invalid_input"
+    assert h.ingest.calls == []
+
+
+async def test_a_reader_can_remove_the_arxiv_papers_they_added_but_not_the_starters(tmp_path: Path) -> None:
+    h = make_harness(tmp_path, settings=make_settings(tmp_path, allow_paper_delete=False))
+    async with h.client() as reader:
+        paper_id = await _add_arxiv_ready(reader)
+        assert (await reader.delete(f"/api/papers/{paper_id}")).status_code == 204
+        assert (await h.res.papers.meta(paper_id)) is None
+        assert (await reader.delete(f"/api/papers/{PAPER_ID}")).status_code == 403

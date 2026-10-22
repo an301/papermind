@@ -11,9 +11,10 @@ Adding a paper that is already in the library and ready is not an error: the
 existing row comes back with 200 so the UI can open it. One that is still
 being added is a 409 ``already_added`` naming the ``paper_id``.
 
-arXiv papers are shared by every reader. An upload is listed and served only
-to the readers who uploaded it (``papermind.memory.paper_readers``); to anyone
-else it does not exist, so every route here answers 404 for it.
+A paper added here, arXiv or upload, is listed and served only to the readers
+who added it (``papermind.memory.paper_readers``); to anyone else it does not
+exist, so every route here answers 404 for it. Papers the operator put on the
+server (the starter papers) are shared with everyone.
 """
 
 from __future__ import annotations
@@ -60,7 +61,7 @@ router = APIRouter(prefix="/papers", tags=["papers"])
 _READ_CHUNK = 1024 * 1024
 
 NOT_AN_ARXIV_ID = "That doesn’t look like an arXiv ID. Try one like 2401.12345, or drop a PDF."
-NO_READER = "PaperMind couldn’t tell who is uploading. Reload the page and try again."
+NO_READER = "PaperMind couldn’t tell whose library to add this to. Reload the page and try again."
 NOT_A_PDF = "That file isn’t a PDF. PaperMind reads PDFs and arXiv papers."
 EMPTY_FILE = "That file is empty. Choose the PDF of the paper."
 
@@ -74,15 +75,16 @@ def clean_filename(name: str | None) -> str:
 
 @router.get("", response_model=list[PaperSummary])
 async def list_papers(res: ResourcesDep, reader_id: ReaderDep) -> list[PaperSummary]:
-    """Ready papers plus in-flight and failed ingestions, newest first: every
-    arXiv paper, and this reader's own uploads."""
+    """Ready papers plus in-flight and failed ingestions, newest first: the
+    shared papers, and the ones this reader added."""
     metas, statuses = await asyncio.gather(res.papers.list(), res.ingest_status.list())
-    ids = {m.paper_id for m in metas} | {s.paper_id for s in statuses}
-    readable = await asyncio.gather(*(res.readers.can_read(i, reader_id) for i in ids))
-    hidden = {i for i, ok in zip(ids, readable, strict=True) if not ok}
-    metas = [m for m in metas if m.paper_id not in hidden]
-    statuses = [s for s in statuses if s.paper_id not in hidden]
-    ready = {m.paper_id: summary_from_meta(m) for m in metas}
+    ids = list({m.paper_id for m in metas} | {s.paper_id for s in statuses})
+    readers = dict(zip(ids, await asyncio.gather(*(res.readers.readers(i) for i in ids)), strict=True))
+    shared = {i for i in ids if not readers[i] and not is_upload(i)}
+    visible = shared | {i for i in ids if reader_id in readers[i]}
+    metas = [m for m in metas if m.paper_id in visible]
+    statuses = [s for s in statuses if s.paper_id in visible]
+    ready = {m.paper_id: summary_from_meta(m, shared=m.paper_id in shared) for m in metas}
     pending = [
         status_summary(s)
         for s in statuses
@@ -121,6 +123,7 @@ async def _in_flight(res: Resources, paper_id: str) -> IngestStatus | None:
 async def add_arxiv_paper(
     body: AddArxivPaperRequest,
     res: ResourcesDep,
+    reader_id: ReaderDep,
     request: Request,
     response: Response,
     keep_version: Annotated[
@@ -132,15 +135,25 @@ async def add_arxiv_paper(
         ref = parse_arxiv_id(body.arxiv.strip())
     except InvalidArxivId:
         raise add_paper_error(422, AddPaperError(code="invalid_input", message=NOT_AN_ARXIV_ID)) from None
+    # Checked first: a paper nobody owns would be lost to its reader at once.
+    if reader_id is None:
+        raise add_paper_error(422, AddPaperError(code="invalid_input", message=NO_READER))
     # The pipeline's own id rule, so the status entry claimed here is the one
     # the finished paper replaces.
     paper_id = arxiv_paper_id(ref.arxiv_id)
     meta = await res.papers.meta(paper_id)
     if meta is not None:
+        shared = await res.readers.is_shared(paper_id)
+        # Someone else's private copy: the id is public, so add this reader
+        # to it rather than say it exists. A shared paper never gets readers,
+        # which would make it private.
+        if not shared:
+            await res.readers.add(paper_id, reader_id)
         response.status_code = 200
-        return summary_from_meta(meta)
+        return summary_from_meta(meta, shared=shared)
     # Checked before the arXiv lookup, which would only cost the reader a wait.
     if (in_flight := await _in_flight(res, paper_id)) is not None:
+        await res.readers.add(paper_id, reader_id)
         raise _already_adding(in_flight)
     versioned_id, title = ref.versioned_id, f"arXiv:{ref.versioned_id}"
     if res.arxiv is not None:
@@ -149,6 +162,8 @@ async def add_arxiv_paper(
     # Counted only once a paper will actually be fetched and embedded:
     # opening one that is already in the library is free.
     await limit_papers(request, res)
+    # Before the claim, so the row is this reader's from the first poll.
+    await res.readers.add(paper_id, reader_id)
     status, claimed = await res.ingest_status.claim(paper_id, source="arxiv", title=title)
     if not claimed:  # another request claimed it during the lookup
         raise _already_adding(status)
@@ -193,7 +208,7 @@ async def upload_paper(
     request: Request,
     response: Response,
 ) -> PaperSummary:
-    # Checked first: an upload nobody owns could never be opened again.
+    # Checked first: a paper nobody owns would be lost to its reader at once.
     if reader_id is None:
         raise add_paper_error(422, AddPaperError(code="invalid_input", message=NO_READER))
     pdf = await _read_upload(file, res.settings.max_upload_mb)
@@ -210,7 +225,7 @@ async def upload_paper(
         # whoever uploaded it first: share it rather than say it exists.
         await res.readers.add(paper_id, reader_id)
         response.status_code = 200
-        return summary_from_meta(meta)
+        return summary_from_meta(meta, shared=False)
     await limit_papers(request, res)
     # Before the claim, so the row is this reader's from the first poll.
     await res.readers.add(paper_id, reader_id)
@@ -302,22 +317,29 @@ async def get_suggestions(
 async def delete_paper(paper_id: PaperIdPath, res: ResourcesDep, reader_id: ReaderDep) -> Response:
     """Remove a paper, or stop adding one: an in-flight ingestion is cancelled and its files removed.
 
-    An upload is only taken from this reader; its files go with its last reader.
+    A paper readers added is only taken from this reader; its files go with
+    its last reader.
     """
     await require_readable(res, paper_id, reader_id)
-    meta, status = await asyncio.gather(res.papers.meta(paper_id), res.ingest_status.get(paper_id))
+    meta, status, readers = await asyncio.gather(
+        res.papers.meta(paper_id), res.ingest_status.get(paper_id), res.readers.readers(paper_id)
+    )
     if meta is None and status is None and not res.jobs.running(paper_id):
         raise paper_not_found(paper_id)
-    shared = not is_upload(paper_id)
-    if not shared and reader_id is not None and await res.readers.remove(paper_id, reader_id) > 0:
+    shared = not readers
+    if reader_id is not None and readers - {reader_id}:
+        await res.readers.remove(paper_id, reader_id)
         return Response(status_code=204)
+    # The last reader falls through with its marker still in place: the paper
+    # goes before the markers do (AsyncPapers.discard), so it is never
+    # briefly a paper with no readers, which would make it everyone's.
     # Only a finished shared paper is protected: clearing a failed or stuck
-    # addition, or an upload nobody else reads, takes nothing from anyone.
+    # addition, or a paper nobody else reads, takes nothing from anyone.
     if shared and meta is not None and not res.settings.allow_paper_delete:
         raise APIError(
             403,
             "delete_disabled",
-            "Removing arXiv papers is turned off on this server, because everyone who uses it shares them.",
+            "Removing the starter papers is turned off on this server, because everyone who uses it shares them.",
         )
     # Not awaited: the job stops at its next safe point and removes what it
     # wrote by then (see papermind.api.ingest_jobs); the row disappears now.
@@ -333,7 +355,7 @@ async def delete_paper(paper_id: PaperIdPath, res: ResourcesDep, reader_id: Read
         raise APIError(
             403,
             "delete_disabled",
-            "Removing arXiv papers is turned off on this server, because everyone who uses it shares them.",
+            "Removing the starter papers is turned off on this server, because everyone who uses it shares them.",
         )
     await res.ingest_status.delete(paper_id)
     await res.papers.discard(paper_id)

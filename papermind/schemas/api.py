@@ -59,7 +59,7 @@ class HealthResponse(BaseModel):
     )
     paper_delete_allowed: bool = Field(
         default=True,
-        description="false on a shared public server: arXiv papers cannot be removed (a reader's own uploads always can)",
+        description="false on a shared public server: the shared papers cannot be removed (a reader's own always can)",
     )
 
 

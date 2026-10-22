@@ -119,9 +119,9 @@ class Settings(BaseSettings):
     # with a "come back tomorrow" error and suggestions fall back to section
     # titles. 0 = no cap. The Anthropic Console's own limit is the backstop.
     daily_budget_usd: float = 0.0
-    # arXiv papers are shared by everyone on the server, so one visitor could
-    # remove everyone's. Uploads are private to their readers and can always
-    # be removed by them (papermind.memory.paper_readers).
+    # The starter papers are shared by everyone on the server, so one visitor
+    # could remove everyone's. Papers readers add are private to them and can
+    # always be removed by them (papermind.memory.paper_readers).
     allow_paper_delete: bool = True
 
     # ---- evals
